@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>환영합니다!</h1>
+  <div class="loginform">
+    <h2>환영합니다!</h2>
     <q-form
       @submit="onSubmit"
       @reset="onReset"
@@ -8,27 +8,30 @@
     >
       <q-input
         filled
-        v-model="name"
-        label="Your name *"
-        hint="Name and surname"
+        v-model="user_id"
+        label="아이디 *"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
+        :rules="[ val => val && val.length > 0 || '아이디를 입력하세요']"
       />
       <q-input
         filled
-        type="number"
-        v-model="age"
-        label="Your age *"
+        type="password"
+        v-model="pwd"
+        label="비밀번호 *"
         lazy-rules
         :rules="[
-          val => val !== null && val !== '' || 'Please type your age',
-          val => val > 0 && val < 100 || 'Please type a real age'
+          val => val !== null && val !== '' || '비밀번호를 입력하세요',
+          val => val > 0 && val < 100 || '비밀번호를 입력하세요'
         ]"
       />
-      <q-toggle v-model="accept" label="I accept the license and terms" />
       <div>
         <q-btn label="Submit" type="submit" color="primary"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Signup" color="primary"
+          flat class="q-ml-sm"
+          @click="$router.push({name:'Signup'})"
+         />
+        
       </div>
     </q-form>
   </div>
@@ -43,13 +46,13 @@ export default {
   setup () {
     const $q = useQuasar()
 
-    const name = ref(null)
-    const age = ref(null)
+    const user_id = ref(null)
+    const pwd = ref(null)
     const accept = ref(false)
 
     return {
-      name,
-      age,
+      user_id,
+      pwd,
       accept,
 
       onSubmit () {
@@ -72,8 +75,8 @@ export default {
       },
 
       onReset () {
-        name.value = null
-        age.value = null
+        user_id.value = null
+        pwd.value = null
         accept.value = false
       }
     }
@@ -83,5 +86,15 @@ export default {
 </script>
 
 <style>
-
+.loginform{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40rem;
+  margin: auto;
+  margin-top: 5rem;
+  padding: 2rem;
+  border: .3rem rgb(190, 190, 190) solid ;
+  border-radius: 1rem;
+}
 </style>
