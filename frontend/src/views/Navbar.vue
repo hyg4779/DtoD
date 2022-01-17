@@ -25,28 +25,20 @@
         </transition>
       </li>
       <li @mouseover="listThree = true" @mouseleave="listThree = false">
-          <q-avatar class="profile">
-            <img src="../assets/default_user.png">
-          </q-avatar>
+        <q-avatar class="profile">
+          <img src="../assets/default_user.png">
+        </q-avatar>
         <transition name="fade">         
-          <ul v-if="listThree" @click="listThree = false">
-            <!-- <div v-if="logined">
-              <li><a href="#">Sub Menu Item</a></li>
-              <li><a href="#">Sub Menu Item</a></li>
-              <li><a href="#">Sub Menu Item</a></li> 
-            </div> -->
-            <!-- <div v-else> -->
-            <div>
-              <li>
-                <a href="#">
-                  <router-link :to="{ name:'Login' }">
-                    로그인을
-                    <br>
-                    해주세요
-                  </router-link>
-                </a>
-              </li>
-            </div>
+          <ul v-if="listThree" @click="listThree = false" class="profile-menu">
+            <li>
+              <a href="#">
+                <router-link :to="{ name:'Login' }">
+                  로그인을
+                  <br>
+                  해주세요
+                </router-link>
+              </a>
+            </li>
           </ul>
         </transition>
       </li>
@@ -91,6 +83,7 @@ export default {
   font-size: 40px;
   margin: auto 35px;
   color: #24274A;
+  letter-spacing :3px;
 }
 
 .logo a {
@@ -101,7 +94,7 @@ export default {
 
 .menu {  
   font: 14px/1.5 'Roboto', sans-serif;
-  margin: 0 3px 0 0;
+  margin: 0 30px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -136,7 +129,7 @@ export default {
   margin: 0;
   padding: 0;
   border-radius: 10px;
-  box-shadow: 3px 3px 3px rgb(192, 192, 192);
+  box-shadow: 5px 5px 5px rgb(192, 192, 192);
   z-index: 1;
 }
 
@@ -146,8 +139,20 @@ export default {
   transition: background .2s;
 }
 
+.menu li ul li:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+.menu li ul li:last-child {
+  border-radius: 0 0 10px 10px;
+}
+
+.menu li .profile-menu li:first-child {
+  border-radius: 10px 10px 10px 10px;
+}
+
 .menu li ul li:hover {
-  background: rgb(189, 189, 189);
+  background: rgb(209, 209, 209);
 }
 
 .fade-enter-active, .fade-leave-active {
