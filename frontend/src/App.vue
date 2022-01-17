@@ -1,23 +1,22 @@
 <template>
-  <div>
+  <div id="app">
     <Navbar />
+    <router-view />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
 import Navbar from '@/views/Navbar.vue'
 
 export default {
-  name: 'LayoutDefault',
+  name: 'App',
   components:{
     Navbar,
   },
 
-  setup () {
-    return {
-      leftDrawerOpen: ref(false)
-    }
-  }
 }
 </script>
+
+<style>
+
+</style>
