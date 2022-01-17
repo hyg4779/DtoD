@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.ssafy.dtod;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WebRtcPjtApplicationTests {
+class DtodPjtApplicationTests {
 
 	@Test
 	void contextLoads() {
