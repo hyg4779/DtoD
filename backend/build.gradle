@@ -18,10 +18,9 @@ plugins {
 //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요.
 apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
-
 group = 'com.ssafy.dtod'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "1.9"
+sourceCompatibility = "1.8"
 
 configurations {
 	compileOnly {
