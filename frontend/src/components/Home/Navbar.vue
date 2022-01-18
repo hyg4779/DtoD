@@ -7,29 +7,38 @@
     </div>
     <ul class="menu">
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
-        <a href="#">스터디룸</a>
+        <a href="#">DtoD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
+            <li><a href="#">DtoD란?</a></li>
+            <li><a href="#">이용 방법</a></li>
+          </ul>        
+        </transition>     
+      </li>  
+      <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
+        <a href="#">스터디룸</a>
+        <transition name="fade">
+          <ul v-if="listTwo" @click="listTwo = false">
             <li><a href="#">진행중</a></li>
             <li><a href="#">스터디 만들기</a></li>
           </ul>        
         </transition>     
       </li>     
-      <li @mouseover="listTwo = true" @mouseleave="listTwo = false">   
+      <li @mouseover="listThree = true" @mouseleave="listThree = false">   
         <a href="#">게시판</a>
         <transition name="fade">        
-          <ul v-if="listTwo" @click="listTwo = false">
+          <ul v-if="listThree" @click="listThree = false">
             <li><a href="#">스터디 모집</a></li>
             <li><a href="#">자유 게시판</a></li>
           </ul>
         </transition>
       </li>
-      <li @mouseover="listThree = true" @mouseleave="listThree = false">
+      <li @mouseover="listFour = true" @mouseleave="listFour = false">
         <q-avatar class="profile">
-          <img src="../assets/default_user.png">
+          <img src="../../assets/default_user.png">
         </q-avatar>
         <transition name="fade">         
-          <ul v-if="listThree" @click="listThree = false" class="profile-menu">
+          <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
               <a href="#">
                 <router-link :to="{ name:'Login' }">
@@ -57,6 +66,7 @@ export default {
       listOne:   false,
       listTwo:   false,
       listThree: false,
+      listFour: false,
     }
   }
 }
@@ -66,12 +76,12 @@ export default {
 <style>
 @font-face {
   font-family: "Dohyeon";
-  src: url("../assets/font/BMDOHYEON_ttf.ttf");
+  src: url("../../assets/font/BMDOHYEON_ttf.ttf");
 }
 
 @font-face {
   font-family: "Hanna";
-  src: url("../assets/font/BMHANNAPro.ttf");
+  src: url("../../assets/font/BMHANNAPro.ttf");
 }
 
 .menubar {
