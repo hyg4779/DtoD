@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Slider from '../Home/Slider.vue'
+import Slider from './Slider.vue'
 
 export default {
   name: 'RecommendedStudy',
@@ -30,6 +30,7 @@ export default {
 </script>
 
 <style>
+
 .sort-icon {
   margin: 20px 0 0 20px;
   display: flex;

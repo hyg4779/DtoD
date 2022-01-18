@@ -40,12 +40,10 @@
           <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
-                <!-- <router-link :to="{ name:'Login' }">
-                </router-link> -->
               <a @click="icon = true">
-                  로그인을
-                  <br>
-                  해주세요
+                로그인을
+                <br>
+                해주세요
               </a>
             </li>
           </ul>
@@ -58,10 +56,10 @@
 
 <script>
 import {ref} from 'vue'
-import Login from './Login.vue'
+import Login from '../accounts/Login.vue'
 
 export default {
-  // name: 'navbar',
+  name: 'Navbar',
   components:{
     Login,
   },
@@ -83,15 +81,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Dohyeon";
-  src: url("../../assets/font/BMDOHYEON_ttf.ttf");
-}
-
-@font-face {
-  font-family: "Hanna";
-  src: url("../../assets/font/BMHANNAPro.ttf");
-}
 
 .menubar {
   display: flex;
