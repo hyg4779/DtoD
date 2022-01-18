@@ -6,10 +6,9 @@ buildscript{
     dependencies {
         //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요. [시작]
         classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
-        //[끝] 
+        //[끝]
     }
 }
-
 
 plugins {
 	id 'org.springframework.boot' version '2.6.2'
@@ -22,7 +21,7 @@ apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
 group = 'com.ssafy.dtod'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = "1.9"
 
 configurations {
 	compileOnly {
@@ -46,6 +45,10 @@ dependencies {
 	
 	implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
+
+	annotationProcessor(
+			"jakarta.persistence:jakarta.persistence-api",
+			"jakarta.annotation:jakarta.annotation-api")
 }
 
 test {
