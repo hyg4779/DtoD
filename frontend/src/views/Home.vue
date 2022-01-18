@@ -13,9 +13,8 @@ export default {
   name: 'Home',
   components: {
     Carousel,
-    RecommendedStudy
-  },
-
+    RecommendedStudy,
+  }
 }
 </script>
 
