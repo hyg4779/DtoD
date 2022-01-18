@@ -1,26 +1,27 @@
 <template>
     <q-dialog v-model="icon">
-      <q-card>
+      <q-card class="loginmodal">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">로그인</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
+        <h3>환영합니다!</h3>
         <div class="loginform">
           <q-form
             @submit="onSubmit"
             @reset="onReset"
             class="q-gutter-md loginform"
           >
-            <h3>환영합니다!</h3>
             <q-input
+              class="loginemail"
               filled
-              v-model="user_id"
-              label="아이디 *"
+              v-model="user_email"
+              label="이메일 *"
               lazy-rules
-              :rules="[ val => val && val.length > 0 || '아이디를 입력하세요']"
+              :rules="[ val => val && val.length > 0 || '이메일을 입력하세요']"
             />
             <q-input
+              class="loginpw"
               filled
               type="password"
               v-model="pwd"
@@ -31,14 +32,16 @@
                 val => val > 0 && val < 100 || '비밀번호를 입력하세요'
               ]"
             />
-            <div>
-              <q-btn label="Submit" type="submit" color="primary"/>
-              <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-              <q-btn label="Signup" color="primary"
-                flat class="q-ml-sm"
+            <div class="loginbtn">
+              <q-btn label="로그인" type="submit" color="primary"/>
+              <q-btn label="Reset" type="reset" color="primary" flat />
+            </div>
+            <div class="signupbtn">
+              <q-btn
+                label="아직 계정이 없으신가요?" color="primary"
+                flat
                 @click="$router.push({name:'Signup'})"
               />
-              
             </div>
           </q-form>
         </div>
@@ -51,15 +54,17 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
+  name: 'Login',
+  
   setup () {
     const $q = useQuasar()
 
-    const user_id = ref(null)
+    const user_email = ref(null)
     const pwd = ref(null)
     const accept = ref(false)
 
     return {
-      user_id,
+      user_email,
       pwd,
       accept,
       icon: ref(false),
@@ -87,7 +92,7 @@ export default {
       },
 
       onReset () {
-        user_id.value = null
+        user_email.value = null
         pwd.value = null
         accept.value = false
       }
@@ -98,7 +103,39 @@ export default {
 </script>
 
 <style>
-.loginform{
-  margin: 2rem;
+
+.loginmodal {
+  height: 70vh;
+  width: 70vw;
+  border-radius: 20px !important;
+  box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
+
+.loginmodal h3{
+  font-family: 'Hanna', sans-serif;
+  text-align: center;
+}
+
+.loginform {
+  margin: 50px 20px 0 20px !important;
+}
+
+.loginform .loginemail {
+
+}
+
+.loginform .loginpw {
+
+}
+
+.loginform .loginbtn {
+  margin: 20px;
+  text-align: center;
+}
+
+.loginform .signupbtn {
+  margin: 20px;
+  text-align: center;
+}
+
 </style>

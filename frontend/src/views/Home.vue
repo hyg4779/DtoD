@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Carousel from '@/components/Home/Carousel.vue'
-import RecommendedStudy from '@/components/Home/RecommendedStudy.vue'
+import Carousel from '@/components/home/Carousel.vue'
+import RecommendedStudy from '@/components/home/RecommendedStudy.vue'
 
 export default {
   name: 'Home',
@@ -19,13 +19,5 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Dohyeon";
-  src: url("../assets/font/BMDOHYEON_ttf.ttf");
-}
 
-@font-face {
-  font-family: "Hanna";
-  src: url("../assets/font/BMHANNAPro.ttf");
-}
 </style>
