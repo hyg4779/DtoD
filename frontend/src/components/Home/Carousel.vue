@@ -5,9 +5,9 @@
       v-model="slide"
       navigation
       infinite
-      :autoplay="10800"
+      :autoplay="14400"
       arrows
-      height="450px"
+      height="45vh"
       transition-prev="slide-right"
       transition-next="slide-left"
       @mouseenter="autoplay = false"
@@ -33,7 +33,7 @@
       <q-carousel-slide :name="2" class="slide2">
         <div>
           <div class="slider2-content1">
-            당신의 열정,
+            당신의 열정 100도,
             <br>
             동료와 함께 코드리뷰에서 보여주세요!
           </div>

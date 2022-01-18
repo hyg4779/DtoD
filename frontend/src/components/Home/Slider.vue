@@ -1,0 +1,25 @@
+<template>
+  <div class="slider">
+    안녕하세요.
+    <br>
+    이 자리는 무한 스크롤 자리입니다.
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'Slider',
+
+}
+</script>
+
+<style>
+
+.slider {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+</style>

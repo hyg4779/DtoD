@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
 import {ref} from 'vue'
 import Login from './Login.vue'
 
@@ -67,48 +66,13 @@ export default {
     Login,
   },
   setup(){
-    const $q = useQuasar()
-
-    const user_id = ref(null)
-    const pwd = ref(null)
-    const accept = ref(false)
     return{
-      user_id,
-      pwd,
-      accept,
       listOne:   ref(false),
       listTwo:   ref(false),
       listThree: ref(false),
       listFour: ref(false),
       icon: ref(false),
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
 
-      onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
-          $q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Submitted'
-          })
-        }
-      },
-
-      onReset () {
-        user_id.value = null
-        pwd.value = null
-        accept.value = false
-      },
       iconTrue(){
         this.icon.value = true
       }
