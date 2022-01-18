@@ -1,40 +1,50 @@
 <template>
-  <div class="loginform">
-    <h2>환영합니다!</h2>
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md"
-    >
-      <q-input
-        filled
-        v-model="user_id"
-        label="아이디 *"
-        lazy-rules
-        :rules="[ val => val && val.length > 0 || '아이디를 입력하세요']"
-      />
-      <q-input
-        filled
-        type="password"
-        v-model="pwd"
-        label="비밀번호 *"
-        lazy-rules
-        :rules="[
-          val => val !== null && val !== '' || '비밀번호를 입력하세요',
-          val => val > 0 && val < 100 || '비밀번호를 입력하세요'
-        ]"
-      />
-      <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-        <q-btn label="Signup" color="primary"
-          flat class="q-ml-sm"
-          @click="$router.push({name:'Signup'})"
-         />
-        
-      </div>
-    </q-form>
-  </div>
+  <q-btn label="Login" color="primary" @click="icon = true" />
+    <q-dialog v-model="icon">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">로그인</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+          <div class="loginform">
+            <q-form
+              @submit="onSubmit"
+              @reset="onReset"
+              class="q-gutter-md loginform"
+            >
+              <h3>환영합니다!</h3>
+              <q-input
+                filled
+                v-model="user_id"
+                label="아이디 *"
+                lazy-rules
+                :rules="[ val => val && val.length > 0 || '아이디를 입력하세요']"
+              />
+              <q-input
+                filled
+                type="password"
+                v-model="pwd"
+                label="비밀번호 *"
+                lazy-rules
+                :rules="[
+                  val => val !== null && val !== '' || '비밀번호를 입력하세요',
+                  val => val > 0 && val < 100 || '비밀번호를 입력하세요'
+                ]"
+              />
+              <div>
+                <q-btn label="Submit" type="submit" color="primary"/>
+                <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                <q-btn label="Signup" color="primary"
+                  flat class="q-ml-sm"
+                  @click="$router.push({name:'Signup'})"
+                />
+                
+              </div>
+            </q-form>
+          </div>
+      </q-card>
+    </q-dialog>
 </template>
 
 <script>
@@ -42,7 +52,6 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  name: 'Login',
   setup () {
     const $q = useQuasar()
 
@@ -54,6 +63,10 @@ export default {
       user_id,
       pwd,
       accept,
+      icon: ref(false),
+      bar: ref(false),
+      bar2: ref(false),
+      toolbar: ref(false),
 
       onSubmit () {
         if (accept.value !== true) {
@@ -87,14 +100,6 @@ export default {
 
 <style>
 .loginform{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40rem;
-  margin: auto;
-  margin-top: 5rem;
-  padding: 2rem;
-  border: .3rem rgb(190, 190, 190) solid ;
-  border-radius: 1rem;
+  margin: 2rem;
 }
 </style>
