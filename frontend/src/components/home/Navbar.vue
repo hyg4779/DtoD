@@ -48,7 +48,7 @@
           <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
-              <a @click="icon = true">
+              <a @click="loginSignal = true">
                 로그인을
                 <br>
                 해주세요
@@ -57,31 +57,35 @@
           </ul>
         </transition>
       </li>
-      <Login v-model="icon"/>
+      <Login
+        v-model="loginSignal"
+        @on-signal="signSignal = true"
+        />
     </ul>
   </div>
+  <Signup v-model="signSignal"/>
 </template>
 
 <script>
 import {ref} from 'vue'
 import Login from '../accounts/Login.vue'
+import Signup from '../accounts/Signup.vue'
 
 export default {
   name: 'Navbar',
   components:{
     Login,
+    Signup,
   },
   setup(){
+    
     return{
       listOne:   ref(false),
       listTwo:   ref(false),
       listThree: ref(false),
       listFour: ref(false),
-      icon: ref(false),
-
-      iconTrue(){
-        this.icon.value = true
-      }
+      loginSignal: ref(false),
+      signSignal: ref(false),
     }
   }
 }
