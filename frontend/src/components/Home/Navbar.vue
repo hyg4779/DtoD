@@ -58,7 +58,7 @@
 
 <script>
 import {ref} from 'vue'
-import Login from './Login.vue'
+import Login from '../accounts/Login.vue'
 
 export default {
   // name: 'navbar',
