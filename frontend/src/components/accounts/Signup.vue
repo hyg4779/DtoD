@@ -1,85 +1,97 @@
 <template>
-  <div class="signupform">
-    <h3>어서오세요!</h3>
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md"
-    >
-      <q-input
-        filled
-        v-model="user_id"
-        label="아이디 *"
-        lazy-rules
-        hint="영문 숫자 조합으로 만드세요"
+    <q-dialog>
+      <q-card class="signupmodal">
+        <q-card-section class="row items-center q-pb-none">
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <h3>어서오세요!</h3>
+        <div class="signupform">
+          <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md signupform"
+          >
+            <q-input
+              filled
+              v-model="singup_email"
+              label="이메일 *"
+              lazy-rules      
+              hint="ex) kimssafy@korea.co.kr"
         
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
-      <q-input
-        filled
-        type="password"
-        v-model="pwd"
-        label="비밀번호 *"
-        lazy-rules
-        hint="영문 숫자 특수문자 조합으로 만드세요"
+              :rules="[ val => val && val.length > 0 || '이메일을 입력하세요']"
+            />
+            <q-input
+              filled
+              type="password"
+              v-model="pwd"
+              label="비밀번호 *"
+              lazy-rules
+              hint="영문 숫자 특수문자 조합으로 만드세요"
 
-        :rules="[
-          val => val !== null && val !== '' || 'Please type your age',
-          val => val > 0 && val < 100 || 'Please type a real age'
-        ]"
-      />
-      <q-input
-        filled
-        type="password"
-        v-model="pwd"
-        label="비밀번호 확인 *"
-        lazy-rules
-        hint="다시 한 번 입력하세요"
-        :rules="[
-          val => val !== null && val !== '' || 'Please type your age',
-          val => val > 0 && val < 100 || 'Please type a real age'
-        ]"
-      />
-      <q-input
-        filled
-        v-model="nick_name"
-        label="닉네임 *"
-        lazy-rules
-        hint="자유롭게 사용하세요"
-        
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
-      />
-      <q-toggle v-model="accept" label="I accept the license and terms" />
-      <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-        
-      </div>
-    </q-form>
-  </div>
+              :rules="[
+                val => val !== null && val !== '' || '필수 값입니다',
+                val => val > 0 && val < 100 || '필수 값입니다'
+              ]"
+            />
+            <q-input
+              filled
+              type="password"
+              v-model="confirm_pwd"
+              label="비밀번호 확인 *"
+              lazy-rules
+              hint="다시 한 번 입력하세요"
+              :rules="[
+                val => val !== null && val !== '' || '필수 값입니다',
+                val => val > 0 && val < 100 || '필수 값입니다e'
+              ]"
+            />
+            <q-input
+              filled
+              v-model="nick_name"
+              label="닉네임 *"
+              lazy-rules
+              hint="자유롭게 사용하세요"
+              
+              :rules="[ val => val && val.length > 0 || '필수 값입니다']"
+            />
+            <div class="signupbtn">
+              <q-btn label="다음" type="submit" color="primary"/>
+              <q-btn label="Reset" type="reset" color="primary" flat />
+            </div>
+          </q-form>
+        </div>
+      </q-card>
+    </q-dialog>
 </template>
 
 <script>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
+
 export default {
   name: 'Signup',
-  
+
   setup () {
     const $q = useQuasar()
 
-    const name = ref(null)
-    const age = ref(null)
+    const singup_email = ref(null)
+    const pwd = ref(null)
     const accept = ref(false)
+    const confirm_pwd = ref(null)
     const nick_name = ref(null)
 
     return {
-      name,
-      age,
+      singup_email,
+      pwd,
       accept,
+      confirm_pwd,
       nick_name,
-
+      bar: ref(false),
+      bar2: ref(false),
+      toolbar: ref(false),
+      
       onSubmit () {
         if (accept.value !== true) {
           $q.notify({
@@ -100,10 +112,12 @@ export default {
       },
 
       onReset () {
-        name.value = null
-        age.value = null
+        singup_email.value = null
+        pwd.value = null
+        confirm_pwd.value = null
+        nick_name.value = null
         accept.value = false
-      }
+      },
     }
   }
 }
@@ -111,15 +125,31 @@ export default {
 </script>
 
 <style>
-.signupform{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40rem;
-  margin: auto;
-  margin-top: 5rem;
-  padding: 2rem;
-  border: .3rem rgb(190, 190, 190) solid ;
-  border-radius: 1rem;
+
+.signupmodal {
+  height: 70vh;
+  width: 70vw;
+  border-radius: 20px !important;
+  box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
+}
+
+.signupmodal h3{
+  font-family: 'Hanna', sans-serif;
+  text-align: center;
+}
+
+.signupform {
+  margin: 50px 20px 0 20px !important;
+}
+
+
+.signupform .signupbtn {
+  margin: 20px;
+  text-align: center;
+}
+
+.signupform .signupbtn {
+  margin: 20px;
+  text-align: center;
 }
 </style>
