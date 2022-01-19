@@ -120,13 +120,6 @@ export default {
   margin: 50px 20px 0 20px !important;
 }
 
-.loginform .loginemail {
-
-}
-
-.loginform .loginpw {
-
-}
 
 .loginform .loginbtn {
   margin: 20px;
