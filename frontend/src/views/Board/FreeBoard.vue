@@ -107,6 +107,7 @@ export default {
 
 .studyboard .sidebar div span {
   cursor: pointer;
+  color: white;
   padding: 10px 20px;
 }
 

@@ -42,8 +42,8 @@
               lazy-rules
               hint="다시 한 번 입력하세요"
               :rules="[
-                val => val !== null && val !== '' || '필수 값입니다',
-                val => val > 0 && val < 100 || '필수 값입니다e'
+                val => val !== null && val !== '' || '필수 값입니다.',
+                val => val > 0 && val < 100 || '필수 값입니다.'
               ]"
             />
             <q-input

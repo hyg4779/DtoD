@@ -39,7 +39,7 @@
           </div>
           <div class="signupbtn">
             <q-btn
-              label="아직 계정이 없으신가요?" color="primary"
+              label="아직 계정이 없으신가요?" style="color: #3988D7" flat
               @click="$emit('on-signal')"
             />
           </div>

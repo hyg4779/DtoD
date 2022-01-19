@@ -1,6 +1,8 @@
 <template>
-  <div>
-    글 작성
+  <div class="writeboard">
+    <div class="title">
+      게시글 작성
+    </div>
   </div>
 </template>
 
@@ -10,6 +12,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.writeboard .title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0D1350;
+  margin: 20px 0 0 20px;
+}
 
 </style>

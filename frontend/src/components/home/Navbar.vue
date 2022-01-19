@@ -10,8 +10,16 @@
         <a href="#">DtoD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
-            <li><a href="#">DtoD란?</a></li>
-            <li><a href="#">이용 방법</a></li>
+            <li>
+              <router-link :to="{ name: 'AboutUs' }">
+                DtoD란?
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'HowToUse' }">
+                이용 방법
+              </router-link>
+            </li>
           </ul>        
         </transition>     
       </li>  
@@ -70,8 +78,8 @@
         @on-signal="signSignal = true"
         />
     </ul>
-  </div>
   <Signup v-model="signSignal"/>
+  </div>
 </template>
 
 <script>

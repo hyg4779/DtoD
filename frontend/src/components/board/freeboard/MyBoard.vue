@@ -1,6 +1,8 @@
 <template>
-  <div>
-    내 게시글
+  <div class="myboard">
+    <div class="title">
+      내가 작성한 글
+    </div>
   </div>
 </template>
 
@@ -10,6 +12,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.myboard .title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0D1350;
+  margin: 20px 0 0 20px;
+}
 
 </style>
