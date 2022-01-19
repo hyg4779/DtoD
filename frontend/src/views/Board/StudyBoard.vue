@@ -152,7 +152,8 @@ export default {
 }
 
 .studyboard .mainmenu {
-  background-color: #EBEDF0;
+  /* background-color: #EBEDF0; */
+  background-color: #F5F5F5;
   width: calc(100vw - 200px);
 }
 
