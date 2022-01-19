@@ -23,17 +23,15 @@ public class UserController {
     @ApiOperation(value = "사용자 등록", notes = "이름, 비밀번호로 유저를 생성한다.")
     public User create(@RequestBody User user) {
         System.out.println("사용자 등록 START");
-        System.out.println(user.getEmail());
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
+        System.out.println(user.toString());
         System.out.println("사용자 등록 END");
         return userRepository.save(user);
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("/user/{userId}")
     @ApiOperation(value = "사용자 조회", notes = "email에 해당하는 유저정보를 조회한다.")
-    public User read(@PathVariable String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+    public User read(@PathVariable String userId) {
+        Optional<User> userOptional = userRepository.findByUserId(userId);
         userOptional.ifPresent(System.out::println);
 
         return userOptional.get();

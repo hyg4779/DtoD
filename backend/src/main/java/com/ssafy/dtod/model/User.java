@@ -9,9 +9,18 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    private String email;
+    @Column(name = "USER_ID")
+    private String userId;
 
-    private String username;
+    @Column(name = "USER_NAME")
+    private String userName;
 
-    private String password;
+    @Column(name = "USER_PW")
+    private String userPw;
+
+    @Column(name = "USER_GRADE")
+    private int userGrade;
+
+    @Column(name = "USER_TECHSTACK")
+    private int userTechstack;
 }
