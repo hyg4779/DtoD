@@ -28,8 +28,16 @@
         <a href="#">게시판</a>
         <transition name="fade">        
           <ul v-if="listThree" @click="listThree = false">
-            <li><a href="#">스터디 모집</a></li>
-            <li><a href="#">자유 게시판</a></li>
+            <li>
+              <router-link :to="{ name: 'StudyBoard' }">
+                스터디 모집
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'FreeBoard' }">
+                자유 게시판
+              </router-link>
+            </li>
           </ul>
         </transition>
       </li>
@@ -141,7 +149,7 @@ export default {
   margin: 0;
   padding: 0;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px rgb(192, 192, 192);
+  box-shadow: 5px 5px 5px rgb(63, 63, 63);
   z-index: 1;
 }
 
