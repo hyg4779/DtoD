@@ -19,8 +19,16 @@
         <a href="#">스터디룸</a>
         <transition name="fade">
           <ul v-if="listTwo" @click="listTwo = false">
-            <li><a href="#">진행중</a></li>
-            <li><a href="#">스터디 만들기</a></li>
+            <li>
+              <router-link :to="{ name: 'Studying' }">
+                진행중
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'MakeStudy' }">
+                스터디 만들기
+              </router-link>
+            </li>
           </ul>        
         </transition>     
       </li>     
@@ -109,8 +117,8 @@ export default {
 }
 
 .menu {  
-  font: 14px/1.5 'Roboto', sans-serif;
-  margin: 0 30px 0 0;
+  font: 'Roboto', sans-serif;
+  margin: 0 25px 0 0;
   padding: 0;
   list-style: none;
 }
