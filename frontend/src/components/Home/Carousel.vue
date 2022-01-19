@@ -66,15 +66,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Dohyeon";
-  src: url("../../assets/font/BMDOHYEON_ttf.ttf");
-}
-
-@font-face {
-  font-family: "Hanna";
-  src: url("../../assets/font/BMHANNAPro.ttf");
-}
 
 .slide1 {
   display: flex;
