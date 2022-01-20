@@ -2,17 +2,17 @@
   <div class="studyboard">
     <div class="sidebar">
       <div @click="clicked">
-        <span class="all">
+        <span class="all" :class="{active1: isActive1}">
           전체 글
         </span>
       </div>
       <div @click="clicked"> 
-        <span class="write">
+        <span class="write" :class="{active2: isActive2}">
           글쓰기
         </span>
       </div>
       <div @click="clicked">
-        <span class="my">
+        <span class="my" :class="{active3: isActive3}">
           내가 작성한 글
         </span>
       </div>
@@ -37,7 +37,7 @@ import WriteBoard from '../../components/board/freeboard/WriteBoard.vue'
 import MyBoard from '../../components/board/freeboard/MyBoard.vue'
 
 export default {
-  name: 'FreeBoard',
+  name: 'StudyBoard',
   components: {
     AllBoard,
     WriteBoard,
@@ -48,6 +48,9 @@ export default {
       all: true,
       write: false,
       my: false,
+      isActive1: true,
+      isActive2: false,
+      isActive3: false,
     }
   },
   methods: {
@@ -58,16 +61,25 @@ export default {
         this.all = true
         this.write = false
         this.my = false
+        this.isActive1 = true
+        this.isActive2 = false
+        this.isActive3 = false
       }
       else if (className === 'write') {
         this.all = false
         this.write = true
         this.my = false
+        this.isActive1 = false
+        this.isActive2 = true
+        this.isActive3 = false
       }
       else if (className === 'my') {
         this.all = false
         this.write = false
         this.my = true
+        this.isActive1 = false
+        this.isActive2 = false
+        this.isActive3 = true
       }
     }
   }
@@ -95,6 +107,37 @@ export default {
 
 .studyboard .sidebar div span {
   cursor: pointer;
+  color: white;
+  padding: 10px 20px;
+}
+
+.studyboard .sidebar div .active1 {
+  cursor: pointer;
+  transition: 0.2s;
+  color: black;
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 25px;
+  padding: 10px 20px;
+}
+
+.studyboard .sidebar div .active2 {
+  cursor: pointer;
+  transition: 0.2s;
+  color: black;
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 25px;
+  padding: 10px 20px;
+}
+
+.studyboard .sidebar div .active3 {
+  cursor: pointer;
+  transition: 0.2s;
+  color: black;
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 25px;
   padding: 10px 20px;
 }
 
@@ -109,7 +152,8 @@ export default {
 }
 
 .studyboard .mainmenu {
-  background-color: #EBEDF0;
+  /* background-color: #EBEDF0; */
+  background-color: #F5F5F5;
   width: calc(100vw - 200px);
 }
 
