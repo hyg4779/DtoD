@@ -94,9 +94,9 @@ export default {
 
 .studyboard .sidebar {
   background-color: #24292F;
-  width: 200px;
-  height: calc(100vh - 70px);
   text-align: center;
+  width: 200px;
+  min-height: calc(100vh - 70px);;
 }
 
 .studyboard .sidebar div {
@@ -152,8 +152,8 @@ export default {
 }
 
 .studyboard .mainmenu {
-  /* background-color: #EBEDF0; */
-  background-color: #F5F5F5;
+  background-color: #EBEDF0;
+  /* background-color: #F5F5F5; */
   width: calc(100vw - 200px);
 }
 

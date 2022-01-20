@@ -18,14 +18,16 @@ export default {
 </script>
 
 <style scoped>
+
 .aboutus {
-  background-color: #F5F5F5;
+  background-color: #EBEDF0;
+  /* background-color: #F5F5F5; */
   width: 100vw;
   height: calc(100vh - 70px);
 }
 
 .aboutus .container{
-  width: 70vw;
+  width: 75vw;
   background-color: white;
   border-radius: 25px;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
