@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .sort-icon {
   margin: 20px 0 0 20px;

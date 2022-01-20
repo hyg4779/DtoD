@@ -37,12 +37,12 @@
             <q-btn label="로그인" type="submit" color="primary"/>
             <q-btn label="Reset" type="reset" color="primary" flat />
           </div>
-          <div class="signupbtn">
+          <!-- <div class="signupbtn">
             <q-btn
               label="아직 계정이 없으신가요?" style="color: #3988D7" flat
               @click="$emit('on-signal')"
             />
-          </div>
+          </div> -->
         </q-form>
       </div>
     </q-card>
@@ -106,7 +106,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .loginmodal {
   height: 70vh;
@@ -121,18 +121,25 @@ export default {
 }
 
 .loginform {
-  margin: 50px 20px 0 20px !important;
+  margin: 80px 0 0 0 !important;
 }
 
+.loginform .loginemail {
+  margin: 0 40px 40px 40px;
+}
+
+.loginform .loginpw {
+  margin: 0 40px 0 40px;
+}
 
 .loginform .loginbtn {
-  margin: 20px;
+  margin: 70px;
   text-align: center;
 }
 
-.loginform .signupbtn {
+/* .loginform .signupbtn {
   margin: 20px;
   text-align: center;
-}
+} */
 
 </style>

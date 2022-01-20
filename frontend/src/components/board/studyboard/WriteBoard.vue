@@ -137,7 +137,6 @@ form .detail2 input {
 }
 
 form .checkbox {
-  /* display: flex; */
   display: grid;
   grid-template-columns: 150px 150px 150px 150px;
 }
