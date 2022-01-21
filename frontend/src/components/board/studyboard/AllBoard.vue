@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <div class="sort-icon">
+  <div class="allboard">
+    <div class="container">
+      <div class="title">
+        전체 글
+      </div>
+      <div class="sort-icon">
         <div class="icon">
           <i class="fab fa-font-awesome-flag"></i>
           <span>추천순</span>
@@ -13,41 +17,46 @@
           <i class="fas fa-chart-line"></i>
           <span>인기순</span>
         </div>      
+      </div>
     </div>
-    <Slider />
   </div>
 </template>
 
 <script>
-import Slider from './Slider.vue'
-
 export default {
-  name: 'RecommendedStudy',
-  components: {
-    Slider,
-  }
+
 }
 </script>
 
 <style scoped>
+.allboard .container {
+  display: flex;
+  justify-content: space-between;
+}
 
-.sort-icon {
+.allboard .title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0D1350;
+  margin: 20px 0 0 20px;
+}
+
+.allboard .sort-icon {
   margin: 20px 0 0 20px;
   display: flex;
 }
 
-.sort-icon .icon {
+.allboard .sort-icon .icon {
   display: grid;
-  padding: 0 20px 0 20px;
+  padding: 0 30px 0 0;
   text-align: center;
 }
 
-.sort-icon .icon i {
-  font-size:35px; 
+.allboard .sort-icon .icon i {
+  font-size:25px; 
 }
 
-.sort-icon .icon span {
+.allboard .sort-icon .icon span {
   font-weight: bold;
 }
-
 </style>

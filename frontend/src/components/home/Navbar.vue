@@ -10,8 +10,16 @@
         <a href="#">DtoD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
-            <li><a href="#">DtoD란?</a></li>
-            <li><a href="#">이용 방법</a></li>
+            <li>
+              <router-link :to="{ name: 'AboutUs' }">
+                DtoD란?
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'HowToUse' }">
+                이용 방법
+              </router-link>
+            </li>
           </ul>        
         </transition>     
       </li>  
@@ -19,8 +27,16 @@
         <a href="#">스터디룸</a>
         <transition name="fade">
           <ul v-if="listTwo" @click="listTwo = false">
-            <li><a href="#">진행중</a></li>
-            <li><a href="#">스터디 만들기</a></li>
+            <li>
+              <router-link :to="{ name: 'Studying' }">
+                진행중
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'MakeStudy' }">
+                스터디 만들기
+              </router-link>
+            </li>
           </ul>        
         </transition>     
       </li>     
@@ -48,16 +64,20 @@
           <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
-              <a @click="icon = true">
-                로그인을
-                <br>
-                해주세요
+              <a @click="loginSignal = true">
+                로그인
+              </a>
+            </li>
+            <li>
+              <a @click="signSignal = true">
+                회원가입
               </a>
             </li>
           </ul>
         </transition>
       </li>
-      <Login v-model="icon"/>
+      <Login v-model="loginSignal"/>
+      <Signup v-model="signSignal"/>
     </ul>
   </div>
 </template>
@@ -65,23 +85,23 @@
 <script>
 import {ref} from 'vue'
 import Login from '../accounts/Login.vue'
+import Signup from '../accounts/Signup.vue'
 
 export default {
   name: 'Navbar',
   components:{
     Login,
+    Signup,
   },
   setup(){
+    
     return{
       listOne:   ref(false),
       listTwo:   ref(false),
       listThree: ref(false),
       listFour: ref(false),
-      icon: ref(false),
-
-      iconTrue(){
-        this.icon.value = true
-      }
+      loginSignal: ref(false),
+      signSignal: ref(false),
     }
   }
 }
@@ -109,8 +129,8 @@ export default {
 }
 
 .menu {  
-  font: 14px/1.5 'Roboto', sans-serif;
-  margin: 0 30px 0 0;
+  font: 'Roboto', sans-serif;
+  margin: 0 25px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -167,9 +187,9 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 
-.menu li .profile-menu li:first-child {
+/* .menu li .profile-menu li:first-child {
   border-radius: 10px 10px 10px 10px;
-}
+} */
 
 .menu li ul li:hover {
   background: rgb(209, 209, 209);
