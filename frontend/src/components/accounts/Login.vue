@@ -109,8 +109,9 @@ export default {
 <style scoped>
 
 .loginmodal {
-  height: 70vh;
-  width: 70vw;
+  height: auto;
+  width: 100%;
+  margin: 0 auto;
   border-radius: 20px !important;
   box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
@@ -121,7 +122,7 @@ export default {
 }
 
 .loginform {
-  margin: 80px 0 0 0 !important;
+  margin: auto 20px !important;
 }
 
 .loginform .loginemail {

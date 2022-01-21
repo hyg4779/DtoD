@@ -9,7 +9,6 @@
       class="carousel"
       animated
       v-model="slide"
-      navigation
       :autoplay="14400"
       arrows
       control-color="primary"
@@ -19,7 +18,7 @@
       @mouseleave="autoplay = false"
       >
         <q-carousel-slide :name="1" class="slide">
-          <h3>어서오세요!</h3>
+          <h3>환영합니다!</h3>
           <div class="signupform">
             <q-form
               @submit="onSubmit"
@@ -77,7 +76,7 @@
           </div>
         </q-carousel-slide>
         <q-carousel-slide :name="2" class="slide">
-          <h3>어서오세요!</h3>
+          <h3>환영합니다!</h3>
           <div class="signupform">
             <q-form
               @submit="onSubmit"
@@ -204,18 +203,20 @@ export default {
 <style scoped>
 
 .carousel {
-  margin: 0;
+  margin: auto 0;
   padding: 0 !important;
   height: 60vh;
 }
 
 .slide {
+  /* height: 100%; */
   width: 100%;
 }
 
 .signupmodal {
-  height: 70vh;
-  width: 70vw;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
   border-radius: 20px !important;
   box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
@@ -223,12 +224,12 @@ export default {
 .signupmodal h3{
   font-family: 'Hanna', sans-serif;
   text-align: center;
-  margin: 0 0 20px 0;
+  margin: 0 0 40px 0;
 }
 
 .signupform {
   height: 1rem;
-  margin: 0 20px 0 20px !important;
+  margin: auto 20px !important;
 }
 
 
