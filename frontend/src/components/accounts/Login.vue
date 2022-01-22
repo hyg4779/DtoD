@@ -56,7 +56,7 @@ import { ref } from 'vue'
 
 export default {
   name: 'Login',
-  emits: ['on-signal'],
+  // emits: ['on-signal'],
   setup () {
     const $q = useQuasar()
 

@@ -19,12 +19,32 @@
         </div>      
       </div>
     </div>
+    <div class="allitems">
+      <Items
+        :items="items"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-export default {
+// import axios from 'axios'
+import { dummy } from "../../../../generated.js";
+import Items from './Items.vue'
 
+export default {
+  name: 'AllBoard',
+  components: {
+    Items,
+  },
+  data () {
+    return {
+      items: [],
+    }
+  },
+  created() {
+    this.items = dummy
+  }
 }
 </script>
 
@@ -58,5 +78,10 @@ export default {
 
 .allboard .sort-icon .icon span {
   font-weight: bold;
+}
+
+.allitems {
+  display: grid;
+  padding: 10px;
 }
 </style>
