@@ -80,8 +80,4 @@ export default {
   font-weight: bold;
 }
 
-.allitems {
-  display: grid;
-  padding: 10px;
-}
 </style>

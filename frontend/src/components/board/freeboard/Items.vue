@@ -71,13 +71,18 @@ export default {
 </script>
 
 <style scoped>
-.items .item {
+.items {
+  margin: 70px auto;
+  display: grid;
+  grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
-  grid-gap: 10px 10px;
+  grid-gap: 50px 0;
+  justify-content: space-around;
+  /* align-content: stretch; */
 }
 
 .btn-cover {
-  margin-top: 1.5rem;
+  margin: 3rem auto;
   text-align: center;
 }
 .btn-cover .page-btn {
