@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { dummy } from "../../../../generated.js";
 // import axios from 'axios'
 
@@ -27,15 +27,21 @@ export default {
   props: {
     item_pk: Number,
   },
-  data() {
-    return {
+  // data() {
+  //   return {
+  //     title: '',
+  //     content: '',
+  //     code: '',
+  //   }
+  // },
+  setup () {
+    const state = reactive({
       title: '',
       content: '',
       code: '',
-    }
-  },
-  setup () {
+    })
     return {
+      state,
       icon: ref(false),
     }
   },
