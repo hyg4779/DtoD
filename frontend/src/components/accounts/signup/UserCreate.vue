@@ -60,12 +60,19 @@ export default {
     const confirm_pwd = ref(null)
 
     function onSubmit () {
+      // email, pwd 정규표현식
+      // let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      // let pwdRegExp = /^([!@#$%^&*]?[0-9a-zA-Z]){4,12}$/
+
+
       if (signup_email.value === true ||
         pwd.value === true && pwd.value.length > 9 ||
         confirm_pwd.value === pwd.value) {
         console.log(props.user)
         alert('Success')
-        emit('user-create-fin', {signup_email, pwd, confirm_pwd})            
+        let email = signup_email.value
+        let password = pwd.value
+        emit('user-create-fin', {email, password})            
         }
       }
 

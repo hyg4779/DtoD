@@ -9,25 +9,21 @@
           <Usercreate
             :class="{signupform: true, visible: page1 ,invisible: !page1,}"
             v-if="page1 === true && page2 === false"
-            :user="user"
             @user-create-fin="page2On"
            />
           <Nickname
             :class="{signupform: true, visible: page4 ,invisible: !page2,}"
             v-if="page2 === true && page3 === false"
-            :user= user
             @nickname-fin="page3On"
           />
           <Jobs
             :class="{signupform: true, visible: page2 ,invisible: !page3,}"
             v-if="page3 === true && page4 === false"
-            :user = user
             @jobs-fin="page4On"
           />
           <Skills
             :class="{signupform: true, visible: page3 ,invisible: !page4,}"
             v-if="page4 === true"
-            :user = user
             @stacks-fin="makeUser"
           />
       </q-card>
@@ -36,12 +32,12 @@
 
 <script>
 // import { useQuasar } from 'quasar'
-import { ref,reactive } from 'vue'
+import { ref } from 'vue'
 import Jobs from './signup/Jobs.vue'
 import Skills from './signup/Skills.vue'
 import Usercreate from './signup/UserCreate.vue'
 import Nickname from './signup/Nickname.vue'
-
+import { useStore } from 'vuex'
 export default {
   components:{
     Usercreate,
@@ -52,25 +48,25 @@ export default {
   emits:['go-login'],
 
   setup ( props, {emit} ) {
+    const store = useStore();
     
     // const $q = useQuasar()
-    const user = reactive({
-      signup_email:'',
-      pwd: '',
-      confirm_pwd: '',
-      nick_name: '',
-      jobs: '',
-      stacks: null,
-    })
-    const nick_name = ref(null)
+    // const user = reactive({
+    //   signup_email:'',
+    //   pwd: '',
+    //   confirm_pwd: '',
+    //   nick_name: '',
+    //   jobs: '',
+    //   stacks: null,
+    // })
     const page1 = ref(true)
     const page2 = ref(false)
     const page3 = ref(false)
     const page4 = ref(false)
 
     return {
-      user,
-      nick_name,
+      // user,
+      store,
       page1,
       page2,
       page3,
@@ -83,10 +79,8 @@ export default {
       autoplay: ref(false),
       
       page2On (payload) {
-        // emain, pwd, confirm_pwd 받아오고, nickname.vue 로 전환
-        user.signup_email = payload.signup_email.value
-        user.pwd = payload.pwd.value
-        user.confirm_pwd = payload.confirm_pwd.value
+        // signup_email, pwd 받아오고, nickname.vue 로 전환
+        store.dispatch('userCreate', payload)
 
         page1.value = false
         setTimeout(() => {
@@ -95,8 +89,8 @@ export default {
 
       // 닉네임 받아오고 jobs.vue로 전환
       page3On (payload) {
-        user.nick_name = payload
-              
+        store.dispatch('nickName', payload)
+       
         page2.value = false
         setTimeout(() => {
           page3.value = true
@@ -104,9 +98,9 @@ export default {
 
       // 직무 받아오고 skills.vue로 전환
       page4On (payload) {
-        user.jobs = payload
+        store.dispatch('jobs', payload)
+
         page3.value = false
-        
         setTimeout(() => {
           page4.value = true
         }, 300)},
@@ -114,18 +108,11 @@ export default {
 
       // 기술스텍까지 완료하고 user 만들기
       makeUser(payload){
-        user.stacks = payload
-        console.log(user)
+        store.dispatch('stacks', payload)
         alert('축하합니다! 회원가입에 성공했습니다')
         alert('로그인을 진행해주세요!')
         emit('go-login')
       },
-      onReset(){
-        for(let property in user){
-          user[property] = null
-        }
-      },
-
           // $q.notify({
           //   color: 'red-5',
           //   textColor: 'white',
