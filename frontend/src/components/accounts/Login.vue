@@ -36,13 +36,12 @@
           <div class="loginbtn">
             <q-btn label="로그인" type="submit" color="primary"/>
             <q-btn label="Reset" type="reset" color="primary" flat />
-          </div>
-          <!-- <div class="signupbtn">
+            <q-space/><br/>
             <q-btn
               label="아직 계정이 없으신가요?" style="color: #3988D7" flat
               @click="$emit('on-signal')"
             />
-          </div> -->
+          </div>
         </q-form>
       </div>
     </q-card>
@@ -56,7 +55,7 @@ import { ref } from 'vue'
 
 export default {
   name: 'Login',
-  // emits: ['on-signal'],
+  emits: ['on-signal'],
   setup () {
     const $q = useQuasar()
 

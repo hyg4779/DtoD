@@ -148,21 +148,21 @@ export default {
 
 <style scoped>
 
-.carousel {
+/* .carousel {
   margin: auto 0;
   padding: 0 !important;
   height: 60vh;
-}
+} */
 
-.slide {
-  /* height: 100%; */
+/* .slide {
+  height: 100%;
   width: 100%;
-}
+} */
 
 .signupmodal {
-  margin: 0 auto;
+  height: 30rem;
   width: 100%;
-  height: auto;
+  margin: 0 auto;
   border-radius: 20px !important;
   box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
@@ -174,7 +174,6 @@ export default {
 }
 
 .signupform {
-  height: 1rem;
   margin: auto 20px !important;
 }
 
