@@ -52,6 +52,16 @@
         <button class="cancle" @click="back()">취소</button>
         <button class="submit">등록</button>
       </div>
+      <MonacoEditor
+        height="300"
+        width="1200"
+        language="javascript"
+        :code1="code1"
+        :editorOptions="options"
+        @mounted="onMounted"
+        @codeChange="onCodeChange"
+        >
+      </MonacoEditor>
     </form>
   </div>
 </template>
@@ -59,9 +69,13 @@
 <script>
 import { reactive } from 'vue'
 import axios from 'axios'
+import MonacoEditor from 'vue-monaco-editor'
 
 export default {
   name: 'WriteBoard',
+  components: {
+    MonacoEditor,
+  },
   setup () {
     const stacks = reactive({
         javascript: false,
@@ -91,6 +105,11 @@ export default {
       content: '',
       code: '',
       result: [],
+
+      code1: '<MonacoEditor language="typescript" :code="code" :editorOptions="options" @mounted="onMounted" @codeChange="onCodeChange"></MonacoEditor>',
+      options: {
+        selectOnLineNumbers: true
+      }
     }
   },
   methods: {
@@ -200,7 +219,7 @@ form .checkbox div{
   height: 40px;
   width: 80px;
   margin: 0 10px 0 0;
-  border: none;
+  border: 1px solid;
   background-color: white;
   border-radius: 20px;
 }

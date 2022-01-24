@@ -216,7 +216,7 @@ form .checkbox div{
   height: 40px;
   width: 80px;
   margin: 0 10px 0 0;
-  border: none;
+  border: 1px solid;
   background-color: white;
   border-radius: 20px;
 }
