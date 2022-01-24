@@ -3,7 +3,8 @@
     <div class="title">
       게시글 작성
     </div>
-    <form @submit="onSubmit">
+    <form>
+    <!-- <form @submit="onSubmit"> -->
       <div>
         <label for="title">제목</label>
         <br>
@@ -58,7 +59,7 @@
 
 <script>
 import { reactive } from 'vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
@@ -102,32 +103,32 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault()
-      if (this.title.length <= 100) {
-        for (let property in this.stacks){
-          if (this.stacks[property]){
-            this.result.push(property)
-          }
-        }
-        axios({
-          url: '',
-          method: 'POST',
-          data: {
-            title: this.title,
-            content: this.content,
-            code: this.code,
-            result: this.result,
-          },
-          headers: {
-            Authorization: `JWT ${localStorage.getItem('jwt')}`
-          },
-        }).then(()=>{
-          this.$router.push('/freeboard')
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 100자 이하로 입력하세요.")
-      }  
+      // if (this.title.length <= 100) {
+      //   for (let property in this.stacks){
+      //     if (this.stacks[property]){
+      //       this.result.push(property)
+      //     }
+      //   }
+      //   axios({
+      //     url: '',
+      //     method: 'POST',
+      //     data: {
+      //       title: this.title,
+      //       content: this.content,
+      //       code: this.code,
+      //       result: this.result,
+      //     },
+      //     headers: {
+      //       Authorization: `JWT ${localStorage.getItem('jwt')}`
+      //     },
+      //   }).then(()=>{
+      //     this.$router.push('/freeboard')
+      //   }).catch(err=>{
+      //     console.error(err)
+      //   })
+      // } else {
+      //   alert("제목은 100자 이하로 입력하세요.")
+      // }  
     },
   }
 }
