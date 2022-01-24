@@ -3,78 +3,132 @@
     <div class="title">
       게시글 작성
     </div>
-    <form action="#">
+    <form @submit="onSubmit">
       <div>
-        <span>제목</span>
+        <label for="title">제목</label>
         <br>
-        <input type="text" placeholder="  제목을 입력하세요">
+        <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
       </div>
-      <div>
+      <div class="form-control">
         <span>기술 스택 및 협업 툴</span>
         <div class="checkbox">
           <div>
-            <q-checkbox v-model="val01" label="JavaScript"/>
-            <q-checkbox v-model="val02" label="C"/>
-            <q-checkbox v-model="val03" label="Kotlin"/>
-            <q-checkbox v-model="val04" label="Java"/>
+            <q-checkbox v-model="stacks.javascript" label="JavaScript"/>
+            <q-checkbox v-model="stacks.react" label="React.js"/>
+            <q-checkbox v-model="stacks.vue" label="Vue.js"/>
+            <q-checkbox v-model="stacks.node" label="Node.js"/>
           </div>
           <div>
-            <q-checkbox v-model="val05" label="React.js"/>
-            <q-checkbox v-model="val06" label="C++"/>
-            <q-checkbox v-model="val07" label="Django"/>
-            <q-checkbox v-model="val08" label="Spring"/>
+            <q-checkbox v-model="stacks.c" label="C"/>
+            <q-checkbox v-model="stacks.cpp" label="C++"/>
+            <q-checkbox v-model="stacks.cs" label="C#"/>
+            <q-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
           </div>
           <div>
-            <q-checkbox v-model="val09" label="Vue.js"/>
-            <q-checkbox v-model="val10" label="C#"/>
-            <q-checkbox v-model="val11" label="Go"/>
-            <q-checkbox v-model="val12" label="Flutter"/>
+            <q-checkbox v-model="stacks.kotlin" label="Kotlin"/>
+            <q-checkbox v-model="stacks.django" label="Django"/>
+            <q-checkbox v-model="stacks.go" label="Go"/>
+            <q-checkbox v-model="stacks.swift" label="Swift"/>
           </div>
           <div>
-            <q-checkbox v-model="val13" label="Node.js"/>
-            <q-checkbox v-model="val14" label="Typescript.js"/>
-            <q-checkbox v-model="val15" label="Swift"/>
-            <q-checkbox v-model="val16" label="Etc"/>
+            <q-checkbox v-model="stacks.java" label="Java"/>
+            <q-checkbox v-model="stacks.spring" label="Spring"/>
+            <q-checkbox v-model="stacks.flutter" label="Flutter"/>
+            <q-checkbox v-model="stacks.etc" label="Etc"/>
           </div>
         </div>
       </div>
       <div class="detail1">
-        <span>내용</span>
+         <label for="content">내용</label>
         <br>
-        <input type="text" placeholder="  내용를 입력하세요">
+        <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
       <div class="detail2">
-        <span>코드 입력</span>
+        <label for="code">코드 입력</label>
         <br>
-        <input type="text" placeholder="  코드를 입력하세요">
+        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea>
+      </div>
+      <div class="submitbtn">
+        <button class="cancle" @click="back()">취소</button>
+        <button class="submit">등록</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive } from 'vue'
+import axios from 'axios'
+
 export default {
   name: 'WriteBoard',
+  components: {
+    
+  },
   setup () {
+    const stacks = reactive({
+        javascript: false,
+        c: false,
+        kotlin: false,
+        java: false,
+        react: false,
+        cpp: false,
+        django: false,
+        spring: false,
+        vue: false,
+        cs: false,
+        go: false,
+        flutter: false,
+        node: false,
+        typescript: false,
+        swift: false,
+        etc: false,
+      })
     return {
-      val01: ref(false),
-      val02: ref(false),
-      val03: ref(false),
-      val04: ref(false),
-      val05: ref(false),
-      val06: ref(false),
-      val07: ref(false),
-      val08: ref(false),
-      val09: ref(false),
-      val10: ref(false),
-      val11: ref(false),
-      val12: ref(false),
-      val13: ref(false),
-      val14: ref(false),
-      val15: ref(false),
-      val16: ref(false),
+      stacks,
     }
+  },
+  data () {
+    return {
+      title: '',
+      content: '',
+      code: '',
+      result: [],
+    }
+  },
+  methods: {
+    back () {
+      this.$router.replace()
+    },
+    onSubmit(event) {
+      event.preventDefault()
+      if (this.title.length <= 100) {
+        for (let property in this.stacks){
+          if (this.stacks[property]){
+            this.result.push(property)
+          }
+        }
+        axios({
+          url: '',
+          method: 'POST',
+          data: {
+            title: this.title,
+            content: this.content,
+            code: this.code,
+            result: this.result,
+          },
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('jwt')}`
+          },
+        }).then(()=>{
+          this.$router.push('/freeboard')
+        }).catch(err=>{
+          console.error(err)
+        })
+      } else {
+        alert("제목은 100자 이하로 입력하세요.")
+      }  
+    },
   }
 }
 </script>
@@ -91,8 +145,10 @@ export default {
 form {
   margin: 20px 0 0 20px;
 }
-form div {
-  margin: 10px 0 0 0;
+
+form div label {
+  font-weight: bold;
+  font-size: 20px;
 }
 
 form div span {
@@ -100,21 +156,24 @@ form div span {
   font-size: 20px;
 }
 
-form div input {
+form div textarea {
+  margin: 0 0 20px 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
   height: 40px;
   width: 700px;
 }
 
-form .detail1 input {
+form .detail1 textarea {
+  margin: 0 0 20px 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
   height: 300px;
   width: 800px;
 }
 
-form .detail2 input {
+form .detail2 textarea {
+  margin: 0 0 20px 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
   height: 300px;
@@ -123,10 +182,43 @@ form .detail2 input {
 }
 
 form .checkbox {
+  margin: 0 0 20px 0;
   display: grid;
   grid-template-columns: 150px 150px 150px 150px;
 }
 form .checkbox div{
   margin-right: 20px;
+}
+
+.submitbtn {
+  margin: 0 0 30px 0;
+}
+
+.submitbtn .cancle {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: #24274A;
+  height: 40px;
+  width: 80px;
+  margin: 0 10px 0 0;
+  border: 1px solid;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.submitbtn .submit {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  height: 40px;
+  width: 80px;
+  margin: 0 10px 0 0;
+  border: none;
+  background-color: #24274A;
+  border-radius: 20px;
 }
 </style>
