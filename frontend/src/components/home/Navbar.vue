@@ -86,7 +86,7 @@
 import {ref} from 'vue'
 import Login from '../accounts/Login.vue'
 import Signup from '../accounts/Signup.vue'
-
+import { useStore } from 'vuex'
 export default {
   name: 'Navbar',
   components:{
@@ -94,10 +94,12 @@ export default {
     Signup,
   },
   setup(){
+    const store = useStore()
     const loginSignal = ref(false)
     const signSignal = ref(false)
 
     return{
+      store,
       loginSignal,
       signSignal,
       listOne:   ref(false),
@@ -111,6 +113,7 @@ export default {
         signSignal.value = true
       },
       goLogin(){
+        store.dispatch('infoIntialize')
         loginSignal.value = true
         signSignal.value = false
       }

@@ -1,43 +1,42 @@
 <template>
-  <div class="signupform">
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md form"
-    >
-      <div class="checkbox">
-        <div>
-          <q-checkbox v-model="stacks.javascript" label="JavaScript"/>
-          <q-checkbox v-model="stacks.react" label="React.js"/>
-          <q-checkbox v-model="stacks.vue" label="Vue.js"/>
-          <q-checkbox v-model="stacks.node" label="Node.js"/>
-        </div>
-        <div>
-          <q-checkbox v-model="stacks.c" label="C"/>
-          <q-checkbox v-model="stacks.cpp" label="C++"/>
-          <q-checkbox v-model="stacks.cs" label="C#"/>
-          <q-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
-        </div>
-        <div>
-          <q-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-          <q-checkbox v-model="stacks.django" label="Django"/>
-          <q-checkbox v-model="stacks.go" label="Go"/>
-          <q-checkbox v-model="stacks.swift" label="Swift"/>
-        </div>
-        <div>
-          <q-checkbox v-model="stacks.java" label="Java"/>
-          <q-checkbox v-model="stacks.spring" label="Spring"/>
-          <q-checkbox v-model="stacks.flutter" label="Flutter"/>
-          <q-checkbox v-model="stacks.etc" label="Etc"/>
-        </div>
-      </div>
-
-      <div class="signupbtn">
-        <q-btn label="다음" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat />
-      </div>
-    </q-form>
+  <q-form
+    @submit="onSubmit"
+    @reset="onReset"
+    class="q-gutter-md"
+  >
+  <div class="checkbox">
+    <div class="row">
+      <q-checkbox v-model="stacks.val01" label="JavaScript"/>
+      <q-checkbox v-model="stacks.val02" label="C"/>
+      <q-checkbox v-model="stacks.val03" label="Kotlin"/>
+      <q-checkbox v-model="stacks.val04" label="Java"/>
+    </div>
+    <div class="row">
+      <q-checkbox v-model="stacks.val05" label="React.js"/>
+      <q-checkbox v-model="stacks.val06" label="C++"/>
+      <q-checkbox v-model="stacks.val07" label="Django"/>
+      <q-checkbox v-model="stacks.val08" label="Spring"/>
+    </div>
+    <div class="row">
+      <q-checkbox v-model="stacks.val09" label="Vue.js"/>
+      <q-checkbox v-model="stacks.val10" label="C#"/>
+      <q-checkbox v-model="stacks.val11" label="Go"/>
+      <q-checkbox v-model="stacks.val12" label="Flutter"/>
+    </div>
+    <div class="row">
+      <q-checkbox v-model="stacks.val13" label="Node.js"/>
+      <q-checkbox v-model="stacks.val14" label="Typescript.js"/>
+      <q-checkbox v-model="stacks.val15" label="Swift"/>
+      <q-checkbox v-model="stacks.val16" label="Etc"/>
+    </div>
   </div>
+
+    <div class="row">
+      <q-btn label="다음" type="submit" color="primary"/>
+      <q-btn label="Reset" type="reset" color="primary" flat />
+    </div>
+  </q-form>
+
 </template>
 
 <script>
@@ -48,22 +47,22 @@ export default {
 
   setup (props, {emit}) {
     const stacks = reactive({
-        javascript: false,
-        c: false,
-        kotlin: false,
-        java: false,
-        react: false,
-        cpp: false,
-        django: false,
-        spring: false,
-        vue: false,
-        cs: false,
-        go: false,
-        flutter: false,
-        node: false,
-        typescript: false,
-        swift: false,
-        etc: false,
+      val01: false,
+      val02: false,
+      val03: false,
+      val04: false,
+      val05: false,
+      val06: false,
+      val07: false,
+      val08: false,
+      val09: false,
+      val10: false,
+      val11: false,
+      val12: false,
+      val13: false,
+      val14: false,
+      val15: false,
+      val16: false,
       })
 
     return {
@@ -77,7 +76,7 @@ export default {
         let result = []
 
         for (let property in stacks){
-          if (stacks[property]){
+          if (stacks[property] === true){
             result.push(property)
           }
         }
@@ -103,21 +102,13 @@ export default {
 
 </script>
 
-<style scoped>
-form {
-  margin: 20px 0 0 20px;
-}
-
-form .checkbox {
+<style>
+.checkbox {
+  margin: auto;
   display: grid;
-  grid-template-columns: auto auto auto auto;
-  margin: 0;
+  grid-template-columns: 7rem 7rem 7rem 7rem;
 }
-form .checkbox div{
-  margin-right: 11px;
-}
-.form .signupbtn {
-  margin: 50px 0 0 0 !important;
-  /* text-align: center; */
-}
+/* .checkbox div{
+  margin-right: 1rem;
+} */
 </style>
