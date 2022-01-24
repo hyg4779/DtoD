@@ -76,9 +76,14 @@
           </ul>
         </transition>
       </li>
-      <Login v-model="loginSignal"/>
-      <Signup v-model="signSignal"/>
+      <Login
+        v-model="loginSignal"
+        @on-signal="signModalOpen"
+        />
     </ul>
+  <Signup v-model="signSignal"
+    @go-login="goLogin"
+  />
   </div>
 </template>
 
@@ -94,14 +99,26 @@ export default {
     Signup,
   },
   setup(){
-    
+    const loginSignal = ref(false)
+    const signSignal = ref(false)
+
     return{
+      loginSignal,
+      signSignal,
       listOne:   ref(false),
       listTwo:   ref(false),
       listThree: ref(false),
       listFour: ref(false),
-      loginSignal: ref(false),
-      signSignal: ref(false),
+      
+
+      signModalOpen(){
+        loginSignal.value = false
+        signSignal.value = true
+      },
+      goLogin(){
+        loginSignal.value = true
+        signSignal.value = false
+      }
     }
   }
 }
