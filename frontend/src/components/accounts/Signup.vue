@@ -78,6 +78,9 @@ export default {
       bar: ref(false),
       bar2: ref(false),
       toolbar: ref(false),
+
+      slide: ref(1),
+      autoplay: ref(false),
       
       page2On (payload) {
         // emain, pwd, confirm_pwd 받아오고, nickname.vue 로 전환
@@ -143,11 +146,23 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+
+.carousel {
+  margin: auto 0;
+  padding: 0 !important;
+  height: 60vh;
+}
+
+.slide {
+  /* height: 100%; */
+  width: 100%;
+}
 
 .signupmodal {
-  height: 70vh;
-  width: 70vw;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
   border-radius: 20px !important;
   box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
@@ -155,10 +170,12 @@ export default {
 .signupmodal h3{
   font-family: 'Hanna', sans-serif;
   text-align: center;
+  margin: 0 0 40px 0;
 }
 
 .signupform {
-  margin: 50px 20px 0 20px !important;
+  height: 1rem;
+  margin: auto 20px !important;
 }
 
 

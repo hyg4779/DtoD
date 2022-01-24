@@ -65,9 +65,12 @@
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
               <a @click="loginSignal = true">
-                로그인을
-                <br>
-                해주세요
+                로그인
+              </a>
+            </li>
+            <li>
+              <a @click="signSignal = true">
+                회원가입
               </a>
             </li>
           </ul>
@@ -201,9 +204,9 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 
-.menu li .profile-menu li:first-child {
+/* .menu li .profile-menu li:first-child {
   border-radius: 10px 10px 10px 10px;
-}
+} */
 
 .menu li ul li:hover {
   background: rgb(209, 209, 209);

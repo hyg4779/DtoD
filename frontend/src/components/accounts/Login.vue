@@ -37,12 +37,12 @@
             <q-btn label="로그인" type="submit" color="primary"/>
             <q-btn label="Reset" type="reset" color="primary" flat />
           </div>
-          <div class="signupbtn">
+          <!-- <div class="signupbtn">
             <q-btn
               label="아직 계정이 없으신가요?" style="color: #3988D7" flat
               @click="$emit('on-signal')"
             />
-          </div>
+          </div> -->
         </q-form>
       </div>
     </q-card>
@@ -56,7 +56,7 @@ import { ref } from 'vue'
 
 export default {
   name: 'Login',
-  emits: ['on-signal'],
+  // emits: ['on-signal'],
   setup () {
     const $q = useQuasar()
 
@@ -106,11 +106,12 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .loginmodal {
-  height: 70vh;
-  width: 70vw;
+  height: auto;
+  width: 100%;
+  margin: 0 auto;
   border-radius: 20px !important;
   box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
 }
@@ -121,18 +122,25 @@ export default {
 }
 
 .loginform {
-  margin: 50px 20px 0 20px !important;
+  margin: auto 20px !important;
 }
 
+.loginform .loginemail {
+  margin: 0 40px 40px 40px;
+}
+
+.loginform .loginpw {
+  margin: 0 40px 0 40px;
+}
 
 .loginform .loginbtn {
-  margin: 20px;
+  margin: 70px;
   text-align: center;
 }
 
-.loginform .signupbtn {
+/* .loginform .signupbtn {
   margin: 20px;
   text-align: center;
-}
+} */
 
 </style>

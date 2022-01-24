@@ -16,8 +16,4 @@ export default {
 
 <style>
 
-.slider {
-  
-}
-
 </style>
