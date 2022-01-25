@@ -1,6 +1,69 @@
 <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="600px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Open Dialog
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">로그인</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Email*"
+                  required
+                  hint="예시) kimssafy@korea.co.kr"
+
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Password*"
+                  type="password"
+                  hint=" 영문 대소문자, 숫자, 특수문자 조합으로 입력하세요"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            로그인
+          </v-btn>
+          <br>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="this.$emit('signup-modal-open')"
+          >
+            아직 계정이 없으신가요?
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
   <!-- 로그인 모달 -->
-  <q-dialog>
+  <!-- <q-dialog>
     <q-card class="loginmodal">
       <q-card-section class="row items-center q-pb-none">
         <q-space />
@@ -45,61 +108,25 @@
         </q-form>
       </div>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-
-
 export default {
   name: 'Login',
-  emits: ['on-signal'],
-  setup () {
-    const $q = useQuasar()
-
-    const user_email = ref(null)
-    const pwd = ref(null)
-    const accept = ref(false)
+  data () {
     return {
-      user_email,
-      pwd,
-      accept,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
-      
-
-      onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
-          $q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Submitted'
-          })
-        }
-      },
-
-      onReset () {
-        user_email.value = null
-        pwd.value = null
-        accept.value = false
-      },
-      // onSignal() {
-      //   console.log('1')
-      //   this.$emit('on-signal')
-      // }
+      dialog: false,
+      user_email: null,
+      pwd: null,
     }
+  },
+  methods:{
+    onSubmit () {
+    },
+
+    onReset () {
+    },
   }
 }
 

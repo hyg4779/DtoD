@@ -18,20 +18,18 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-
 export default {
-  emits:['jobs-fin'],
+  name: 'Jobs',
+  props:{
+    user:{
+      type: Object,
+    }
+  },
+  data () {
 
-  setup (props, {emit}) {
-
-    const jobs = ref(null)
-
+    
     return {
-      jobs,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
+      jobs: null,
       options: [
         '웹 프로그래머',
         '웹 퍼블리셔',
@@ -40,22 +38,22 @@ export default {
         '백엔드 엔지니어',
         '데이터 엔지니어',
         '데브옵스 엔지니어',
-      ],
+      ]}
+  },
+  methods:{
+    onSubmit () {
+      if (this.jobs.length > 0) {
+        console.log(this.user)
+        alert('Success')
+        this.$emit('jobs-fin', this.jobs)
 
-      onSubmit () {
-        if (jobs.value.length > 0) {
-          console.log(props.user)
-          alert('Success')
-          emit('jobs-fin', jobs.value)
-  
-        }
+      }
 
-      },
+    },
 
-      onReset () {
-        jobs.value = null
-      },
-    }
+    onReset () {
+      this.jobs = null
+    },
   }
 }
 

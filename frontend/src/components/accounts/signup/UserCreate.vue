@@ -49,46 +49,47 @@
 </template>
 
 <script>
-import {ref} from 'vue'
-
 export default {
-  emits: ['user-create-fin'],
-  
-  setup(props, {emit}){
-    const signup_email = ref(null)
-    const pwd = ref(null)
-    const confirm_pwd = ref(null)
+  name: 'UserCreate',
+  props:{
+    user:{
+      type: Object,
+    }
+  },
+  data(){
 
-    function onSubmit () {
+    return {
+      signup_email: null,
+      pwd : null,
+      confirm_pwd: null,
+    }
+  },
+  methods:{
+    onSubmit () {
       // email, pwd 정규표현식
       // let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       // let pwdRegExp = /^([!@#$%^&*]?[0-9a-zA-Z]){4,12}$/
 
 
-      if (signup_email.value === true ||
-        pwd.value === true && pwd.value.length > 9 ||
-        confirm_pwd.value === pwd.value) {
-        console.log(props.user)
+      if (this.signup_email === true ||
+        this.pwd === true && this.pwd.length > 9 ||
+        this.confirm_pwd === this.pwd) {
+          console.log(this.user)
         alert('Success')
-        let email = signup_email.value
-        let password = pwd.value
-        emit('user-create-fin', {email, password})            
+        let email = this.signup_email
+        let password = this.pwd
+        this.$emit('user-create-fin', {email, password})            
         }
-      }
-
-    return {
-      signup_email,
-      pwd,
-      confirm_pwd,
-      onSubmit,
-
-      onReset () {
-        signup_email.value = null
-        pwd.value = null
-        confirm_pwd.value = null
       },
-    }
+      onReset () {
+        this.signup_email = null
+        this.pwd = null
+        this.confirm_pwd = null
+      },
+
   }
+
+
 }
 </script>
 

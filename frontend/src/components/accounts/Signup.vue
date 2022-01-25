@@ -31,13 +31,10 @@
 </template>
 
 <script>
-// import { useQuasar } from 'quasar'
-import { ref } from 'vue'
 import Jobs from './signup/Jobs.vue'
 import Skills from './signup/Skills.vue'
 import Usercreate from './signup/UserCreate.vue'
 import Nickname from './signup/Nickname.vue'
-import { useStore } from 'vuex'
 export default {
   components:{
     Usercreate,
@@ -45,106 +42,57 @@ export default {
     Skills,
     Nickname
   },
-  emits:['go-login'],
 
-  setup ( props, {emit} ) {
-    const store = useStore();
-    
-    // const $q = useQuasar()
-    // const user = reactive({
-    //   signup_email:'',
-    //   pwd: '',
-    //   confirm_pwd: '',
-    //   nick_name: '',
-    //   jobs: '',
-    //   stacks: null,
-    // })
-    const page1 = ref(true)
-    const page2 = ref(false)
-    const page3 = ref(false)
-    const page4 = ref(false)
-
+  data () {
     return {
-      // user,
-      store,
-      page1,
-      page2,
-      page3,
-      page4,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
-
-      slide: ref(1),
-      autoplay: ref(false),
-      
-      page2On (payload) {
-        // signup_email, pwd 받아오고, nickname.vue 로 전환
-        store.dispatch('userCreate', payload)
-
-        page1.value = false
-        setTimeout(() => {
-          page2.value = true
-        }, 300)},
-
-      // 닉네임 받아오고 jobs.vue로 전환
-      page3On (payload) {
-        store.dispatch('nickName', payload)
-       
-        page2.value = false
-        setTimeout(() => {
-          page3.value = true
-        }, 300)},
-
-      // 직무 받아오고 skills.vue로 전환
-      page4On (payload) {
-        store.dispatch('jobs', payload)
-
-        page3.value = false
-        setTimeout(() => {
-          page4.value = true
-        }, 300)},
-
-
-      // 기술스텍까지 완료하고 user 만들기
-      makeUser(payload){
-        store.dispatch('stacks', payload)
-        alert('축하합니다! 회원가입에 성공했습니다')
-        alert('로그인을 진행해주세요!')
-        emit('go-login')
-      },
-          // $q.notify({
-          //   color: 'red-5',
-          //   textColor: 'white',
-          //   icon: 'warning',
-          //   message: 'You need to accept the license and terms first'
-          // })
-        // else {
-          // $q.notify({
-          //   color: 'green-4',
-          //   textColor: 'white',
-          //   icon: 'cloud_done',
-          //   message: 'Submitted'
-          // })
-        // }
+      page1: false,
+      page2: false,
+      page3: false,
+      page4: false,
     }
+  },
+  methods:{
+    page2On (payload) {
+      // signup_email, pwd 받아오고, nickname.vue 로 전환
+      this.$store.dispatch('userCreate', payload)
+
+      this.page1 = false
+      setTimeout(() => {
+        this.page2 = true
+      }, 300)},
+
+    // 닉네임 받아오고 jobs.vue로 전환
+    page3On (payload) {
+      this.$store.dispatch('nickName', payload)
+     
+      this.page2 = false
+      setTimeout(() => {
+        this.page3 = true
+      }, 300)},
+
+    // 직무 받아오고 skills.vue로 전환
+    page4On (payload) {
+      this.$store.dispatch('jobs', payload)
+
+      this.page3 = false
+      setTimeout(() => {
+        this.page4 = true
+      }, 300)},
+
+
+    // 기술스텍까지 완료하고 user 만들기
+    makeUser(payload){
+      this.$store.dispatch('stacks', payload)
+      alert('축하합니다! 회원가입에 성공했습니다')
+      alert('로그인을 진행해주세요!')
+      this.$emit('go-login')
+    },
   }
 }
 
 </script>
 
 <style scoped>
-
-/* .carousel {
-  margin: auto 0;
-  padding: 0 !important;
-  height: 60vh;
-} */
-
-/* .slide {
-  height: 100%;
-  width: 100%;
-} */
 
 .signupmodal {
   height: 30rem;

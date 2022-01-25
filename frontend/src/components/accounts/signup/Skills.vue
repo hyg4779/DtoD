@@ -40,63 +40,55 @@
 </template>
 
 <script>
-import { ref,reactive } from 'vue'
-
 export default {
-  emits:['stacks-fin'],
 
-  setup (props, {emit}) {
-    const stacks = reactive({
-      val01: false,
-      val02: false,
-      val03: false,
-      val04: false,
-      val05: false,
-      val06: false,
-      val07: false,
-      val08: false,
-      val09: false,
-      val10: false,
-      val11: false,
-      val12: false,
-      val13: false,
-      val14: false,
-      val15: false,
-      val16: false,
-      })
-
+  data () {
+    
     return {
-      stacks,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
-
-      // 체크한 기술스텍만 배열에 담아 signup으로 보내기
-      onSubmit () {
-        let result = []
-
-        for (let property in stacks){
-          if (stacks[property] === true){
-            result.push(property)
-          }
-        }
-          // console.log(result)
-          alert('Success')
-          emit('stacks-fin', result)
-  
+      stacks: {
+        val01: false,
+        val02: false,
+        val03: false,
+        val04: false,
+        val05: false,
+        val06: false,
+        val07: false,
+        val08: false,
+        val09: false,
+        val10: false,
+        val11: false,
+        val12: false,
+        val13: false,
+        val14: false,
+        val15: false,
+        val16: false,
         },
+    }
+  },
+  methods:{
+    // 체크한 기술스텍만 배열에 담아 signup으로 보내기
+    onSubmit () {
+      let result = []
 
-      // 체크한 기술스텍 초기화
-      onReset (){
-        for (let property in stacks){
-          if (stacks[property]){
-            stacks[property] = false
-          }
+      for (let property in this.stacks){
+        if (this.stacks[property] === true){
+          result.push(property)
         }
+      }
+        // console.log(result)
+        alert('Success')
+        this.$emit('stacks-fin', result)
+
       },
 
-      
-    }
+    // 체크한 기술스텍 초기화
+    onReset (){
+      for (let property in this.stacks){
+        if (this.stacks[property]){
+          this.stacks[property] = false
+        }
+      }
+    },
   }
 }
 

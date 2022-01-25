@@ -83,40 +83,33 @@
 </template>
 
 <script>
-import {ref} from 'vue'
 import Login from '../accounts/Login.vue'
 import Signup from '../accounts/Signup.vue'
-import { useStore } from 'vuex'
 export default {
   name: 'Navbar',
   components:{
     Login,
     Signup,
   },
-  setup(){
-    const store = useStore()
-    const loginSignal = ref(false)
-    const signSignal = ref(false)
-
+  data(){
     return{
-      store,
-      loginSignal,
-      signSignal,
-      listOne:   ref(false),
-      listTwo:   ref(false),
-      listThree: ref(false),
-      listFour: ref(false),
-      
-
-      signModalOpen(){
-        loginSignal.value = false
-        signSignal.value = true
-      },
-      goLogin(){
-        store.dispatch('infoIntialize')
-        loginSignal.value = true
-        signSignal.value = false
-      }
+      loginSignal: false,
+      signSignal: false,
+      listOne:   false,
+      listTwo:   false,
+      listThree: false,
+      listFour: false,
+    }
+  },
+  methods:{
+    signModalOpen(){
+      loginSignal.value = false
+      signSignal.value = true
+    },
+    goLogin(){
+      this.$store.dispatch('infoIntialize')
+      loginSignal.value = true
+      signSignal.value = false
     }
   }
 }
