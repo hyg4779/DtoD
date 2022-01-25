@@ -2,7 +2,7 @@
   <div class="menubar">
     <div class="logo">
       <a href="/">
-        <span>DtoD</span>
+        DtoD
       </a>
     </div>
     <ul class="menu">
@@ -64,7 +64,7 @@
           <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
-              <a @click="loginSignal = true">
+              <a class="login" @click="loginSignal = true">
                 로그인
               </a>
             </li>
@@ -140,13 +140,12 @@ export default {
 
 .logo {
   font-size: 40px;
-  margin: auto 35px;
-  color: #24274A;
   letter-spacing :3px;
 }
 
 .logo a {
-  color: #24274A;
+  margin: auto 35px;
+  color: #24274A !important;
   text-decoration: none;
   font-family: 'Dohyeon', sans-serif;
 }
@@ -179,10 +178,15 @@ export default {
   font-weight: bold;  
 }
 
+
 .menu li .profile {
   display:block;
   margin: 11px auto;
   padding: 0;
+}
+
+.menu .li .profile-menu .login {
+  color: #616DCC;
 }
 
 .menu li ul {
