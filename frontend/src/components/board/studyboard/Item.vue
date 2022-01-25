@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <q-card class="my-card" @click=getItemDetail()>
+    <!-- <q-card class="my-card" @click=getItemDetail()>
       <img src="https://cdn.quasar.dev/img/mountains.jpg">
       <q-card-section class="title">
         <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
@@ -12,21 +12,21 @@
       <ItemDetail 
         :item_pk = this.item.id
       />
-    </q-dialog>
+    </q-dialog> -->
   </div>
 </template>
 
 <script>
-import ItemDetail from './ItemDetail.vue'
+// import ItemDetail from './ItemDetail.vue'
 
 export default {
   name: 'Item',
   components: {
-    ItemDetail
+    // ItemDetail
   },
-  props: {
-    item: Object,
-  },
+  // props: {
+  //   item: Object,
+  // },
   computed: {
     getTitle: function() {
         const t = this.item.title

@@ -3,7 +3,7 @@
     <div class="title">
       스터디 모집
     </div>
-    <form @submit="onSubmit">
+    <!-- <form @submit="onSubmit">
       <div>
         <label for="title">제목</label>
         <br>
@@ -57,39 +57,39 @@
         <button class="cancle" @click="back()">취소</button>
         <button class="submit">등록</button>
       </div>
-    </form>
+    </form> -->
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
-import axios from 'axios'
+// import { reactive } from 'vue'
+// import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
-  setup () {
-    const stacks = reactive({
-        javascript: false,
-        c: false,
-        kotlin: false,
-        java: false,
-        react: false,
-        cpp: false,
-        django: false,
-        spring: false,
-        vue: false,
-        cs: false,
-        go: false,
-        flutter: false,
-        node: false,
-        typescript: false,
-        swift: false,
-        etc: false,
-      })
-    return {
-      stacks,
-    }
-  },
+  // setup () {
+  //   const stacks = reactive({
+  //       javascript: false,
+  //       c: false,
+  //       kotlin: false,
+  //       java: false,
+  //       react: false,
+  //       cpp: false,
+  //       django: false,
+  //       spring: false,
+  //       vue: false,
+  //       cs: false,
+  //       go: false,
+  //       flutter: false,
+  //       node: false,
+  //       typescript: false,
+  //       swift: false,
+  //       etc: false,
+  //     })
+  //   return {
+  //     stacks,
+  //   }
+  // },
   data () {
     return {
       title: '',
@@ -105,33 +105,33 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault()
-      if (this.title.length <= 100) {
-        for (let property in this.stacks){
-          if (this.stacks[property]){
-            this.result.push(property)
-          }
-        }
-        axios({
-          url: '',
-          method: 'POST',
-          data: {
-            title: this.title,
-            content1: this.content1,
-            content2: this.content2,
-            content3: this.content3,
-            result: this.result,
-          },
-          headers: {
-            Authorization: `JWT ${localStorage.getItem('jwt')}`
-          },
-        }).then(()=>{
-          this.$router.push('/freeboard')
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 100자 이하로 입력하세요.")
-      }  
+      // if (this.title.length <= 100) {
+      //   for (let property in this.stacks){
+      //     if (this.stacks[property]){
+      //       this.result.push(property)
+      //     }
+      //   }
+      //   axios({
+      //     url: '',
+      //     method: 'POST',
+      //     data: {
+      //       title: this.title,
+      //       content1: this.content1,
+      //       content2: this.content2,
+      //       content3: this.content3,
+      //       result: this.result,
+      //     },
+      //     headers: {
+      //       Authorization: `JWT ${localStorage.getItem('jwt')}`
+      //     },
+      //   }).then(()=>{
+      //     this.$router.push('/freeboard')
+      //   }).catch(err=>{
+      //     console.error(err)
+      //   })
+      // } else {
+      //   alert("제목은 100자 이하로 입력하세요.")
+      // }  
     },
   }
 }
