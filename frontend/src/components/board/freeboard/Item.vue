@@ -1,28 +1,28 @@
 <template>
   <div class="item">
-    <q-card class="my-card" @click=getItemDetail()>
-      <img src="https://cdn.quasar.dev/img/mountains.jpg">
-      <q-card-section class="title">
+    <v-card class="my-card" @click=getItemDetail()>
+      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"></v-img>
+      <v-card-title class="title">
         <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
-      </q-card-section>
-    </q-card>
-    <q-dialog
+      </v-card-title>
+    </v-card>
+    <v-dialog
       ref="detail"
     >
       <ItemDetail 
         :item_pk = this.item.id
       />
-    </q-dialog>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import ItemDetail from './ItemDetail.vue'
+// import ItemDetail from './ItemDetail.vue'
 
 export default {
   name: 'Item',
   components: {
-    ItemDetail
+    // ItemDetail
   },
   props: {
     item: Object,
@@ -52,7 +52,7 @@ export default {
     },
   },
   created() {
-    // console.log(this.item)
+    console.log(this.item)
   }
 }
 </script>

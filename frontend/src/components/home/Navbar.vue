@@ -58,9 +58,9 @@
         </transition>
       </li>
       <li @mouseover="listFour = true" @mouseleave="listFour = false">
-          <q-avatar class="profile">
+          <v-avatar class="profile">
             <img src="../../assets/default_user.png">
-          </q-avatar>
+          </v-avatar>
           <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li>
@@ -72,46 +72,61 @@
         </transition>
       </li>
     </ul>
-    <Login
+    <!-- <Login
       v-model="loginSignal"
       @on-signal="signModalOpen"
       />
     <Signup v-model="signSignal"
       @go-login="goLogin"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import Login from '../accounts/Login.vue'
-import Signup from '../accounts/Signup.vue'
+// import {ref} from 'vue'
+// import Login from '../accounts/Login.vue'
+// import Signup from '../accounts/Signup.vue'
+// import { useStore } from 'vuex'
 export default {
   name: 'Navbar',
   components:{
-    Login,
-    Signup,
+    // Login,
+    // Signup,
   },
-  data(){
-    return{
-      loginSignal: false,
-      signSignal: false,
+  data () {
+    return {
       listOne:   false,
       listTwo:   false,
       listThree: false,
-      listFour: false,
-    }
-  },
-  methods:{
-    signModalOpen(){
-      loginSignal.value = false
-      signSignal.value = true
-    },
-    goLogin(){
-      this.$store.dispatch('infoIntialize')
-      loginSignal.value = true
-      signSignal.value = false
+      listFour:  false
     }
   }
+  // setup(){
+  //   const store = useStore()
+  //   const loginSignal = ref(false)
+  //   const signSignal = ref(false)
+
+  //   return{
+  //     store,
+  //     loginSignal,
+  //     signSignal,
+  //     listOne:   ref(false),
+  //     listTwo:   ref(false),
+  //     listThree: ref(false),
+  //     listFour: ref(false),
+      
+
+  //     signModalOpen(){
+  //       loginSignal.value = false
+  //       signSignal.value = true
+  //     },
+  //     goLogin(){
+  //       store.dispatch('infoIntialize')
+  //       loginSignal.value = true
+  //       signSignal.value = false
+  //     }
+  //   }
+  // }
 }
 
 </script>

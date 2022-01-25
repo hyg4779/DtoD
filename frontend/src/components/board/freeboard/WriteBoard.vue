@@ -3,9 +3,9 @@
     <div class="title">
       게시글 작성
     </div>
-    <form>
+    <!-- <form> -->
     <!-- <form @submit="onSubmit"> -->
-      <div>
+      <!-- <div>
         <label for="title">제목</label>
         <br>
         <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
@@ -53,12 +53,12 @@
         <button class="cancle" @click="back()">취소</button>
         <button class="submit">등록</button>
       </div>
-    </form>
+    </form> -->
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+// import { reactive } from 'vue'
 // import axios from 'axios'
 
 export default {
@@ -66,29 +66,29 @@ export default {
   components: {
     
   },
-  setup () {
-    const stacks = reactive({
-        javascript: false,
-        c: false,
-        kotlin: false,
-        java: false,
-        react: false,
-        cpp: false,
-        django: false,
-        spring: false,
-        vue: false,
-        cs: false,
-        go: false,
-        flutter: false,
-        node: false,
-        typescript: false,
-        swift: false,
-        etc: false,
-      })
-    return {
-      stacks,
-    }
-  },
+  // setup () {
+  //   const stacks = reactive({
+  //       javascript: false,
+  //       c: false,
+  //       kotlin: false,
+  //       java: false,
+  //       react: false,
+  //       cpp: false,
+  //       django: false,
+  //       spring: false,
+  //       vue: false,
+  //       cs: false,
+  //       go: false,
+  //       flutter: false,
+  //       node: false,
+  //       typescript: false,
+  //       swift: false,
+  //       etc: false,
+  //     })
+  //   return {
+  //     stacks,
+  //   }
+  // },
   data () {
     return {
       title: '',
