@@ -21,7 +21,7 @@
               </router-link>
             </li>
           </ul>        
-        </transition>     
+        </transition>
       </li>  
       <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
         <a href="#">스터디룸</a>
@@ -58,13 +58,13 @@
         </transition>
       </li>
       <li @mouseover="listFour = true" @mouseleave="listFour = false">
-          <v-avatar class="profile">
-            <img src="../../assets/default_user.png">
-          </v-avatar>
-          <transition name="fade">         
+        <v-avatar class="profile">
+          <img src="../../assets/default_user.png">
+        </v-avatar>
+        <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
-            <li>
-              <a @click="loginSignal = true">
+            <li @click="loginModalOpen">
+              <a>
                 로그인
               </a>
             </li>
@@ -72,67 +72,61 @@
         </transition>
       </li>
     </ul>
-    <!-- <Login
-      v-model="loginSignal"
-      @on-signal="signModalOpen"
-      />
-    <Signup v-model="signSignal"
-      @go-login="goLogin"
-    /> -->
+    <Login
+      v-model="loginDialog"
+      :login-close="loginDialog=false"
+      :signup-modal-open="signupModalOpen"
+    />
+    <Signup
+      v-model="singupDialog"
+      :signup-close="signupDialog=false"
+    />
   </div>
 </template>
 
 <script>
-// import {ref} from 'vue'
-// import Login from '../accounts/Login.vue'
-// import Signup from '../accounts/Signup.vue'
-// import { useStore } from 'vuex'
+import Login from '../accounts/Login.vue'
+import Signup from '../accounts/Signup.vue'
+
 export default {
   name: 'Navbar',
   components:{
-    // Login,
-    // Signup,
+    Login,
+    Signup
   },
   data () {
     return {
+      loginDialog: false,
+      singupDialog: false,
+      loginSignal: false,
+      signSignal:  false,
       listOne:   false,
       listTwo:   false,
       listThree: false,
       listFour:  false
     }
+  },
+  computed:{
+  },
+  methods:{
+    loginModalOpen(){
+      this.loginDialog = true
+    },
+    signupModalOpen(){
+      this.loginDialog = false
+      this.singupDialog = true
+    },
+    goLogin(){
+      this.$store.dispatch('infoIntialize')
+      this.loginDialog = true
+      this.singupDialog = false
+    },
   }
-  // setup(){
-  //   const store = useStore()
-  //   const loginSignal = ref(false)
-  //   const signSignal = ref(false)
-
-  //   return{
-  //     store,
-  //     loginSignal,
-  //     signSignal,
-  //     listOne:   ref(false),
-  //     listTwo:   ref(false),
-  //     listThree: ref(false),
-  //     listFour: ref(false),
-      
-
-  //     signModalOpen(){
-  //       loginSignal.value = false
-  //       signSignal.value = true
-  //     },
-  //     goLogin(){
-  //       store.dispatch('infoIntialize')
-  //       loginSignal.value = true
-  //       signSignal.value = false
-  //     }
-  //   }
-  // }
 }
 
 </script>
 
 <style>
-
 .menubar {
   display: flex;
   justify-content: space-between;
