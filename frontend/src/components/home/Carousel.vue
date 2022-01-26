@@ -7,8 +7,8 @@
       :show-arrows="false"
       height="45vh"
       hide-delimiter-background
-      hide-delimiters
     >
+      <!-- hide-delimiters -->
       <v-carousel-item>
         <v-sheet
           height="100%"
@@ -113,16 +113,16 @@ export default {
 
 .sheet1 .sheet1-content1 {
   font-family: 'Hanna', 'Roboto';
-  font-size: 45px;
-  padding: 50px 0 0 50px;
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
   line-height: 60px;
 }
 
 .sheet1 .sheet1-content2 {
   font: 'Tomorrow', sans-serif;
-  font-size: 25px;
+  font-size: 3vh;
   font-weight: 500;
-  padding: 50px 0 0 50px;
+  padding: 5vh 0 0 50px;
   line-height: 40px;
   color: #33628C;
 }
@@ -147,16 +147,16 @@ export default {
 
 .sheet2 .sheet2-content1 {
   font-family: 'Hanna', 'Roboto';
-  font-size: 45px;
-  padding: 50px 0 0 50px;
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
   line-height: 60px;
 }
 
 .sheet2 .sheet2-content2 {
   font: 'Tomorrow', sans-serif;
-  font-size: 25px;
+  font-size: 3vh;
   font-weight: 500;
-  padding: 50px 0 0 50px;
+  padding: 5vh 0 0 50px;
   line-height: 40px;
   color: #A02B2B;
 }
@@ -181,16 +181,16 @@ export default {
 
 .sheet3 .sheet3-content1 {
   font-family: 'Hanna', 'Roboto';
-  font-size: 45px;
-  padding: 50px 0 0 50px;
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
   line-height: 60px;
 }
 
 .sheet3 .sheet3-content2 {
   font: 'Tomorrow', sans-serif;
-  font-size: 25px;
+  font-size: 3vh;
   font-weight: 500;
-  padding: 50px 0 0 50px;
+  padding: 5vh 0 0 50px;
   line-height: 40px;
   color: #672ba0;
 }
