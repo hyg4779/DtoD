@@ -1,164 +1,197 @@
 <template>
   <div class="carousel">
     <v-carousel
+      continuous
       cycle
-      height="400"
-      hide-delimiter-background
-      show-arrows-on-hover
-    >
-      <v-carousel-item
-        v-for="(slide, i) in slides"
-        :key="i"
-      >
-        <v-sheet
-          :color="colors[i]"
-          height="100%"
-        >
-          <v-row
-            class="fill-height"
-            align="center"
-            justify="center"
-          >
-            <div class="text-h2">
-              {{ slide }} Slide
-            </div>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
-    <!-- <q-carousel
-      animated
-      v-model="slide"
-      navigation
-      infinite
-      :autoplay="14400"
-      arrows
+      interval=10800
+      :show-arrows="false"
       height="45vh"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      @mouseenter="autoplay = false"
-      @mouseleave="autoplay = true"
+      hide-delimiter-background
     >
-      <q-carousel-slide :name="1" class="slide1">
-        <div>
-          <div class="slider1-content1">
+      <!-- hide-delimiters -->
+      <v-carousel-item>
+        <v-sheet
+          height="100%"
+          class="sheet1"
+        >
+        <v-row class="sheet1-content">
+          <div class="sheet1-content1">
             같이 공부할 친구를 찾는 것은,
             <br>
             프로젝트보다 만들기 어렵습니다.
           </div>
-          <div class="slider1-content2">
+          <div class="sheet1-content2">
             학습 목표가 같은 동료 개발자를 찾아보세요!
             <br>
             당신이 원하는 스터디룸을 추천해드립니다.
             <br>
             동료와 같이 코드 리뷰를 해보세요!
           </div>
-        </div>
-        <img src="../../assets/carousel1.png" alt="1">
-      </q-carousel-slide>
-      <q-carousel-slide :name="2" class="slide2">
-        <div>
-          <div class="slider2-content1">
+        </v-row>
+        <img src="../../assets/carousel1.png">
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          height="100%"
+          class="sheet2"
+        >
+        <v-row class="sheet2-content">
+          <div class="sheet2-content1">
             당신의 열정 100도,
             <br>
             동료와 함께 코드리뷰에서 보여주세요!
           </div>
-          <div class="slider2-content2">
+          <div class="sheet2-content2">
             혼자 공부하기 힘든 분들,
             <br>
             스터디룸에서 같이 공부할 동료를 구하세요!
             <br>
             열정으로 가득찬 스터디를 진행하세요!
           </div>
-        </div>
-        <img src="../../assets/carousel1.png" alt="2">
-      </q-carousel-slide>
-    </q-carousel> -->
+        </v-row>
+        <img src="../../assets/carousel1.png">
+        </v-sheet>
+      </v-carousel-item>
+      <v-carousel-item>
+        <v-sheet
+          height="100%"
+          class="sheet3"
+        >
+        <v-row class="sheet3-content">
+          <div class="sheet3-content1">
+            개발자가 되고 싶은 당신,
+            <br>
+            D to D 에서 협업을 경험해보세요!
+          </div>
+          <div class="sheet3-content2">
+            팀 프로젝트를 하고 싶은데,
+            <br>
+            스터디 모집에 글을 올려보세요!
+            <br>
+            그리고 열정으로 가득찬 스터디원을 만나세요!
+          </div>
+        </v-row>
+        <img src="../../assets/carousel1.png">
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
 <script>
-// import { ref } from 'vue'
 
 export default {
   name: 'Carousel',
   data () {
     return {
-      colors: [
-        'indigo',
-        'warning',
-        'pink darken-2',
-        'red lighten-1',
-        'deep-purple accent-4',
-      ],
-      slides: [
-        'First',
-        'Second',
-      ],
+
     }
   },
-  // setup () {
-  //   return {
-  //     slide: ref(1),
-  //     autoplay: ref(true)
-  //   }
-  // }
 }
 </script>
 
 <style scoped>
 
-.slide1 {
+.sheet1 {
   display: flex;
   justify-content: space-between;
-  background-color: #DDF1FF;
-  margin: 0;
+  background-color: #DDF1FF !important;
+  margin: 0 !important;
   padding: 0 !important;
 }
 
-.slide1 img {
+.sheet1 img {
   width: 30%;
   height: 100%;
 }
 
-.slide1 .slider1-content1 {
-  font-family: 'Hanna', 'Roboto';
-  font-size: 45px;
-  padding: 30px 0 0 60px;
+.sheet1 .sheet1-content {
+  display: flex;
+  flex-direction: column;
 }
 
-.slide1 .slider1-content2 {
+.sheet1 .sheet1-content1 {
+  font-family: 'Hanna', 'Roboto';
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
+  line-height: 60px;
+}
+
+.sheet1 .sheet1-content2 {
   font: 'Tomorrow', sans-serif;
-  font-size: 25px;
+  font-size: 3vh;
   font-weight: 500;
-  padding: 15px 0 0 60px;
+  padding: 5vh 0 0 50px;
+  line-height: 40px;
   color: #33628C;
 }
 
-.slide2 {
+.sheet2 {
   display: flex;
   justify-content: space-between;
-  background-color: #EDA68F;
-  margin: 0;
+  background-color: #EDA68F !important;
+  margin: 0 !important;
   padding: 0 !important;
 }
 
-.slide2 img {
+.sheet2 img {
   width: 30%;
   height: 100%;
 }
 
-.slide2 .slider2-content1 {
-  font-family: 'Hanna', 'Roboto';
-  font-size: 45px;
-  padding: 30px 0 0 60px;
+.sheet2 .sheet2-content {
+  display: flex;
+  flex-direction: column;
 }
 
-.slide2 .slider2-content2 {
+.sheet2 .sheet2-content1 {
+  font-family: 'Hanna', 'Roboto';
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
+  line-height: 60px;
+}
+
+.sheet2 .sheet2-content2 {
   font: 'Tomorrow', sans-serif;
-  font-size: 25px;
+  font-size: 3vh;
   font-weight: 500;
-  padding: 15px 0 0 60px;
+  padding: 5vh 0 0 50px;
+  line-height: 40px;
   color: #A02B2B;
+}
+
+.sheet3 {
+  display: flex;
+  justify-content: space-between;
+  background-color: #c38fed !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sheet3 img {
+  width: 30%;
+  height: 100%;
+}
+
+.sheet3 .sheet3-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet3 .sheet3-content1 {
+  font-family: 'Hanna', 'Roboto';
+  font-size: 5vh;
+  padding: 5vh 0 0 50px;
+  line-height: 60px;
+}
+
+.sheet3 .sheet3-content2 {
+  font: 'Tomorrow', sans-serif;
+  font-size: 3vh;
+  font-weight: 500;
+  padding: 5vh 0 0 50px;
+  line-height: 40px;
+  color: #672ba0;
 }
 </style>

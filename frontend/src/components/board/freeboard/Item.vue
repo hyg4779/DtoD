@@ -1,50 +1,58 @@
 <template>
-  <div class="item">
-    <v-card class="my-card" @click=getItemDetail()>
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"></v-img>
-      <v-card-title class="title">
-        <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
-      </v-card-title>
-    </v-card>
-    <v-dialog
+  <div class="item" @click="getItemDetail()">
+    <div class="item-img">
+      <img src="https://picsum.photos/600/300/?image=25" alt="img">
+    </div>
+    <div class="item-title">
+      <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
+    </div>
+    <b-modal
       ref="detail"
+      centered
+      hide-footer 
+      hide-header
     >
       <ItemDetail 
         :item_pk = this.item.id
       />
-    </v-dialog>
+    </b-modal>
   </div>
 </template>
 
 <script>
-// import ItemDetail from './ItemDetail.vue'
+import ItemDetail from './ItemDetail.vue'
 
 export default {
   name: 'Item',
   components: {
-    // ItemDetail
+    ItemDetail
   },
   props: {
     item: Object,
   },
+  data () {
+    return {
+
+    }
+  },
   computed: {
     getTitle: function() {
-        const t = this.item.title
-        // console.log(t)
-        const temp = t.split(' ')
-        let res = []
-        let tp = ''
-        for(let i = 0; i < temp.length; i++){
-          if(tp.length + temp[i].length < 28 ){ 
-            tp += ' ' + temp[i]
-          }else{
-            res.push(tp)
-            tp = temp[i]
-          }
+      const t = this.item.title
+      // console.log(t)
+      const temp = t.split(' ')
+      let res = []
+      let tp = ''
+      for(let i = 0; i < temp.length; i++){
+        if(tp.length + temp[i].length < 28 ){ 
+          tp += ' ' + temp[i]
+        }else{
+          res.push(tp)
+          tp = temp[i]
         }
-        res.push(tp)
-        return res
-      },
+      }
+      res.push(tp)
+      return res
+    },
   },
   methods: {
     getItemDetail() {
@@ -52,29 +60,39 @@ export default {
     },
   },
   created() {
-    console.log(this.item)
+    // console.log(this.item)
   }
 }
 </script>
 
 <style scoped>
-.items {
-  margin: 25px;
-}
-.my-card{
-  width: 300px;
+
+.item{
+  width: 250px;
   height: 250px;
   cursor: pointer;
+  /* border: 1px solid; */
   border-radius: 25px;
+  box-shadow: 5px 5px 5px rgb(122, 122, 122);
+  background-color: white;
 }
-.my-card img {
+
+.item .item-img {
+  height: 40%;
+}
+
+.item .item-img img {
   width: 100%;
-  height: 100px;
+  height: 100%;
+  border-radius: 25px 25px 0 0;
   object-fit: fill;
+
 }
-.title {
+
+.item .item-title {
   text-align: center;
-  padding: 0;
-  margin: 20px 0 20px 0;
+  font-size: 15px;
+  margin: 25px 0 0 0;
 }
+
 </style>

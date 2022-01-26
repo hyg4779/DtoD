@@ -1,52 +1,36 @@
 <template>
-  <div>
-    <!-- <q-card class="cardmodal">
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Close icon</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-card-section>
+  <div class="itemdetail">
+    <div class="cardmodal">
+      <div>
         {{this.title}}
-      </q-card-section>
-      <q-card-section>
+      </div>
+      <br>
+      <div>
         {{this.content}}
-      </q-card-section>
-      <q-card-section>
+      </div>
+      <br>
+      <div>
         {{this.code}}
-      </q-card-section>
-    </q-card> -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import { reactive, ref } from 'vue'
 import { dummy } from "../../../../generated.js";
-// import axios from 'axios'
 
 export default {
   name: 'ItemDetail',
-  // props: {
-  //   item_pk: Number,
-  // },
-  // data() {
-  //   return {
-  //     title: '',
-  //     content: '',
-  //     code: '',
-  //   }
-  // },
-  // setup () {
-  //   const state = reactive({
-  //     title: '',
-  //     content: '',
-  //     code: '',
-  //   })
-  //   return {
-  //     state,
-  //     icon: ref(false),
-  //   }
-  // },
+  props: {
+    item_pk: Number,
+  },
+  data() {
+    return {
+      title: '',
+      content: '',
+      code: '',
+    }
+  },
   created() {
     // console.log(this.item_pk)
     const temp = dummy
@@ -62,6 +46,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.itemdetail{
+  width: auto; 
+  height:auto; 
+  border-radius: 20px !important; 
+  padding:10px !important;
+  font-size: 20px;
+}
 </style>

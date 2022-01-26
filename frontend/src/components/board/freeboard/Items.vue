@@ -85,11 +85,23 @@ export default {
   margin: 3rem auto;
   text-align: center;
 }
+
 .btn-cover .page-btn {
   width: 5rem;
   height: 2rem;
+  line-height: 30px;
   letter-spacing: 0.5px;
+  border: 1px solid;
+  border-radius: 10px;
+  color: white;
+  background-color: #24292F;
 }
+.btn-cover .page-btn:hover {
+  color: #24292F;
+  background-color: white;
+  transition: .2s;
+}
+
 .btn-cover .page-count {
   padding: 0 1rem;
   color: black;
