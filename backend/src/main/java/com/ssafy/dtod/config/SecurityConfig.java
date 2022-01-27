@@ -36,13 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
- 
+
     @Override
     public void configure(WebSecurity web) {
         web
                 .ignoring()
                 .antMatchers(
-                        "/favicon.ico" // branch commit test
+                        "/favicon.ico"
                 );
     }
  
@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // authenticate, signup 은 Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
+                .antMatchers("/api/v2/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
  
                 .and()
