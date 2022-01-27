@@ -72,34 +72,85 @@
         </transition>
       </li>
     </ul>
-    <Login
-      v-model="loginDialog"
-      :login-close="loginDialog=false"
-      :signup-modal-open="signupModalOpen"
-    />
-    <Signup
-      v-model="singupDialog"
-      :signup-close="signupDialog=false"
-    />
+    
+    <b-modal
+      ref="login"
+      id="login"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Login
+        @signup-modal-open="signupModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="signup"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Signup
+      @nickname-modal-open="nickNameModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="nickname"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Nickname
+      @jobs-modal-open="jobsModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="jobs"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Jobs
+      @skills-modal-open="skillsModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="skills"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Skills
+      @signup-fin="singupFin"
+      />
+    </b-modal>
+
   </div>
 </template>
 
 <script>
 import Login from '../accounts/Login.vue'
 import Signup from '../accounts/Signup.vue'
+import Nickname from '../accounts/Nickname.vue'
+import Jobs from '../accounts/Jobs.vue'
+import Skills from '../accounts/Skills.vue'
+
 
 export default {
   name: 'Navbar',
   components:{
     Login,
-    Signup
+    Signup,
+    Nickname,
+    Jobs,
+    Skills
   },
   data () {
     return {
-      loginDialog: false,
-      singupDialog: false,
-      loginSignal: false,
-      signSignal:  false,
       listOne:   false,
       listTwo:   false,
       listThree: false,
@@ -110,17 +161,30 @@ export default {
   },
   methods:{
     loginModalOpen(){
-      this.loginDialog = true
+      this.$refs['login'].show()
     },
-    signupModalOpen(){
-      this.loginDialog = false
-      this.singupDialog = true
+    signupModalOpen() {
+      this.$refs['login'].hide()
+      this.$refs['signup'].show()
     },
-    goLogin(){
-      this.$store.dispatch('infoIntialize')
-      this.loginDialog = true
-      this.singupDialog = false
+    nickNameModalOpen(){
+      this.$refs['signup'].hide()
+      this.$refs['nickname'].show()
     },
+    jobsModalOpen(){
+      this.$refs['nickname'].hide()
+      this.$refs['jobs'].show()
+    },
+    skillsModalOpen(){
+      this.$refs['jobs'].hide()
+      this.$refs['skills'].show()
+    },
+    singupFin(){
+      this.$refs['skills'].hide()
+      alert('축하합니다! 회원가입이 완료되었습니다')
+      alert('로그인을 진행해주세요')
+      this.$refs['login'].show()
+    }
   }
 }
 
@@ -222,4 +286,6 @@ export default {
 .fade-enter, .fade-leave-active {
   opacity: 0;
 }
+
+
 </style>

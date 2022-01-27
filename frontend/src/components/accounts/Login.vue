@@ -1,70 +1,32 @@
 <template>
-  <v-dialog
-    persistent
-    max-width="600px"
-    data-app
-  >
-    <v-card>
-      <v-card-title>
-        <span class="text-h5">로그인</span>
-      </v-card-title>
-      <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                label="이메일*"
-                v-model="email"
-                required
-                :rules="idRules"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="password"
-                label="비밀번호*"
-                type="password"
-                :rules="pwdRules"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <br>
-        </v-container>
-        <v-btn
-          color="grey"
-          text
-          @submit="this.$emit('signup-modal-open')"
-        >
-          아직 회원이 아니신가요?
-        </v-btn>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="loginFin"
-        >
-          LOGIN
-        </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="onReset"
-        >
-          RESET
-        </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="this.$emit('login-close')"
-        >
-          CLOSE
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+
+  <b-form @submit="onSubmit" class="loginform">
+    <h1>안녕하세요!</h1>
+    <b-form-group id="email" label="이메일" label-for="email">
+      <b-form-input
+        id="email"
+        v-model="email"
+        type="email"
+        placeholder="이메일을 입력하세요"
+        required
+      ></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="password" label="비밀번호" label-for="password">
+      <b-form-input
+        id="password"
+        v-model="pwd"
+        placeholder="비밀번호를 입력하세요"
+        required
+      ></b-form-input>
+    </b-form-group>
+    <div id="btn_group">
+      <b-button id="login_btn" pill type="submit">로그인</b-button>
+      <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
+
+    </div>
+  </b-form>
+    
 </template>
 
 <script>
@@ -73,7 +35,7 @@ export default {
   data () {
     return {
       email: null,
-      password: null,
+      pwd: null,
       idRules: [
         value => !!value || '필수값입니다!',
         value => (value && value.length >= 6) || '필수값입니다!',
@@ -93,8 +55,8 @@ export default {
       this.email = null
       this.password = null
     },
-    loginFin(){
-
+    signupModalOpen(){
+      this.$emit('signup-modal-open')
     }
   }
 }
@@ -102,40 +64,69 @@ export default {
 </script>
 
 <style scoped>
-
-.loginmodal {
-  height: auto;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 20px !important;
-  box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
+.loginform{
+  padding: 1rem !important;
+  font: 'Roboto', sans-serif;
 }
-
-.loginmodal h3{
-  font-family: 'Hanna', sans-serif;
+.loginform h1{
+  margin: 1rem;
   text-align: center;
+  font-weight: bold;
 }
 
-.loginform {
-  margin: auto 20px !important;
+.loginform input{
+  margin-top: 0.4rem;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+
 }
 
-.loginform .loginemail {
-  margin: 0 40px 40px 40px;
+#email{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
 }
 
-.loginform .loginpw {
-  margin: 0 40px 0 40px;
+#password{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
 }
 
-.loginform .loginbtn {
-  margin: 70px;
-  text-align: center;
+#btn_group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#login_btn{
+  background-color: rgb(50, 50, 255) !important;
+  font-weight:bold !important;
+  border: none;
+  max-width: 6rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
 }
 
-/* .loginform .signupbtn {
-  margin: 20px;
-  text-align: center;
-} */
+#login_btn:hover{
+  background-color: rgb(75, 75, 255) !important;
+}
+
+#sign_btn:hover{
+  border: none;
+  color: rgb(100, 100, 255) !important;
+}
+
+#sign_btn{
+  color: rgb(75, 75, 212);
+  background-color: white !important;
+  border: none;
+  /* font-weight:bold !important; */
+  max-width: 15rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem !important;
+}
 
 </style>
