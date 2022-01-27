@@ -1,104 +1,62 @@
 <template>
-  <!-- 로그인 모달 -->
-  <q-dialog>
-    <q-card class="loginmodal">
-      <q-card-section class="row items-center q-pb-none">
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <h3>환영합니다!</h3>
-      <div class="loginform">
-        <q-form
-          @submit="onSubmit"
-          @reset="onReset"
-          class="q-gutter-md loginform"
-        >
-          <q-input
-            class="loginemail"
-            filled
-            v-model="user_email"
-            label="이메일 *"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || '이메일을 입력하세요']"
-          />
-          <q-input
-            class="loginpw"
-            filled
-            type="password"
-            v-model="pwd"
-            label="비밀번호 *"
-            lazy-rules
-            :rules="[
-              val => val !== null && val !== '' || '비밀번호를 입력하세요',
-              val => val > 0 && val < 100 || '비밀번호를 입력하세요'
-            ]"
-          />
-          <div class="loginbtn">
-            <q-btn label="로그인" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="primary" flat />
-            <q-space/><br/>
-            <q-btn
-              label="아직 계정이 없으신가요?" style="color: #3988D7" flat
-              @click="$emit('on-signal')"
-            />
-          </div>
-        </q-form>
-      </div>
-    </q-card>
-  </q-dialog>
+
+  <b-form @submit="onSubmit" class="loginform">
+    <h1>안녕하세요!</h1>
+    <b-form-group id="email" label="이메일" label-for="email">
+      <b-form-input
+        id="email"
+        v-model="email"
+        type="email"
+        placeholder="이메일을 입력하세요"
+        required
+      ></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="password" label="비밀번호" label-for="password">
+      <b-form-input
+        id="password"
+        v-model="pwd"
+        placeholder="비밀번호를 입력하세요"
+        required
+      ></b-form-input>
+    </b-form-group>
+    <div id="btn_group">
+      <b-button id="login_btn" pill type="submit">로그인</b-button>
+      <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
+
+    </div>
+  </b-form>
+    
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-
-
 export default {
   name: 'Login',
-  emits: ['on-signal'],
-  setup () {
-    const $q = useQuasar()
-
-    const user_email = ref(null)
-    const pwd = ref(null)
-    const accept = ref(false)
+  data () {
     return {
-      user_email,
-      pwd,
-      accept,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
-      
+      email: null,
+      pwd: null,
+      idRules: [
+        value => !!value || '필수값입니다!',
+        value => (value && value.length >= 6) || '필수값입니다!',
+      ],
+      pwdRules:[
+        value => !!value || '필수값입니다!',
+        value => (value && value.length >= 8) || '필수값입니다!',
+      ],
 
-      onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
-          $q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Submitted'
-          })
-        }
-      },
+    }
+  },
+  methods:{
+    onSubmit () {
+    },
 
-      onReset () {
-        user_email.value = null
-        pwd.value = null
-        accept.value = false
-      },
-      // onSignal() {
-      //   console.log('1')
-      //   this.$emit('on-signal')
-      // }
+    onReset(){
+      this.email = null
+      this.password = null
+    },
+    signupModalOpen(){
+      this.$emit('signup-modal-open')
     }
   }
 }
@@ -106,40 +64,69 @@ export default {
 </script>
 
 <style scoped>
-
-.loginmodal {
-  height: auto;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 20px !important;
-  box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
+.loginform{
+  padding: 1rem !important;
+  font: 'Roboto', sans-serif;
 }
-
-.loginmodal h3{
-  font-family: 'Hanna', sans-serif;
+.loginform h1{
+  margin: 1rem;
   text-align: center;
+  font-weight: bold;
 }
 
-.loginform {
-  margin: auto 20px !important;
+.loginform input{
+  margin-top: 0.4rem;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+
 }
 
-.loginform .loginemail {
-  margin: 0 40px 40px 40px;
+#email{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
 }
 
-.loginform .loginpw {
-  margin: 0 40px 0 40px;
+#password{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
 }
 
-.loginform .loginbtn {
-  margin: 70px;
-  text-align: center;
+#btn_group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#login_btn{
+  background-color: rgb(50, 50, 255) !important;
+  font-weight:bold !important;
+  border: none;
+  max-width: 6rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
 }
 
-/* .loginform .signupbtn {
-  margin: 20px;
-  text-align: center;
-} */
+#login_btn:hover{
+  background-color: rgb(75, 75, 255) !important;
+}
+
+#sign_btn:hover{
+  border: none;
+  color: rgb(100, 100, 255) !important;
+}
+
+#sign_btn{
+  color: rgb(75, 75, 212);
+  background-color: white !important;
+  border: none;
+  /* font-weight:bold !important; */
+  max-width: 15rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem !important;
+}
 
 </style>

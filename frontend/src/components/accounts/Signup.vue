@@ -1,132 +1,71 @@
 <template>
-    <q-dialog>
-      <q-card class="signupmodal">
-        <q-card-section class="row items-center q-pb-none">
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
-        <h3>어서오세요!</h3>
-          <Usercreate
-            :class="{signupform: true, visible: page1 ,invisible: !page1,}"
-            v-if="page1 === true && page2 === false"
-            @user-create-fin="page2On"
-           />
-          <Nickname
-            :class="{signupform: true, visible: page4 ,invisible: !page2,}"
-            v-if="page2 === true && page3 === false"
-            @nickname-fin="page3On"
-          />
-          <Jobs
-            :class="{signupform: true, visible: page2 ,invisible: !page3,}"
-            v-if="page3 === true && page4 === false"
-            @jobs-fin="page4On"
-          />
-          <Skills
-            :class="{signupform: true, visible: page3 ,invisible: !page4,}"
-            v-if="page4 === true"
-            @stacks-fin="makeUser"
-          />
-      </q-card>
-    </q-dialog>
+  <b-form class="signform">
+    <h1>환영합니다!</h1>
+    <div id="box-border">
+      <b-form-group class="p-3" id="email" label="이메일" label-for="email" description=" 예시: kimssafy@korea.co.kr">
+        <b-form-input
+          id="email"
+          v-model="email"
+          type="email"
+          placeholder="사용하실 이메일을 입력해주세요"
+          required
+        >
+        </b-form-input>
+
+      </b-form-group>
+
+      <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
+        <b-form-input
+          id="password"
+          v-model="pwd"
+          type="password"
+          placeholder="사용하실 비밀번호를 입력해주세요"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="confirm_pwd" label="비밀번호 확인" label-for="confirm_pwd">
+        <b-form-input
+          id="confirm_pwd"
+          v-model="confirm_pwd"
+          type="password"
+          placeholder="한번 더 입력해주세요"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <div id="btn_group">
+        <b-button id="sumbit_btn" pill @click="nickNameModalOpen">다음</b-button>
+      </div>
+    </div>
+  </b-form>
+    
 </template>
 
 <script>
-// import { useQuasar } from 'quasar'
-import { ref } from 'vue'
-import Jobs from './signup/Jobs.vue'
-import Skills from './signup/Skills.vue'
-import Usercreate from './signup/UserCreate.vue'
-import Nickname from './signup/Nickname.vue'
-import { useStore } from 'vuex'
 export default {
-  components:{
-    Usercreate,
-    Jobs,
-    Skills,
-    Nickname
-  },
-  emits:['go-login'],
-
-  setup ( props, {emit} ) {
-    const store = useStore();
-    
-    // const $q = useQuasar()
-    // const user = reactive({
-    //   signup_email:'',
-    //   pwd: '',
-    //   confirm_pwd: '',
-    //   nick_name: '',
-    //   jobs: '',
-    //   stacks: null,
-    // })
-    const page1 = ref(true)
-    const page2 = ref(false)
-    const page3 = ref(false)
-    const page4 = ref(false)
-
+  name: 'Signup',
+  data () {
     return {
-      // user,
-      store,
-      page1,
-      page2,
-      page3,
-      page4,
-      bar: ref(false),
-      bar2: ref(false),
-      toolbar: ref(false),
+      email: null,
+      pwd: null,
+      confirm_pwd: null,
+      idRules: [
+        value => !!value || '필수값입니다!',
+        value => (value && value.length >= 6) || '필수값입니다!',
+      ],
+      pwdRules:[
+        value => !!value || '필수값입니다!',
+        value => (value && value.length >= 8) || '필수값입니다!',
+      ],
 
-      slide: ref(1),
-      autoplay: ref(false),
-      
-      page2On (payload) {
-        // signup_email, pwd 받아오고, nickname.vue 로 전환
-        store.dispatch('userCreate', payload)
-
-        page1.value = false
-        setTimeout(() => {
-          page2.value = true
-        }, 300)},
-
-      // 닉네임 받아오고 jobs.vue로 전환
-      page3On (payload) {
-        store.dispatch('nickName', payload)
-       
-        page2.value = false
-        setTimeout(() => {
-          page3.value = true
-        }, 300)},
-
-      // 직무 받아오고 skills.vue로 전환
-      page4On (payload) {
-        store.dispatch('jobs', payload)
-
-        page3.value = false
-        setTimeout(() => {
-          page4.value = true
-        }, 300)},
-
-
-      // 기술스텍까지 완료하고 user 만들기
-      makeUser(payload){
-        store.dispatch('stacks', payload)
-        alert('축하합니다! 회원가입에 성공했습니다')
-        alert('로그인을 진행해주세요!')
-        emit('go-login')
+    }
+  },
+  methods:{
+    onSubmit () {
       },
-          // $q.notify({
-          //   color: 'red-5',
-          //   textColor: 'white',
-          //   icon: 'warning',
-          //   message: 'You need to accept the license and terms first'
-          // })
-        // else {
-          // $q.notify({
-          //   color: 'green-4',
-          //   textColor: 'white',
-          //   icon: 'cloud_done',
-          //   message: 'Submitted'
-          // })
-        // }
+    nickNameModalOpen(){
+      this.$emit('nickname-modal-open')
     }
   }
 }
@@ -134,59 +73,71 @@ export default {
 </script>
 
 <style scoped>
-
-/* .carousel {
-  margin: auto 0;
-  padding: 0 !important;
-  height: 60vh;
+/* #box-border{
+  border: 0.15rem solid rgba(155, 155, 155, 0.5);
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 1.5rem 1rem;
 } */
 
-/* .slide {
-  height: 100%;
-  width: 100%;
+.signform{
+  padding: 1rem !important;
+  font: 'Roboto', sans-serif;
+  min-height: 600px !important;
+}
+.signform h1{
+  margin: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.signform input{
+  margin-top: 0.4rem;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+}
+
+#email{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
+}
+
+#password{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
+}
+
+#confirm_pwd{
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
+}
+
+/* #check-btn{
+  margin-left: 16px !important;
+  margin-right: auto !important;
 } */
 
-.signupmodal {
-  height: 30rem;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 20px !important;
-  box-shadow: 5px 5px 5px rgb(44, 44, 44) !important;
+
+#btn_group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#sumbit_btn{
+  background-color: rgb(50, 50, 255) !important;
+  font-weight:bold !important;
+  border: none;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+  max-width: 6rem;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+
 }
 
-.signupmodal h3{
-  font-family: 'Hanna', sans-serif;
-  text-align: center;
-  margin: 0 0 40px 0;
+#sumbit_btn:hover{
+  background-color: rgb(75, 75, 255) !important;
 }
-
-.signupform {
-  margin: auto 20px !important;
-}
-
-
-.signupform .signupbtn {
-  margin: 20px;
-  text-align: center;
-}
-
-.signupform .signupbtn {
-  margin: 20px;
-  text-align: center;
-}
-
-/* fadeout */
-.invisible{
-  overflow: hidden;
-  opacity: 0;
-  transition: 0.5s linear;
-}
-
-/* fadein */
-.visible {
-  overflow: visible;
-  opacity: 1;
-  transition: opacity 0.5s linear;
-}
-
 </style>

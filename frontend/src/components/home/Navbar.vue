@@ -21,7 +21,7 @@
               </router-link>
             </li>
           </ul>        
-        </transition>     
+        </transition>
       </li>  
       <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
         <a href="#">스터디룸</a>
@@ -58,13 +58,13 @@
         </transition>
       </li>
       <li @mouseover="listFour = true" @mouseleave="listFour = false">
-          <v-avatar class="profile">
-            <img src="../../assets/default_user.png">
-          </v-avatar>
-          <transition name="fade">         
+        <v-avatar class="profile">
+          <img src="../../assets/default_user.png">
+        </v-avatar>
+        <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
-            <li>
-              <a class="login" @click="loginSignal = true">
+            <li @click="loginModalOpen">
+              <a>
                 로그인
               </a>
             </li>
@@ -72,26 +72,82 @@
         </transition>
       </li>
     </ul>
-    <!-- <Login
-      v-model="loginSignal"
-      @on-signal="signModalOpen"
+    
+    <b-modal
+      ref="login"
+      id="login"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Login
+        @signup-modal-open="signupModalOpen"
       />
-    <Signup v-model="signSignal"
-      @go-login="goLogin"
-    /> -->
+    </b-modal>
+
+    <b-modal
+      ref="signup"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Signup
+      @nickname-modal-open="nickNameModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="nickname"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Nickname
+      @jobs-modal-open="jobsModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="jobs"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Jobs
+      @skills-modal-open="skillsModalOpen"
+      />
+    </b-modal>
+
+    <b-modal
+      ref="skills"
+      centered
+      hide-footer 
+      hide-header
+    >
+      <Skills
+      @signup-fin="singupFin"
+      />
+    </b-modal>
+
   </div>
 </template>
 
 <script>
-// import {ref} from 'vue'
-// import Login from '../accounts/Login.vue'
-// import Signup from '../accounts/Signup.vue'
-// import { useStore } from 'vuex'
+import Login from '../accounts/Login.vue'
+import Signup from '../accounts/Signup.vue'
+import Nickname from '../accounts/Nickname.vue'
+import Jobs from '../accounts/Jobs.vue'
+import Skills from '../accounts/Skills.vue'
+
+
 export default {
   name: 'Navbar',
   components:{
-    // Login,
-    // Signup,
+    Login,
+    Signup,
+    Nickname,
+    Jobs,
+    Skills
   },
   data () {
     return {
@@ -100,39 +156,41 @@ export default {
       listThree: false,
       listFour:  false
     }
+  },
+  computed:{
+  },
+  methods:{
+    loginModalOpen(){
+      this.$refs['login'].show()
+    },
+    signupModalOpen() {
+      this.$refs['login'].hide()
+      this.$refs['signup'].show()
+    },
+    nickNameModalOpen(){
+      this.$refs['signup'].hide()
+      this.$refs['nickname'].show()
+    },
+    jobsModalOpen(){
+      this.$refs['nickname'].hide()
+      this.$refs['jobs'].show()
+    },
+    skillsModalOpen(){
+      this.$refs['jobs'].hide()
+      this.$refs['skills'].show()
+    },
+    singupFin(){
+      this.$refs['skills'].hide()
+      alert('축하합니다! 회원가입이 완료되었습니다')
+      alert('로그인을 진행해주세요')
+      this.$refs['login'].show()
+    }
   }
-  // setup(){
-  //   const store = useStore()
-  //   const loginSignal = ref(false)
-  //   const signSignal = ref(false)
-
-  //   return{
-  //     store,
-  //     loginSignal,
-  //     signSignal,
-  //     listOne:   ref(false),
-  //     listTwo:   ref(false),
-  //     listThree: ref(false),
-  //     listFour: ref(false),
-      
-
-  //     signModalOpen(){
-  //       loginSignal.value = false
-  //       signSignal.value = true
-  //     },
-  //     goLogin(){
-  //       store.dispatch('infoIntialize')
-  //       loginSignal.value = true
-  //       signSignal.value = false
-  //     }
-  //   }
-  // }
 }
 
 </script>
 
 <style>
-
 .menubar {
   display: flex;
   justify-content: space-between;
@@ -228,4 +286,6 @@ export default {
 .fade-enter, .fade-leave-active {
   opacity: 0;
 }
+
+
 </style>
