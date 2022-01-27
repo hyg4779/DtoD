@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers(
-                        "/favicon.ico"
+                        "/favicon.ico" // branch commit test
                 );
     }
  
