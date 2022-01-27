@@ -50,7 +50,6 @@ export default {
 .itemdetail{
   width: auto; 
   height:auto; 
-  border-radius: 20px !important; 
   padding:10px !important;
   font-size: 20px;
 }
