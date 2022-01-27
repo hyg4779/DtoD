@@ -64,7 +64,7 @@
         <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li @click="loginModalOpen">
-              <a>
+              <a href="#">
                 로그인
               </a>
             </li>

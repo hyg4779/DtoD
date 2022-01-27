@@ -7,8 +7,8 @@
       :show-arrows="false"
       height="45vh"
       hide-delimiter-background
+      hide-delimiters
     >
-      <!-- hide-delimiters -->
       <v-carousel-item>
         <v-sheet
           height="100%"

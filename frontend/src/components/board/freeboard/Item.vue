@@ -94,5 +94,4 @@ export default {
   font-size: 15px;
   margin: 25px 0 0 0;
 }
-
 </style>
