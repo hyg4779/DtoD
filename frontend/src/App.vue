@@ -27,5 +27,12 @@ export default {
   font-family: "Hanna";
   src: url("./assets/font/BMHANNAPro.ttf");
 }
+.modal-content {
+  border-radius: 25px !important;
+  box-shadow: 5px 5px 5px rgb(43, 42, 42) !important;
+}
+.modal-body {
+  /* padding: 0; */
+}
 
 </style>
