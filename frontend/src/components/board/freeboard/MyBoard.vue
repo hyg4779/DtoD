@@ -3,12 +3,19 @@
     <div class="title">
       내가 작성한 글
     </div>
+    <div>
+      <Tiptap />
+    </div>
   </div>
 </template>
 
 <script>
-export default {
+import Tiptap from '../editor/Tiptap.vue'
 
+export default {
+  components: {
+    Tiptap,
+  }
 }
 </script>
 
