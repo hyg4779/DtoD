@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="recommendedstudy">
+    <br>
     <div class="sort-icon">
         <div class="icon">
           <i class="fab fa-font-awesome-flag"></i>
@@ -30,9 +31,13 @@ export default {
 </script>
 
 <style scoped>
+.recommendedstudy{
+  height: calc(100vh - 70px - 45vh);
+  background-color: white;
+}
 
 .sort-icon {
-  margin: 20px 0 0 20px;
+  margin: 0 0 0 20px;
   display: flex;
 }
 

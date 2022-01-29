@@ -1,9 +1,9 @@
 <template>
-  <div class="allboard">
+  <div class="freeboard">
     <div class="title">
-      전체 글
+      자유 게시판
     </div>
-    <div class="allitems">
+    <div class="freeitems">
       <Items
         :items="items"
       />
@@ -17,7 +17,7 @@ import { dummy } from "../../../../generated.js";
 import Items from './Items.vue'
 
 export default {
-  name: 'AllBoard',
+  name: 'FreeBoard',
   components: {
     Items,
   },
@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 
-.allboard .title {
+.freeboard .title {
   font-size: 30px;
   margin: 20px 0 0 20px;
   font-weight: bold;
