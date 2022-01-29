@@ -72,6 +72,7 @@ export default {
   margin: 1rem;
   text-align: center;
   font-weight: bold;
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .loginform input{
