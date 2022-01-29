@@ -31,8 +31,8 @@ export default {
   border-radius: 25px !important;
   box-shadow: 5px 5px 5px rgb(43, 42, 42) !important;
 }
-.modal-body {
-  /* padding: 0; */
-}
+/* .modal-body {
+  padding: 0;
+} */
 
 </style>

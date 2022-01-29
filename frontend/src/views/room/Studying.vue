@@ -1,15 +1,45 @@
 <template>
-  <div>
-    여기는 진행중인 스터디룸
+  <div class="studying">
+    <br>
+    <div class="title">
+      진행중인 스터디룸
+    </div>
+    <div class="allitems">
+      <Items
+        :items="items"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-export default {
+// import axios from 'axios'
+import { dummy } from "../../../generated.js";
+import Items from '../../components/room/Items.vue'
 
+export default {
+  name: 'Studying',
+  components: {
+    Items,
+  },
+  data () {
+    return {
+      items: [],
+    }
+  },
+  created() {
+    this.items = dummy
+  }
 }
 </script>
 
-<style>
+<style scoped>
+
+.studying .title {
+  font-size: 30px;
+  margin: 20px 0 0 10%;
+  font-weight: bold;
+  color: #0D1350;
+}
 
 </style>

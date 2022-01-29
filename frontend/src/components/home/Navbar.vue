@@ -194,6 +194,7 @@ export default {
 .menubar {
   display: flex;
   justify-content: space-between;
+  background-color: white;
 }
 
 .logo {

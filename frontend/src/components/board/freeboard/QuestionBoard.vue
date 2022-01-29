@@ -1,7 +1,7 @@
 <template>
-  <div class="allboard">
+  <div class="questionboard">
     <div class="title">
-      전체 글
+      질문 게시판
     </div>
     <div class="allitems">
       <Items
@@ -17,7 +17,7 @@ import { dummy } from "../../../../generated.js";
 import Items from './Items.vue'
 
 export default {
-  name: 'AllBoard',
+  name: 'QuestionBoard',
   components: {
     Items,
   },
@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 
-.allboard .title {
+.questionboard .title {
   font-size: 30px;
   margin: 20px 0 0 20px;
   font-weight: bold;
