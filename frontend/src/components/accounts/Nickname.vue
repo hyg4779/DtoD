@@ -58,7 +58,8 @@ export default {
 .nicknameform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .nicknameform input{
