@@ -9,7 +9,7 @@
       />
     </div>
     <p></p>
-    <div class="btn-cover" style="color:white;">
+    <div class="btn-cover">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
       </button>
@@ -84,17 +84,18 @@ export default {
 .btn-cover {
   margin: 3rem auto;
   text-align: center;
+  color:white;
 }
 
 .btn-cover .page-btn {
-  width: 5rem;
-  height: 2rem;
+  width: 5.5rem;
+  height: 2.5rem;
   line-height: 30px;
   letter-spacing: 0.5px;
   border: 1px solid;
   border-radius: 10px;
-  color: white;
   background-color: #24292F;
+  color: white;
 }
 .btn-cover .page-btn:hover {
   color: #24292F;

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="editor">
   <div v-if="editor">
     <button
      @click="editor.chain().focus().toggleCodeBlock().run()" 
@@ -9,7 +9,7 @@
       코드 입력
     </button>
   </div>
-  <editor-content v-if="editor.isActive('codeBlock')" :editor="editor" />
+  <editor-content :editor="editor" />
 </div>
 </template>
 
@@ -159,9 +159,17 @@ export default {
 </style>
 
 <style scoped>
+.editor {
+  width: 1000px;
+}
+
 .code-block-btn{
   border: 1px solid black;
   border-radius: 5px;
   background-color: white;
+  font-weight: bold;
+  font-size: 17px;
+  padding: 5px;
+  /* margin: 0 0 3px 0; */
 }
 </style>
