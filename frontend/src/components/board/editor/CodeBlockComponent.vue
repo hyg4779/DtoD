@@ -53,6 +53,7 @@ export default {
     position: absolute;
     background-color: white;
     text-align: center;
+    font-weight: bold;
     top: 0.5rem;
     right: 0.5rem;
   }

@@ -44,9 +44,10 @@
         <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
       <div class="detail2 form-group">
-        <label for="code">코드 입력</label>
+        <Tiptap />
+        <!-- <label for="code">코드 입력</label>
         <br>
-        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea>
+        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea> -->
       </div>
       <div class="submitbtn">
         <button class="cancel" @click="back()">취소</button>
@@ -57,11 +58,14 @@
 </template>
 
 <script>
+import Tiptap from '../editor/Tiptap.vue'
 // import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
-
+  components: {
+    Tiptap,
+  },
   data () {
     return {
       title: '',
