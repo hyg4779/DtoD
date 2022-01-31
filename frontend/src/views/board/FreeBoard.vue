@@ -122,7 +122,7 @@ export default {
 
 .studyboard .sidebar {
   background-color: #24292F;
-  width: 200px;
+  width: 13vw;
   min-height: calc(100vh - 70px);;
   text-align: center;
 }
@@ -191,9 +191,7 @@ export default {
 }
 
 .studyboard .mainmenu {
-  background-color: #EBEDF0;
-  /* background-color: #F5F5F5; */
-  width: calc(100vw - 200px);
+  width: calc(100vw - 13vw);
 }
 
 </style>

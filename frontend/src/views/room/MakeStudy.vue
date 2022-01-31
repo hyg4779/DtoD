@@ -121,7 +121,7 @@ export default {
 .makestudy {
   background-color: #EBEDF0;
   width: 100%;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 7.498vh);
 }
 
 .makestudy .container{
@@ -130,72 +130,63 @@ export default {
   border-radius: 25px;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 1vh 2vw;
 }
 
 .container .title {
-  font-size: 30px;
+  font-size: 1.9rem;
   font-weight: bold;
   color: #0D1350;
-  margin: 20px 0 0 0;
+  margin: 2vh 0 0 0;
 }
 
 form {
-  margin: 20px 0 0 0;
+  margin: 2vh 0 0 0;
 }
 
 form div label {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  margin: 0 0 1vh 0;
 }
 
 
 form div .stacktitle {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  margin: 0 0 1vh 0;
 }
 
 form div textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   padding: 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
-  height: 40px;
+  height: 4vh;
   width: 30vw;
 }
 
 form .detail1 textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
-  height: 40px;
+  height: 4vh;
   width: 45vw;
 }
 
 form .detail2 textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 10px;
-  height: 300px;
+  height: 30vh;
   width: 45vw;
-  margin-bottom: 20px;
-}
-
-form .detail3 textarea {
-  margin: 0 0 20px 0;
-  border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 300px;
-  width: 45vw;
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
 }
 
 form .checkbox {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   display: grid;
-  grid-template-columns: 200px 200px 200px 200px;
+  grid-template-columns: auto auto auto auto;
 }
 
 form .checkbox div{
@@ -203,7 +194,7 @@ form .checkbox div{
 }
 
 form .submitbtn {
-  margin: 0 0 10px 0;
+  margin: 0 0 1vh 0;
 }
 
 .submitbtn .cancel {
