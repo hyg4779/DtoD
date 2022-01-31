@@ -7,6 +7,7 @@ import Studying from '../views/room/Studying.vue'
 import MakeStudy from '../views/room/MakeStudy.vue'
 import StudyBoard from '../views/board/StudyBoard.vue'
 import FreeBoard from '../views/board/FreeBoard.vue'
+import Page404 from '../views/Page404.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,15 @@ const routes = [
     path: '/freeboard',
     name: 'FreeBoard',
     component: FreeBoard
+  },
+  {
+    path: '/404',
+    name: 'Page404',
+    component: Page404,
+  },
+  {
+    path: '*',
+    redirect: '/404'
   },
 ]
 

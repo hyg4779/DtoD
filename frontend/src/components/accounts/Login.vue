@@ -52,11 +52,11 @@ export default {
 
     }
   },
-  computed: {
-    user(){
-      return this.$store.state.credentials
-    }
-  },
+  // computed: {
+  //   user(){
+  //     return this.$store.state.credentials
+  //   }
+  // },
   methods:{
     onSubmit () {
       // axios({
@@ -83,9 +83,9 @@ export default {
       this.$emit('signup-modal-open')
     }
   },
-  created() {
-    console.log(this.$store.state.credentials)
-  }
+  // created() {
+  //   console.log(this.$store.state.credentials)
+  // }
 }
 
 </script>

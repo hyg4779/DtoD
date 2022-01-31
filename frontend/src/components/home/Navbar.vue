@@ -5,6 +5,7 @@
         DtoD
       </a>
     </div>
+    <!-- <ul v-if="login" class="menu"> -->
     <ul class="menu">
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DtoD 소개</a>
@@ -72,6 +73,74 @@
         </transition>
       </li>
     </ul>
+
+    <!-- <ul v-else class="menu">
+      <li @mouseover="listOne = true" @mouseleave="listOne = false">
+        <a href="#">DtoD 소개</a>
+        <transition name="fade">
+          <ul v-if="listOne" @click="listOne = false">
+            <li>
+              <router-link :to="{ name: 'AboutUs' }">
+                DtoD란?
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'HowToUse' }">
+                이용 방법
+              </router-link>
+            </li>
+          </ul>        
+        </transition>
+      </li>  
+      <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
+        <a href="#">스터디룸</a>
+        <transition name="fade">
+          <ul v-if="listTwo" @click="listTwo = false">
+            <li>
+              <router-link :to="{ name: 'Studying' }">
+                진행중
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'MakeStudy' }">
+                스터디 만들기
+              </router-link>
+            </li>
+          </ul>        
+        </transition>     
+      </li>     
+      <li @mouseover="listThree = true" @mouseleave="listThree = false">   
+        <a href="#">게시판</a>
+        <transition name="fade">        
+          <ul v-if="listThree" @click="listThree = false">
+            <li>
+              <router-link :to="{ name: 'StudyBoard' }">
+                스터디 모집
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'FreeBoard' }">
+                자유 게시판
+              </router-link>
+            </li>
+          </ul>
+        </transition>
+      </li>
+      <li @mouseover="listFour = true" @mouseleave="listFour = false">
+        <v-avatar class="profile">
+          <img src="../../assets/default_user.png">
+        </v-avatar>
+        <transition name="fade">         
+          <ul v-if="listFour" @click="listFour = false" class="profile-menu">
+            <li @click="loginModalOpen">
+              <a href="#">
+                로그인
+              </a>
+            </li>
+          </ul>
+        </transition>
+      </li>
+    </ul> -->
     
     <b-modal
       ref="login"
@@ -147,7 +216,9 @@ export default {
     SignUp,
     Nickname,
     Jobs,
-    Skills
+    Skills,
+
+    login: false,
   },
   data () {
     return {
@@ -156,8 +227,6 @@ export default {
       listThree: false,
       listFour:  false
     }
-  },
-  computed:{
   },
   methods:{
     loginModalOpen(){
@@ -184,8 +253,20 @@ export default {
       alert('축하합니다! 회원가입이 완료되었습니다')
       alert('로그인을 진행해주세요')
       this.$refs['login'].show()
-    }
-  }
+    },
+
+    // logout() {
+    //   localStorage.removeItem('jwt')
+    //   this.login = false
+    //   this.$router.push({ name: 'Home' })
+    // },
+  },
+  // created() {
+  //   const token = localStorage.getItem('jwt')
+  //   if (token) {
+  //     this.login = true
+  //   }
+  // }
 }
 
 </script>
