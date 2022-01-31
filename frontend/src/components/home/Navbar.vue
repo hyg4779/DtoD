@@ -2,7 +2,9 @@
   <div class="menubar">
     <div class="logo">
       <a href="/">
-        DtoD
+        <div>
+          DtoD
+        </div>
       </a>
     </div>
     <!-- <ul v-if="login" class="menu"> -->
@@ -286,9 +288,12 @@ export default {
 }
 
 .logo a {
-  margin: 0 0 0 2.5vw;
-  color: #24274A !important;
   text-decoration: none;
+}
+
+.logo a div{
+  margin: 0.8vh 0 0 2.5vw;
+  color: #24274A !important;
   font-family: 'Dohyeon', sans-serif;
 }
 
