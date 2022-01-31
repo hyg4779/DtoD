@@ -6,6 +6,7 @@
       <label for="input-with-list">선호하는 직무를 골라주세요</label>
       
       <b-form-input
+        v-model="credentials.jobs"
         list="input-list"
         id="input-with-list">
       </b-form-input>
@@ -29,7 +30,7 @@ export default {
   name: 'Jobs',
   data () {
     return {
-      jobs: null,
+      // jobs: null,
       options: [
         '웹 프로그래머',
         '웹 퍼블리셔',
@@ -38,14 +39,26 @@ export default {
         '백엔드 엔지니어',
         '데이터 엔지니어',
         '데브옵스 엔지니어',
-      ]}
+      ],
+      credentials: {
+        jobs: '',
+      },
+    }
   },
+  // computed: {
+  //   user(){
+  //     return this.$store.state.credentials
+  //   },
+  // },
   methods:{
     skillsModalOpen () {
+      this.$store.dispatch('jobs', this.credentials)
       this.$emit('skills-modal-open')
-      
     },
-  }
+  },
+  // created() {
+  //   console.log(this.$store.state.credentials)
+  // }
 }
 
 </script>

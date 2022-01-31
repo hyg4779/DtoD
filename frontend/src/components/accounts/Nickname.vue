@@ -5,7 +5,7 @@
       <b-form-group class="p-3" id="nickname" label="닉네임" label-for="nickname" description="자유롭게 설정하세요">
         <b-form-input
           id="nickname"
-          v-model="nickname"
+          v-model="credentials.nickname"
           type="text"
           required
         >
@@ -26,16 +26,25 @@ export default {
   name: 'Nickname',
   data () {
     return {
-      nickname: null,
+      credentials: {
+        nickname: null,
+      },
     }
   },
+  // computed: {
+  //   user(){
+  //     return this.$store.state.credentials
+  //   }
+  // },
   methods:{
-    onSubmit () {
-    },
     jobsModalOpen(){
+      this.$store.dispatch('nickName', this.credentials)
       this.$emit('jobs-modal-open')
     }
-  }
+  },
+  // created() {
+  //   console.log(this.$store.state.credentials)
+  // }
 }
 
 </script>

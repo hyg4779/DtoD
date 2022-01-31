@@ -5,7 +5,7 @@
     <b-form-group id="email" label="이메일" label-for="email">
       <b-form-input
         id="email"
-        v-model="email"
+        v-model="credentials.email"
         type="email"
         placeholder="이메일을 입력하세요"
         required
@@ -15,27 +15,32 @@
     <b-form-group id="password" label="비밀번호" label-for="password">
       <b-form-input
         id="password"
-        v-model="pwd"
+        v-model="credentials.pwd"
         placeholder="비밀번호를 입력하세요"
         required
       ></b-form-input>
     </b-form-group>
+
     <div id="btn_group">
       <b-button id="login_btn" pill type="submit">로그인</b-button>
       <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
-
     </div>
+    
   </b-form>
     
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
   name: 'Login',
   data () {
     return {
-      email: null,
-      pwd: null,
+      credentials: {
+        email: null,
+        pwd: null,
+      },
       idRules: [
         value => !!value || '필수값입니다!',
         value => (value && value.length >= 6) || '필수값입니다!',
@@ -47,8 +52,27 @@ export default {
 
     }
   },
+  computed: {
+    user(){
+      return this.$store.state.credentials
+    }
+  },
   methods:{
     onSubmit () {
+      // axios({
+      //   method: 'post',
+      //   url: 'http://127.0.0.1:8000/',
+      //   data: this.credentials,
+      // })
+      //   .then(res => {
+      //     // console.log(res)
+      //     localStorage.setItem('jwt', res.data.token)
+      //     this.$emit('login')
+      //     this.$router.push({ name: 'Home' })
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     },
 
     onReset(){
@@ -58,6 +82,9 @@ export default {
     signupModalOpen(){
       this.$emit('signup-modal-open')
     }
+  },
+  created() {
+    console.log(this.$store.state.credentials)
   }
 }
 
