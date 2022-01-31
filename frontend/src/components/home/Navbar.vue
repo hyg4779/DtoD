@@ -91,7 +91,7 @@
       hide-footer 
       hide-header
     >
-      <Signup
+      <SignUp
       @nickname-modal-open="nickNameModalOpen"
       />
     </b-modal>
@@ -134,7 +134,7 @@
 
 <script>
 import Login from '../accounts/Login.vue'
-import Signup from '../accounts/Signup.vue'
+import SignUp from '../accounts/SignUp.vue'
 import Nickname from '../accounts/Nickname.vue'
 import Jobs from '../accounts/Jobs.vue'
 import Skills from '../accounts/Skills.vue'
@@ -144,7 +144,7 @@ export default {
   name: 'Navbar',
   components:{
     Login,
-    Signup,
+    SignUp,
     Nickname,
     Jobs,
     Skills

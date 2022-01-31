@@ -5,7 +5,7 @@
       <b-form-group class="p-3" id="email" label="이메일" label-for="email" description=" 예시: kimssafy@korea.co.kr">
         <b-form-input
           id="email"
-          v-model="email"
+          v-model="credentials.email"
           type="email"
           placeholder="사용하실 이메일을 입력해주세요"
           required
@@ -17,17 +17,17 @@
       <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
         <b-form-input
           id="password"
-          v-model="pwd"
+          v-model="credentials.password"
           type="password"
           placeholder="사용하실 비밀번호를 입력해주세요"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="confirm_pwd" label="비밀번호 확인" label-for="confirm_pwd">
+      <b-form-group id="confirm_password" label="비밀번호 확인" label-for="confirm_password">
         <b-form-input
-          id="confirm_pwd"
-          v-model="confirm_pwd"
+          id="confirm_password"
+          v-model="credentials.confirm_password"
           type="password"
           placeholder="한번 더 입력해주세요"
           required
@@ -44,17 +44,19 @@
 
 <script>
 export default {
-  name: 'Signup',
+  name: 'SignUp',
   data () {
     return {
-      email: null,
-      pwd: null,
-      confirm_pwd: null,
+      credentials: {
+        email: null,
+        password: null,
+        confirm_password: null,
+      },
       idRules: [
         value => !!value || '필수값입니다!',
         value => (value && value.length >= 6) || '필수값입니다!',
       ],
-      pwdRules:[
+      passwordRules:[
         value => !!value || '필수값입니다!',
         value => (value && value.length >= 8) || '필수값입니다!',
       ],
@@ -62,9 +64,8 @@ export default {
     }
   },
   methods:{
-    onSubmit () {
-      },
     nickNameModalOpen(){
+      this.$store.dispatch('userCreate', this.credentials)
       this.$emit('nickname-modal-open')
     }
   }
@@ -109,7 +110,7 @@ export default {
   padding: 1rem; 
 }
 
-#confirm_pwd{
+#confirm_password{
   font-weight:bold !important;
   font-size: 1.2rem;
   padding: 1rem; 

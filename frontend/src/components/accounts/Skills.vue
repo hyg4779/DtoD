@@ -32,13 +32,15 @@
         </div>
       </div>
     <div id="btn_group">
-      <b-button id="sumbit_btn" pill @click="singupFin">다음</b-button>
+      <b-button id="sumbit_btn" pill @click="singupFin">완료</b-button>
     </div>
     
   </b-form>
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
 
   data () {
@@ -59,35 +61,66 @@ export default {
         node: false,
         typescript: false,
         swift: false,
-        etc: false},
-      result: [],
+        etc: false
+      },
+      credentials: {
+        skills: [],
+      },
     }
   },
+  // computed: {
+  //   user(){
+  //     return this.$store.state.credentials
+  //   }
+  // },
   methods:{
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
-    onSubmit () {
-      let result = []
+    // onSubmit () {
+    //   let result = []
 
-      for (let property in this.stacks){
-        if (this.stacks[property] === true){
-          result.push(property)
-        }
-      }
-        alert('Success')
-      },
+    //   for (let property in this.stacks){
+    //     if (this.stacks[property] === true){
+    //       result.push(property)
+    //     }
+    //   }
+    //     alert('Success')
+    //   },
 
     // 체크한 기술스텍 초기화
-    onReset (){
+    // onReset (){
+    //   for (let property in this.stacks){
+    //     if (this.stacks[property]){
+    //       this.stacks[property] = false
+    //     }
+    //   }
+    // },
+    singupFin(){
       for (let property in this.stacks){
-        if (this.stacks[property]){
-          this.stacks[property] = false
+        if (this.stacks[property] === true){
+          this.credentials.skills.push(property)
         }
       }
-    },
-    singupFin(){
+
+      this.$store.dispatch('skills', this.credentials)
+
+      // axios({
+      //   method: 'post',
+      //   url: 'http://127.0.0.1:8000/',
+      //   data: this.$store.state.credentials
+      // })
+      //   .then(res => {
+      //     console.log(res)
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
+
       this.$emit('signup-fin')
     }
-  }
+  },
+  // created() {
+  //   console.log(this.$store.state.credentials)
+  // }
 }
 
 </script>

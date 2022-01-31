@@ -1,39 +1,40 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [
-    createPersistedState(),
-  ],  
+  // plugins: [
+  //   createPersistedState(),
+  // ],  
   state: {
-    user_info:{
+    credentials:{
       email: null,
-      pwd: null,
-      nick_name: null,
+      password: null,
+      nickname: null,
       jobs: null,
-      stacks: null,
+      skills: null,
     }
   },
   mutations: {
     userCreate(state, payload){
-      state.user_info.email = payload.email
-      state.user_info.pwd = payload.password
+      state.credentials.email = payload.email
+      state.credentials.password = payload.password
     },
     nickName(state, payload){
-      state.user_info.nick_name = payload
+      state.credentials.nickname = payload.nickname
     },
     jobs(state, payload){
-      state.user_info.skills = payload
+      state.credentials.jobs = payload.jobs
     },
-    stacks(state, payload){
-      state.user_info.stacks = payload
+    skills(state, payload){
+      state.credentials.skills = payload.skills
     },
     infoIntialize(state){
-      for(let property in state.user_info){
-        state.user_info[property] = null
+      for(let property in state.credentials){
+        state.credentials[property] = null
+        console.log(state.credentials)
       }
     }
 
@@ -48,14 +49,12 @@ export default new Vuex.Store({
     jobs({commit}, payload){
       commit('jobs', payload)
     },
-    stacks({commit},payload){
-      commit('stacks', payload)
+    skills({commit},payload){
+      commit('skills', payload)
     },
     infoIntialize({commit}){
-      
       commit('infoIntialize')
     }
-
 
   },
   modules: {
