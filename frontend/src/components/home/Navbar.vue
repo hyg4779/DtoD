@@ -58,10 +58,10 @@
           </ul>
         </transition>
       </li>
-      <li @mouseover="listFour = true" @mouseleave="listFour = false">
-        <v-avatar class="profile">
+      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+        <div class="profileicon">
           <img src="../../assets/default_user.png">
-        </v-avatar>
+        </div>
         <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li @click="loginModalOpen">
@@ -75,7 +75,7 @@
     </ul>
 
     <!-- <ul v-else class="menu">
-      <li @mouseover="listOne = true" @mouseleave="listOne = false">
+            <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DtoD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
@@ -126,10 +126,10 @@
           </ul>
         </transition>
       </li>
-      <li @mouseover="listFour = true" @mouseleave="listFour = false">
-        <v-avatar class="profile">
+      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+        <div class="profileicon">
           <img src="../../assets/default_user.png">
-        </v-avatar>
+        </div>
         <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li @click="loginModalOpen">
@@ -276,15 +276,17 @@ export default {
   display: flex;
   justify-content: space-between;
   background-color: white;
+  height: 7.498vh;
+  width: 100%;
 }
 
 .logo {
-  font-size: 40px;
+  font-size: 4.5vh;
   letter-spacing :3px;
 }
 
 .logo a {
-  margin: auto 35px;
+  margin: 0 0 0 2.5vw;
   color: #24274A !important;
   text-decoration: none;
   font-family: 'Dohyeon', sans-serif;
@@ -292,7 +294,7 @@ export default {
 
 .menu {  
   font: 'Roboto', sans-serif;
-  margin: 0 25px 0 0;
+  margin: 0 1.5vw 0 0;
   padding: 0;
   list-style: none;
 }
@@ -302,7 +304,7 @@ export default {
   float: left;
   position: relative;
   min-width: 150px;
-  font-size: 20px;
+  font-size: 2vh;
 }
 
 .menu li:hover{
@@ -311,28 +313,32 @@ export default {
 
 .menu a {
   display: block;
-  padding: 20px;
+  padding: 2.25vh;
   color: #616DCC;
   text-decoration: none;
   text-align: center;
   font-weight: bold;  
 }
 
-
-.menu li .profile {
-  display:block;
-  margin: 11px auto;
-  padding: 0;
+.menu li .profileicon {
+  margin: 1.3vh auto 0;
+  width : 5vh;
+  height : 5vh;
+  /* border: 1px solid; */
+  border-radius: 50%;
+  overflow:hidden;
 }
 
-.menu .li .profile-menu .login {
-  color: #616DCC;
+.menu li .profileicon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .menu li ul {
   position: absolute;
   left: 0;
-  top: 61px;
+  top: 7vh;
   margin: 0;
   padding: 0;
   border-radius: 10px;

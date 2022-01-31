@@ -2,11 +2,11 @@
   <div class="carousel">
     <v-carousel
       continuous
-      cycle
       interval=10800
       :show-arrows="false"
       height="45vh"
       hide-delimiter-background
+      cycle
       hide-delimiters
     >
       <v-carousel-item>
@@ -115,15 +115,15 @@ export default {
   font-family: 'Hanna', 'Roboto';
   font-size: 5vh;
   padding: 5vh 0 0 50px;
-  line-height: 60px;
+  line-height: 8vh;
 }
 
 .sheet1 .sheet1-content2 {
   font: 'Tomorrow', sans-serif;
   font-size: 3vh;
   font-weight: 500;
-  padding: 5vh 0 0 50px;
-  line-height: 40px;
+  padding: 3vh 0 0 50px;
+  line-height: 5vh;
   color: #33628C;
 }
 
@@ -149,15 +149,15 @@ export default {
   font-family: 'Hanna', 'Roboto';
   font-size: 5vh;
   padding: 5vh 0 0 50px;
-  line-height: 60px;
+  line-height: 8vh;
 }
 
 .sheet2 .sheet2-content2 {
   font: 'Tomorrow', sans-serif;
   font-size: 3vh;
   font-weight: 500;
-  padding: 5vh 0 0 50px;
-  line-height: 40px;
+  padding: 3vh 0 0 50px;
+  line-height: 5vh;
   color: #A02B2B;
 }
 
@@ -183,15 +183,15 @@ export default {
   font-family: 'Hanna', 'Roboto';
   font-size: 5vh;
   padding: 5vh 0 0 50px;
-  line-height: 60px;
+  line-height: 8vh;
 }
 
 .sheet3 .sheet3-content2 {
   font: 'Tomorrow', sans-serif;
   font-size: 3vh;
   font-weight: 500;
-  padding: 5vh 0 0 50px;
-  line-height: 40px;
+  padding: 3vh 0 0 50px;
+  line-height: 5vh;
   color: #672ba0;
 }
 </style>
