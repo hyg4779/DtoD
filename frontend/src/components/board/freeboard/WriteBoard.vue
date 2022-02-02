@@ -59,6 +59,7 @@
 
 <script>
 import Tiptap from '../editor/Tiptap.vue'
+// import { api } from '../../../../api.js'
 // import axios from 'axios'
 
 export default {
@@ -91,8 +92,11 @@ export default {
       //       this.result.push(property)
       //     }
       //   }
+      //   
+      //  여기에는 코드 입력한 것을 담자.
+      //
       //   axios({
-      //     url: '',
+      //     url: api.CREATE_FREE_BOARD,
       //     method: 'POST',
       //     data: {
       //       title: this.title,
