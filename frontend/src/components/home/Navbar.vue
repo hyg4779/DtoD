@@ -283,8 +283,8 @@ export default {
 }
 
 .logo {
-  font-size: 4.5vh;
-  letter-spacing :3px;
+  font-size: 2.2vw;
+  letter-spacing :0.15vw;
 }
 
 .logo a {
@@ -308,8 +308,8 @@ export default {
   display:block;
   float: left;
   position: relative;
-  min-width: 150px;
-  font-size: 2vh;
+  min-width: 7.8vw;
+  font-size: 1vw;
 }
 
 .menu li:hover{
@@ -352,7 +352,7 @@ export default {
 }
 
 .menu li ul li {
-  font-size: 15px;
+  font-size: 0.8vw;
   background: rgb(255, 255, 255);
   transition: .2s;
 }

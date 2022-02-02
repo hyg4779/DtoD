@@ -36,8 +36,8 @@ export default {
 <style scoped>
 
 .studying .title {
-  font-size: 30px;
-  margin: 20px 0 0 10%;
+  font-size: 1.58vw;
+  margin: 2vh 0 0 10vw;
   font-weight: bold;
   color: #0D1350;
 }

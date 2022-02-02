@@ -96,19 +96,19 @@ export default {
   background-color: #24292F;
   text-align: center;
   width: 13vw;
-  min-height: calc(100vh - 70px);;
+  min-height: calc(100vh - 7.498vh);
 }
 
 .studyboard .sidebar div {
-  margin: 50px 0 20px 0;
-  font-size: 15px;
+  margin: 5vh 0 2vh 0;
+  font-size: 0.78vw;
   font-weight: bold;
 }
 
 .studyboard .sidebar div span {
   cursor: pointer;
   color: white;
-  padding: 10px 20px;
+  padding: 1vh 2vw;
 }
 
 .studyboard .sidebar div .active1 {
@@ -117,7 +117,7 @@ export default {
   color: black;
   border: 1px solid white;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2.5rem;
   padding: 10px 20px;
 }
 
@@ -127,7 +127,7 @@ export default {
   color: black;
   border: 1px solid white;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2.5rem;
   padding: 10px 20px;
 }
 
@@ -137,7 +137,7 @@ export default {
   color: black;
   border: 1px solid white;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2.5rem;
   padding: 10px 20px;
 }
 
@@ -147,7 +147,7 @@ export default {
   color: black;
   border: 1px solid white;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2.5rem;
   padding: 10px 20px;
 }
 

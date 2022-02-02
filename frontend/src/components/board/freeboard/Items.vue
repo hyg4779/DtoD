@@ -72,11 +72,11 @@ export default {
 
 <style scoped>
 .items {
-  margin: 70px auto;
+  margin: 7vh auto;
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
-  grid-gap: 50px 0;
+  grid-gap: 5vh 0;
   justify-content: space-around;
   /* align-content: stretch; */
 }
@@ -88,12 +88,13 @@ export default {
 }
 
 .btn-cover .page-btn {
-  width: 5.5rem;
-  height: 2.5rem;
-  line-height: 30px;
-  letter-spacing: 0.5px;
+  width: 4.5vw;
+  height: 4.5vh;
+  font-size: 1vw;
+  line-height: 3vh;
+  letter-spacing: 0.05vw;
   border: 1px solid;
-  border-radius: 10px;
+  border-radius: 1rem;
   background-color: #24292F;
   color: white;
 }
