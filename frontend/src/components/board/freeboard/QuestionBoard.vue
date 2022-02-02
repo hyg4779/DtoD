@@ -35,8 +35,8 @@ export default {
 <style scoped>
 
 .questionboard .title {
-  font-size: 30px;
-  margin: 20px 0 0 20px;
+  font-size: 1.58vw;
+  margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
 }
