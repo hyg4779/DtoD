@@ -127,14 +127,14 @@ export default {
 .makestudy .container{
   width: 49vw;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   margin: 0 auto;
   padding: 1vh 2vw;
 }
 
 .container .title {
-  font-size: 1.9rem;
+  font-size: 1.6vw;
   font-weight: bold;
   color: #0D1350;
   margin: 2vh 0 0 0;
@@ -146,14 +146,14 @@ form {
 
 form div label {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1vw;
   margin: 0 0 1vh 0;
 }
 
 
 form div .stacktitle {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1vw;
   margin: 0 0 1vh 0;
 }
 
@@ -161,7 +161,7 @@ form div textarea {
   margin: 0 0 2vh 0;
   padding: 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   height: 4vh;
   width: 30vw;
 }
@@ -169,7 +169,7 @@ form div textarea {
 form .detail1 textarea {
   margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   height: 4vh;
   width: 45vw;
 }
@@ -177,7 +177,7 @@ form .detail1 textarea {
 form .detail2 textarea {
   margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   height: 30vh;
   width: 45vw;
   margin-bottom: 2vh;
@@ -200,28 +200,27 @@ form .submitbtn {
 .submitbtn .cancel {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: #24274A;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   border: 1px solid;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 
 .submitbtn .submit {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: white;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
-  border: none;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   background-color: #24274A;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 </style>
