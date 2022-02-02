@@ -160,16 +160,16 @@ export default {
 
 <style scoped>
 .editor {
-  width: 1000px;
+  width: 50vw;
 }
 
 .code-block-btn{
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   background-color: white;
   font-weight: bold;
-  font-size: 17px;
-  padding: 5px;
-  /* margin: 0 0 3px 0; */
+  font-size: 0.78vw;
+  padding: 0.5vh 0.5vw 0.5vh 0.5vw;
+  margin: 0 0 0.3vh 0;
 }
 </style>

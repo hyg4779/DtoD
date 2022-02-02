@@ -62,6 +62,7 @@
 </template>
 
 <script>
+// import { api } from '../../../../api.js'
 // import axios from 'axios'
 
 export default {
@@ -94,7 +95,7 @@ export default {
       //     }
       //   }
       //   axios({
-      //     url: '',
+      //     url: 'api.CREATE_STUDY_BOARD',
       //     method: 'POST',
       //     data: {
       //       title: this.title,

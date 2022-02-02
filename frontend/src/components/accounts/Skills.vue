@@ -40,6 +40,7 @@
 
 <script>
 // import axios from 'axios'
+// import { api } from '../../../api.js'
 
 export default {
 
@@ -105,17 +106,17 @@ export default {
 
       // axios({
       //   method: 'post',
-      //   url: 'http://127.0.0.1:8000/',
+      //   url: api.SIGN_UP,
       //   data: this.$store.state.credentials
       // })
       //   .then(res => {
-      //     console.log(res)
+        //    console.log(res)
+        //    this.$emit('signup-fin')  
       //   })
       //   .catch(err => {
       //     console.log(err)
       //   })
 
-      this.$emit('signup-fin')
     }
   },
   // created() {

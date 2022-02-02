@@ -31,12 +31,12 @@ export default new Vuex.Store({
     skills(state, payload){
       state.credentials.skills = payload.skills
     },
-    infoIntialize(state){
-      for(let property in state.credentials){
-        state.credentials[property] = null
-        console.log(state.credentials)
-      }
-    }
+    // infoIntialize(state){
+    //   for(let property in state.credentials){
+    //     state.credentials[property] = null
+    //     console.log(state.credentials)
+    //   }
+    // }
 
   },
   actions: {
@@ -52,9 +52,9 @@ export default new Vuex.Store({
     skills({commit},payload){
       commit('skills', payload)
     },
-    infoIntialize({commit}){
-      commit('infoIntialize')
-    }
+    // infoIntialize({commit}){
+    //   commit('infoIntialize')
+    // }
 
   },
   modules: {

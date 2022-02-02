@@ -32,6 +32,7 @@
 
 <script>
 // import axios from 'axios'
+// import { api } from '../../../api.js'
 
 export default {
   name: 'Login',
@@ -61,7 +62,7 @@ export default {
     onSubmit () {
       // axios({
       //   method: 'post',
-      //   url: 'http://127.0.0.1:8000/',
+      //   url: api.LOG_IN,
       //   data: this.credentials,
       // })
       //   .then(res => {
@@ -75,10 +76,10 @@ export default {
       //   })
     },
 
-    onReset(){
-      this.email = null
-      this.password = null
-    },
+    // onReset(){
+    //   this.email = null
+    //   this.password = null
+    // },
     signupModalOpen(){
       this.$emit('signup-modal-open')
     }
