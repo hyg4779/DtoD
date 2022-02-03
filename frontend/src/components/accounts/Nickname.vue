@@ -33,7 +33,12 @@ export default {
     onSubmit () {
     },
     jobsModalOpen(){
-      this.$emit('jobs-modal-open')
+      let nick = this.nickname.length
+      if(nick >= 4 && nick <=10){
+        this.$emit('jobs-modal-open')
+        return
+      }
+      return alert('4글자에서 10글자 사이로 입력해주세요')
     }
   }
 }

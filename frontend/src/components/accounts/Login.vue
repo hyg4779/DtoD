@@ -1,6 +1,6 @@
 <template>
 
-  <b-form @submit="onSubmit" class="loginform">
+  <b-form class="loginform">
     <h1>안녕하세요!</h1>
     <b-form-group id="email" label="이메일" label-for="email">
       <b-form-input
@@ -21,7 +21,7 @@
       ></b-form-input>
     </b-form-group>
     <div id="btn_group">
-      <b-button id="login_btn" pill type="submit">로그인</b-button>
+      <b-button id="login_btn" pill @click="Login">로그인</b-button>
       <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
 
     </div>
@@ -36,28 +36,23 @@ export default {
     return {
       email: null,
       pwd: null,
-      idRules: [
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 6) || '필수값입니다!',
-      ],
-      pwdRules:[
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 8) || '필수값입니다!',
-      ],
-
     }
   },
   methods:{
-    onSubmit () {
+    verifyEmail (){
+      let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      if(this.email.match(regExp) !== null){
+        return true
+      }return false
     },
-
-    onReset(){
-      this.email = null
-      this.password = null
+    Login(){
+      if(this.verifyEmail){
+        return alert('로그인!')
+      }return alert('입력하신 정보가 일치하지 않습니다!')
     },
     signupModalOpen(){
       this.$emit('signup-modal-open')
-    }
+    },
   }
 }
 

@@ -42,8 +42,9 @@ export default {
   },
   methods:{
     skillsModalOpen () {
-      this.$emit('skills-modal-open')
-      
+      if(this.jobs !== null){
+        return this.$emit('skills-modal-open')
+      }return alert('희망 직무를 고르세요')
     },
   }
 }

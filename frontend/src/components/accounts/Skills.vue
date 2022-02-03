@@ -65,7 +65,7 @@ export default {
   },
   methods:{
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
-    onSubmit () {
+    stacksCheck () {
       let result = []
 
       for (let property in this.stacks){
@@ -73,19 +73,15 @@ export default {
           result.push(property)
         }
       }
-        alert('Success')
+      return result
       },
-
-    // 체크한 기술스텍 초기화
-    onReset (){
-      for (let property in this.stacks){
-        if (this.stacks[property]){
-          this.stacks[property] = false
-        }
-      }
-    },
     singupFin(){
-      this.$emit('signup-fin')
+      let result = stacksCheck()
+      if(result.length >= 1){
+        this.$emit('signup-fin')
+        return
+      }
+      return alert('한 가지 이상 입력해주세요')
     }
   }
 }

@@ -50,22 +50,32 @@ export default {
       email: null,
       pwd: null,
       confirm_pwd: null,
-      idRules: [
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 6) || '필수값입니다!',
-      ],
-      pwdRules:[
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 8) || '필수값입니다!',
-      ],
-
     }
   },
   methods:{
-    onSubmit () {
-      },
+    verifyEmail (){
+      // email형식
+      let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      if(this.email.match(regExp) !== null){
+        return true
+      }return false
+    },
+    verifyPwd(){
+      // 영문 대문자 1개, 소문자 1개, 숫자1개, 특수문자1개, 8자-12자
+      let regExp = /(([^ ])[a-z]+[A-Z]+[0-9]+[!@#$%^&*]+){8,12}/;
+
+      if(this.pwd.match(regExp) !== null){
+        return true
+      }return false
+    },
     nickNameModalOpen(){
-      this.$emit('nickname-modal-open')
+      let email_result = this.verifyEmail()
+      let pwd_result = this.verifyPwd()
+      if ((email_result && pwd_result) &&
+        (this.pwd === this.confirm_pwd)){
+        this.$store.dispatch('userCreate')
+        return this.$emit('nickname-modal-open')
+      }return alert('다시 확인해주세요!')
     }
   }
 }
@@ -73,12 +83,6 @@ export default {
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .signform{
   padding: 1rem !important;
   font: 'Roboto', sans-serif;
