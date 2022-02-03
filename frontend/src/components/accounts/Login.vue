@@ -16,6 +16,7 @@
       <b-form-input
         id="password"
         v-model="credentials.pwd"
+        type="password"
         placeholder="비밀번호를 입력하세요"
         required
       ></b-form-input>

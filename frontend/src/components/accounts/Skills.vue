@@ -74,13 +74,14 @@ export default {
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
     stacksCheck () {
       for (let property in this.stacks){
-        if (this.stacks[property] === true){
+        console.log(property)
+        if (this.stacks[property] !== false){
           this.credentials.skills.push(property)
           }
         }
       },
     singupFin(){
-
+      this.stacksCheck()
       if(this.credentials.skills.length >= 1){
         this.$emit('signup-fin')
         this.$store.dispatch('skills', this.credentials)

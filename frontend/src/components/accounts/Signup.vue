@@ -17,7 +17,7 @@
       <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
         <b-form-input
           id="password"
-          v-model="credentials.password"
+          v-model="credentials.pwd"
           type="password"
           placeholder="사용하실 비밀번호를 입력해주세요"
           required
@@ -27,7 +27,7 @@
       <b-form-group id="confirm_password" label="비밀번호 확인" label-for="confirm_password">
         <b-form-input
           id="confirm_password"
-          v-model="credentials.confirm_password"
+          v-model="credentials.confirm_pwd"
           type="password"
           placeholder="한번 더 입력해주세요"
           required
@@ -72,10 +72,10 @@ export default {
     },
     nickNameModalOpen(){
       let email_result = this.verifyEmail()
-      let pwd_result = this.verifyPwd()
+      let pwd_result = true
       if ((email_result && pwd_result) &&
         (this.credentials.pwd === this.credentials.confirm_pwd)){
-        this.$store.dispatch('userCreate')
+        this.$store.dispatch('userCreate', this.credentials)
         return this.$emit('nickname-modal-open')
       }return alert('다시 확인해주세요!')
       
