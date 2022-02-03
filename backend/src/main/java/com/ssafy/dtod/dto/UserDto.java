@@ -25,4 +25,12 @@ public class UserDto {
    @NotNull
    @Size(min = 2, max = 10)
    private String userName;
+   
+   @NotNull
+   @Size(min = 1, max = 100)
+   private String userTechstack;
+   
+   @NotNull
+   @Size(min = 1, max = 50)
+   private String userJobs;
 }
