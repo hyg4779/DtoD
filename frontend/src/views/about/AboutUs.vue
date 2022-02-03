@@ -74,6 +74,16 @@
           </div>
         </div>
       </div>
+      <div class="what">
+        <div>DTOD는 무엇인가요?</div>
+        <div>DTOD는 온라인 화상 서비스를 통해</div>
+        <div>개발자들이 학습 열정을 공유하고</div>
+        <div>프로젝트 및 스터디 멤버를 모집하여</div>
+        <div>개발자라는 같은 꿈을 이루기 위해 공부하는 공간입니다.</div>
+        <div>또한 학습 상태 분석을 통해</div>
+        <div>체계적인 자기 관리가 가능한 서비스를 제공합니다.</div>
+        <div>이제, 집에서도 혼자 개발하지 마세요!</div>
+      </div>
     </div>
   </div>
 </template>

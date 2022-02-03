@@ -133,7 +133,8 @@ export default {
 }
 
 #sign_btn:hover{
-  border: none;
+  border: none !important; 
+  box-shadow: none !important;
   color: rgb(100, 100, 255) !important;
 }
 
