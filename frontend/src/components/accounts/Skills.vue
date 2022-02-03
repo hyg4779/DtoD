@@ -82,8 +82,8 @@ export default {
       },
     singupFin(){
       this.stacksCheck()
-      this.$store.dispatch('skills', this.credentials)
       if(this.credentials.skills.length >= 1){
+        this.$store.dispatch('skills', this.credentials)
         axios({
           method: 'post',
           url: api.SIGN_UP,
