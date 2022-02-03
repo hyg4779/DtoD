@@ -125,7 +125,7 @@ export default {
 }
 
 .makestudy .container{
-  width: 49vw;
+  width: 50vw;
   background-color: white;
   border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);

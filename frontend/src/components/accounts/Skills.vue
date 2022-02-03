@@ -74,7 +74,7 @@ export default {
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
     stacksCheck () {
       for (let property in this.stacks){
-        console.log(property)
+        // console.log(property)
         if (this.stacks[property] !== false){
           this.credentials.skills.push(property)
           }
@@ -82,6 +82,7 @@ export default {
       },
     singupFin(){
       this.stacksCheck()
+      this.$store.dispatch('skills', this.credentials)
       if(this.credentials.skills.length >= 1){
         axios({
           method: 'post',
@@ -90,7 +91,7 @@ export default {
         })
         .then(res => {
           console.log(res)
-           this.$emit('signup-fin')  
+          this.$emit('signup-fin')  
         })
         .catch(err => {
           console.log(err)
