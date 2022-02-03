@@ -3,19 +3,19 @@
     <div class="logo">
       <a href="/">
         <div>
-          DtoD
+          DTOD
         </div>
       </a>
     </div>
     <!-- <ul v-if="login" class="menu"> -->
     <ul class="menu">
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
-        <a href="#">DtoD 소개</a>
+        <a href="#">DTOD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
             <li>
               <router-link :to="{ name: 'AboutUs' }">
-                DtoD란?
+                DTOD란?
               </router-link>
             </li>
             <li>

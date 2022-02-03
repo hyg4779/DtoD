@@ -39,8 +39,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import { api } from '../../../api.js'
+import axios from 'axios'
+import { api } from '../../../api.js'
 
 export default {
 
@@ -83,11 +83,21 @@ export default {
     singupFin(){
       this.stacksCheck()
       if(this.credentials.skills.length >= 1){
-        this.$emit('signup-fin')
-        this.$store.dispatch('skills', this.credentials)
-        return
+        axios({
+          method: 'post',
+          url: api.SIGN_UP,
+          data: this.$store.state.credentials
+        })
+        .then(res => {
+          console.log(res)
+           this.$emit('signup-fin')  
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        alert('한 가지 이상 입력해주세요')
       }
-      return alert('한 가지 이상 입력해주세요')
     }
   },
 

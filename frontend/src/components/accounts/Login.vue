@@ -32,8 +32,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import { api } from '../../../api.js'
+import axios from 'axios'
+import { api } from '../../../api.js'
 
 export default {
   name: 'Login',
@@ -55,8 +55,23 @@ export default {
     },
     Login(){
       if(this.verifyEmail){
-        return alert('로그인!')
-      }return alert('입력하신 정보가 일치하지 않습니다!')
+         axios({
+          method: 'post',
+          url: api.LOG_IN,
+          data: this.credentials,
+        })
+        .then(res => {
+          localStorage.setItem('jwt', res.data.token)
+          this.$emit('login')
+          this.$router.push({ name: 'Home' })
+          alert('로그인!')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        alert('입력하신 정보가 일치하지 않습니다!')
+      }
     },
     signupModalOpen(){
       this.$emit('signup-modal-open')

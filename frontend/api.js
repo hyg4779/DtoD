@@ -1,6 +1,6 @@
 export const api = {
-  LOG_IN : 'http://localhost:8080/',
-  SIGN_UP : 'http://localhost:8080/',
-  CREATE_FREE_BOARD : 'http://localhost:8080/',
-  CREATE_STUDY_BOARD : 'http://localhost:8080/',
+  LOG_IN: 'http://localhost:9090/',
+  SIGN_UP: 'http://localhost:9090/api/signup',
+  CREATE_FREE_BOARD: 'http://localhost:9090/',
+  CREATE_STUDY_BOARD: 'http://localhost:9090/',
 }
