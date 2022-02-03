@@ -10,26 +10,31 @@ export default new Vuex.Store({
   // ],  
   state: {
     credentials:{
-      email: null,
-      password: null,
-      nickname: null,
-      jobs: null,
-      skills: null,
+      // email: null,
+      // password: null,
+      // nickname: null,
+      // jobs: null,
+      // skills: null,
+      userEmail: null,
+      userPwd: null,
+      userName: null,
+      userJobs: null,
+      userTechstack: null,
     }
   },
   mutations: {
     userCreate(state, payload){
-      state.credentials.email = payload.email
-      state.credentials.password = payload.password
+      state.credentials.userEmail = payload.email
+      state.credentials.userPwd = payload.pwd
     },
     nickName(state, payload){
-      state.credentials.nickname = payload.nickname
+      state.credentials.userName = payload.nickname
     },
     jobs(state, payload){
-      state.credentials.jobs = payload.jobs
+      state.credentials.userJobs = payload.jobs
     },
     skills(state, payload){
-      state.credentials.skills = payload.skills
+      state.credentials.userTechstack = payload.skills
     },
     // infoIntialize(state){
     //   for(let property in state.credentials){

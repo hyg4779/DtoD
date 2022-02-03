@@ -38,7 +38,7 @@ export default {
 .howtouse .container .title {
   font-family: 'Dohyeon';
   font-size: 1.78vw;
-  margin: 3vh 0 3vh 0;
+  margin: 5vh 0 5vh 0;
   color: #24274A;
 }
 

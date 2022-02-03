@@ -9,6 +9,13 @@
         <br>
         <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
       </div>
+      <div>
+        <div class="categorytitle">카테고리</div>
+        <div class="categorybox">
+          <v-checkbox v-model="category.free" label="자유"/>
+          <v-checkbox v-model="category.question" label="질문"/>
+        </div>
+      </div>
       <div class="form-group">
         <div class="stacktitle">기술 스택 및 협업 툴</div>
         <div class="checkbox">
@@ -59,8 +66,8 @@
 
 <script>
 import Tiptap from '../editor/Tiptap.vue'
-// import { api } from '../../../../api.js'
-// import axios from 'axios'
+import { api } from '../../../../api.js'
+import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
@@ -72,11 +79,16 @@ export default {
       title: '',
       content: '',
       code: '',
+      category: {
+        free: false,
+        question: false,
+      },
       stacks: {
         javascript: false, c: false, kotlin: false, java: false, 
         react: false, cpp: false, django: false, spring: false, 
         vue: false, cs: false, go: false, flutter: false, 
-        node: false, typescript: false, swift: false, etc: false},
+        node: false, typescript: false, swift: false, etc: false
+      },
       result: [],
     }
   },
@@ -84,37 +96,49 @@ export default {
     back () {
       this.$router.replace()
     },
+
+    categoryCheck () {
+
+    },
+
+    stacksCheck () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] !== false){
+          this.credentials.skills.push(property)
+        }
+      }
+    },
+
     onSubmit(event) {
       event.preventDefault()
-      // if (this.title.length <= 100) {
-      //   for (let property in this.stacks){
-      //     if (this.stacks[property]){
-      //       this.result.push(property)
-      //     }
-      //   }
-      //   
-      //  여기에는 코드 입력한 것을 담자.
-      //
-      //   axios({
-      //     url: api.CREATE_FREE_BOARD,
-      //     method: 'POST',
-      //     data: {
-      //       title: this.title,
-      //       content: this.content,
-      //       code: this.code,
-      //       result: this.result,
-      //     },
-      //     headers: {
-      //       Authorization: `JWT ${localStorage.getItem('jwt')}`
-      //     },
-      //   }).then(()=>{
-      //     this.$router.push('/freeboard')
-      //   }).catch(err=>{
-      //     console.error(err)
-      //   })
-      // } else {
-      //   alert("제목은 100자 이하로 입력하세요.")
-      // }  
+      if (this.title.length <= 100) {
+        for (let property in this.stacks){
+          if (this.stacks[property]){
+            this.result.push(property)
+          }
+        }
+      
+        axios({
+          url: api.CREATE_FREE_BOARD,
+          method: 'POST',
+          data: {
+            title: this.title,
+            content: this.content,
+            code: this.code,
+            result: this.result,
+          },
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('jwt')}`
+          },
+        }).then(()=>{
+          this.$router.push('/freeboard')
+        }).catch(err=>{
+          console.error(err)
+        })
+      } else {
+        alert("제목은 100자 이하로 입력하세요.")
+      }  
     },
   }
 }
@@ -145,6 +169,18 @@ form div .stacktitle {
   margin: 0 0 1vh 0;
 }
 
+form div .categorytitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+}
+
+form div .categorybox {
+  margin: 0 0 2vh 0;
+  display: grid;
+  grid-template-columns: 12vw 12vw;
+}
+
 form div textarea {
   margin: 0 0 2vh 0;
   padding: 0;
@@ -162,10 +198,6 @@ form .detail1 textarea {
   width: 42vw;
   margin-bottom: 2vh;
 }
-
-/* form .detail2 textarea {
-
-} */
 
 form .checkbox {
   margin: 0 0 2vh 0;
