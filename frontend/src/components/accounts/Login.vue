@@ -1,33 +1,36 @@
 <template>
+  <div>
+    <b-form class="loginform">
+      <h1>안녕하세요!</h1>
+      <b-form-group id="email" label="이메일" label-for="email">
+        <b-form-input
+          id="email"
+          v-model="credentials.userEmail"
+          type="email"
+          placeholder="이메일을 입력하세요"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-  <b-form class="loginform">
-    <h1>안녕하세요!</h1>
-    <b-form-group id="email" label="이메일" label-for="email">
-      <b-form-input
-        id="email"
-        v-model="credentials.userEmail"
-        type="email"
-        placeholder="이메일을 입력하세요"
-        required
-      ></b-form-input>
-    </b-form-group>
+      <b-form-group id="password" label="비밀번호" label-for="password">
+        <b-form-input
+          id="password"
+          v-model="credentials.userPwd"
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-    <b-form-group id="password" label="비밀번호" label-for="password">
-      <b-form-input
-        id="password"
-        v-model="credentials.userPwd"
-        type="password"
-        placeholder="비밀번호를 입력하세요"
-        required
-      ></b-form-input>
-    </b-form-group>
-
-    <div id="btn_group">
-      <b-button id="login_btn" pill @click="Login">로그인</b-button>
-      <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
-    </div>
+      <div id="btn_group">
+        <b-button id="login_btn" pill @click="Login">로그인</b-button>
+      </div>
+      
+    </b-form>
     
-  </b-form>
+    <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
+
+  </div>
     
 </template>
 
@@ -144,8 +147,8 @@ export default {
   border: none;
   /* font-weight:bold !important; */
   max-width: 15rem;
-  margin: 0.5rem 0 0 0;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin: auto 8rem;
+  /* padding: 0.5rem 1rem 0.5rem 1rem; */
   border-radius: 1rem !important;
 }
 
