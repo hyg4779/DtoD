@@ -1,15 +1,16 @@
 <template>
 <div class="editor">
   <div v-if="editor">
-    <button
+    <input
+    type="button"
      @click="editor.chain().focus().toggleCodeBlock().run()" 
      class="code-block-btn"
      :class="{ 'is-active': editor.isActive('codeBlock') }"
+     value="코드입력"
      >
-      코드 입력
-    </button>
+     <input class="code-btn" type="button" value="코드저장" @click="codesave">
   </div>
-  <editor-content :editor="editor" />
+  <editor-content :editor="editor"/>
 </div>
 </template>
 
@@ -54,28 +55,21 @@ export default {
           })
           .configure({ lowlight }),
       ],
-//       content: `
-//         <p>
-//           That’s a boring paragraph followed by a fenced code block:
-//         </p>
-//         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
-// {
-//   if (i % 15 == 0)
-//     console.log("FizzBuzz");
-//   else if (i % 3 == 0)
-//     console.log("Fizz");
-//   else if (i % 5 == 0)
-//     console.log("Buzz");
-//   else
-//     console.log(i);
-// }</code></pre>
-//         <p>
-//           Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.
-//         </p>
-//       `,
+      content: '',
     })
   },
 
+  methods: {
+    codesave () {
+      const code = this.editor.getJSON().content[0].content[0].text
+      // console.log(code)
+      this.$emit('code-save', code)
+    }
+  },
+
+  // updated() {
+  //   console.log(this.editor.getJSON())
+  // },
   beforeUnmount() {
     this.editor.destroy()
   },
@@ -170,6 +164,16 @@ export default {
   font-weight: bold;
   font-size: 0.78vw;
   padding: 0.5vh 0.5vw 0.5vh 0.5vw;
-  margin: 0 0 0.3vh 0;
+  margin: 0 1vw 0 0;
+}
+
+.code-btn{
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  background-color: white;
+  font-weight: bold;
+  font-size: 0.78vw;
+  padding: 0.5vh 0.5vw 0.5vh 0.5vw;
+  margin: 0;
 }
 </style>

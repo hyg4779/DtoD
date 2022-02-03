@@ -62,8 +62,8 @@ export default {
         })
         .then(res => {
           localStorage.setItem('jwt', res.data.token)
+          this.$emit('Login')
           alert('로그인!')
-          this.$emit('login')
           // this.$router.push({ name: 'Home' })
         })
         .catch(err => {

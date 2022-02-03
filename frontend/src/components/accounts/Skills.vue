@@ -32,7 +32,7 @@
         </div>
       </div>
     <div id="btn_group">
-      <b-button id="sumbit_btn" pill @click="singupFin">완료</b-button>
+      <b-button id="sumbit_btn" pill @click="signupFin">완료</b-button>
     </div>
     
   </b-form>
@@ -80,8 +80,9 @@ export default {
           }
         }
       },
-    singupFin(){
+    signupFin(){
       this.stacksCheck()
+      console.log(this.credentials.skills)
       if(this.credentials.skills.length >= 1){
         this.$store.dispatch('skills', this.credentials)
         axios({

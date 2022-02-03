@@ -11,7 +11,7 @@
         {{ language }}
       </option>
     </select>
-    <pre><code><node-view-content /></code></pre>
+    <pre><code><node-view-content/></code></pre>
   </node-view-wrapper>
 </template>
 

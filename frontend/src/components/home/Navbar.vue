@@ -77,7 +77,7 @@
     </ul>
 
     <ul v-else class="menu">
-            <li @mouseover="listOne = true" @mouseleave="listOne = false">
+      <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DtoD 소개</a>
         <transition name="fade">
           <ul v-if="listOne" @click="listOne = false">
@@ -133,11 +133,21 @@
           <img src="../../assets/default_user.png">
         </div>
         <transition name="fade">         
-          <ul v-if="listFour" @click="listFour = false" class="profile-menu">
-            <li @click="loginModalOpen">
-              <a href="#">
+          <ul v-if="listFour" @click="listFour = false">
+            <li>
+              <router-link :to="{ name: 'MyProfile' }">
+                프로필
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'MyStudy' }">
+                내 학습
+              </router-link>
+            </li>
+            <li>
+              <router-link class="logoutLink" @click.native="logout" to="#">
                 로그아웃
-              </a>
+              </router-link>
             </li>
           </ul>
         </transition>
@@ -153,7 +163,7 @@
     >
       <Login
         @signup-modal-open="signupModalOpen"
-        @login="Login"
+        @Login="Login"
       />
     </b-modal>
 
@@ -197,7 +207,7 @@
       hide-header
     >
       <Skills
-      @signup-fin="singupFin"
+      @signup-fin="signupFin"
       />
     </b-modal>
 
@@ -225,16 +235,16 @@ export default {
   data () {
     return {
       login: false,
-      listOne:   false,
-      listTwo:   false,
+      listOne: false,
+      listTwo: false,
       listThree: false,
-      listFour:  false
+      listFour: false
     }
   },
   methods:{
     Login(){
       this.$refs['login'].hide()
-      this.login=true
+      this.login = true
     },
     loginModalOpen(){
       this.$refs['login'].show()
@@ -255,25 +265,25 @@ export default {
       this.$refs['jobs'].hide()
       this.$refs['skills'].show()
     },
-    singupFin(){
+    signupFin(){
       this.$refs['skills'].hide()
       alert('축하합니다! 회원가입이 완료되었습니다')
       alert('로그인을 진행해주세요')
       this.$refs['login'].show()
     },
 
-    // logout() {
-    //   localStorage.removeItem('jwt')
-    //   this.login = false
-    //   this.$router.push({ name: 'Home' })
-    // },
+    logout() {
+      localStorage.removeItem('jwt')
+      this.login = false
+      this.$router.push({ name: 'Home' })
+    },
   },
-  // created() {
-  //   const token = localStorage.getItem('jwt')
-  //   if (token) {
-  //     this.login = true
-  //   }
-  // }
+  created() {
+    const token = localStorage.getItem('jwt')
+    if (token) {
+      this.login = true
+    }
+  }
 }
 
 </script>

@@ -9,11 +9,13 @@
         <br>
         <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
       </div>
-      <div>
+      <div class="form-group">
         <div class="categorytitle">카테고리</div>
         <div class="categorybox">
-          <v-checkbox v-model="category.free" label="자유"/>
-          <v-checkbox v-model="category.question" label="질문"/>
+          <input type="radio" name="radioBtn" id="r1" @change="categoryCheck($event)" value="자유">
+          <label for="r1"> 자유</label>
+          <input type="radio" name="radioBtn" id="r2" @change="categoryCheck($event)" value="질문">
+          <label for="r2"> 질문</label>
         </div>
       </div>
       <div class="form-group">
@@ -50,8 +52,8 @@
         <br>
         <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
-      <div v-if="this.category.question" class="detail2 form-group">
-        <Tiptap />
+      <div v-if="this.category === '질문'" class="detail2 form-group">
+        <Tiptap @code-save="codesave"/>
         <!-- <label for="code">코드 입력</label>
         <br>
         <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea> -->
@@ -79,10 +81,6 @@ export default {
       title: '',
       content: '',
       code: '',
-      category: {
-        free: true,
-        question: false,
-      },
       stacks: {
         javascript: false, c: false, kotlin: false, java: false, 
         react: false, cpp: false, django: false, spring: false, 
@@ -90,6 +88,7 @@ export default {
         node: false, typescript: false, swift: false, etc: false
       },
       skills: [],
+      category: null,
     }
   },
   methods: {
@@ -97,15 +96,16 @@ export default {
       this.$router.replace()
     },
 
-    categoryCheck (element) {
-      const checkboxes = document.getElementsByName("animal");
-  
-      checkboxes.forEach((cb) => {
-        cb.checked = false;
-      })
+    codesave(value){
+      this.code = value
+      console.log(this.code)
+    },
 
-      element.checked = true;
-
+    categoryCheck (event) {
+      let selected = event.target.value;
+      console.log("selected : ", selected);
+      this.category = selected
+      console.log(this.category)
     },
 
     stacksCheck () {
@@ -119,13 +119,8 @@ export default {
 
     onSubmit(event) {
       event.preventDefault()
-      if (this.title.length <= 100) {
-        for (let property in this.stacks){
-          if (this.stacks[property]){
-            this.result.push(property)
-          }
-        }
-      
+      this.stacksCheck()
+      if (this.title.length <= 50) {
         axios({
           url: api.CREATE_FREE_BOARD,
           method: 'POST',
@@ -133,7 +128,8 @@ export default {
             title: this.title,
             content: this.content,
             code: this.code,
-            result: this.result,
+            skills: this.skills,
+            category: this.category,
           },
           headers: {
             Authorization: `JWT ${localStorage.getItem('jwt')}`
@@ -144,7 +140,7 @@ export default {
           console.error(err)
         })
       } else {
-        alert("제목은 100자 이하로 입력하세요.")
+        alert("제목은 50자 이하로 입력하세요.")
       }  
     },
   }
@@ -183,9 +179,17 @@ form div .categorytitle {
 }
 
 form div .categorybox {
-  margin: 0 0 2vh 0;
-  display: grid;
-  grid-template-columns: 12vw 12vw;
+  margin: 0 0 3vh 0;
+}
+form div .categorybox input{
+  margin: 0 1vh 0 0;
+  width: 1.78vw;
+  height: 1.78vh;
+}
+form div .categorybox label{
+  margin: 0 2vh 0 0;
+  font-size: 1vw;
+  font-weight: 500;
 }
 
 form div textarea {
