@@ -43,16 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web
-                .ignoring()
+        web.ignoring()
                 .antMatchers(
-                        "/favicon.ico"
+                		"/error",
+                		"/webjars/**"
                 );
     }
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+        		// 토큰을 사용하기 때문에 csrf를 disable로 설정
                 .csrf().disable()
  
                 .exceptionHandling()
@@ -64,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .sameOrigin()
  
+                //세션을 사용하지 않기 때문에 세션 정책을 STATELESS로 설정
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -71,10 +73,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                
                 // authenticate, signup 은 Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/v2/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
+                
                 .anyRequest().authenticated()
  
                 .and()
@@ -88,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);

@@ -34,7 +34,7 @@ public class User {
    private String userImg;
  
    @Column(name = "user_techstack", length = 100)
-   private String img;
+   private String userTechstack;
    
    @JsonIgnore
    @Column(name = "user_activated")
