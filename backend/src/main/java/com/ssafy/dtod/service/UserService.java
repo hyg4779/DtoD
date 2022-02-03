@@ -37,6 +37,8 @@ public class UserService {
                 .userEmail(userDto.getUserEmail())
                 .userPwd(passwordEncoder.encode(userDto.getUserPwd()))
                 .userName(userDto.getUserName())
+                .userJobs(userDto.getUserJobs())
+                .userTechstack(userDto.getUserTechstack())
                 .authorities(Collections.singleton(authority))
                 .userActivated(true)
                 .build();
