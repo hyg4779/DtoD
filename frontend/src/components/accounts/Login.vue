@@ -5,7 +5,7 @@
     <b-form-group id="email" label="이메일" label-for="email">
       <b-form-input
         id="email"
-        v-model="credentials.email"
+        v-model="credentials.userEmail"
         type="email"
         placeholder="이메일을 입력하세요"
         required
@@ -15,7 +15,7 @@
     <b-form-group id="password" label="비밀번호" label-for="password">
       <b-form-input
         id="password"
-        v-model="credentials.pwd"
+        v-model="credentials.userPwd"
         type="password"
         placeholder="비밀번호를 입력하세요"
         required
@@ -40,8 +40,8 @@ export default {
   data () {
     return {
       credentials: {
-        email: null,
-        pwd: null,
+        userEmail: null,
+        userPwd: null,
       },
     }
   },
@@ -49,7 +49,7 @@ export default {
   methods:{
     verifyEmail (){
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if(this.credentials.email.match(regExp) !== null){
+      if(this.credentials.userEmail.match(regExp) !== null){
         return true
       }return false
     },

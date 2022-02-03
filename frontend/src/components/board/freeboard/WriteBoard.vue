@@ -97,8 +97,15 @@ export default {
       this.$router.replace()
     },
 
-    categoryCheck () {
-      
+    categoryCheck (element) {
+      const checkboxes = document.getElementsByName("animal");
+  
+      checkboxes.forEach((cb) => {
+        cb.checked = false;
+      })
+
+      element.checked = true;
+
     },
 
     stacksCheck () {

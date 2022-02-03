@@ -33,13 +33,13 @@ export default {
 .page404 button {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 20px;
+  font-size: 1.5vw;
   font-weight: bold;
   color: white;
-  height: 60px;
-  width: 120px;
+  height: 6vh;
+  width: 12vw;
   border: none;
   background-color: #24274A;
-  border-radius: 25px;
+  border-radius: 15rem;
 }
 </style>
