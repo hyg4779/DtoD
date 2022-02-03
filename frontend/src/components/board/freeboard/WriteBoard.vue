@@ -50,7 +50,7 @@
         <br>
         <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
-      <div class="detail2 form-group">
+      <div v-if="this.category.question" class="detail2 form-group">
         <Tiptap />
         <!-- <label for="code">코드 입력</label>
         <br>
@@ -80,7 +80,7 @@ export default {
       content: '',
       code: '',
       category: {
-        free: false,
+        free: true,
         question: false,
       },
       stacks: {
@@ -89,7 +89,7 @@ export default {
         vue: false, cs: false, go: false, flutter: false, 
         node: false, typescript: false, swift: false, etc: false
       },
-      result: [],
+      skills: [],
     }
   },
   methods: {
@@ -98,14 +98,14 @@ export default {
     },
 
     categoryCheck () {
-
+      
     },
 
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
         if (this.stacks[property] !== false){
-          this.credentials.skills.push(property)
+          this.skills.push(property)
         }
       }
     },
