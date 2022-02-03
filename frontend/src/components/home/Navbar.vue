@@ -7,8 +7,8 @@
         </div>
       </a>
     </div>
-    <!-- <ul v-if="login" class="menu"> -->
-    <ul class="menu">
+    <ul v-if="!login" class="menu">
+    <!-- <ul class="menu"> -->
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DTOD 소개</a>
         <transition name="fade">
@@ -76,7 +76,7 @@
       </li>
     </ul>
 
-    <!-- <ul v-else class="menu">
+    <ul v-else class="menu">
             <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DtoD 소개</a>
         <transition name="fade">
@@ -136,13 +136,13 @@
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li @click="loginModalOpen">
               <a href="#">
-                로그인
+                로그아웃
               </a>
             </li>
           </ul>
         </transition>
       </li>
-    </ul> -->
+    </ul>
     
     <b-modal
       ref="login"
@@ -153,6 +153,7 @@
     >
       <Login
         @signup-modal-open="signupModalOpen"
+        @login="Login"
       />
     </b-modal>
 
@@ -220,10 +221,10 @@ export default {
     Jobs,
     Skills,
 
-    login: false,
   },
   data () {
     return {
+      login: false,
       listOne:   false,
       listTwo:   false,
       listThree: false,
@@ -231,6 +232,10 @@ export default {
     }
   },
   methods:{
+    Login(){
+      this.$refs['login'].hide()
+      this.login=true
+    },
     loginModalOpen(){
       this.$refs['login'].show()
     },
