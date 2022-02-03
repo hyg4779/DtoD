@@ -69,7 +69,7 @@ export default {
 
 .item{
   width: 13vw;
-  height: 27vh;
+  height: 26.5vh;
   cursor: pointer;
   /* border: 1px solid; */
   border-radius: 2rem;

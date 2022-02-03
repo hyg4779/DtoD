@@ -32,13 +32,16 @@
         </div>
       </div>
     <div id="btn_group">
-      <b-button id="sumbit_btn" pill @click="singupFin">다음</b-button>
+      <b-button id="sumbit_btn" pill @click="singupFin">완료</b-button>
     </div>
     
   </b-form>
 </template>
 
 <script>
+// import axios from 'axios'
+// import { api } from '../../../api.js'
+
 export default {
 
   data () {
@@ -59,31 +62,34 @@ export default {
         node: false,
         typescript: false,
         swift: false,
-        etc: false},
-      result: [],
+        etc: false
+      },
+      credentials: {
+        skills: [],
+      },
     }
   },
+
   methods:{
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
     stacksCheck () {
-      let result = []
-
       for (let property in this.stacks){
         if (this.stacks[property] === true){
-          result.push(property)
+          this.credentials.skills.push(property)
+          }
         }
-      }
-      return result
       },
     singupFin(){
-      let result = stacksCheck()
-      if(result.length >= 1){
+
+      if(this.credentials.skills.length >= 1){
         this.$emit('signup-fin')
+        this.$store.dispatch('skills', this.credentials)
         return
       }
       return alert('한 가지 이상 입력해주세요')
     }
-  }
+  },
+
 }
 
 </script>
@@ -100,7 +106,8 @@ export default {
 .skillsform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .skillsform label{

@@ -21,9 +21,8 @@ export default {
 
 .aboutus {
   background-color: #EBEDF0;
-  /* background-color: #F5F5F5; */
   width: 100vw;
-  height: calc(100vh - 70px);
+  min-height: calc(100vh - 7.498vh);
 }
 
 .aboutus .container{
@@ -31,8 +30,8 @@ export default {
   background-color: white;
   border-radius: 25px;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
-  margin: auto;
-  padding: 10px 20px;
+  margin: 0 auto;
+  padding: 1vh 2vw;
   text-align: center;
 }
 </style>

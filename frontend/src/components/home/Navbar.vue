@@ -2,9 +2,12 @@
   <div class="menubar">
     <div class="logo">
       <a href="/">
-        DtoD
+        <div>
+          DtoD
+        </div>
       </a>
     </div>
+    <!-- <ul v-if="login" class="menu"> -->
     <ul class="menu">
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DtoD 소개</a>
@@ -57,10 +60,10 @@
           </ul>
         </transition>
       </li>
-      <li @mouseover="listFour = true" @mouseleave="listFour = false">
-        <v-avatar class="profile">
+      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+        <div class="profileicon">
           <img src="../../assets/default_user.png">
-        </v-avatar>
+        </div>
         <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false" class="profile-menu">
             <li @click="loginModalOpen">
@@ -72,6 +75,74 @@
         </transition>
       </li>
     </ul>
+
+    <!-- <ul v-else class="menu">
+            <li @mouseover="listOne = true" @mouseleave="listOne = false">
+        <a href="#">DtoD 소개</a>
+        <transition name="fade">
+          <ul v-if="listOne" @click="listOne = false">
+            <li>
+              <router-link :to="{ name: 'AboutUs' }">
+                DtoD란?
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'HowToUse' }">
+                이용 방법
+              </router-link>
+            </li>
+          </ul>        
+        </transition>
+      </li>  
+      <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
+        <a href="#">스터디룸</a>
+        <transition name="fade">
+          <ul v-if="listTwo" @click="listTwo = false">
+            <li>
+              <router-link :to="{ name: 'Studying' }">
+                진행중
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'MakeStudy' }">
+                스터디 만들기
+              </router-link>
+            </li>
+          </ul>        
+        </transition>     
+      </li>     
+      <li @mouseover="listThree = true" @mouseleave="listThree = false">   
+        <a href="#">게시판</a>
+        <transition name="fade">        
+          <ul v-if="listThree" @click="listThree = false">
+            <li>
+              <router-link :to="{ name: 'StudyBoard' }">
+                스터디 모집
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'FreeBoard' }">
+                자유 게시판
+              </router-link>
+            </li>
+          </ul>
+        </transition>
+      </li>
+      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+        <div class="profileicon">
+          <img src="../../assets/default_user.png">
+        </div>
+        <transition name="fade">         
+          <ul v-if="listFour" @click="listFour = false" class="profile-menu">
+            <li @click="loginModalOpen">
+              <a href="#">
+                로그인
+              </a>
+            </li>
+          </ul>
+        </transition>
+      </li>
+    </ul> -->
     
     <b-modal
       ref="login"
@@ -91,7 +162,7 @@
       hide-footer 
       hide-header
     >
-      <Signup
+      <SignUp
       @nickname-modal-open="nickNameModalOpen"
       />
     </b-modal>
@@ -134,7 +205,7 @@
 
 <script>
 import Login from '../accounts/Login.vue'
-import Signup from '../accounts/Signup.vue'
+import SignUp from '../accounts/SignUp.vue'
 import Nickname from '../accounts/Nickname.vue'
 import Jobs from '../accounts/Jobs.vue'
 import Skills from '../accounts/Skills.vue'
@@ -144,10 +215,12 @@ export default {
   name: 'Navbar',
   components:{
     Login,
-    Signup,
+    SignUp,
     Nickname,
     Jobs,
-    Skills
+    Skills,
+
+    login: false,
   },
   data () {
     return {
@@ -156,8 +229,6 @@ export default {
       listThree: false,
       listFour:  false
     }
-  },
-  computed:{
   },
   methods:{
     loginModalOpen(){
@@ -184,8 +255,20 @@ export default {
       alert('축하합니다! 회원가입이 완료되었습니다')
       alert('로그인을 진행해주세요')
       this.$refs['login'].show()
-    }
-  }
+    },
+
+    // logout() {
+    //   localStorage.removeItem('jwt')
+    //   this.login = false
+    //   this.$router.push({ name: 'Home' })
+    // },
+  },
+  // created() {
+  //   const token = localStorage.getItem('jwt')
+  //   if (token) {
+  //     this.login = true
+  //   }
+  // }
 }
 
 </script>
@@ -194,23 +277,29 @@ export default {
 .menubar {
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  height: 7.498vh;
+  width: 100%;
 }
 
 .logo {
-  font-size: 40px;
-  letter-spacing :3px;
+  font-size: 2.2vw;
+  letter-spacing :0.15vw;
 }
 
 .logo a {
-  margin: auto 35px;
-  color: #24274A !important;
   text-decoration: none;
+}
+
+.logo a div{
+  margin: 0.8vh 0 0 2.5vw;
+  color: #24274A !important;
   font-family: 'Dohyeon', sans-serif;
 }
 
 .menu {  
   font: 'Roboto', sans-serif;
-  margin: 0 25px 0 0;
+  margin: 0 1.5vw 0 0;
   padding: 0;
   list-style: none;
 }
@@ -219,8 +308,8 @@ export default {
   display:block;
   float: left;
   position: relative;
-  min-width: 150px;
-  font-size: 20px;
+  min-width: 7.8vw;
+  font-size: 1vw;
 }
 
 .menu li:hover{
@@ -229,28 +318,32 @@ export default {
 
 .menu a {
   display: block;
-  padding: 20px;
+  padding: 2.25vh;
   color: #616DCC;
   text-decoration: none;
   text-align: center;
   font-weight: bold;  
 }
 
-
-.menu li .profile {
-  display:block;
-  margin: 11px auto;
-  padding: 0;
+.menu li .profileicon {
+  margin: 1.3vh auto 0;
+  width : 5vh;
+  height : 5vh;
+  /* border: 1px solid; */
+  border-radius: 50%;
+  overflow:hidden;
 }
 
-.menu .li .profile-menu .login {
-  color: #616DCC;
+.menu li .profileicon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .menu li ul {
   position: absolute;
   left: 0;
-  top: 61px;
+  top: 7vh;
   margin: 0;
   padding: 0;
   border-radius: 10px;
@@ -259,7 +352,7 @@ export default {
 }
 
 .menu li ul li {
-  font-size: 15px;
+  font-size: 0.8vw;
   background: rgb(255, 255, 255);
   transition: .2s;
 }

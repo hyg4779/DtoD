@@ -44,9 +44,10 @@
         <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
       <div class="detail2 form-group">
-        <label for="code">코드 입력</label>
+        <Tiptap />
+        <!-- <label for="code">코드 입력</label>
         <br>
-        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea>
+        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea> -->
       </div>
       <div class="submitbtn">
         <button class="cancel" @click="back()">취소</button>
@@ -57,11 +58,15 @@
 </template>
 
 <script>
+import Tiptap from '../editor/Tiptap.vue'
+// import { api } from '../../../../api.js'
 // import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
-
+  components: {
+    Tiptap,
+  },
   data () {
     return {
       title: '',
@@ -87,8 +92,11 @@ export default {
       //       this.result.push(property)
       //     }
       //   }
+      //   
+      //  여기에는 코드 입력한 것을 담자.
+      //
       //   axios({
-      //     url: '',
+      //     url: api.CREATE_FREE_BOARD,
       //     method: 'POST',
       //     data: {
       //       title: this.title,
@@ -115,58 +123,54 @@ export default {
 <style scoped>
 
 .writeboard .title {
-  font-size: 30px;
+  font-size: 1.58vw;
+  margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
-  margin: 20px 0 0 20px;
 }
 
 form {
-  margin: 20px 0 0 20px;
+  margin: 2vh 0 0 1vw;
 }
 
 form div label {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
 }
 
 form div .stacktitle {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
 }
 
 form div textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   padding: 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 40px;
-  width: 700px;
+  border-radius: 0.5rem;
+  height: 4vh;
+  width: 42vw;
 }
 
 form .detail1 textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 300px;
-  width: 800px;
+  border-radius: 0.5rem;
+  height: 30vh;
+  width: 42vw;
+  margin-bottom: 2vh;
 }
 
-form .detail2 textarea {
-  margin: 0 0 20px 0;
-  border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 300px;
-  width: 800px;
-  margin-bottom: 20px;
-}
+/* form .detail2 textarea {
+
+} */
 
 form .checkbox {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   display: grid;
-  grid-template-columns: 200px 200px 200px 200px;
+  grid-template-columns: 12vw 12vw 12vw 12vw;
 }
 
 form .checkbox div{
@@ -174,34 +178,33 @@ form .checkbox div{
 }
 
 .submitbtn {
-  margin: 0 0 30px 0;
+  margin: 0 0 2vh 0;
 }
 
 .submitbtn .cancel {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: #24274A;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   border: 1px solid;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 
 .submitbtn .submit {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: white;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
-  border: none;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   background-color: #24274A;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 </style>

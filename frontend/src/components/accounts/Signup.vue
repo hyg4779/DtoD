@@ -5,7 +5,7 @@
       <b-form-group class="p-3" id="email" label="이메일" label-for="email" description=" 예시: kimssafy@korea.co.kr">
         <b-form-input
           id="email"
-          v-model="email"
+          v-model="credentials.email"
           type="email"
           placeholder="사용하실 이메일을 입력해주세요"
           required
@@ -17,17 +17,17 @@
       <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
         <b-form-input
           id="password"
-          v-model="pwd"
+          v-model="credentials.password"
           type="password"
           placeholder="사용하실 비밀번호를 입력해주세요"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="confirm_pwd" label="비밀번호 확인" label-for="confirm_pwd">
+      <b-form-group id="confirm_password" label="비밀번호 확인" label-for="confirm_password">
         <b-form-input
-          id="confirm_pwd"
-          v-model="confirm_pwd"
+          id="confirm_password"
+          v-model="credentials.confirm_password"
           type="password"
           placeholder="한번 더 입력해주세요"
           required
@@ -44,19 +44,21 @@
 
 <script>
 export default {
-  name: 'Signup',
+  name: 'SignUp',
   data () {
     return {
-      email: null,
-      pwd: null,
-      confirm_pwd: null,
+      credentials: {
+        email: null,
+        pwd: null,
+        confirm_pwd: null,
+      },    
     }
   },
   methods:{
     verifyEmail (){
       // email형식
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if(this.email.match(regExp) !== null){
+      if(this.credentials.email.match(regExp) !== null){
         return true
       }return false
     },
@@ -64,7 +66,7 @@ export default {
       // 영문 대문자 1개, 소문자 1개, 숫자1개, 특수문자1개, 8자-12자
       let regExp = /(([^ ])[a-z]+[A-Z]+[0-9]+[!@#$%^&*]+){8,12}/;
 
-      if(this.pwd.match(regExp) !== null){
+      if(this.credentials.pwd.match(regExp) !== null){
         return true
       }return false
     },
@@ -72,11 +74,12 @@ export default {
       let email_result = this.verifyEmail()
       let pwd_result = this.verifyPwd()
       if ((email_result && pwd_result) &&
-        (this.pwd === this.confirm_pwd)){
+        (this.credentials.pwd === this.credentials.confirm_pwd)){
         this.$store.dispatch('userCreate')
         return this.$emit('nickname-modal-open')
       }return alert('다시 확인해주세요!')
-    }
+      
+    },
   }
 }
 
@@ -91,7 +94,8 @@ export default {
 .signform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .signform input{
@@ -112,7 +116,7 @@ export default {
   padding: 1rem; 
 }
 
-#confirm_pwd{
+#confirm_password{
   font-weight:bold !important;
   font-size: 1.2rem;
   padding: 1rem; 

@@ -1,8 +1,7 @@
 <template>
-  <div class="studying">
-    <br>
+  <div class="questionboard">
     <div class="title">
-      진행중인 스터디룸
+      질문 게시판
     </div>
     <div class="allitems">
       <Items
@@ -14,11 +13,11 @@
 
 <script>
 // import axios from 'axios'
-import { dummy } from "../../../generated.js";
-import Items from '../../components/room/Items.vue'
+import { dummy } from "../../../../generated.js";
+import Items from './Items.vue'
 
 export default {
-  name: 'Studying',
+  name: 'QuestionBoard',
   components: {
     Items,
   },
@@ -35,9 +34,9 @@ export default {
 
 <style scoped>
 
-.studying .title {
+.questionboard .title {
   font-size: 1.58vw;
-  margin: 2vh 0 0 10vw;
+  margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
 }

@@ -5,7 +5,7 @@
     <b-form-group id="email" label="이메일" label-for="email">
       <b-form-input
         id="email"
-        v-model="email"
+        v-model="credentials.email"
         type="email"
         placeholder="이메일을 입력하세요"
         required
@@ -15,33 +15,40 @@
     <b-form-group id="password" label="비밀번호" label-for="password">
       <b-form-input
         id="password"
-        v-model="pwd"
+        v-model="credentials.pwd"
         placeholder="비밀번호를 입력하세요"
         required
       ></b-form-input>
     </b-form-group>
+
     <div id="btn_group">
       <b-button id="login_btn" pill @click="Login">로그인</b-button>
       <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
-
     </div>
+    
   </b-form>
     
 </template>
 
 <script>
+// import axios from 'axios'
+// import { api } from '../../../api.js'
+
 export default {
   name: 'Login',
   data () {
     return {
-      email: null,
-      pwd: null,
+      credentials: {
+        email: null,
+        pwd: null,
+      },
     }
   },
+
   methods:{
     verifyEmail (){
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if(this.email.match(regExp) !== null){
+      if(this.credentials.email.match(regExp) !== null){
         return true
       }return false
     },
@@ -66,7 +73,8 @@ export default {
 .loginform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .loginform input{
