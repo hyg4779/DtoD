@@ -17,7 +17,7 @@
       <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
         <b-form-input
           id="password"
-          v-model="credentials.password"
+          v-model="credentials.pwd"
           type="password"
           placeholder="사용하실 비밀번호를 입력해주세요"
           required
@@ -27,7 +27,7 @@
       <b-form-group id="confirm_password" label="비밀번호 확인" label-for="confirm_password">
         <b-form-input
           id="confirm_password"
-          v-model="credentials.confirm_password"
+          v-model="credentials.confirm_pwd"
           type="password"
           placeholder="한번 더 입력해주세요"
           required
@@ -49,37 +49,43 @@ export default {
     return {
       credentials: {
         email: null,
-        password: null,
-        confirm_password: null,
-      },
-      idRules: [
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 6) || '필수값입니다!',
-      ],
-      passwordRules:[
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 8) || '필수값입니다!',
-      ],
-
+        pwd: null,
+        confirm_pwd: null,
+      },    
     }
   },
   methods:{
+    verifyEmail (){
+      // email형식
+      let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      if(this.credentials.email.match(regExp) !== null){
+        return true
+      }return false
+    },
+    verifyPwd(){
+      // 영문 대문자 1개, 소문자 1개, 숫자1개, 특수문자1개, 8자-12자
+      let regExp = /(([^ ])[a-z]+[A-Z]+[0-9]+[!@#$%^&*]+){8,12}/;
+
+      if(this.credentials.pwd.match(regExp) !== null){
+        return true
+      }return false
+    },
     nickNameModalOpen(){
-      this.$store.dispatch('userCreate', this.credentials)
-      this.$emit('nickname-modal-open')
-    }
+      let email_result = this.verifyEmail()
+      let pwd_result = true
+      if ((email_result && pwd_result) &&
+        (this.credentials.pwd === this.credentials.confirm_pwd)){
+        this.$store.dispatch('userCreate', this.credentials)
+        return this.$emit('nickname-modal-open')
+      }return alert('다시 확인해주세요!')
+      
+    },
   }
 }
 
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .signform{
   padding: 1rem !important;
   font: 'Roboto', sans-serif;

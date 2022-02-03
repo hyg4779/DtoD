@@ -31,31 +31,23 @@ export default {
       },
     }
   },
-  // computed: {
-  //   user(){
-  //     return this.$store.state.credentials
-  //   }
-  // },
+
   methods:{
     jobsModalOpen(){
-      this.$store.dispatch('nickName', this.credentials)
-      this.$emit('jobs-modal-open')
+      let nick = this.credentials.nickname.length
+      if(nick >= 4 && nick <=10){
+        this.$store.dispatch('nickName', this.credentials)
+        this.$emit('jobs-modal-open')
+        return
+      }
+      return alert('4글자에서 10글자 사이로 입력해주세요')
     }
   },
-  // created() {
-  //   console.log(this.$store.state.credentials)
-  // }
 }
 
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .nicknameform{
   display: flex;
   flex-direction: column;

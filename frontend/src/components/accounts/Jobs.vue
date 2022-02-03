@@ -30,7 +30,6 @@ export default {
   name: 'Jobs',
   data () {
     return {
-      // jobs: null,
       options: [
         '웹 프로그래머',
         '웹 퍼블리셔',
@@ -41,35 +40,24 @@ export default {
         '데브옵스 엔지니어',
       ],
       credentials: {
-        jobs: '',
+        jobs: null,
       },
     }
   },
-  // computed: {
-  //   user(){
-  //     return this.$store.state.credentials
-  //   },
-  // },
+
   methods:{
     skillsModalOpen () {
-      this.$store.dispatch('jobs', this.credentials)
-      this.$emit('skills-modal-open')
+      if(this.jobs !== null){
+        this.$store.dispatch('jobs', this.credentials)
+        return this.$emit('skills-modal-open')
+      }return alert('희망 직무를 고르세요')
     },
   },
-  // created() {
-  //   console.log(this.$store.state.credentials)
-  // }
 }
 
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .jobsform{
   display: flex;
   flex-direction: column;
