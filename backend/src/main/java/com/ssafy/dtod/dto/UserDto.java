@@ -2,7 +2,9 @@ package com.ssafy.dtod.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
- 
+
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
  
@@ -26,9 +28,9 @@ public class UserDto {
    @Size(min = 2, max = 10)
    private String userName;
    
-   @NotNull
-   @Size(min = 1, max = 100)
-   private String userTechstack;
+   //@NotNull
+   //@Size(min = 1, max = 100)
+   private List<String> userTechstack;
    
    @NotNull
    @Size(min = 1, max = 50)
