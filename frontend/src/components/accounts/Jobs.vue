@@ -47,10 +47,17 @@ export default {
 
   methods:{
     skillsModalOpen () {
-      if(this.jobs !== null){
+      if(this.credentials.jobs === null){
+        this.$swal({
+          icon: 'error',
+          titleText: '희망 직무를 선택해주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      }else{
         this.$store.dispatch('jobs', this.credentials)
         return this.$emit('skills-modal-open')
-      }return alert('희망 직무를 고르세요')
+      }
     },
   },
 }

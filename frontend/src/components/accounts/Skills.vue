@@ -98,7 +98,12 @@ export default {
           console.log(err)
         })
       } else {
-        alert('한 가지 이상 입력해주세요')
+        this.$swal({
+          icon: 'error',
+          titleText: '한가지 이상 입력해주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       }
     }
   },
