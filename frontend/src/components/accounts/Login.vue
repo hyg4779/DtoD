@@ -50,15 +50,16 @@ export default {
   },
 
   methods:{
-    
     verifyEmail (){
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if(this.credentials.userEmail.match(regExp) !== null){
+      let data = this.credentials.userEmail.match(regExp)
+      // console.log(data)
+      if(data !== null){
         return true
       }return false
     },
     Login(){
-      if(this.verifyEmail){
+      if(this.verifyEmail()){
          axios({
           method: 'post',
           url: api.LOG_IN,
@@ -81,7 +82,14 @@ export default {
         })
         })
       } else {
-        alert('입력하신 정보가 일치하지 않습니다!')
+        this.$swal({
+          toast: true,
+          width: "21rem",
+          icon: 'error',
+          titleText: '이메일 형식을 맞춰주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       }
     },
     signupModalOpen(){

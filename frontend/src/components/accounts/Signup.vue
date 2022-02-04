@@ -58,26 +58,73 @@ export default {
     verifyEmail (){
       // email형식
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-      if(this.credentials.email.match(regExp) !== null){
-        return true
-      }return false
-    },
-    verifyPwd(){
-      // 영문 대문자 1개, 소문자 1개, 숫자1개, 특수문자1개, 8자-12자
-      let regExp = /(([^ ])[a-z]+[A-Z]+[0-9]+[!@#$%^&*]+){8,12}/;
 
-      if(this.credentials.pwd.match(regExp) !== null){
+      // 빈값이면 오류나기 match함수로 오류나기 전에 false처리
+      if (this.credentials.email === null){
+        return false
+      }
+
+      let data = this.credentials.email.match(regExp)
+      // console.log(data)
+      if(data === null){  // 정규식 통과하면 true
+        return false
+      }else{
+
         return true
-      }return false
+      }
     },
+
+    verifyPwd(){
+      // 문자 1개, 숫자1개, 특수문자1개, 8자-12자
+      let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+      // 빈값이면 오류나기 match함수로 오류나기 전에 false처리
+      if (this.credentials.pwd === null){
+        return false
+      }
+
+      let data = this.credentials.pwd.match(regExp)
+      // console.log(data)
+      if(data === null){  // 정규식 통과하면 true
+        return false
+      }else{
+
+        return true
+      }
+    },
+    
     nickNameModalOpen(){
       let email_result = this.verifyEmail()
-      let pwd_result = true
-      if ((email_result && pwd_result) &&
-        (this.credentials.pwd === this.credentials.confirm_pwd)){
-        this.$store.dispatch('userCreate', this.credentials)
-        return this.$emit('nickname-modal-open')
-      }return alert('다시 확인해주세요!')
+      let pwd_result = this.verifyPwd()
+
+      // 1차확인: 이메일, 비밀번호 형식 확인
+      if (email_result && pwd_result){
+        // 2차확인: 비밀번호, 비밀번호확인 일치 확인  =>  닉네임 모달 open
+        if(this.credentials.pwd === this.credentials.confirm_pwd){
+          this.$store.dispatch('userCreate', this.credentials)
+          return this.$emit('nickname-modal-open')
+
+        }else{  // 비밀번호 확인 불일치
+          this.$swal({
+          icon: 'error',
+          titleText: '비밀번호가 일치하지 않습니다',
+          showConfirmButton: false,
+          timer: 1500,
+          })
+          return this.credentials.confirm_pwd = null
+        }
+      }else{  // 이메일, 비밀번호 형식 미충족
+        this.$swal({
+          icon: 'error',
+          titleText: '이메일 또는 비밀번호     형식을 맞춰주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        this.credentials.email = null
+        this.credentials.pwd = null
+        this.credentials.confirm_pwd = null
+        return
+      }
       
     },
   }

@@ -277,8 +277,17 @@ export default {
     },
     signupFin(){
       this.$refs['skills'].hide()
-      alert('축하합니다! 회원가입이 완료되었습니다')
-      alert('로그인을 진행해주세요')
+      this.$swal({
+          width: "32rem",
+          icon: 'success',
+          titleText: '회원가입 성공!',
+          text: '로그인을 진행해주세요',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+
+      // alert('축하합니다! 회원가입이 완료되었습니다')
+      // alert('로그인을 진행해주세요')
       this.$refs['login'].show()
     },
 

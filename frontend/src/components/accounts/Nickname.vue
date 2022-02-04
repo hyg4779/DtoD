@@ -34,13 +34,22 @@ export default {
 
   methods:{
     jobsModalOpen(){
-      let nick = this.credentials.nickname.length
-      if(nick >= 4 && nick <=10){
-        this.$store.dispatch('nickName', this.credentials)
-        this.$emit('jobs-modal-open')
-        return
-      }
-      return alert('4글자에서 10글자 사이로 입력해주세요')
+      // null값이면 legnth에선 오류가 뜨기떄문에 null값 검사
+      if(this.credentials.nickname === null){
+        this.$swal({
+          icon: 'error',
+            titleText: '4글자 이상 10글자 이하로 입력해주세요',
+            showConfirmButton: false,
+            timer: 1500,
+            })
+        }else{
+          let nick = this.credentials.nickname.length
+          if(nick >= 4 && nick <=10){
+            this.$store.dispatch('nickName', this.credentials)
+          this.$emit('jobs-modal-open')
+          return
+          }
+        }
     }
   },
 }
