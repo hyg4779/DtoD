@@ -1,5 +1,8 @@
 <template>
     <div>
+      <div class="profileicon">
+        <img src="../../assets/default_user.png">
+      </div>
       <div>
         <button @click="selectUploadFile()">이미지 선택</button>
       </div>
@@ -34,7 +37,7 @@ export default {
           const formData = new FormData()
 
           formData.append('file', this.files[0])
-          
+
           const token = localStorage.getItem('jwt')
           axios({
             method: 'post',
@@ -73,5 +76,21 @@ export default {
 </script>
 
 <style scoped>
-
+.profileicon {
+  margin: 2vh auto 0;
+  width : 13vh;
+  height : 13vh;
+  /* border: 1px solid; */
+  border-radius: 50%;
+  overflow:hidden;
+}
+.profileicon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+button {
+  border: 1px solid;
+  margin: 2vh auto;
+}
 </style>
