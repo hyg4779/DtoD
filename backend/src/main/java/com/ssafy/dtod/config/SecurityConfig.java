@@ -77,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // authenticate, signup 은 Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
+                // fileupload test를 위해서 임시로 권한 허락 (추후에 변경 필요하면..!)
+                .antMatchers("/api/file/upload/profile-img").permitAll()
                 .antMatchers("/api/v2/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
                 
                 .anyRequest().authenticated()
