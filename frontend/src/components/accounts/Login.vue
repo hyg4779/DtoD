@@ -19,6 +19,7 @@
           type="password"
           placeholder="비밀번호를 입력하세요"
           required
+          @keypress.enter="Login"
         ></b-form-input>
       </b-form-group>
 

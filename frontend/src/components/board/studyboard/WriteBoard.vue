@@ -62,8 +62,8 @@
 </template>
 
 <script>
-// import { api } from '../../../../api.js'
-// import axios from 'axios'
+import { api } from '../../../../api.js'
+import axios from 'axios'
 
 export default {
   name: 'WriteBoard',
@@ -79,42 +79,51 @@ export default {
         react: false, cpp: false, django: false, spring: false, 
         vue: false, cs: false, go: false, flutter: false, 
         node: false, typescript: false, swift: false, etc: false},
-      result: [],
+      skills: [],
     }
   },
   methods: {
     back () {
       this.$router.replace()
     },
+    stacksCheck () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] !== false){
+          this.skills.push(property)
+        }
+      }
+    },
     onSubmit(event) {
       event.preventDefault()
-      // if (this.title.length <= 100) {
-      //   for (let property in this.stacks){
-      //     if (this.stacks[property]){
-      //       this.result.push(property)
-      //     }
-      //   }
-      //   axios({
-      //     url: 'api.CREATE_STUDY_BOARD',
-      //     method: 'POST',
-      //     data: {
-      //       title: this.title,
-      //       content1: this.content1,
-      //       content2: this.content2,
-      //       content3: this.content3,
-      //       result: this.result,
-      //     },
-      //     headers: {
-      //       Authorization: `JWT ${localStorage.getItem('jwt')}`
-      //     },
-      //   }).then(()=>{
-      //     this.$router.push('/freeboard')
-      //   }).catch(err=>{
-      //     console.error(err)
-      //   })
-      // } else {
-      //   alert("제목은 100자 이하로 입력하세요.")
-      // }  
+      this.stacksCheck()
+      if (this.title.length <= 50) {
+        for (let property in this.stacks){
+          if (this.stacks[property]){
+            this.result.push(property)
+          }
+        }
+        axios({
+          url: api.CREATE_STUDY_BOARD,
+          method: 'POST',
+          data: {
+            title: this.title,
+            content1: this.content1,
+            content2: this.content2,
+            content3: this.content3,
+            skills: this.skills,
+          },
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('jwt')}`
+          },
+        }).then(()=>{
+          this.$router.push('/studyboard')
+        }).catch(err=>{
+          console.error(err)
+        })
+      } else {
+        alert("제목은 50자 이하로 입력하세요.")
+      }  
     },
   }
 }
