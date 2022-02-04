@@ -28,7 +28,6 @@
       </div>
       
     </b-form>
-    
     <b-button id="sign_btn" pill><a @click="signupModalOpen">아직 계정이 없으신가요?</a></b-button>
 
   </div>
@@ -51,6 +50,7 @@ export default {
   },
 
   methods:{
+    
     verifyEmail (){
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       if(this.credentials.userEmail.match(regExp) !== null){
@@ -67,11 +67,18 @@ export default {
         .then(res => {
           localStorage.setItem('jwt', res.data.token)
           this.$emit('Login')
-          alert('로그인!')
           // this.$router.push({ name: 'Home' })
         })
         .catch(err => {
           console.log(err)
+          this.$swal({
+          toast: true,
+          width: "17rem",
+          icon: 'error',
+          titleText: '다시 확인해주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
         })
       } else {
         alert('입력하신 정보가 일치하지 않습니다!')

@@ -243,6 +243,16 @@ export default {
   },
   methods:{
     Login(){
+      this.$swal({
+          toast: true,
+          position: "top-end",
+          width: "13rem",
+          icon: 'success',
+          titleText: '로그인!',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+    
       this.$refs['login'].hide()
       this.login = true
     },
@@ -276,6 +286,16 @@ export default {
       localStorage.removeItem('jwt')
       this.login = false
       this.$router.push({ name: 'Home' })
+      this.$swal({
+          toast: true,
+          position: "top-end",
+          width: "13rem",
+          icon: 'success',
+          titleText: '로그아웃!',
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      
     },
   },
   created() {
