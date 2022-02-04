@@ -1,9 +1,8 @@
 <template>
     <div>
-        <h3>파일 업로드 결과: { { this.response === '' ? 'waiting' : this.response } }</h3>
-        <div>
-            <button @click="selectUploadFile()">이미지 선택</button>
-        </div>
+      <div>
+        <button @click="selectUploadFile()">이미지 선택</button>
+      </div>
     </div>
 </template>
 
@@ -33,11 +32,9 @@ export default {
         // 이벤트 감지
         elem.onchange = function() {
           const formData = new FormData()
-          // for (var index = 0; index < this.files.length; index++) {
-          console.log(this.files)
-          // console.log(this.file)
+
           formData.append('file', this.files[0])
-          // }
+          
           const token = localStorage.getItem('jwt')
           axios({
             method: 'post',
