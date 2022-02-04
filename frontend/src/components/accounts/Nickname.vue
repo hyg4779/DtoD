@@ -38,7 +38,8 @@ export default {
       if(this.credentials.nickname === null){
         this.$swal({
           icon: 'error',
-            titleText: '4글자 이상 10글자 이하로 입력해주세요',
+            titleText: `4글자 이상 10글자 이하로 
+            입력해주세요`,
             showConfirmButton: false,
             timer: 1500,
             })

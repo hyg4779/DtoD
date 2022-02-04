@@ -116,7 +116,8 @@ export default {
       }else{  // 이메일, 비밀번호 형식 미충족
         this.$swal({
           icon: 'error',
-          titleText: '이메일 또는 비밀번호     형식을 맞춰주세요',
+          titleText: `이메일 또는 비밀번호     
+          형식을 맞춰주세요`,
           showConfirmButton: false,
           timer: 1500,
         })
