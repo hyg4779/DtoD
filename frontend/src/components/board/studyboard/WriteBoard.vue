@@ -98,11 +98,6 @@ export default {
       event.preventDefault()
       this.stacksCheck()
       if (this.title.length <= 50) {
-        for (let property in this.stacks){
-          if (this.stacks[property]){
-            this.result.push(property)
-          }
-        }
         axios({
           url: api.CREATE_STUDY_BOARD,
           method: 'POST',
