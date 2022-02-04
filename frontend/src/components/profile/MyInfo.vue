@@ -1,48 +1,80 @@
 <template>
-  <v-container>
-    <v-layout row>
-      <v-flex class="text-center font-weight-black">
-        <h1>Upload a photo</h1>
-      </v-flex>
-    </v-layout>
-    <v-layout row>
-      <v-flex md6 offset-sm3 class="text-center">
-        <v-text-field
-        solo
-        v-model="caption"
-        label="Caption goes here">
-        </v-text-field>
-      </v-flex>
-    </v-layout>
-    <v-layout row>
-      <v-flex class="text-center">
-        <v-btn color="pink" @click="create">upload</v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
+    <div>
+        <h3>파일 업로드 결과: { { this.response === '' ? 'waiting' : this.response } }</h3>
+        <div>
+            <button @click="selectUploadFile()">이미지 선택</button>
+        </div>
+    </div>
 </template>
 
-
 <script>
-// import axios from 'axios'
-// import { api } from '../../../api.js'
+import axios from 'axios'
+import { api } from '../../../api.js'
+// import jwt_decode from 'jwt-decode'
 
 export default {
-  name: 'MyInfo',
-  data() {
-    return{
-      caption : ''
-    }
-  },
-  methods: {
-    create () {
-      console.log(this.caption)
-    }
-  },
-
+    name: 'CorsReuqest',
+    data() {
+        return {
+            response: ''
+        }
+    },
+    methods: {
+      selectUploadFile() {
+        var vue = this
+        let elem = document.createElement('input')
+        // 이미지 파일 업로드 / 동시에 여러 파일 업로드
+        elem.id = 'image'
+        elem.type = 'file'
+        elem.accept = 'image/*'
+        elem.multiple = false
+        // 클릭
+        elem.click();
+        // 이벤트 감지
+        elem.onchange = function() {
+          const formData = new FormData()
+          // for (var index = 0; index < this.files.length; index++) {
+          console.log(this.files)
+          // console.log(this.file)
+          formData.append('file', this.files[0])
+          // }
+          const token = localStorage.getItem('jwt')
+          axios({
+            method: 'post',
+            url: api.USER_INFO_CHANGE,
+            data: formData,
+            headers: { 
+              'Content-Type': 'multipart/form-data' ,
+              Authorization: 'Bearer ' + token
+            }
+          }).then(response => {
+              vue.response = response.data
+          }).catch(error => {
+              vue.response = error.message
+          })
+        }
+      }
+    },
+    created() {
+        // token에서 유저 상세 정보 뺴옴
+        // const token = localStorage.getItem('jwt')
+        // console.log(token)
+        // console.log(jwt_decode(token))
+        // axios ({
+        //   method: 'get',
+        //   url: api.USER_INFO_GET,
+        //   headers: { 
+        //     Authorization: 'Bearer ' + token
+        //   }
+        // }).then(res=>{
+        //   console.log(res)
+        // }).catch(error => {
+        //   console.log(error)
+        // })
+  }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
