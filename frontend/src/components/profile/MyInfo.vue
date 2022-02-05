@@ -1,12 +1,14 @@
 <template>
+  <div class="myinfo">
     <div>
       <div class="profileicon">
         <img src="../../assets/default_user.png">
       </div>
-      <div>
-        <button @click="selectUploadFile()">이미지 선택</button>
+      <div class="profilebutton">
+        <button class="imgadd" @click="selectUploadFile()">이미지 등록</button>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -15,11 +17,11 @@ import { api } from '../../../api.js'
 // import jwt_decode from 'jwt-decode'
 
 export default {
-    name: 'CorsReuqest',
+    name: 'MyInfo',
     data() {
-        return {
-            response: ''
-        }
+      return {
+        img: '',
+      }
     },
     methods: {
       selectUploadFile() {
@@ -53,7 +55,8 @@ export default {
               vue.response = error.message
           })
         }
-      }
+      },
+      // }
     },
     created() {
         // token에서 유저 상세 정보 뺴옴
@@ -89,8 +92,20 @@ export default {
   height:100%;
   object-fit:cover;
 }
-button {
-  border: 1px solid;
-  margin: 2vh auto;
+
+.profilebutton{
+  display: flex;
+}
+.imgadd {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.7vw;
+  font-weight: bold;
+  color: white;
+  height: 4vh;
+  width: 5vw;
+  margin: 2vh 0 0 40.5vw;
+  background-color: #24274A;
+  border-radius: 0.8rem;
 }
 </style>
