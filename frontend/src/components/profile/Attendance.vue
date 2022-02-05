@@ -1,15 +1,33 @@
 <template>
   <div>
-    출석
+    <div>
+      이미지
+    </div>
+    <div data-app>
+      <Calendars />
+    </div>
   </div>
 </template>
 
 <script>
+// import axios from 'axios'
+import Calendars from './Calendars.vue';
+
 export default {
+  name: 'Attendance',
+  components: {
+    Calendars,
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {  
+    },
 
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
