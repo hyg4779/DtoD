@@ -30,7 +30,8 @@ export default {
         // 이미지 파일 업로드 / 동시에 여러 파일 업로드
         elem.id = 'image'
         elem.type = 'file'
-        elem.accept = 'image/*'
+        // elem.accept = 'image/*'
+        elem.accept = ['image/png', 'image/jpeg']
         elem.multiple = false
         // 클릭
         elem.click();
