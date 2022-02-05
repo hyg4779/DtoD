@@ -8,6 +8,58 @@
         <button class="imgadd" @click="selectUploadFile()">이미지 등록</button>
       </div>
     </div>
+    <b-form class="form">
+      <label class="nicknamelabel" for="nickname">닉네임</label>
+      <b-form-input
+        id="nickname"
+        v-model="credentials.nickname"
+        type="text"
+        required
+      >
+      </b-form-input>
+
+      <label class="joblabel" for="input-with-list">희망 직무를 선택하세요</label>
+      <b-form-input
+        v-model="credentials.jobs"
+        list="input-list"
+        id="input-with-list">
+      </b-form-input>
+      <b-form-datalist
+        id="input-list"
+        :options="options">
+      </b-form-datalist>
+
+      <label class="skilllabel" for="checkbox">관심있는 기술 스택을 선택하세요</label>
+      <div class="checkbox" id="checkbox">
+        <div>
+          <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
+          <v-checkbox v-model="stacks.react" label="React"/>
+          <v-checkbox v-model="stacks.vue" label="Vue"/>
+          <v-checkbox v-model="stacks.node" label="Node"/>
+        </div>
+        <div>
+          <v-checkbox v-model="stacks.c" label="C"/>
+          <v-checkbox v-model="stacks.cpp" label="C++"/>
+          <v-checkbox v-model="stacks.cs" label="C#"/>
+          <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
+        </div>
+        <div>
+          <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
+          <v-checkbox v-model="stacks.django" label="Django"/>
+          <v-checkbox v-model="stacks.go" label="Go"/>
+          <v-checkbox v-model="stacks.swift" label="Swift"/>
+        </div>
+        <div>
+          <v-checkbox v-model="stacks.java" label="Java"/>
+          <v-checkbox v-model="stacks.spring" label="Spring"/>
+          <v-checkbox v-model="stacks.flutter" label="Flutter"/>
+          <v-checkbox v-model="stacks.etc" label="Etc"/>
+        </div>
+      </div>
+      <div id="btn_group">
+        <b-button class="sumbit_btn" pill >수정 완료</b-button>
+      </div>
+    </b-form>
   </div>
 </template>
 
@@ -21,6 +73,38 @@ export default {
     data() {
       return {
         img: '',
+        stacks: {
+          javascript: false,
+          c: false,
+          kotlin: false,
+          java: false, 
+          react: false,
+          cpp: false,
+          django: false,
+          spring: false, 
+          vue: false,
+          cs: false,
+          go: false,
+          flutter: false, 
+          node: false,
+          typescript: false,
+          swift: false,
+          etc: false
+        },
+        options: [
+          '웹 프로그래머',
+          '웹 퍼블리셔',
+          '프론트엔드 엔지니어',
+          '서버 개발자',
+          '백엔드 엔지니어',
+          '데이터 엔지니어',
+          '데브옵스 엔지니어',
+        ],
+        credentials: {
+          nickname: '',
+          jobs: null,
+          skills: [],
+        }
       }
     },
     methods: {
@@ -80,8 +164,12 @@ export default {
 </script>
 
 <style scoped>
+.myinfo {
+  margin: 0 auto;
+}
+
 .profileicon {
-  margin: 2vh auto 0;
+  margin: 5vh auto 0;
   width : 13vh;
   height : 13vh;
   /* border: 1px solid; */
@@ -106,6 +194,77 @@ export default {
   height: 4vh;
   width: 5vw;
   margin: 2vh 0 0 40.5vw;
+  background-color: #24274A;
+  border-radius: 0.8rem;
+}
+
+.nicknamelabel {
+  font-weight: bold;
+  font-size: 0.95vw;
+  margin: 1vh 0 -2vh 31.8vw;
+}
+.joblabel {
+  font-weight: bold;
+  font-size: 0.95vw;
+  margin: 1vh 0 -2vh 31.8vw;
+}
+.skilllabel {
+  font-weight: bold;
+  font-size: 0.95vw;
+  margin: 1vh 0 0 35vw;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem !important;
+  font: 'Roboto', sans-serif;
+  min-height: 600px !important;
+  /* margin: 0 0 0 30.5vw; */
+}
+
+#nickname{
+  width: 20vw;
+  height: 6vh;
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
+  margin: 0.4rem 0 0 31.8vw;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+}
+
+#input-with-list{
+  width: 20vw;
+  height: 6vh;
+  font-weight:bold !important;
+  font-size: 1.2rem;
+  padding: 1rem; 
+  margin: 0.4rem 0 2vh 31.8vw;
+  border-radius: 1rem !important;
+  box-shadow: 0 0.1rem 0.1rem grey !important;
+}
+
+.checkbox {
+  margin: 0.4rem 0 2vh 25vw;
+  display: grid;
+  grid-template-columns: 10vw 10vw 10vw 10vw;
+}
+
+.checkbox div{
+  margin: 0;
+}
+
+.sumbit_btn{
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.7vw;
+  font-weight: bold;
+  color: white;
+  height: 4vh;
+  width: 5vw;
+  margin: 0 0 0 40vw;
   background-color: #24274A;
   border-radius: 0.8rem;
 }
