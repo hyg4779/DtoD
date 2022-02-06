@@ -2,7 +2,8 @@
   <div class="myinfo">
     <div>
       <div class="profileicon">
-        <img src="../../assets/default_user.png">
+        <img v-if="picture" :src="picture"> 
+        <img v-else src="../../assets/default_user.png">
       </div>
       <div class="profilebutton">
         <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->

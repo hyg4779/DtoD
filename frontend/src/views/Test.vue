@@ -1,5 +1,6 @@
 <template>
   <div>
+    여기는 동철의 테스트를 위한 공간
     <input type="file" accept="image/*" @change="previewImage" /> 
 
     <img v-if="picture" :src="picture" alt="preview" style="max-widht: 150px; max-height: 150px;"> 

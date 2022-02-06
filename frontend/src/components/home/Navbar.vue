@@ -130,7 +130,8 @@
       </li>
       <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
         <div class="profileicon">
-          <img src="../../assets/default_user.png">
+          <img v-if="userImg" :src="userImg"> 
+          <img v-else src="../../assets/default_user.png">
         </div>
         <transition name="fade">         
           <ul v-if="listFour" @click="listFour = false">
@@ -238,7 +239,8 @@ export default {
       listOne: false,
       listTwo: false,
       listThree: false,
-      listFour: false
+      listFour: false,
+      userImg: null,
     }
   },
   methods:{
