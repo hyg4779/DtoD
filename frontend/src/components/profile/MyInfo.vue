@@ -11,7 +11,7 @@
         <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
         <button class="imgadd"  @click="onUpload">이미지 등록</button>
       </div>
-      <div class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
+      <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
     </div>
     <b-form class="form">
       <label class="nicknamelabel" for="nickname">닉네임</label>
