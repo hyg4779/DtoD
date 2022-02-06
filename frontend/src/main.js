@@ -6,6 +6,8 @@ import vuetify from './plugins/vuetify'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage'
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vuetify/dist/vuetify.min.css'
@@ -23,6 +25,18 @@ new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: h => h(App),
+
+  created() {
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxGdCkiDUfB9hOSGubxoYvUgrxwRa9mDc",
+      authDomain: "dtod-image-upload.firebaseapp.com",
+      projectId: "dtod-image-upload",
+      storageBucket: "dtod-image-upload.appspot.com",
+      messagingSenderId: "332159323834",
+      appId: "1:332159323834:web:8c67f5ef2599889b873c83"
+    };
+    firebase.initializeApp(firebaseConfig);
+  }
 
 }).$mount('#app')

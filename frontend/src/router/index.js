@@ -11,9 +11,17 @@ import MyProfile from '../views/profile/MyProfile.vue'
 import MyStudy from '../views/profile/MyStudy.vue'
 import Page404 from '../views/Page404.vue'
 
+import Test from '../views/Test.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
+
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  },
   {
     path: '/',
     name: 'Home',
