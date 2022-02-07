@@ -5,7 +5,7 @@
       <b-form-group class="p-3" id="nickname" label="닉네임" label-for="nickname" description="자유롭게 설정하세요">
         <b-form-input
           id="nickname"
-          v-model="nickname"
+          v-model="credentials.nickname"
           type="text"
           required
         >
@@ -26,27 +26,38 @@ export default {
   name: 'Nickname',
   data () {
     return {
-      nickname: null,
+      credentials: {
+        nickname: null,
+      },
     }
   },
+
   methods:{
-    onSubmit () {
-    },
     jobsModalOpen(){
-      this.$emit('jobs-modal-open')
+      // null값이면 legnth에선 오류가 뜨기떄문에 null값 검사
+      if(this.credentials.nickname === null){
+        this.$swal({
+          icon: 'error',
+            titleText: `4글자 이상 10글자 이하로 
+            입력해주세요`,
+            showConfirmButton: false,
+            timer: 1500,
+            })
+        }else{
+          let nick = this.credentials.nickname.length
+          if(nick >= 4 && nick <=10){
+            this.$store.dispatch('nickName', this.credentials)
+          this.$emit('jobs-modal-open')
+          return
+          }
+        }
     }
-  }
+  },
 }
 
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .nicknameform{
   display: flex;
   flex-direction: column;
@@ -58,7 +69,8 @@ export default {
 .nicknameform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .nicknameform input{

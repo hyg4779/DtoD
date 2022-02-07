@@ -2,9 +2,11 @@
   <div class="howtouse">
     <br>
     <div class="container">
-      <span>
-        이용 방법 안내
-      </span>
+      <div class="title">
+        이용 방법
+        <br>
+        (How To Use)
+      </div>
     </div>
   </div>
 </template>
@@ -19,18 +21,25 @@ export default {
 
 .howtouse {
   background-color: #EBEDF0;
-  /* background-color: #F5F5F5; */
   width: 100vw;
-  height: calc(100vh - 70px);
+  min-height: calc(100vh - 7.498vh);
 }
 
 .howtouse .container{
   width: 75vw;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
-  margin: auto;
-  padding: 10px 20px;
+  margin: 0 auto;
+  padding: 1vh 2vw;
   text-align: center;
 }
+
+.howtouse .container .title {
+  font-family: 'Dohyeon';
+  font-size: 1.78vw;
+  margin: 5vh 0 5vh 0;
+  color: #24274A;
+}
+
 </style>

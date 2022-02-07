@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { dummy } from "../../../../generated.js";
+import { dummy } from "../../../generated.js";
 
 export default {
   name: 'ItemDetail',

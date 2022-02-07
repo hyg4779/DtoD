@@ -3,22 +3,29 @@
     <div class="title">
       내가 작성한 글
     </div>
+    <!-- <div>
+      <Tiptap />
+    </div> -->
   </div>
 </template>
 
 <script>
-export default {
+// import Tiptap from '../editor/Tiptap.vue'
 
+export default {
+  // components: {
+  //   Tiptap,
+  // }
 }
 </script>
 
 <style scoped>
 
 .myboard .title {
-  font-size: 30px;
+  font-size: 1.58vw;
+  margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
-  margin: 20px 0 0 20px;
 }
 
 </style>

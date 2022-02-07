@@ -5,7 +5,7 @@
       <b-form-group class="p-3" id="email" label="이메일" label-for="email" description=" 예시: kimssafy@korea.co.kr">
         <b-form-input
           id="email"
-          v-model="email"
+          v-model="credentials.email"
           type="email"
           placeholder="사용하실 이메일을 입력해주세요"
           required
@@ -17,17 +17,17 @@
       <b-form-group id="password" label="비밀번호" label-for="password" description="영문 대소문자 와 특수문자를 사용해주세요">
         <b-form-input
           id="password"
-          v-model="pwd"
+          v-model="credentials.pwd"
           type="password"
           placeholder="사용하실 비밀번호를 입력해주세요"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="confirm_pwd" label="비밀번호 확인" label-for="confirm_pwd">
+      <b-form-group id="confirm_password" label="비밀번호 확인" label-for="confirm_password">
         <b-form-input
-          id="confirm_pwd"
-          v-model="confirm_pwd"
+          id="confirm_password"
+          v-model="credentials.confirm_pwd"
           type="password"
           placeholder="한번 더 입력해주세요"
           required
@@ -44,41 +44,96 @@
 
 <script>
 export default {
-  name: 'Signup',
+  name: 'SignUp',
   data () {
     return {
-      email: null,
-      pwd: null,
-      confirm_pwd: null,
-      idRules: [
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 6) || '필수값입니다!',
-      ],
-      pwdRules:[
-        value => !!value || '필수값입니다!',
-        value => (value && value.length >= 8) || '필수값입니다!',
-      ],
-
+      credentials: {
+        email: null,
+        pwd: null,
+        confirm_pwd: null,
+      },    
     }
   },
   methods:{
-    onSubmit () {
-      },
+    verifyEmail (){
+      // email형식
+      let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+      // 빈값이면 오류나기 match함수로 오류나기 전에 false처리
+      if (this.credentials.email === null){
+        return false
+      }
+
+      let data = this.credentials.email.match(regExp)
+      // console.log(data)
+      if(data === null){  // 정규식 통과하면 true
+        return false
+      }else{
+
+        return true
+      }
+    },
+
+    verifyPwd(){
+      // 문자 1개, 숫자1개, 특수문자1개, 8자-12자
+      let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+      // 빈값이면 오류나기 match함수로 오류나기 전에 false처리
+      if (this.credentials.pwd === null){
+        return false
+      }
+
+      let data = this.credentials.pwd.match(regExp)
+      // console.log(data)
+      if(data === null){  // 정규식 통과하면 true
+        return false
+      }else{
+
+        return true
+      }
+    },
+    
     nickNameModalOpen(){
-      this.$emit('nickname-modal-open')
-    }
+      let email_result = this.verifyEmail()
+      let pwd_result = this.verifyPwd()
+
+      // 1차확인: 이메일, 비밀번호 형식 확인
+      if (email_result && pwd_result){
+        // 2차확인: 비밀번호, 비밀번호확인 일치 확인  =>  닉네임 모달 open
+        if(this.credentials.pwd === this.credentials.confirm_pwd){
+          this.$store.dispatch('userCreate', this.credentials)
+          return this.$emit('nickname-modal-open')
+
+        }else{  // 비밀번호 확인 불일치
+          this.$swal({
+          icon: 'error',
+          titleText: '비밀번호가 일치하지 않습니다',
+          showConfirmButton: false,
+          timer: 1500,
+          })
+          return this.credentials.confirm_pwd = null
+        }
+      }else{  // 이메일, 비밀번호 형식 미충족
+        this.$swal({
+          icon: 'error',
+          titleText: `이메일 또는 비밀번호     
+          형식을 맞춰주세요`,
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        this.credentials.email = null
+        this.credentials.pwd = null
+        this.credentials.confirm_pwd = null
+        return
+      }
+      
+    },
   }
 }
 
 </script>
 
 <style scoped>
-/* #box-border{
-  border: 0.15rem solid rgba(155, 155, 155, 0.5);
-  border-radius: 0.5rem;
-  padding: 1rem 1rem 1.5rem 1rem;
-} */
-
 .signform{
   padding: 1rem !important;
   font: 'Roboto', sans-serif;
@@ -87,7 +142,8 @@ export default {
 .signform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .signform input{
@@ -108,7 +164,7 @@ export default {
   padding: 1rem; 
 }
 
-#confirm_pwd{
+#confirm_password{
   font-weight:bold !important;
   font-size: 1.2rem;
   padding: 1rem; 

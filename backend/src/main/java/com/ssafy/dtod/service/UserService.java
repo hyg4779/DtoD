@@ -37,6 +37,9 @@ public class UserService {
                 .userEmail(userDto.getUserEmail())
                 .userPwd(passwordEncoder.encode(userDto.getUserPwd()))
                 .userName(userDto.getUserName())
+                .userJobs(userDto.getUserJobs())
+                //배열로 받아온 데이터를 String.join을 이용해 하나씩 꺼내서 연결하여 userTechstack에 넣어준다.
+                .userTechstack(String.join(",", userDto.getUserTechstack()))
                 .authorities(Collections.singleton(authority))
                 .userActivated(true)
                 .build();

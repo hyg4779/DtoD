@@ -61,7 +61,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import { api } from '../../../api.js'
+import axios from 'axios'
 
 export default {
   name: 'MakeStudy',
@@ -76,41 +77,45 @@ export default {
         react: false, cpp: false, django: false, spring: false, 
         vue: false, cs: false, go: false, flutter: false, 
         node: false, typescript: false, swift: false, etc: false},
-      result: [],
+      skills: [],
     }
   },
   methods: {
     back () {
       this.$router.replace()
     },
+    stacksCheck () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] !== false){
+          this.skills.push(property)
+        }
+      }
+    },
     onSubmit(event) {
       event.preventDefault()
-      // if (this.title.length <= 100) {
-      //   for (let property in this.stacks){
-      //     if (this.stacks[property]){
-      //       this.result.push(property)
-      //     }
-      //   }
-      //   axios({
-      //     url: '',
-      //     method: 'POST',
-      //     data: {
-      //       title: this.title,
-      //       content1: this.content1,
-      //       content2: this.content2,
-      //       result: this.result,
-      //     },
-      //     headers: {
-      //       Authorization: `JWT ${localStorage.getItem('jwt')}`
-      //     },
-      //   }).then(()=>{
-      //     this.$router.push('/freeboard')
-      //   }).catch(err=>{
-      //     console.error(err)
-      //   })
-      // } else {
-      //   alert("제목은 100자 이하로 입력하세요.")
-      // }  
+      this.stacksCheck()
+      if (this.title.length <= 50) {
+        axios({
+          url: api.CREATE_STUDY_ROOM,
+          method: 'POST',
+          data: {
+            title: this.title,
+            content1: this.content1,
+            content2: this.content2,
+            skills: this.skills,
+          },
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('jwt')}`
+          },
+        }).then(()=>{
+          this.$router.push('/studying')
+        }).catch(err=>{
+          console.error(err)
+        })
+      } else {
+        alert("제목은 50자 이하로 입력하세요.")
+      }  
     },
   }
 }
@@ -121,81 +126,72 @@ export default {
 .makestudy {
   background-color: #EBEDF0;
   width: 100%;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 7.498vh);
 }
 
 .makestudy .container{
-  width: 49vw;
+  width: 50vw;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 1vh 2vw;
 }
 
 .container .title {
-  font-size: 30px;
+  font-size: 1.6vw;
   font-weight: bold;
   color: #0D1350;
-  margin: 20px 0 0 0;
+  margin: 2vh 0 0 0;
 }
 
 form {
-  margin: 20px 0 0 0;
+  margin: 2vh 0 0 0;
 }
 
 form div label {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1vw;
+  margin: 0 0 1vh 0;
 }
 
 
 form div .stacktitle {
   font-weight: bold;
-  font-size: 20px;
-  margin: 0 0 10px 0;
+  font-size: 1vw;
+  margin: 0 0 1vh 0;
 }
 
 form div textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   padding: 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 40px;
+  border-radius: 0.5rem;
+  height: 4vh;
   width: 30vw;
 }
 
 form .detail1 textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 40px;
+  border-radius: 0.5rem;
+  height: 4vh;
   width: 45vw;
 }
 
 form .detail2 textarea {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 300px;
+  border-radius: 0.5rem;
+  height: 30vh;
   width: 45vw;
-  margin-bottom: 20px;
-}
-
-form .detail3 textarea {
-  margin: 0 0 20px 0;
-  border: 0.1px solid #C4C4C4;
-  border-radius: 10px;
-  height: 300px;
-  width: 45vw;
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
 }
 
 form .checkbox {
-  margin: 0 0 20px 0;
+  margin: 0 0 2vh 0;
   display: grid;
-  grid-template-columns: 200px 200px 200px 200px;
+  grid-template-columns: auto auto auto auto;
 }
 
 form .checkbox div{
@@ -203,34 +199,33 @@ form .checkbox div{
 }
 
 form .submitbtn {
-  margin: 0 0 10px 0;
+  margin: 0 0 1vh 0;
 }
 
 .submitbtn .cancel {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: #24274A;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   border: 1px solid;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 
 .submitbtn .submit {
   cursor: pointer;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 0.85vw;
   font-weight: bold;
   color: white;
-  height: 40px;
-  width: 80px;
-  margin: 0 10px 0 0;
-  border: none;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
   background-color: #24274A;
-  border-radius: 20px;
+  border-radius: 1.1rem;
 }
 </style>

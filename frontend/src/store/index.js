@@ -1,41 +1,47 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [
-    createPersistedState(),
-  ],  
+  // plugins: [
+  //   createPersistedState(),
+  // ],  
   state: {
-    user_info:{
-      email: null,
-      pwd: null,
-      nick_name: null,
-      jobs: null,
-      stacks: null,
+    credentials:{
+      // email: null,
+      // password: null,
+      // nickname: null,
+      // jobs: null,
+      // skills: null,
+      userEmail: null,
+      userPwd: null,
+      userName: null,
+      userJobs: null,
+      userTechstack: null,
     }
   },
   mutations: {
     userCreate(state, payload){
-      state.user_info.email = payload.email
-      state.user_info.pwd = payload.password
+      state.credentials.userEmail = payload.email
+      state.credentials.userPwd = payload.pwd
     },
     nickName(state, payload){
-      state.user_info.nick_name = payload
+      state.credentials.userName = payload.nickname
     },
     jobs(state, payload){
-      state.user_info.skills = payload
+      state.credentials.userJobs = payload.jobs
     },
-    stacks(state, payload){
-      state.user_info.stacks = payload
+    skills(state, payload){
+      state.credentials.userTechstack = payload.skills
     },
-    infoIntialize(state){
-      for(let property in state.user_info){
-        state.user_info[property] = null
-      }
-    }
+    // infoIntialize(state){
+    //   for(let property in state.credentials){
+    //     state.credentials[property] = null
+    //     console.log(state.credentials)
+    //   }
+    // }
 
   },
   actions: {
@@ -48,14 +54,12 @@ export default new Vuex.Store({
     jobs({commit}, payload){
       commit('jobs', payload)
     },
-    stacks({commit},payload){
-      commit('stacks', payload)
+    skills({commit},payload){
+      commit('skills', payload)
     },
-    infoIntialize({commit}){
-      
-      commit('infoIntialize')
-    }
-
+    // infoIntialize({commit}){
+    //   commit('infoIntialize')
+    // }
 
   },
   modules: {

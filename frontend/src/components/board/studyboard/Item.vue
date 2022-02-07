@@ -1,7 +1,7 @@
 <template>
   <div class="item" @click="getItemDetail()">
     <div class="item-img">
-      <img src="https://picsum.photos/600/300/?image=25" alt="img">
+      <img src="../../../assets/color/001.png" alt="배경이미지">
     </div>
     <div class="item-title">
       <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
@@ -9,11 +9,12 @@
     <b-modal
       ref="detail"
       centered
+      size="lg"
       hide-footer 
       hide-header
     >
-      <ItemDetail 
-        :item_pk = this.item.id
+      <ItemDetail
+        :item_pk = this.item.sboardId
       />
     </b-modal>
   </div>
@@ -30,10 +31,15 @@ export default {
   props: {
     item: Object,
   },
+  data(){
+    return{
+
+    }
+  },
   computed: {
     getTitle: function() {
-        const t = this.item.title
-        // console.log(t)
+        const t = this.item.sboardTitle
+        console.log(t)
         const temp = t.split(' ')
         let res = []
         let tp = ''
@@ -49,24 +55,16 @@ export default {
         return res
       },
   },
-  methods: {
-    getItemDetail() {
-      this.$refs['detail'].show()
-    },
-  },
-  created() {
-    // console.log(this.item)
-  }
 }
 </script>
 
 <style scoped>
 .item{
-  width: 250px;
-  height: 250px;
+  width: 13vw;
+  height: 27vh;
   cursor: pointer;
   /* border: 1px solid; */
-  border-radius: 25px;
+  border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   background-color: white;
 }
@@ -85,7 +83,8 @@ export default {
 
 .item .item-title {
   text-align: center;
-  font-size: 15px;
-  margin: 25px 0 0 0;
+  font-size: 0.78vw;
+  margin: 2.5vh 0 0 0;
 }
+
 </style>

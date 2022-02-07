@@ -1,10 +1,10 @@
 <template>
-  <div class="allboard">
+  <div class="freeboard">
     <div class="title">
-      전체 글
+      자유 게시판
     </div>
-    <div class="allitems">
-      <Items
+    <div class="freeitems">
+      <FreeItems
         :items="items"
       />
     </div>
@@ -14,12 +14,12 @@
 <script>
 // import axios from 'axios'
 import { dummy } from "../../../../generated.js";
-import Items from './Items.vue'
+import FreeItems from './FreeItems.vue'
 
 export default {
-  name: 'AllBoard',
+  name: 'FreeBoard',
   components: {
-    Items,
+    FreeItems,
   },
   data () {
     return {
@@ -34,9 +34,9 @@ export default {
 
 <style scoped>
 
-.allboard .title {
-  font-size: 30px;
-  margin: 20px 0 0 20px;
+.freeboard .title {
+  font-size: 1.58vw;
+  margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
 }

@@ -68,11 +68,11 @@ export default {
 <style scoped>
 
 .item{
-  width: 250px;
-  height: 250px;
+  width: 13vw;
+  height: 26.5vh;
   cursor: pointer;
   /* border: 1px solid; */
-  border-radius: 25px;
+  border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   background-color: white;
 }
@@ -91,7 +91,7 @@ export default {
 
 .item .item-title {
   text-align: center;
-  font-size: 15px;
-  margin: 25px 0 0 0;
+  font-size: 0.78vw;
+  margin: 2.5vh 0 0 0;
 }
 </style>

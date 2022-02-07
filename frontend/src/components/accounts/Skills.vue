@@ -32,13 +32,16 @@
         </div>
       </div>
     <div id="btn_group">
-      <b-button id="sumbit_btn" pill @click="singupFin">다음</b-button>
+      <b-button id="sumbit_btn" pill @click="signupFin">완료</b-button>
     </div>
     
   </b-form>
 </template>
 
 <script>
+import axios from 'axios'
+import { api } from '../../../api.js'
+
 export default {
 
   data () {
@@ -59,35 +62,52 @@ export default {
         node: false,
         typescript: false,
         swift: false,
-        etc: false},
-      result: [],
+        etc: false
+      },
+      credentials: {
+        skills: [],
+      },
     }
   },
+
   methods:{
     // 체크한 기술스텍만 배열에 담아 signup으로 보내기
-    onSubmit () {
-      let result = []
-
+    stacksCheck () {
       for (let property in this.stacks){
-        if (this.stacks[property] === true){
-          result.push(property)
+        // console.log(property)
+        if (this.stacks[property] !== false){
+          this.credentials.skills.push(property)
+          }
         }
-      }
-        alert('Success')
       },
-
-    // 체크한 기술스텍 초기화
-    onReset (){
-      for (let property in this.stacks){
-        if (this.stacks[property]){
-          this.stacks[property] = false
-        }
+    signupFin(){
+      this.stacksCheck()
+      console.log(this.credentials.skills)
+      if(this.credentials.skills.length >= 1){
+        this.$store.dispatch('skills', this.credentials)
+        axios({
+          method: 'post',
+          url: api.SIGN_UP,
+          data: this.$store.state.credentials
+        })
+        .then(res => {
+          console.log(res)
+          this.$emit('signup-fin')  
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.$swal({
+          icon: 'error',
+          titleText: '한가지 이상 입력해주세요',
+          showConfirmButton: false,
+          timer: 1500,
+        })
       }
-    },
-    singupFin(){
-      this.$emit('signup-fin')
     }
-  }
+  },
+
 }
 
 </script>
@@ -104,7 +124,8 @@ export default {
 .skillsform h1{
   margin: 1rem;
   text-align: center;
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-family: 'Dohyeon', sans-serif;
 }
 
 .skillsform label{

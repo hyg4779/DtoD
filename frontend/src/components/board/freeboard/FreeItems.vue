@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="items">
-      <Item 
+      <FreeItem 
         class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
@@ -9,7 +9,7 @@
       />
     </div>
     <p></p>
-    <div class="btn-cover" style="color:white;">
+    <div class="btn-cover">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
       </button>
@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import Item from './Item.vue'
+import FreeItem from './FreeItem.vue'
 import _ from 'lodash'
 
 export default {
   name: 'Items',
   components: {
-    Item,
+    FreeItem,
   },
   props: {
     items: Array,
@@ -72,11 +72,11 @@ export default {
 
 <style scoped>
 .items {
-  margin: 70px auto;
+  margin: 7vh auto;
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
-  grid-gap: 50px 0;
+  grid-gap: 5vh 0;
   justify-content: space-around;
   /* align-content: stretch; */
 }
@@ -84,17 +84,19 @@ export default {
 .btn-cover {
   margin: 3rem auto;
   text-align: center;
+  color:white;
 }
 
 .btn-cover .page-btn {
-  width: 5rem;
-  height: 2rem;
-  line-height: 30px;
-  letter-spacing: 0.5px;
+  width: 4.5vw;
+  height: 4.5vh;
+  font-size: 1vw;
+  line-height: 3vh;
+  letter-spacing: 0.05vw;
   border: 1px solid;
-  border-radius: 10px;
-  color: white;
+  border-radius: 1rem;
   background-color: #24292F;
+  color: white;
 }
 .btn-cover .page-btn:hover {
   color: #24292F;
