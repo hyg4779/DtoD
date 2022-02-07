@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="items">
-      <Item 
+      <FreeItem 
         class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import Item from './Item.vue'
+import FreeItem from './FreeItem.vue'
 import _ from 'lodash'
 
 export default {
   name: 'Items',
   components: {
-    Item,
+    FreeItem,
   },
   props: {
     items: Array,

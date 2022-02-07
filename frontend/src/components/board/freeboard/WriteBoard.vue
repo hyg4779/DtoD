@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import Tiptap from '../editor/Tiptap.vue'
+import Tiptap from '../writeeditor/Tiptap.vue'
 import { api } from '../../../../api.js'
 import axios from 'axios'
 

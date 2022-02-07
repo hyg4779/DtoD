@@ -4,7 +4,7 @@
       질문 게시판
     </div>
     <div class="allitems">
-      <Items
+      <QuestionItems
         :items="items"
       />
     </div>
@@ -14,12 +14,12 @@
 <script>
 // import axios from 'axios'
 import { dummy } from "../../../../generated.js";
-import Items from './Items.vue'
+import QuestionItems from './QuestionItems.vue'
 
 export default {
   name: 'QuestionBoard',
   components: {
-    Items,
+    QuestionItems,
   },
   data () {
     return {

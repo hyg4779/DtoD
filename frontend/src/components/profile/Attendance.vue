@@ -12,7 +12,7 @@
       </div>
     </div>
     <div data-app>
-      <Calendars dark="true"/>
+      <Calendars />
     </div>
   </div>
 </template>
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       userImg: null,
+      activeListData: null,
     };
   },
   methods: {  
@@ -53,7 +54,7 @@ export default {
 }
 
 .profiletext {
-  margin: 5vh 0 0 0; 
+  margin: 5.5vh 0 0 1vw; 
   font-size: 2vh; 
   text-align:center; 
   font-style: Italic; 
