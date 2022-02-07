@@ -25,11 +25,6 @@ export default {
   data () {
     return {
       items: [],
-      images: [
-        '../../../assets/color/001.png',
-        '../../../assets/color/002.png',
-        '../../../assets/color/003.png',
-      ]
     }
   },
   created() {
@@ -55,9 +50,7 @@ export default {
     } else {
       alert('로그인을 해주세요')
     }
-  console.log(this.images)
   }
-
 }
 </script>
 

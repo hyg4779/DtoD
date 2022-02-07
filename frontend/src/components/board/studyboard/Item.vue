@@ -39,7 +39,7 @@ export default {
   computed: {
     getTitle: function() {
         const t = this.item.sboardTitle
-        console.log(t)
+        // console.log(t)
         const temp = t.split(' ')
         let res = []
         let tp = ''
@@ -54,6 +54,11 @@ export default {
         res.push(tp)
         return res
       },
+  },
+  methods: {
+    getItemDetail() {
+      this.$refs['detail'].show()
+    },
   },
 }
 </script>
