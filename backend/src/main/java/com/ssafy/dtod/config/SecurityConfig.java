@@ -1,10 +1,5 @@
 package com.ssafy.dtod.config;
 
-import com.ssafy.dtod.jwt.TokenProvider;
-import com.ssafy.dtod.jwt.JwtAccessDeniedHandler;
-import com.ssafy.dtod.jwt.JwtSecurityConfig;
-import com.ssafy.dtod.jwt.JwtAuthenticationEntryPoint;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +13,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.ssafy.dtod.jwt.JwtAccessDeniedHandler;
+import com.ssafy.dtod.jwt.JwtAuthenticationEntryPoint;
+import com.ssafy.dtod.jwt.JwtSecurityConfig;
+import com.ssafy.dtod.jwt.TokenProvider;
  
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -77,8 +77,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // authenticate, signup 은 Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
-                // fileupload test를 위해서 임시로 권한 허락 (추후에 변경 필요하면..!)
-                .antMatchers("/api/file/upload/profile-img").permitAll()
+                .antMatchers("/api/sboard/regist").permitAll()
+                .antMatchers("/api/sboard/list").permitAll()
+                .antMatchers("/api/sboard/update").permitAll()
+                .antMatchers("/api/sboard/delete/{sboardId}").permitAll()
+                .antMatchers("/api/sboard/view/{sboardId}").permitAll()
                 .antMatchers("/api/v2/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs").permitAll()
                 
                 .anyRequest().authenticated()
