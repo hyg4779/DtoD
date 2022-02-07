@@ -1,6 +1,5 @@
 package com.ssafy.dtod.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -32,6 +31,8 @@ public class RegistStudyboardDto {
 	private List<String> sboardTechstack;
 	
 	private User user;
+	
+	private String sboardImg;
 	
 //	private LocalDateTime sboardCreateddate;
 }

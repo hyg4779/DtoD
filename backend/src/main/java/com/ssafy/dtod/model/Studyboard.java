@@ -1,7 +1,5 @@
 package com.ssafy.dtod.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +50,9 @@ public class Studyboard {
 	
 	@Column(name = "sboard_techstack", length = 100)
 	private String sboardTechstack;
+	
+	@Column(name = "sboard_img", length = 100)
+	private String sboardImg;
 	
 //	@CreatedDate
 //	@Column(name = "sboard_createddate")
