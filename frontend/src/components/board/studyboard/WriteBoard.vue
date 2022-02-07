@@ -64,6 +64,7 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
+import _ from 'lodash'
 
 export default {
   name: 'WriteBoard',
@@ -74,6 +75,12 @@ export default {
       content1: '',
       content2: '',
       content3: '',
+      images: [
+        '001.png',
+        '002.png',
+        '003.png',
+      ],
+      img: '',
       stacks: {
         javascript: false, c: false, kotlin: false, java: false, 
         react: false, cpp: false, django: false, spring: false, 
@@ -99,6 +106,7 @@ export default {
       this.stacksCheck()
       if (this.title.length <= 50) {
         const token = localStorage.getItem('jwt')
+        this.img = _.sample(this.images)
         axios({
           url: api.CREATE_STUDY_BOARD,
           method: 'POST',
@@ -107,6 +115,7 @@ export default {
             sboardContent1: this.content1,
             sboardContent2: this.content2,
             sboardContent3: this.content3,
+            sboardImg: this.img,
             sboardTechstack: this.skills,
           },
           headers: {

@@ -91,7 +91,6 @@ export default {
   width: 4.5vw;
   height: 4.5vh;
   font-size: 1vw;
-  line-height: 3vh;
   letter-spacing: 0.05vw;
   border: 1px solid;
   border-radius: 1rem;
