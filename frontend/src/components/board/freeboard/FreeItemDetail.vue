@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       title: '',
+      tech:'',
       content: '',
       code: '',
       userImg: '',

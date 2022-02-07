@@ -98,21 +98,22 @@ export default {
       event.preventDefault()
       this.stacksCheck()
       if (this.title.length <= 50) {
+        const token = localStorage.getItem('jwt')
         axios({
           url: api.CREATE_STUDY_BOARD,
           method: 'POST',
           data: {
-            title: this.title,
-            content1: this.content1,
-            content2: this.content2,
-            content3: this.content3,
-            skills: this.skills,
+            sboardTitle: this.title,
+            sboardContent1: this.content1,
+            sboardContent2: this.content2,
+            sboardContent3: this.content3,
+            sboardTechstack: this.skills,
           },
           headers: {
-            Authorization: `JWT ${localStorage.getItem('jwt')}`
+            Authorization: 'Bearer ' + token
           },
         }).then(()=>{
-          this.$router.push('/studyboard')
+          this.$router.go();
         }).catch(err=>{
           console.error(err)
         })
