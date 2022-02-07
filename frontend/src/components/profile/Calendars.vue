@@ -33,9 +33,9 @@
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>일 단위</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <!-- <v-list-item @click="type = 'week'">
                 <v-list-item-title>주 단위</v-list-item-title>
-              </v-list-item>
+              </v-list-item> -->
               <v-list-item @click="type = 'month'">
                 <v-list-item-title>월 단위</v-list-item-title>
               </v-list-item>
@@ -51,11 +51,11 @@
           :events="events"
           :event-color="getEventColor"
           :type="type"
-          @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
           @change="updateRange"
         ></v-calendar>
+          <!-- @click:event="showEvent" -->
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
@@ -98,7 +98,7 @@
       type: 'month',
       typeToLabel: {
         month: '월 단위',
-        week: '주 단위',
+        // week: '주 단위',
         day: '일 단위',
       },
       selectedEvent: {},

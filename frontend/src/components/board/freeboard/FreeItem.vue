@@ -9,10 +9,11 @@
     <b-modal
       ref="detail"
       centered
+      size="lg"
       hide-footer 
       hide-header
     >
-      <ItemDetail 
+      <FreeItemDetail 
         :item_pk = this.item.id
       />
     </b-modal>
@@ -20,12 +21,12 @@
 </template>
 
 <script>
-import ItemDetail from './ItemDetail.vue'
+import FreeItemDetail from './FreeItemDetail.vue'
 
 export default {
   name: 'Item',
   components: {
-    ItemDetail
+    FreeItemDetail
   },
   props: {
     item: Object,

@@ -4,7 +4,7 @@
       자유 게시판
     </div>
     <div class="freeitems">
-      <Items
+      <FreeItems
         :items="items"
       />
     </div>
@@ -14,12 +14,12 @@
 <script>
 // import axios from 'axios'
 import { dummy } from "../../../../generated.js";
-import Items from './Items.vue'
+import FreeItems from './FreeItems.vue'
 
 export default {
   name: 'FreeBoard',
   components: {
-    Items,
+    FreeItems,
   },
   data () {
     return {
