@@ -11,11 +11,17 @@
         </div>
         <div class="profilename">username</div>
       </div>
-      <div class="techstack">
-        기술 스택
-        <span>
-          Python
-        </span>
+      <div class="tech-control">
+        <div class="techstack">
+          기술 스택
+          <span>
+            Python
+          </span>
+        </div>
+        <div class="item-control">
+          <button class="update" @click="updateArticle">수정</button>
+          <button class="delete" @click="deleteArticle">삭제</button>
+        </div>
       </div>
       <div class="content">
         <div class="contenttitle">
@@ -157,10 +163,15 @@ export default {
 .profilename {
   margin: 3.5vh 0 0 0;
 }
+.tech-control {
+  display: flex;
+  justify-content: space-between;
+}
+
 .techstack {
   font-weight: 400;
   font-size: 1vw;
-  margin:  0 0 2vh 0;
+  margin:  0.6vh 0 2vh 0;
 }
 .techstack span {
   border: 1px solid #F0F0F0;
@@ -169,6 +180,32 @@ export default {
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
 }
+.item-control .update{
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.7vw;
+  font-weight: bold;
+  color: #24274A;
+  height: 3vh;
+  width: 3vw;
+  margin: 0 1vw 0 0;
+  border: 1px solid;
+  background-color: white;
+  border-radius: 1.1rem;
+}
+.item-control .delete{
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.7vw;
+  font-weight: bold;
+  color: white;
+  height: 3vh;
+  width: 3vw;
+  /* margin: 0 1vw 0 0; */
+  background-color: #24274A;
+  border-radius: 1.1rem;
+}
+
 .content {
   margin: 0 0 2vh 0;
 }
@@ -201,7 +238,7 @@ export default {
   color: white;
   height: 4vh;
   width: 4vw;
-  margin: 1vh 0 0 42rem;
+  margin: 1vh 0 0 0;
   background-color: #24274A;
   border-radius: 1.1rem;
 }

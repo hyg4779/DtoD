@@ -9,6 +9,7 @@
     <b-modal
       ref="detail"
       centered
+      size="lg"
       hide-footer 
       hide-header
     >

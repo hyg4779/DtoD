@@ -6,11 +6,15 @@
       </div>
       <br>
       <div>
-        {{this.content}}
+        {{this.content1}}
       </div>
       <br>
       <div>
-        {{this.code}}
+        {{this.content2}}
+      </div>
+      <br>
+      <div>
+        {{this.content3}}
       </div>
     </div>
   </div>
@@ -27,8 +31,28 @@ export default {
   data() {
     return {
       title: '',
-      content: '',
-      code: '',
+      tech:'',
+      content1: '',
+      content2: '',
+      content3: '',
+      userImg: '',
+
+      myComments: '',
+      comments: [],
+    }
+  },
+  methods:{
+    commentSubmit() {
+      
+    },
+    onParentDeleteComment() {
+
+    },
+    deleteArticle() {
+
+    },
+    updateArticle() {
+      
     }
   },
   created() {
@@ -37,8 +61,9 @@ export default {
     for (let i=0; i < temp.length; i++) {
       if (temp[i].id === this.item_pk) {
         this.title = temp[i].title
-        this.content = temp[i].content
-        this.code = temp[i].code
+        this.content1 = temp[i].content
+        this.content2 = temp[i].content
+        this.content3 = temp[i].content
       }
     }
 
