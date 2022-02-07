@@ -11,7 +11,7 @@
         <span>과거의 나는 어땠을까요?</span>
       </div>
     </div>
-    <div data-app>
+    <div data-app class="calendar">
       <Calendars />
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .profileicon {
-  margin: 2vh 0 0 17vw;
+  margin: 3vh 0 0 14vw;
   width : 13vh;
   height : 13vh;
   /* border: 1px solid; */
@@ -54,10 +54,13 @@ export default {
 }
 
 .profiletext {
-  margin: 5.5vh 0 0 1vw; 
+  margin: 6vh 0 0 1vw; 
   font-size: 2vh; 
   text-align:center; 
   font-style: Italic; 
   font-weight: bold;
+}
+.calendar{
+  margin: 1.5vh 0 0 0;
 }
 </style>
