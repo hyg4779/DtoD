@@ -49,9 +49,7 @@ export default {
 </script>
 
 <style>
-  .comment {
-    /* background-color: black; */
-    
-    
-  }
+  /* .comment {
+
+  } */
 </style>
