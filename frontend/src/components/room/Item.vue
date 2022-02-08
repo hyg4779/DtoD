@@ -23,6 +23,7 @@
     >
       <ItemDetail 
         :item = this.item
+        @close-modal="closeModal"
       />
     </b-modal>
   </div>
@@ -41,7 +42,7 @@ export default {
   },
   computed: {
     myStacks(){
-      console.log(this.item.stacks)
+      // console.log(this.item.stacks)
       return this.item.stacks
     }
   },
@@ -49,6 +50,9 @@ export default {
     getItemDetail() {
       this.$refs['detail'].show()
     },
+    closeModal(){
+      this.$refs['detail'].hide()
+    }
   },
   created() {
     // console.log(this.item)

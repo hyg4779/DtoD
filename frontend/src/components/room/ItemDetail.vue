@@ -29,13 +29,18 @@
       <div
         class="imgBox"
       >
-        <img
+        <div
           v-for="(skill, idx) in this.item.stacks"
           :key="idx"
-          class="mt-2"
-          :src="require(`../../assets/stacks/${skill}.png`)"
-          alt="stack_logo"
+          id="imagedatail"
         >
+          <img            
+            class="mt-2"
+            :src="require(`../../assets/stacks/${skill}.png`)"
+            alt="stack_logo"
+          >
+          <p>{{ skill }}</p>
+        </div>
       </div>
       <ul>
         <li>
@@ -46,8 +51,8 @@
         </li>
       </ul>
       <footer>
-        <button id="applyBtn" >신청</button>
-        <button id="cancelBtn" >닫기</button>
+        <button id="applyBtn" >입장</button>
+        <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
     </div>
     
@@ -122,7 +127,11 @@ export default {
   flex-direction: row;
   justify-content: space-evenly;
 }
-
+#imagedatail{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #right img {
   width: 5rem;
   height: 5rem;
