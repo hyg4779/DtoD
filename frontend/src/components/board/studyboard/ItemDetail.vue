@@ -9,7 +9,7 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">username</div>
+        <div class="profilename">{{userName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
@@ -18,17 +18,33 @@
             {{item}}
           </span>
         </div>
-        <div class="item-control">
+        <div class="item-control" v-if="this.userName === this.itemuserName">
           <button class="update" @click="updateArticle">수정</button>
           <button class="delete" @click="deleteArticle">삭제</button>
         </div>
       </div>
-      <div class="content">
-        <div class="contenttitle">
-          내용
+      <div class="content1">
+        <div class="contenttitle1">
+          스터디 소개
         </div>
-        <div class="contentdetail">
-          {{this.content}}
+        <div class="contentdetail1">
+          <p v-html="getContent(this.content2)"></p>
+        </div>
+      </div>
+      <div class="content2">
+        <div class="contenttitle2">
+          스터디 규칙
+        </div>
+        <div class="contentdetail2">
+          <p v-html="getContent(this.content3)"></p>
+        </div>
+      </div>
+      <div class="content3">
+        <div class="contenttitle3">
+          오픈 카카오톡
+        </div>
+        <div class="contentdetail3">
+          <p v-html="getContent(this.content1)"></p>
         </div>
       </div>
       <hr>
@@ -45,7 +61,7 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="commentprofilename">username</div>
+        <div class="commentprofilename">{{userName}}</div>
       </div>
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
@@ -70,10 +86,11 @@ import { api } from '../../../../api.js'
 import axios from 'axios'
 import StudyComment from "./StudyComment.vue"
 
+
 export default {
   name: 'ItemDetail',
   components: {
-    StudyComment
+    StudyComment,
   },
   props: {
     item_pk: Number,
@@ -85,8 +102,10 @@ export default {
       content1: '',
       content2: '',
       content3: '',
-      userImg: '',
 
+      itemuserName: '',
+      userImg: '',
+      userName: '',
       myComments: '',
       comments: [],
     }
@@ -101,8 +120,13 @@ export default {
       }
       return res
     },
+
   },
   methods:{
+
+    getContent(content) { 
+      return content.split('\n').join('<br>'); 
+    },
     commentSubmit() {
       
     },
@@ -110,10 +134,22 @@ export default {
 
     },
     deleteArticle() {
-
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.DELETE_STUDY_BOARD + `${this.item_pk}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then(()=>{
+        // console.log(res)
+        this.$router.go();
+      }).catch((err)=>{
+        console.error(err)
+      })
     },
     updateArticle() {
-      
+      this.$emit('update-modal-open', this.item_pk)
     },
   },
   created() {
@@ -125,20 +161,30 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
+      this.itemuserName = res.data.user.userName
       this.title = res.data.sboardTitle
       this.tech = res.data.sboardTechstack
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
-      // console.log(this.title)
-      // console.log(this.tech)
-      // console.log(this.content1)
-      // console.log(this.content2)
-      // console.log(this.content3)
     }).catch((err)=>{
       console.error(err)
     })
+
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
+
   }
 }
 </script>
@@ -174,6 +220,8 @@ export default {
 }
 .profilename {
   margin: 3.5vh 0 0 0;
+  font-size: 1.2vw;
+  font-weight: bold;
 }
 
 .tech-control {
@@ -221,13 +269,34 @@ export default {
   border-radius: 1.1rem;
 }
 
-.content .contenttitle{
+.content1 .contenttitle1{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 0 0 1vh 0;
+  margin: 1.5vh 0 1vh 0;
 }
-.content .contentdetail {
+.content1 .contentdetail1 {
   font-weight:300;
+  margin: 0 0 2vh 0;
+}
+
+.content2 .contenttitle2{
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 1.5vh 0 1vh 0;
+}
+.content2 .contentdetail2 {
+  font-weight:300;
+  margin: 0 0 2vh 0;
+}
+
+.content3 .contenttitle3{
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 1.5vh 0 1vh 0;
+}
+.content3 .contentdetail3 {
+  font-weight:300;
+  margin: 0 0 2vh 0;
 }
 
 .form-group .form-control{
@@ -268,5 +337,7 @@ export default {
 }
 .commentprofilename {
   margin: 0.7vh 0 0 0;
+  font-size: 1.2vw;
+  font-weight: bold;
 }
 </style>

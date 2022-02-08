@@ -15,6 +15,19 @@
     >
       <ItemDetail
         :item_pk = this.item.sboardId
+        @update-modal-open="updateModalOpen"
+      />
+    </b-modal>
+    <b-modal
+      ref="updateItem"
+      centered
+      size="lg"
+      hide-footer 
+      hide-header
+    >
+      <UpdateItem
+        :itempk="this.item_pk"
+        @update-fin="updateFin"
       />
     </b-modal>
   </div>
@@ -22,13 +35,15 @@
 
 <script>
 import ItemDetail from './ItemDetail.vue'
+import UpdateItem from "./UpdateItem.vue"
 import { api } from '../../../../api.js'
 import axios from 'axios'
 
 export default {
   name: 'Item',
   components: {
-    ItemDetail
+    ItemDetail,
+    UpdateItem
   },
   props: {
     item: Object,
@@ -36,6 +51,7 @@ export default {
   data(){
     return{
       imgPath: '',
+      item_pk: 0,
     }
   },
   computed: {
@@ -57,15 +73,32 @@ export default {
     },
   },
   methods: {
+    updateModalOpen(e) {
+      this.getItemPk(e)
+      console.log(this.item_pk)
+      this.$refs['detail'].hide()
+      this.$refs['updateItem'].show()
+    },
+    
+    updateFin(){
+      this.$refs['updateItem'].hide()
+      this.$refs['detail'].show()
+    },
+
+    getItemPk(e) {
+      this.item_pk = e
+      return this.item_pk
+    },
+
     getItemDetail() {
       this.$refs['detail'].show()
     },
   },
   created() {
-    const item_pk = this.item.sboardId
+    const itempk = this.item.sboardId
     const token = localStorage.getItem('jwt')
     axios({
-      url:  api.GET_STUDY_BOARD_DETAIL + `${item_pk}`,
+      url:  api.GET_STUDY_BOARD_DETAIL + `${itempk}`,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token
