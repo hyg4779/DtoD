@@ -14,7 +14,7 @@
           <div>
             <v-checkbox v-model="stacks.c" label="C"/>
             <v-checkbox v-model="stacks.cpp" label="C++"/>
-            <v-checkbox v-model="stacks.cs" label="C#"/>
+            <v-checkbox v-model="stacks.python" label="python"/>
             <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
           </div>
           <div>
@@ -56,7 +56,7 @@ export default {
         django: false,
         spring: false, 
         vue: false,
-        cs: false,
+        python: false,
         go: false,
         flutter: false, 
         node: false,

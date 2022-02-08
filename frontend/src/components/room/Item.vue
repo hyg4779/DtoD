@@ -1,19 +1,28 @@
 <template>
   <div class="item" @click="getItemDetail()">
-    <div class="item-img">
-      <img src="https://picsum.photos/600/300/?image=25" alt="img">
+    <div
+      class="imgBox"
+    >
+      <img
+        v-for="(skill,idx) in myStacks"
+        :key="idx"
+        id="stackImg"
+        :src="require(`../../assets/stacks/${skill}.png`)"
+        alt="stack_logo"
+      >
     </div>
     <div class="item-title">
-      <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
+      <p>{{ item.title }}</p>
     </div>
     <b-modal
       ref="detail"
       centered
       hide-footer 
       hide-header
+      size="lg"
     >
       <ItemDetail 
-        :item_pk = this.item.id
+        :item = this.item
       />
     </b-modal>
   </div>
@@ -30,29 +39,11 @@ export default {
   props: {
     item: Object,
   },
-  data () {
-    return {
-
-    }
-  },
   computed: {
-    getTitle: function() {
-      const t = this.item.title
-      // console.log(t)
-      const temp = t.split(' ')
-      let res = []
-      let tp = ''
-      for(let i = 0; i < temp.length; i++){
-        if(tp.length + temp[i].length < 28 ){ 
-          tp += ' ' + temp[i]
-        }else{
-          res.push(tp)
-          tp = temp[i]
-        }
-      }
-      res.push(tp)
-      return res
-    },
+    myStacks(){
+      console.log(this.item.stacks)
+      return this.item.stacks
+    }
   },
   methods: {
     getItemDetail() {
@@ -66,6 +57,20 @@ export default {
 </script>
 
 <style scoped>
+.imgBox{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 15px 15px 0 15px;
+  height: 40%;
+}
+
+#stackImg {
+  width: 50%;
+  height: 50%;
+  margin: 5%;
+}
 
 .item{
   width: 13vw;
@@ -77,17 +82,6 @@ export default {
   background-color: white;
 }
 
-.item .item-img {
-  height: 40%;
-}
-
-.item .item-img img {
-  width: 100%;
-  height: 100%;
-  border-radius: 25px 25px 0 0;
-  object-fit: fill;
-
-}
 
 .item .item-title {
   text-align: center;

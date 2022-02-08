@@ -111,7 +111,7 @@ export default {
       this.$emit('update-fin')
     }
   },
-  create() {
+  created() {
     console.log(this.itempk)
   }
 }
