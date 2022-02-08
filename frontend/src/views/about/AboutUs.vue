@@ -92,7 +92,7 @@
       <div class="who">
         <div class="whotitle">1. DTOD는 누가 만들었나요?</div>
         <div class="whocontainer">
-          <img src="../../assets/about/ssafylogo.png" alt="ssafy">
+          <img src="../../assets/about/aboutus/ssafylogo.png" alt="ssafy">
           <div class="whocontent">
             DTOD는 삼성 SW Academy 6기 교육생인
             <br>
@@ -100,7 +100,7 @@
             <br>
             이렇게 4명이 제작한 온라인 화상 서비스 어플리케이션입니다.
             <br>
-            기획대로 모두 개발을 하기에 시간이 부족하여 서비스 완성이 안됐지만,
+            기획대로 모두 개발을 하기에 시간이 부족하여 모든 서비스가 완성이 된 것은 아니지만,
             <br>
             부족하지만 최선을 다해 개발했습니다.
           </div>
@@ -109,7 +109,7 @@
       <div class="when">
         <div class="whentitle">2. 개발 기간은?</div>
         <div class="whencontainer">
-          <img src="../../assets/about/4weeks.png" alt="4weeks">
+          <img src="../../assets/about/aboutus/4weeks.png" alt="4weeks">
           <div class="whencontent">
             개발 기간은 총 1월 10일부터 2월 18일까지로, 총 6주입니다.
             <br>
@@ -126,9 +126,9 @@
       <div class="where">
         <div class="wheretitle">3. 어디서 제작한 것인가요?</div>
         <div class="wherecontainer">
-          <img src="../../assets/about/discord.png" alt="discord">
-          <img src="../../assets/about/jira.png" alt="jira">
-          <img src="../../assets/about/notion.png" alt="notion">
+          <img src="../../assets/about/aboutus/discord.png" alt="discord">
+          <img src="../../assets/about/aboutus/jira.png" alt="jira">
+          <img src="../../assets/about/aboutus/notion.png" alt="notion">
           <div class="wherecontent">
             DTOD는 삼성 SW Academy 6기 교육생들이 제작했습니다.
             <br>
@@ -138,23 +138,22 @@
             <br>
             JIRA, DISCORD, NOTION 등의 어플리케이션으로 소통하며,
             <br>
-            서비스 주제와 같이 팀을 만들어서 비대면으로 전부 제작했습니다.
+            서비스 주제처럼, 팀을 만들어서 비대면으로 전부 제작했습니다.
           </div>
         </div>
       </div>
       <div class="what">
         <div class="whattitle">4. DTOD는 무엇인가요?</div>
         <div class="whatcontainer">
-          <img src="../../assets/about/openvidu.png" alt="openvidu">
+          <img src="../../assets/about/aboutus/openvidu.png" alt="openvidu">
           <div class="whatcontent">
-            DTOD는 온라인 화상 서비스를 통해 개발자들이 학습 열정을 공유하고
+            DTOD는 온라인 화상 서비스를 통해
             <br>
-            프로젝트 및 스터디 멤버를 모집하여
+            개발자들이 학습 열정을 공유하고 프로젝트 및 스터디 멤버를 모집하여
             <br>
             개발자라는 같은 꿈을 이루기 위해 공부하는 공간입니다.
             <br>
-            또한 학습 상태 분석을 통해
-            체계적인 자기 관리가 가능한 서비스를 제공합니다.
+            또한 학습 상태 분석을 통해 체계적인 자기 관리가 가능한 서비스를 제공합니다.
             <br>
             이제, 집에서도 혼자 개발하지 마세요!
           </div>
@@ -163,8 +162,8 @@
       <div class="how">
         <div class="howtitle">5. DTOD는 어떻게 개발했나요?</div>
         <div class="howcontainer">
-        <img src="../../assets/about/docker.png" alt="docker">
-        <img src="../../assets/about/nginx.png" class="nginx" alt="nginx">
+        <img src="../../assets/about/aboutus/docker.png" alt="docker">
+        <img src="../../assets/about/aboutus/nginx.png" class="nginx" alt="nginx">
           <div class="howcontent">
             기본적으로 Frontend는 Vue.js,
             <br>
@@ -181,9 +180,9 @@
       <div class="why">
         <div class="whytitle">6. 기획 의도는?</div>
         <div class="whycontainer">
-          <img src="../../assets/about/dtodlogo.png" alt="dtodlogo">
+          <img src="../../assets/about/aboutus/dtodlogo.png" alt="dtodlogo">
           <div class="whycontent">
-            저희가 실제로 비대면 교육이라는 상황을 맞이하면서 느꼈던
+            저희가 실제로 비대면 교육이라는 상황을 맞이하면서,
             <br>
             학습에 대한 열정, 그리고 같이 공부하는 것의 중요성을 느꼈습니다.
             <br>
