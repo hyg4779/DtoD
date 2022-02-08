@@ -75,13 +75,14 @@ export default {
   methods: {
     updateModalOpen(e) {
       this.getItemPk(e)
-      console.log(this.item_pk)
+      // console.log(this.item_pk)
       this.$refs['detail'].hide()
       this.$refs['updateItem'].show()
     },
     
     updateFin(){
       this.$refs['updateItem'].hide()
+      this.$router.go();
       this.$refs['detail'].show()
     },
 
