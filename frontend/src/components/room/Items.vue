@@ -2,7 +2,6 @@
   <div>
     <div class="items">
       <Item 
-        class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
         :item="item"
