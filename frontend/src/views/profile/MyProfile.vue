@@ -11,11 +11,11 @@
           출석 현황
         </span>
       </div>
-      <div @click="clicked">
+      <!-- <div @click="clicked">
         <span class="studytime" :class="{active3: isActive3}">
           학습시간분석
         </span>
-      </div>
+      </div> -->
     </div>
     <div class="mainmenu">
       <div v-if="this.myinfo === true">
@@ -24,9 +24,9 @@
       <div v-if="this.attendance === true">
         <Attendance />
       </div>
-      <div v-if="this.studytime === true">
+      <!-- <div v-if="this.studytime === true">
         <StudyTime />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -34,23 +34,23 @@
 <script>
 import MyInfo from '../../components/profile/MyInfo.vue'
 import Attendance from '../../components/profile/Attendance.vue'
-import StudyTime from '../../components/profile/StudyTime.vue'
+// import StudyTime from '../../components/profile/StudyTime.vue'
 
 export default {
   name: 'MyProfile',
   components: {
     MyInfo,
     Attendance,
-    StudyTime,
+    // StudyTime,
   },
   data() {
     return {
       myinfo: true,
       attendance: false,
-      studytime: false,
+      // studytime: false,
       isActive1: true,
       isActive2: false,
-      isActive3: false,
+      // isActive3: false,
     }
   },
   methods: {
@@ -60,27 +60,27 @@ export default {
       if (className === 'myinfo') {
         this.myinfo = true
         this.attendance = false
-        this.studytime = false
+        // this.studytime = false
         this.isActive1 = true
         this.isActive2 = false
-        this.isActive3 = false
+        // this.isActive3 = false
       }
       else if (className === 'attendance') {
         this.myinfo = false
         this.attendance = true
-        this.studytime = false
+        // this.studytime = false
         this.isActive1 = false
         this.isActive2 = true
-        this.isActive3 = false
+        // this.isActive3 = false
       }
-      else if (className === 'studytime') {
-        this.myinfo = false
-        this.attendance = false
-        this.studytime = true
-        this.isActive1 = false
-        this.isActive2 = false
-        this.isActive3 = true
-      }
+      // else if (className === 'studytime') {
+      //   this.myinfo = false
+      //   this.attendance = false
+      //   this.studytime = true
+      //   this.isActive1 = false
+      //   this.isActive2 = false
+      //   this.isActive3 = true
+      // }
     }
   }
 }
@@ -131,7 +131,7 @@ export default {
   padding: 10px 20px;
 }
 
-.myprofile .sidebar div .active3 {
+/* .myprofile .sidebar div .active3 {
   cursor: pointer;
   transition: 0.2s;
   color: black;
@@ -139,7 +139,7 @@ export default {
   background-color: white;
   border-radius: 2.5rem;
   padding: 10px 20px;
-}
+} */
 
 .myprofile .sidebar div span:hover{
   cursor: pointer;

@@ -63,9 +63,8 @@
 </template>
 
 <script>
-// import { api } from '../../../../api.js'
-// import axios from 'axios'
-// import _ from 'lodash'
+import { api } from '../../../../api.js'
+import axios from 'axios'
 
 export default {
   name: 'UpdateItem',
@@ -99,7 +98,6 @@ export default {
     },
     stacksCheck () {
       for (let property in this.stacks){
-        // console.log(property)
         if (this.stacks[property] !== false){
           this.skills.push(property)
         }
@@ -108,11 +106,65 @@ export default {
     updateFin(event) {
       event.preventDefault()
       this.stacksCheck()
-      this.$emit('update-fin')
-    }
+       if (this.title.length <= 50) {
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.UPDATE_STUDY_BOARD,
+          method: 'PUT',
+          data: {
+            sboardId: this.itempk,
+            sboardTitle: this.title,
+            sboardContent1: this.content1,
+            sboardContent2: this.content2,
+            sboardContent3: this.content3,
+            sboardTechstack: this.skills,
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then(()=>{
+          this.$emit('update-fin')
+        }).catch(err=>{
+          console.error(err)
+        })
+      } else {
+        alert("제목은 50자 이하로 입력하세요.")
+      }  
+    },
   },
   created() {
-    console.log(this.itempk)
+    // console.log(this.itempk)
+    const token = localStorage.getItem('jwt')
+    axios({
+      url:  api.GET_STUDY_BOARD_DETAIL + `${this.itempk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.itemuserName = res.data.user.userName
+      this.title = res.data.sboardTitle
+      this.tech = res.data.sboardTechstack
+      this.content1 = res.data.sboardContent1
+      this.content2 = res.data.sboardContent2
+      this.content3 = res.data.sboardContent3
+      const t = this.tech
+      const temp = t.split(',')
+      let result = []
+      for(let i = 0; i < temp.length; i++){
+        result.push(temp[i])
+      }
+      for(let j = 0; j < result.length; j++){
+        for (let k = 0; k < Object.keys(this.stacks).length; k++){
+          if (result[j] === Object.keys(this.stacks)[k]){
+            this.stacks[Object.keys(this.stacks)[k]] = true
+          }
+        }
+      }
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 
