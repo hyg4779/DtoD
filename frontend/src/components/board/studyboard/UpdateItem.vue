@@ -65,7 +65,6 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-import _ from 'lodash'
 
 export default {
   name: 'UpdateItem',
@@ -99,7 +98,6 @@ export default {
     },
     stacksCheck () {
       for (let property in this.stacks){
-        // console.log(property)
         if (this.stacks[property] !== false){
           this.skills.push(property)
         }
@@ -108,22 +106,17 @@ export default {
     updateFin(event) {
       event.preventDefault()
       this.stacksCheck()
-      // console.log(this.skills)
-      // console.log(this.content1)
-      // console.log(this.content2)
-      // console.log(this.content3)
        if (this.title.length <= 50) {
         const token = localStorage.getItem('jwt')
-        this.img = _.sample(this.images)
         axios({
-          url: api.UPDATE_STUDY_BOARD + `${this.itempk}`,
+          url: api.UPDATE_STUDY_BOARD,
           method: 'PUT',
           data: {
+            sboardId: this.itempk,
             sboardTitle: this.title,
             sboardContent1: this.content1,
             sboardContent2: this.content2,
             sboardContent3: this.content3,
-            sboardImg: this.img,
             sboardTechstack: this.skills,
           },
           headers: {
