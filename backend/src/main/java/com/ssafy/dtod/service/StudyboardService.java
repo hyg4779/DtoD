@@ -42,6 +42,7 @@ public class StudyboardService {
 				.sboardContent3(resistStudyDto.getSboardContent3())
 				.sboardTechstack(String.join(",", resistStudyDto.getSboardTechstack()))
 				.user(resistStudyDto.getUser())
+				.sboardImg(resistStudyDto.getSboardImg())
 				.build();
 		return studyboardRepository.save(studyboard);
 	}

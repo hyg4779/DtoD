@@ -122,7 +122,7 @@
             </li>
             <li>
               <router-link :to="{ name: 'FreeBoard' }">
-                자유 게시판
+                게시판
               </router-link>
             </li>
           </ul>
