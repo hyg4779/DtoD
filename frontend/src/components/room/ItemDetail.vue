@@ -51,7 +51,7 @@
         </li>
       </ul>
       <footer>
-        <button id="applyBtn" >입장</button>
+        <button id="applyBtn" @click="goVideo">입장</button>
         <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
     </div>
@@ -65,6 +65,11 @@ export default {
   props: {
     item: Object,
   },
+  methods:{
+    goVideo(){
+      this.$router.push({name:'Video', params:{sessionId: this.item.id}})
+    }
+  }
 }
 </script>
 

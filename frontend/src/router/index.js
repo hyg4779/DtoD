@@ -10,6 +10,7 @@ import FreeBoard from '../views/board/FreeBoard.vue'
 import MyProfile from '../views/profile/MyProfile.vue'
 import MyStudy from '../views/profile/MyStudy.vue'
 import Page404 from '../views/Page404.vue'
+import Video from '../views/Video.vue'
 
 import Test from '../views/Test.vue'
 
@@ -76,6 +77,11 @@ const routes = [
     path: '*',
     redirect: '/404'
   },
+  {
+    path:'/video/:sessionId',
+    name: 'Video',
+    component: Video,
+  }
 ]
 
 const router = new VueRouter({
