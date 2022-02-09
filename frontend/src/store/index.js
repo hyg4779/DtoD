@@ -10,16 +10,15 @@ export default new Vuex.Store({
   // ],  
   state: {
     credentials:{
-      // email: null,
-      // password: null,
-      // nickname: null,
-      // jobs: null,
-      // skills: null,
       userEmail: null,
       userPwd: null,
       userName: null,
       userJobs: null,
       userTechstack: null,
+    },
+    date: {
+      joindate: null,
+      ingdate: null,
     }
   },
   mutations: {
@@ -36,6 +35,13 @@ export default new Vuex.Store({
     skills(state, payload){
       state.credentials.userTechstack = payload.skills
     },
+
+    joinDate(state, payload){
+      state.date.joindate = payload.joindate
+    },
+    ingDate(state, payload){
+      state.date.ingdate = payload.ingdate
+    }
     // infoIntialize(state){
     //   for(let property in state.credentials){
     //     state.credentials[property] = null
@@ -57,6 +63,13 @@ export default new Vuex.Store({
     skills({commit},payload){
       commit('skills', payload)
     },
+
+    joinDate({commit}, payload){
+      commit('joinDate', payload)
+    },
+    ingDate({commit}, payload){
+      commit('ingDate', payload)
+    }
     // infoIntialize({commit}){
     //   commit('infoIntialize')
     // }
