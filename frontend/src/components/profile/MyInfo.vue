@@ -69,8 +69,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import { api } from '../../../api.js'
+import axios from 'axios'
+import { api } from '../../../api.js'
 // import jwt_decode from 'jwt-decode'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
@@ -176,22 +176,22 @@ export default {
     //     }
     //   },
     // },
-    created() {
-        // token에서 유저 상세 정보 뺴옴
-        // const token = localStorage.getItem('jwt')
-        // console.log(token)
-        // console.log(jwt_decode(token))
-        // axios ({
-        //   method: 'get',
-        //   url: api.USER_INFO_GET,
-        //   headers: { 
-        //     Authorization: 'Bearer ' + token
-        //   }
-        // }).then(res=>{
-        //   console.log(res)
-        // }).catch(error => {
-        //   console.log(error)
-        // })
+  created() {
+    // token에서 유저 상세 정보 뺴옴
+    const token = localStorage.getItem('jwt')
+    // console.log(token)
+    // console.log(jwt_decode(token))
+    axios ({
+      method: 'get',
+      url: api.USER_INFO_GET,
+      headers: { 
+        Authorization: 'Bearer ' + token
+      }
+    }).then(res=>{
+      console.log(res)
+    }).catch(error => {
+      console.log(error)
+    })
   }
 }
 </script>

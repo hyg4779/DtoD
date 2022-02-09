@@ -39,28 +39,29 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
-    }).catch((err)=>{
-      console.error(err)
-    })
 
-
-    axios({
-      url: api.GET_STUDY_BOARD,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      const temp = []
-      res.data.forEach((element)=>{
-        temp.push(element)
-      })
-      for (let i = 0; i < temp.length; i++){
-        if (temp[i].user.userName === this.userName) {
-          this.items.push(temp[i])
+      axios({
+        url: api.GET_STUDY_BOARD,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        const temp = []
+        res.data.forEach((element)=>{
+          temp.push(element)
+        })
+        // console.log(temp)
+        for (let i = 0; i < temp.length; i++){
+          if (temp[i].user.userName === this.userName) {
+            this.items.push(temp[i])
+          }
         }
-      }
-      console.log(this.items)
+        console.log(this.items)
+      }).catch((err)=>{
+        console.error(err)
+      })
+
     }).catch((err)=>{
       console.error(err)
     })
