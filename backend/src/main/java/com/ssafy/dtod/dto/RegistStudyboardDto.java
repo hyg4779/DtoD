@@ -29,10 +29,13 @@ public class RegistStudyboardDto {
 	private String sboardContent3;
 	
 	private List<String> sboardTechstack;
-	
 	private User user;
-	
 	private String sboardImg;
+	private String sboardStartdate1;
+	private String sbaordEnddate1;
+	private String sboardStartdate2;
+	private String sbaordEnddate2;
+	private Integer sboardPerson;
 	
 //	private LocalDateTime sboardCreateddate;
 }
