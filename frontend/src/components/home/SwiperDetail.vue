@@ -7,7 +7,7 @@
       <div class="profilebox">
         <div class="profileicon">
           <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
+          <img v-else src="../../assets/default_user.png">
         </div>
         <div class="profilename">{{userName}}</div>
       </div>
@@ -72,50 +72,18 @@
           <p v-html="getContent(this.content1)"></p>
         </div>
       </div>
-      <hr>
-      <StudyComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-      <hr>
-      <div class="commentprofilebox">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{userName}}</div>
-      </div>
-      <form @submit="commentSubmit">
-        <div class="form-group" style="margin-bottom:10px;">
-          <textarea 
-            class="form-control"
-            placeholder="댓글을 남겨주세요" 
-            id="comment" 
-            rows="2" 
-            v-model="mycomment" 
-            @keypress.enter="commentSubmit"
-            >
-          </textarea>
-          <button class="submit">등록</button>
-        </div>
-      </form>
     </div>
   </div>
 </template>
 
 <script>
-import { api } from '../../../../api.js'
+import { api } from '../../../api.js'
 import axios from 'axios'
-import StudyComment from "./StudyComment.vue"
 
 
 export default {
   name: 'ItemDetail',
   components: {
-    StudyComment,
   },
   props: {
     item_pk: Number,
