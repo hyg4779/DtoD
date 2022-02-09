@@ -1,6 +1,7 @@
 package com.ssafy.dtod.service;
 
 import com.ssafy.dtod.dto.UserDto;
+import com.ssafy.dtod.dto.UserUpdateDto;
 import com.ssafy.dtod.model.Authority;
 import com.ssafy.dtod.model.User;
 import com.ssafy.dtod.repository.UserRepository;
@@ -56,4 +57,26 @@ public class UserService {
     public Optional<User> getMyUserWithAuthorities() {
         return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUserEmail);
     }
+    
+    @Transactional
+    public User updateUser(UserUpdateDto userupdateDto) {
+    	User updateuser = userRepository.findOneWithAuthoritiesByUserEmail(userupdateDto.getUserEmail()).orElseThrow(() -> new IllegalArgumentException("해당 이메일이 없습니다. email = " + userupdateDto.getUserEmail()));
+    	updateuser.setUserJobs(userupdateDto.getUserJobs());
+    	updateuser.setUserTechstack(String.join(",", userupdateDto.getUserTechstack()));
+    	updateuser.setUserName(userupdateDto.getUserName());
+    	updateuser.setUserPwd(passwordEncoder.encode(userupdateDto.getUserPwd()));
+    	updateuser.setUserImg(userupdateDto.getUserImg());
+    	return userRepository.save(updateuser);
+    }
+    
+    @Transactional
+    public boolean checkEmail(String userEmail) {
+    	return userRepository.existsByUserEmail(userEmail);
+    }
+    
+    @Transactional
+    public boolean checkName(String userName) {
+    	return userRepository.existsByUserName(userName);
+    }
+    
 }
