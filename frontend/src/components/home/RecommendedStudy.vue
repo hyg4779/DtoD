@@ -1,7 +1,8 @@
 <template>
   <div class="recommendedstudy">
     <div class="recommendedtitle">
-      <div>이런 스터디는 어떠세요?</div>
+      <div v-if="this.tokenNum">{{ userName}}님 이런 스터디는 어떠세요?</div>
+      <div v-else>방문자님 이런 스터디는 어떠세요?</div>
     </div>
     <div @mouseover = "btnOn" @mouseleave = "btnOff">
       <swiper :options = "swiperOptions" ref = "slider" >
@@ -35,6 +36,9 @@
 <script>
 import Slider from './Slider.vue'
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import { api } from '../../../api.js'
+import axios from 'axios'
+
 export default {
   name: 'RecommendedStudy',
   components: {
@@ -47,6 +51,9 @@ export default {
   },
   data() {
     return {
+      tokenNum: '',
+      userName: '',
+
       buttonOn : true,
       swiperOptions: {
         slidesPerView: 5,
@@ -79,6 +86,22 @@ export default {
       }
       this.$refs.slider.$swiper.slideNext()
     },
+  },
+  created() {
+    const token = localStorage.getItem('jwt')
+    this.tokenNum = token
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
