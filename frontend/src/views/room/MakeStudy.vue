@@ -117,6 +117,15 @@ export default {
         alert("제목은 50자 이하로 입력하세요.")
       }  
     },
+  },
+  created() {
+    if (localStorage.getItem('jwt')) {
+      const token = localStorage.getItem('jwt')
+      console.log(token)
+    } else {
+      alert('로그인을 해주세요')
+      this.$router.push({ name: 'Home' })
+    }
   }
 }
 </script>
