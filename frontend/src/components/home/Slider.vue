@@ -101,6 +101,7 @@ export default {
   border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   background-color: white;
+  margin: 0 auto;
 }
 
 .item .item-img {
