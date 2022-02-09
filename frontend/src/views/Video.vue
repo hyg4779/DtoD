@@ -1,18 +1,33 @@
 <template>
-  <div>
-    스터디 룸
+  <div id="Video">
+		<header>
+			<div>
+				스터디 룸: {{ mySessionId }}
+			</div>
 
-    <div id="session-header">
-      <h1 id="session-title">{{ mySessionId }}</h1>
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-    </div>
-    <div id="main-video" class="col-md-6">
-      <user-video :stream-manager="mainStreamManager"/>
-    </div>
-    <div id="video-container" class="col-md-6">
-      <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-      <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-    </div>
+      <button
+				id="leaveBtn"
+				@click="leaveSession"
+			>
+				퇴실
+			</button>
+		</header>
+		
+    <body id="session-header">
+			<div id="main-video" class="col-md-6">
+				<user-video :stream-manager="mainStreamManager"/>
+			</div>
+
+			<div id="video-container" class="col-md-6">
+				<UserVideo :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+				<UserVideo v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+			</div>
+    </body>
+
+		<footer>
+
+
+		</footer>
 
   </div>
 </template>
@@ -196,6 +211,52 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#Video{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+  background-color: #24292F;
+  text-align: center;
+  width: 13vw;
+  min-height: calc(100vh - 7.498vh);
+}
+
+header div{
+	font-size: 1rem;
+  font-weight: bold;
+	width: 10vw;
+	color: rgb(50, 50, 50);
+  padding: .5rem 1rem .5rem 1rem;
+	margin: 1rem;
+	background-color: rgb(250, 250, 250);
+  border-radius: 1rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
+}
+
+#leaveBtn{
+	font-size: 1.5rem;
+  font-weight: bold;
+	width: 10vw;
+	color: #eeeeee;
+  padding: .5rem 1rem .5rem 1rem;
+	margin: 1rem;
+	background-color: rgb(50, 50, 50);
+  border-radius: 1rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);
+}
+
+footer{
+  text-align: center;
+  width: 15vw;
+  min-height: calc(100vh - 7.498vh);
+}
+
 
 </style>
