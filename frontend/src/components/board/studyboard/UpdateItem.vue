@@ -89,6 +89,7 @@ export default {
         vue: false, cs: false, go: false, flutter: false, 
         node: false, typescript: false, swift: false, etc: false},
       skills: [],
+      tech: '',
     }
   },
 

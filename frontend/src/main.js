@@ -21,7 +21,7 @@ import "firebase/compat/storage";
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueSweetalert2);
-Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
+Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false;
 

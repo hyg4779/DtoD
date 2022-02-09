@@ -68,7 +68,6 @@ export default {
         .then(res => {
           localStorage.setItem('jwt', res.data.token)
           this.$emit('Login')
-          // this.$router.push({ name: 'Home' })
         })
         .catch(err => {
           console.log(err)

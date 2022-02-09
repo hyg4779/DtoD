@@ -257,6 +257,7 @@ export default {
     
       this.$refs['login'].hide()
       this.login = true
+      this.$router.go()
     },
     loginModalOpen(){
       this.$refs['login'].show()
@@ -297,6 +298,7 @@ export default {
       localStorage.removeItem('jwt')
       this.login = false
       this.$router.push({ name: 'Home' })
+      this.$router.go()
       this.$swal({
           toast: true,
           position: "top-end",
