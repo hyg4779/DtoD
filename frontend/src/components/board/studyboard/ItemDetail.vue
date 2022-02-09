@@ -23,6 +23,31 @@
           <button class="delete" @click="deleteArticle">삭제</button>
         </div>
       </div>
+      <div class="img-etc-box">
+        <div class="img-box">
+          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
+        </div>
+        <div class="etc-box">
+          <div class="people">
+            <div class="peopletitle">모집인원</div>
+            <div class="peoplecontent">
+            {{peopleCount}}명
+            </div>
+          </div>         
+          <div class="joindate">
+            <div class="joindatetitle">모집기간</div>
+            <div class="joindatecontent">
+            {{joinDate}}
+            </div>
+          </div>
+          <div class="ingdate">
+            <div class="ingdatetitle">수행기간</div>
+            <div class="ingdatecontent">
+            {{ingDate}}
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="content1">
         <div class="contenttitle1">
           스터디 소개
@@ -102,10 +127,14 @@ export default {
       content1: '',
       content2: '',
       content3: '',
+      joinDate: '',
+      ingDate: '',
+      peopleCount: 0,
 
       itemuserName: '',
       userImg: '',
       userName: '',
+
       myComments: '',
       comments: [],
     }
@@ -161,9 +190,13 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
+      console.log(res)
       this.itemuserName = res.data.user.userName
+      this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle
+      this.peopleCount = res.data.sboardPerson
+      this.ingDate = res.data.sboardIngdate
+      this.joinDate = res.data.sboardJoindate
       this.tech = res.data.sboardTechstack
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
@@ -339,5 +372,50 @@ export default {
   margin: 0.7vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
+}
+
+.img-etc-box {
+  display: flex;
+  margin:  0.6vh 0 2vh 0;
+}
+.img-etc-box .img-box img{
+  height: 30vh;
+  width: 30vh;
+}
+.img-etc-box .etc-box {
+  margin: 0 0 0 3vw;
+}
+.img-etc-box .etc-box .people {
+  margin: 0 0 5vh 0;
+}
+.img-etc-box .etc-box .joindate {
+  margin: 0 0 5vh 0;
+} 
+.img-etc-box .etc-box .ingdate {
+  margin: 0 0 0 0;
+}
+.img-etc-box .etc-box .people .peopletitle {
+  margin: 0 0 0.5vh 0;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.img-etc-box .etc-box .joindate .joindatetitle {
+  margin: 0 0 0.5vh 0;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.img-etc-box .etc-box .ingdate .ingdatetitle {
+  margin: 0 0 0.5vh 0;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.img-etc-box .etc-box .people .peoplecontent {
+  font-size: 1vw;
+}
+.img-etc-box .etc-box .joindate .joindatecontent{
+  font-size: 1vw;
+}
+.img-etc-box .etc-box .ingdate .ingdatecontent {
+  font-size: 1vw;
 }
 </style>

@@ -22,6 +22,10 @@ public class ListStudyboardDto {
 	private String sboardContent2;
 	private String sboardContent3;
 	private List<String> sboardTechstack;
+	private String sboardImg;
+	private String sboardIngdate;
+	private String sboardJoindate;
+	private Integer sboardPerson;
 	
 	
 }

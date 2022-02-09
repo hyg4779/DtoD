@@ -54,6 +54,15 @@ public class Studyboard {
 	@Column(name = "sboard_img", length = 100)
 	private String sboardImg;
 	
+	@Column(name = "sboard_ingdate", length = 30)
+	private String sboardIngdate;
+	
+	@Column(name = "sboard_joindate", length = 30)
+	private String sboardJoindate;
+	
+	@Column(name = "sboard_person")
+	private Integer sboardPerson;
+	
 //	@CreatedDate
 //	@Column(name = "sboard_createddate")
 //	private LocalDateTime sboardCreateddate;

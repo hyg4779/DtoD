@@ -9,6 +9,14 @@
         <br>
         <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
       </div>
+      <div class="people form-group">
+        <div class="peopletitle">인원</div>
+        <div class="peoplecount">
+          <input type="button" class="minusbtn" @click='count("minus")' value="-">
+          <div id='result'>0</div>
+          <input type="button" class="plusbtn" @click='count("plus")' value='+'>
+        </div>
+      </div>
       <div class="form-group">
         <div class="stacktitle">기술 스택 및 협업 툴</div>
         <div class="checkbox">
@@ -38,6 +46,14 @@
           </div>
         </div>
       </div>
+      <div class="ing form-group">
+        <div class="ingtitle">수행기간</div>
+        <IngRange />
+      </div>
+      <div class="join form-group">
+        <div class="jointitle">모집기간</div>
+        <JoinRange />
+      </div>
       <div class="detail1 form-group">
          <label for="content1">오픈 카카오톡 (연락처)</label>
         <br>
@@ -65,16 +81,27 @@
 import { api } from '../../../../api.js'
 import axios from 'axios'
 import _ from 'lodash'
+import IngRange from './IngRange.vue'
+import JoinRange from './JoinRange.vue'
 
 export default {
   name: 'WriteBoard',
-
+  components: {
+    IngRange,
+    JoinRange,
+  },
   data () {
     return {
       title: '',
       content1: '',
       content2: '',
       content3: '',
+
+      joinDate: '',
+      ingDate: '',
+
+      peopleCount: 0,
+
       images: [
         '001.png',
         '002.png',
@@ -89,9 +116,45 @@ export default {
       skills: [],
     }
   },
+  computed: {
+    getJoinDate() {
+      console.log(this.$store.state.date.joindate)
+      return this.$store.state.date.joindate
+    },
+    getIngDate() {
+      console.log(this.$store.state.date.ingdate)
+      return this.$store.state.date.ingdate
+    }
+  },
+  watch: {
+    getJoinDate(value) {
+      this.joinDate = value
+      console.log(this.joinDate)
+    },
+    getIngDate(value) {
+      this.ingDate = value
+      console.log(this.ingDate)
+    }
+  },
   methods: {
     back () {
       this.$router.replace()
+    },
+    count(type) {
+    // 결과를 표시할 element
+      const resultElement = document.getElementById('result');
+      // 현재 화면에 표시된 값
+      let number = resultElement.innerText;
+      // 더하기/빼기
+      if(type === 'plus') {
+        number = parseInt(number) + 1;
+      }else if(type === 'minus')  {
+        number = parseInt(number) - 1;
+      }
+      // 결과 출력
+      this.peopleCount = number;
+      // console.log(this.peopleCount)
+      resultElement.innerText = number;
     },
     stacksCheck () {
       for (let property in this.stacks){
@@ -112,6 +175,9 @@ export default {
           method: 'POST',
           data: {
             sboardTitle: this.title,
+            sboardPerson: this.peopleCount,
+            sboardIngdate: this.ingDate,
+            sboardJoindate: this.joinDate,
             sboardContent1: this.content1,
             sboardContent2: this.content2,
             sboardContent3: this.content3,
@@ -130,6 +196,9 @@ export default {
         alert("제목은 50자 이하로 입력하세요.")
       }  
     },
+  },
+  created() {
+
   }
 }
 </script>
@@ -232,6 +301,64 @@ form .checkbox div{
   height: 4vh;
   width: 4vw;
   margin: 0 1vw 0 0;
+  background-color: #24274A;
+  border-radius: 1.1rem;
+}
+
+.ing {
+  margin: 0 0 3vh 0;
+}
+.ing .ingtitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+}
+
+.join {
+  margin: 0 0 3vh 0;
+}
+.join .jointitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+}
+
+.people {
+  margin: 0 0 3vh 0;
+}
+.people .peopletitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+}
+
+.people .peoplecount {
+  display: flex;
+}
+
+.people #result {
+  font-size: 1vw;
+}
+
+.people .peoplecount .minusbtn {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 1vw;
+  font-weight: bold;
+  color: #24274A;
+  padding: 0 0.6vw 0 0.6vw;
+  margin: 0 1vw 0 0;
+  background-color: white;
+  border-radius: 1.1rem;
+}
+.people .peoplecount .plusbtn {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 1vw;
+  font-weight: bold;
+  color: white;
+  padding: 0 0.6vw 0 0.6vw;
+  margin: 0 0 0 1vw;
   background-color: #24274A;
   border-radius: 1.1rem;
 }

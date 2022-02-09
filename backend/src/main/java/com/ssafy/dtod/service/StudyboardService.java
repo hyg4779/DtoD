@@ -43,6 +43,9 @@ public class StudyboardService {
 				.sboardTechstack(String.join(",", resistStudyDto.getSboardTechstack()))
 				.user(resistStudyDto.getUser())
 				.sboardImg(resistStudyDto.getSboardImg())
+				.sboardIngdate(resistStudyDto.getSboardIngdate())
+				.sboardJoindate(resistStudyDto.getSboardJoindate())
+				.sboardPerson(resistStudyDto.getSboardPerson())
 				.build();
 		return studyboardRepository.save(studyboard);
 	}
@@ -66,6 +69,9 @@ public class StudyboardService {
 		updateboard.setSboardContent2(viewstudyboardDto.getSboardContent2());
 		updateboard.setSboardContent3(viewstudyboardDto.getSboardContent3());
 		updateboard.setSboardTechstack(String.join(",", viewstudyboardDto.getSboardTechstack()));
+		updateboard.setSboardIngdate(viewstudyboardDto.getSboardIngdate());
+		updateboard.setSboardJoindate(viewstudyboardDto.getSboardJoindate());
+		updateboard.setSboardPerson(viewstudyboardDto.getSboardPerson());
 		return studyboardRepository.save(updateboard);
 	}
 	

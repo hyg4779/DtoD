@@ -22,6 +22,8 @@ public class ViewStudyboardDto {
 	private String sboardContent2;
 	private String sboardContent3;
 	private List<String> sboardTechstack;
-	
+	private String sboardIngdate;
+	private String sboardJoindate;
+	private Integer sboardPerson;
 	
 }
