@@ -175,6 +175,9 @@ export default {
           method: 'POST',
           data: {
             sboardTitle: this.title,
+            sboardPerson: this.peopleCount,
+            sboardIngdate: this.ingDate,
+            sboardJoindate: this.joinDate,
             sboardContent1: this.content1,
             sboardContent2: this.content2,
             sboardContent3: this.content3,
