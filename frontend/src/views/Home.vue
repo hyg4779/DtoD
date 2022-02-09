@@ -22,26 +22,46 @@ export default {
   data() {
     return {
       items: [],
+      stacks: [],
     }
   },
   created() {
     const token = localStorage.getItem('jwt')
-    axios({
-      url: api.GET_STUDY_BOARD,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      const temp = []
-      res.data.forEach((element)=>{
-        temp.push(element)
+    if (token) {
+      axios({
+        url: api.GET_STUDY_BOARD,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        const temp = []
+        res.data.forEach((element)=>{
+          temp.push(element)
+        })
+        this.items = temp
+        // console.log(this.items)
+      }).catch((err)=>{
+        console.error(err)
       })
-      this.items = temp
-      // console.log(this.items)
-    }).catch((err)=>{
-      console.error(err)
-    })
+    } else {
+      axios({
+        url: api.GET_STUDY_BOARD,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        const temp = []
+        res.data.forEach((element)=>{
+          temp.push(element)
+        })
+        this.items = temp
+        // console.log(this.items)
+      }).catch((err)=>{
+        console.error(err)
+      })
+    }
   }
 }
 </script>

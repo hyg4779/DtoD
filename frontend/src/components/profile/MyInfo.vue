@@ -71,116 +71,79 @@
 <script>
 import axios from 'axios'
 import { api } from '../../../api.js'
-// import jwt_decode from 'jwt-decode'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
 
 export default {
-    name: 'MyInfo',
-    data() {
-      return {
-        uploadValue : 0,
-        picture: null,
-        imageData: null,
+  name: 'MyInfo',
+  data() {
+    return {
+      uploadValue : 0,
+      picture: null,
+      imageData: null,
 
-        stacks: {
-          javascript: false,
-          c: false,
-          kotlin: false,
-          java: false, 
-          react: false,
-          cpp: false,
-          django: false,
-          spring: false, 
-          vue: false,
-          cs: false,
-          go: false,
-          flutter: false, 
-          node: false,
-          typescript: false,
-          swift: false,
-          etc: false
-        },
+      stacks: {
+        javascript: false,
+        c: false,
+        kotlin: false,
+        java: false, 
+        react: false,
+        cpp: false,
+        django: false,
+        spring: false, 
+        vue: false,
+        cs: false,
+        go: false,
+        flutter: false, 
+        node: false,
+        typescript: false,
+        swift: false,
+        etc: false
+      },
 
-        options: [
-          '웹 프로그래머',
-          '웹 퍼블리셔',
-          '프론트엔드 엔지니어',
-          '서버 개발자',
-          '백엔드 엔지니어',
-          '데이터 엔지니어',
-          '데브옵스 엔지니어',
-        ],
+      options: [
+        '웹 프로그래머',
+        '웹 퍼블리셔',
+        '프론트엔드 엔지니어',
+        '서버 개발자',
+        '백엔드 엔지니어',
+        '데이터 엔지니어',
+        '데브옵스 엔지니어',
+      ],
 
-        credentials: {
-          img: '',
-          nickname: '',
-          jobs: null,
-          skills: [],
-        }
+      credentials: {
+        img: '',
+        nickname: '',
+        jobs: null,
+        skills: [],
+      },
+      tech: '',
+    }
+  },
+  methods: {
+    previewImage(event) { 
+      this.uploadValue=0; 
+      this.picture=null; 
+      this.imageData = event.target.files[0]; 
+    }, 
+    onUpload( ){ 
+      this.picture=null; 
+      const storageRef = firebase.storage().ref(`${this. imageData.name}`).put(this.imageData); 
+      storageRef.on( `state_changed` ,snapshot=>{ 
+        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100; 
+      }, error=>{console.log(error.message)}, 
+      ()=>{this.uploadValue=100; 
+      storageRef.snapshot.ref.getDownloadURL().then((url)=>{ 
+        this.picture =url; 
+        // console.log(url)
+        }); 
       }
-    },
-    methods: {
-      previewImage(event) { 
-        this.uploadValue=0; 
-        this.picture=null; 
-        this.imageData = event.target.files[0]; 
-      }, 
-      onUpload( ){ 
-        this.picture=null; 
-        const storageRef = firebase.storage().ref(`${this. imageData.name}`).put(this.imageData); 
-        storageRef.on( `state_changed` ,snapshot=>{ 
-          this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100; 
-        }, error=>{console.log(error.message)}, 
-        ()=>{this.uploadValue=100; 
-        storageRef.snapshot.ref.getDownloadURL().then((url)=>{ 
-          this.picture =url; 
-          // console.log(url)
-          }); 
-        }
-        )
-      }
-    },
-    // methods: {
-    //   selectUploadFile() {
-    //     var vue = this
-    //     let elem = document.createElement('input')
-    //     // 이미지 파일 업로드 / 동시에 여러 파일 업로드
-    //     elem.id = 'image'
-    //     elem.type = 'file'
-    //     // elem.accept = 'image/*'
-    //     elem.accept = ['image/png', 'image/jpeg']
-    //     elem.multiple = false
-    //     // 클릭
-    //     elem.click();
-    //     // 이벤트 감지
-    //     elem.onchange = function() {
-    //       const formData = new FormData()
-
-    //       formData.append('file', this.files[0])
-
-    //       const token = localStorage.getItem('jwt')
-    //       axios({
-    //         method: 'post',
-    //         url: api.USER_INFO_CHANGE,
-    //         data: formData,
-    //         headers: { 
-    //           'Content-Type': 'multipart/form-data' ,
-    //           Authorization: 'Bearer ' + token
-    //         }
-    //       }).then(response => {
-    //           vue.response = response.data
-    //       }).catch(error => {
-    //           vue.response = error.message
-    //       })
-    //     }
-    //   },
-    // },
+      )
+    }
+  },
   created() {
-    // token에서 유저 상세 정보 뺴옴
     const token = localStorage.getItem('jwt')
-    // console.log(token)
-    // console.log(jwt_decode(token))
+
     axios ({
       method: 'get',
       url: api.USER_INFO_GET,
@@ -189,6 +152,22 @@ export default {
       }
     }).then(res=>{
       console.log(res)
+      this.credentials.nickname = res.data.userName
+      this.credentials.jobs = res.data.userJobs
+      this.tech = res.data.userTechstack
+      const t = this.tech
+      const temp = t.split(',')
+      let result = []
+      for(let i = 0; i < temp.length; i++){
+        result.push(temp[i])
+      }
+      for(let j = 0; j < result.length; j++){
+        for (let k = 0; k < Object.keys(this.stacks).length; k++){
+          if (result[j] === Object.keys(this.stacks)[k]){
+            this.stacks[Object.keys(this.stacks)[k]] = true
+          }
+        }
+      }
     }).catch(error => {
       console.log(error)
     })

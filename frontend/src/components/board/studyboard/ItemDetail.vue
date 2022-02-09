@@ -9,7 +9,7 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">{{userName}}</div>
+        <div class="profilename">{{itemuserName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
@@ -170,8 +170,8 @@ export default {
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then(()=>{
-        // console.log(res)
+      }).then((res)=>{
+        console.log(res)
         this.$router.go();
       }).catch((err)=>{
         console.error(err)

@@ -3,14 +3,15 @@
     <div class="recommendedtitle">
       <div>이런 스터디는 어떠세요?</div>
     </div>
-    <div class="slidecontain" @mouseover = "btnOn" @mouseleave = "btnOff">
-      <swiper class="slider" :options = "swiperOptions" ref = "slider" >
-        <Slider
-          v-for="(item, idx) in items"
-          :key="idx"
-          :item="item"
-        />
-        <div class="swiper-pagination" slot="pagination"></div>
+    <div @mouseover = "btnOn" @mouseleave = "btnOff">
+      <swiper :options = "swiperOptions" ref = "slider" >
+        <swiper-slide v-for="(item, index) in items" :key="index">
+            <!-- v-for="(item, idx) in items" -->
+          <Slider
+            :key="idx"
+            :item="item"
+          />
+        </swiper-slide>
         <div 
           v-if="buttonOn"
           class="swiper-button-prev swiper-button-white" 
@@ -19,12 +20,12 @@
           @click = "prev">    
         </div>
         <div 
-        v-if="buttonOn"
-        class="swiper-button-next swiper-button-white" 
-        slot="button-next"
-        style="color: black;"
-        @click = "next"
-        >
+          v-if="buttonOn"
+          class="swiper-button-next swiper-button-white" 
+          slot="button-next"
+          style="color: black;"
+          @click = "next"
+          >
       </div>
       </swiper>
     </div>
@@ -33,11 +34,13 @@
 
 <script>
 import Slider from './Slider.vue'
-
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 export default {
   name: 'RecommendedStudy',
   components: {
     Slider,
+    Swiper,
+    SwiperSlide,
   },
   props: {
     items: Array,
@@ -47,8 +50,9 @@ export default {
       buttonOn : true,
       swiperOptions: {
         slidesPerView: 5,
-        spaceBetween: 1000,
-        // loop: true,
+        spaceBetween: 5,
+        loop: true,
+        loopedSlides: 5,
         navigation: {
           nextEl: '#button-next-relacionados',
           prevEl: '#button-prev-relacionados'
@@ -81,21 +85,14 @@ export default {
 
 <style scoped>
 .recommendedstudy{
-  height: calc(100vh - 7.498vh - 48vh);
+  height: calc(100vh - 7.498vh - 49vh);
   background-color: white;
   margin: 0 auto;
 }
 
 .recommendedtitle div {
-  margin: 3vh 0 0 2vw;
+  margin: 4vh 0 0 2vw;
   font-family: 'Dohyeon';
   font-size: 1.5vw;
-}
-
-.slidecontain{
-  margin: 2vh 0 0 0;
-}
-.slider{
-  margin: 0 auto 0;
 }
 </style>

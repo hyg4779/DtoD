@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style scoped>
+/* .slider{
+  margin: 0 0 0 1vw !important;
+} */
 .item{
   width: 13vw;
   height: 27vh;

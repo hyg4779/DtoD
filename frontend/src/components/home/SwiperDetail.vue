@@ -9,7 +9,7 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../assets/default_user.png">
         </div>
-        <div class="profilename">{{userName}}</div>
+        <div class="profilename">{{itemuserName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
@@ -17,10 +17,6 @@
           <span v-for="(item, idx) in getSkills" :key="idx">
             {{item}}
           </span>
-        </div>
-        <div class="item-control" v-if="this.userName === this.itemuserName">
-          <button class="update" @click="updateArticle">수정</button>
-          <button class="delete" @click="deleteArticle">삭제</button>
         </div>
       </div>
       <div class="img-etc-box">
@@ -130,24 +126,6 @@ export default {
     onParentDeleteComment() {
 
     },
-    deleteArticle() {
-      const token = localStorage.getItem('jwt')
-      axios({
-        url: api.DELETE_STUDY_BOARD + `${this.item_pk}`,
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then(()=>{
-        // console.log(res)
-        this.$router.go();
-      }).catch((err)=>{
-        console.error(err)
-      })
-    },
-    updateArticle() {
-      this.$emit('update-modal-open', this.item_pk)
-    },
   },
   created() {
     const token = localStorage.getItem('jwt')
@@ -158,7 +136,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
+      console.log(res)
       this.itemuserName = res.data.user.userName
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle

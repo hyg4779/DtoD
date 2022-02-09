@@ -28,7 +28,7 @@ import format from 'date-fns/format'
 export default {
   data() {
     return {
-      dateFormat: 'YYYY년 MM월 D일',
+      dateFormat: 'YYYY-MM-DD',
       dateOne: '',
       dateTwo: '',
 
