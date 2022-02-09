@@ -29,27 +29,24 @@ export default {
   },
   created() {
     // this.items = dummy
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt')
-      axios({
-        url: api.GET_STUDY_BOARD,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        const temp = []
-        res.data.forEach((element)=>{
-          temp.push(element)
-        })
-        this.items = temp
-        // console.log(this.items)
-      }).catch((err)=>{
-        console.error(err)
+
+    const token = localStorage.getItem('jwt')
+    axios({
+      url: api.GET_STUDY_BOARD,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
       })
-    } else {
-      alert('로그인을 해주세요')
-    }
+      this.items = temp
+      // console.log(this.items)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>

@@ -28,46 +28,42 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem('jwt')
 
-      axios({
-        url:  api.USER_INFO_GET,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        // console.log(res)
-        this.userName = res.data.userName
-      }).catch((err)=>{
-        console.error(err)
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+
+    axios({
+      url: api.GET_STUDY_BOARD,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
       })
-
-
-      axios({
-        url: api.GET_STUDY_BOARD,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        const temp = []
-        res.data.forEach((element)=>{
-          temp.push(element)
-        })
-        for (let i = 0; i < temp.length; i++){
-          if (temp[i].user.userName === this.userName) {
-            this.items.push(temp[i])
-          }
+      for (let i = 0; i < temp.length; i++){
+        if (temp[i].user.userName === this.userName) {
+          this.items.push(temp[i])
         }
-        console.log(this.items)
-      }).catch((err)=>{
-        console.error(err)
-      })
-    } else {
-      alert('로그인을 해주세요')
-    }
+      }
+      console.log(this.items)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>

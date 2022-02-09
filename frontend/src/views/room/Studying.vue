@@ -28,7 +28,14 @@ export default {
     }
   },
   created() {
-    this.items = dummy
+    if (localStorage.getItem('jwt')) {
+      this.items = dummy
+      const token = localStorage.getItem('jwt')
+      console.log(token)
+    } else {
+      alert('로그인을 해주세요')
+      this.$router.push({ name: 'Home' })
+    }
   }
 }
 </script>
