@@ -77,6 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // authenticate, signup 은 Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
+                .antMatchers("/api/user/mypage").permitAll()
+                .antMatchers("/api/user/update").permitAll()
+                .antMatchers("/api/user/checkemail/{userEmail}").permitAll()
+                .antMatchers("/api/user/checkname/{userName}").permitAll()
                 .antMatchers("/api/sboard/regist").permitAll()
                 .antMatchers("/api/sboard/list").permitAll()
                 .antMatchers("/api/sboard/update").permitAll()
