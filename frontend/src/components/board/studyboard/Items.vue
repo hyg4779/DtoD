@@ -9,7 +9,7 @@
       />
     </div>
     <p></p>
-    <div class="btn-cover" style="color:white;">
+    <div v-if="this.items.length != 0" class="btn-cover" style="color:white;">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
       </button>
@@ -17,6 +17,11 @@
       <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
         다음
       </button>
+    </div>
+    <div v-else>
+      <div class="nodata">
+        작성한 게시글이 없습니다
+      </div>
     </div>
     <p></p>
   </div>
@@ -106,5 +111,11 @@ export default {
 .btn-cover .page-count {
   padding: 0 1rem;
   color: black;
+}
+
+.nodata {
+  margin: 23vh 0 0 33vw;
+  font-family: 'Dohyeon';
+  font-size: 2vw;
 }
 </style>
