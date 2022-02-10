@@ -199,7 +199,11 @@ export default {
             let ingstart = new Date(res1[0])
             let joinstart = new Date(res2[0])
             let joinend = new Date(res2[1])
-            if (ingstart > joinend && joinstart >= today) {
+            console.log(today)
+            console.log(ingstart)
+            console.log(joinstart)
+            console.log(joinend)
+            if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
               const token = localStorage.getItem('jwt')
               this.img = _.sample(this.images)
               axios({
