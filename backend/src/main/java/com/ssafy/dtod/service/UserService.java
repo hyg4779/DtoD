@@ -64,7 +64,7 @@ public class UserService {
     	updateuser.setUserJobs(userupdateDto.getUserJobs());
     	updateuser.setUserTechstack(String.join(",", userupdateDto.getUserTechstack()));
     	updateuser.setUserName(userupdateDto.getUserName());
-    	updateuser.setUserPwd(passwordEncoder.encode(userupdateDto.getUserPwd()));
+//    	updateuser.setUserPwd(passwordEncoder.encode(userupdateDto.getUserPwd()));
     	updateuser.setUserImg(userupdateDto.getUserImg());
     	return userRepository.save(updateuser);
     }
