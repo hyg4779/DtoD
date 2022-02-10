@@ -251,7 +251,7 @@ export default {
   justify-content: center;
 }
 .profileicon {
-  margin: 2vh 1vw 2vh 17vw;
+  margin: 2vh 1vw 2vh 0;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
