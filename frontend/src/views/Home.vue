@@ -36,12 +36,14 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
+        console.log(res)
         const temp = []
+        let lodashtemp = []
         res.data.forEach((element)=>{
           temp.push(element)
         })
-        this.items = temp
-        // console.log(this.items)
+        lodashtemp = _.sampleSize(temp, 10)
+        this.items = lodashtemp
       }).catch((err)=>{
         console.error(err)
       })

@@ -119,7 +119,7 @@ export default {
 }
 
 .sheet1 .sheet1-content2 {
-  font: 'Tomorrow', sans-serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 3vh;
   font-weight: 500;
   padding: 3vh 0 0 50px;
@@ -153,7 +153,7 @@ export default {
 }
 
 .sheet2 .sheet2-content2 {
-  font: 'Tomorrow', sans-serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 3vh;
   font-weight: 500;
   padding: 3vh 0 0 50px;
@@ -187,7 +187,7 @@ export default {
 }
 
 .sheet3 .sheet3-content2 {
-  font: 'Tomorrow', sans-serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 3vh;
   font-weight: 500;
   padding: 3vh 0 0 50px;
