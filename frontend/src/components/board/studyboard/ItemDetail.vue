@@ -9,7 +9,9 @@
           <img v-if="this.itemuserImg" :src="this.itemuserImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">{{itemuserName}}</div>
+        <div class="profilename">
+          작성자: {{itemuserName}}
+        </div>
       </div>
       <div class="tech-control">
         <div class="techstack">
@@ -246,6 +248,7 @@ export default {
 }
 .profilebox{
   display: flex;
+  justify-content: center;
 }
 .profileicon {
   margin: 2vh 1vw 2vh 17vw;
