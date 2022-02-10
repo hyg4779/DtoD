@@ -12,6 +12,7 @@ import Carousel from '@/components/home/Carousel.vue'
 import RecommendedStudy from '@/components/home/RecommendedStudy.vue'
 import axios from 'axios'
 import { api } from '../../api.js'
+import _ from 'lodash'
 
 export default {
   name: 'Home',
@@ -52,11 +53,14 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
+        console.log(res)
         const temp = []
+        let lodashtemp = []
         res.data.forEach((element)=>{
           temp.push(element)
         })
-        this.items = temp
+        lodashtemp = _.sampleSize(temp, 10)
+        this.items = lodashtemp
         // console.log(this.items)
       }).catch((err)=>{
         console.error(err)
