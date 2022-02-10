@@ -74,7 +74,7 @@
         </div> -->
         <div>
           <div class="picture-icon">
-            <img src="../../assets/people/seongyu.png" alt="seokjun">
+            <img src="../../assets/people/hong.jpg" alt="seokjun">
           </div>
           <div class="name">
             <div>
