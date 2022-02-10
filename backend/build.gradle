@@ -86,4 +86,10 @@ compileQuerydsl {
 configurations {
     querydsl.extendsFrom compileClasspath
 }
+
+bootJar{
+	archivesBaseName = 'DTOD'
+	archiveFileName = 'DTOD.jar'
+	archiveVersion = "0.0.0"
+}
 //[끝]
