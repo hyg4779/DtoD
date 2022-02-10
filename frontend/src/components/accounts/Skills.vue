@@ -83,7 +83,7 @@ export default {
     signupFin(){
       this.stacksCheck()
       console.log(this.credentials.skills)
-      if(this.credentials.skills.length >= 1 && this.credentials.skills.length <= 4){
+      if(this.credentials.skills.length >= 1){
         this.$store.dispatch('skills', this.credentials)
         axios({
           method: 'post',
@@ -100,7 +100,7 @@ export default {
       } else {
         this.$swal({
           icon: 'error',
-          titleText: '1개 이상 4개 이하 입력해주세요',
+          titleText: '1개 이상 입력해주세요',
           showConfirmButton: false,
           timer: 1500,
         })

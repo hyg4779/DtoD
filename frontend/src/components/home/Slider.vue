@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      SwiperDetail,
       imgPath: '',
       item_pk: 0,
     }
