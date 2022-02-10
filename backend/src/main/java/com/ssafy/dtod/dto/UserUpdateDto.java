@@ -17,7 +17,7 @@ public class UserUpdateDto {
 	
 	private String userEmail;
 
-	private String userPwd;
+//	private String userPwd;
 
 	private String userName;
 
