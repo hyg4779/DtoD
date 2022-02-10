@@ -2,7 +2,7 @@
   <div class="myinfo">
     <!-- <div> -->
       <div class="profileicon">
-        <img v-if="this.credentials.img" :src="this.credentials.img">
+        <img v-if="picture" :src="picture">
         <img v-else src="../../assets/default_user.png">
       </div>
       <div class="profilebutton">
@@ -14,15 +14,21 @@
       <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
     <!-- </div> -->
     <b-form class="form">
-      <label class="nicknamelabel" for="nickname">닉네임</label>
-      <b-form-input
-        id="nickname"
-        v-model="credentials.nickname"
-        type="text"
-        required
-      >
-      </b-form-input>
-
+      <div class="nickname">
+        <div>
+          <label class="nicknamelabel" for="nickname">닉네임</label>
+          <b-form-input
+            id="nickname"
+            v-model="credentials.nickname"
+            type="text"
+            required
+          >
+          </b-form-input>
+        </div>
+        <div class="doublecheck">
+          <button @click="doubleCheck">중복체크</button>
+        </div>
+      </div>
       <label class="joblabel" for="input-with-list">희망 직무를 선택하세요</label>
       <b-form-input
         v-model="credentials.jobs"
@@ -33,7 +39,6 @@
         id="input-list"
         :options="options">
       </b-form-datalist>
-
       <label class="skilllabel" for="checkbox">관심있는 기술 스택을 선택하세요</label>
       <div class="checkbox" id="checkbox">
         <div>
@@ -112,13 +117,13 @@ export default {
       ],
 
       credentials: {
-        img: '',
-        nickname: '',
+        nickname: null,
         jobs: null,
         skills: [],
       },
       tech: '',
       userEmail: '',
+      nicknameCheck: null
     }
   },
   methods: {
@@ -141,6 +146,36 @@ export default {
       }
       )
     },
+    doubleCheck (event) {
+      event.preventDefault()
+      const token = localStorage.getItem('jwt')
+      if (this.credentials.nickname !== null && this.credentials.nickname.length >= 2) {
+        axios({
+          url: api.NICKNAME_CHECK + `${this.credentials.nickname}`,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          console.log(res)
+          if (res.data === true) {
+            this.nicknameCheck = res.data
+            console.log(this.nicknameCheck)
+            alert('중복되는 닉네임이 있습니다.')
+          }
+          else {
+            this.nicknameCheck = res.data
+            console.log(this.nicknameCheck)
+            alert('중복되는 닉네임이 없습니다.')
+          }
+        }).catch(err=>{
+          console.log(err)
+        })     
+      }
+      else {
+        alert("닉네임을 2자 이상 입력하세요")
+      }
+    },
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
@@ -161,38 +196,93 @@ export default {
       }
     },
     onSubmit(event) {
-      event.preventDefault()
       this.stacksCheck()
-      console.log(this.userEmail)
-      console.log(this.picture)
-      console.log(this.credentials.nickname)
-      console.log(this.credentials.jobs)
-      console.log(this.credentials.skills)
-      if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
-        const token = localStorage.getItem('jwt')
-        axios({
-          url: api.USER_INFO_CHANGE,
-          method: 'PUT',
-          data: {
-            userEmail: this.userEmail,
-            userImg: this.picture,
-            userJobs: this.credentials.jobs,
-            userName: this.credentials.nickname,
-            userTechstack: this.credentials.skills
-          },
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-        }).then(()=> {
-          this.$router.go();
-        }).catch(err=>{
-          console.error(err)
-        })
+      console.log(this.nicknameCheck)
+      event.preventDefault()
+      if (this.nicknameCheck !== null && this.nicknameCheck === false) {
+        if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
+          const token = localStorage.getItem('jwt')
+          axios({
+            url: api.USER_INFO_CHANGE,
+            method: 'PUT',
+            data: {
+              userEmail: this.userEmail,
+              userImg: this.picture,
+              userJobs: this.credentials.jobs,
+              userName: this.credentials.nickname,
+              userTechstack: this.credentials.skills
+            },
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then(()=> {
+            this.$router.go();
+          }).catch(err=>{
+            console.error(err)
+          })
+        }
+        else {
+          this.stackFalse()
+          this.stackCheckOut()
+          this.nicknameCheck = null
+          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          const token = localStorage.getItem('jwt')
+          axios ({
+            method: 'get',
+            url: api.USER_INFO_GET,
+            headers: { 
+              Authorization: 'Bearer ' + token
+            }
+          }).then(res=>{
+            this.tech = res.data.userTechstack
+            const t = this.tech
+            const temp = t.split(',')
+            let result = []
+            for(let i = 0; i < temp.length; i++){
+              result.push(temp[i])
+            }
+            for(let j = 0; j < result.length; j++){
+              for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                if (result[j] === Object.keys(this.stacks)[k]){
+                  this.stacks[Object.keys(this.stacks)[k]] = true
+                }
+              }
+            }
+          }).catch(err=> {
+            console.log(err)
+          })
+        }
       }
       else {
         this.stackFalse()
         this.stackCheckOut()
-        alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+        this.nicknameCheck = null
+        alert('닉네임 중복검사를 해주세요')
+        const token = localStorage.getItem('jwt')
+        axios ({
+          method: 'get',
+          url: api.USER_INFO_GET,
+          headers: { 
+            Authorization: 'Bearer ' + token
+          }
+        }).then(res=>{
+          this.tech = res.data.userTechstack
+          const t = this.tech
+          const temp = t.split(',')
+          let result = []
+          for(let i = 0; i < temp.length; i++){
+            result.push(temp[i])
+          }
+          for(let j = 0; j < result.length; j++){
+            for (let k = 0; k < Object.keys(this.stacks).length; k++){
+              if (result[j] === Object.keys(this.stacks)[k]){
+                this.stacks[Object.keys(this.stacks)[k]] = true
+              }
+            }
+          }
+        }).catch(err=> {
+          console.log(err)
+        })
       }
     },
   },
@@ -211,7 +301,7 @@ export default {
       this.credentials.jobs = res.data.userJobs
       this.tech = res.data.userTechstack
       this.userEmail = res.data.userEmail
-      this.credentials.img = res.data.userImg
+      this.picture = res.data.userImg
       const t = this.tech
       const temp = t.split(',')
       let result = []
@@ -236,6 +326,7 @@ export default {
 .myinfo {
   margin: 0 auto;
   font-family: 'Epilogue', sans-serif;
+  /* width: calc(100vw - 13vw); */
 }
 
 .profileicon {
@@ -306,17 +397,17 @@ export default {
 .nicknamelabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 2vh 0 -2vh 31.8vw;
+  margin: 2vh 0 0 31.8vw;
 }
 .joblabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 0 0 -2vh 31.8vw;
+  margin: 0 0 -3.5vh 31.8vw;
 }
 .skilllabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 0 0 0 35vw;
+  margin: 2vh 0 -2vh 35vw;
 }
 
 .form{
@@ -327,6 +418,24 @@ export default {
   font: 'Roboto', sans-serif;
   min-height: 550px !important;
   margin: 0 0 0 1vw;
+}
+
+.nickname {
+  display: flex;
+}
+.nickname .doublecheck button{
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.7vw;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid;
+  color: #24274A;
+  height: 4vh;
+  width: 5vw;
+  margin: 5.8vh 0 0 1vw;
+  background-color: white;
+  border-radius: 0.8rem;
 }
 
 #nickname{
