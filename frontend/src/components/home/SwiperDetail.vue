@@ -220,6 +220,7 @@ export default {
   text-align: center;
   font-size: 1.5vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 .profilebox{
   display: flex;
@@ -241,6 +242,7 @@ export default {
   margin: 3.5vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .tech-control {
@@ -252,17 +254,18 @@ export default {
   font-weight: 400;
   font-size: 1vw;
   margin:  0.6vh 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .techstack span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.1vh 0.5vw 0.5vh 0.8vw;
+  padding: 0.5vh 0.5vw 0.5vh 0.8vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
   font-weight: bold;
   
 }
-.item-control .update{
+/* .item-control .update{
   cursor: pointer;
   font-family: 'Roboto';
   font-size: 0.7vw;
@@ -283,39 +286,44 @@ export default {
   color: white;
   height: 3vh;
   width: 3vw;
-  /* margin: 0 1vw 0 0; */
   background-color: #24274A;
   border-radius: 1.1rem;
-}
+} */
 
 .content1 .contenttitle1{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 1.5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content1 .contentdetail1 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .content2 .contenttitle2{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 1.5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content2 .contentdetail2 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .content3 .contenttitle3{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 1.5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content3 .contentdetail3 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .form-group .form-control{
@@ -323,6 +331,7 @@ export default {
   color:white; */
   border-radius: 1rem;
   height: 10vh;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .submit {
@@ -355,9 +364,10 @@ export default {
   object-fit:cover;
 }
 .commentprofilename {
-  margin: 0.7vh 0 0 0;
+  margin: 0.8vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .img-etc-box {
@@ -384,24 +394,30 @@ export default {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .joindate .joindatetitle {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .ingdate .ingdatetitle {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .people .peoplecontent {
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .joindate .joindatecontent{
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .ingdate .ingdatecontent {
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 </style>

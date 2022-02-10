@@ -253,6 +253,7 @@ export default {
   margin: 1vh 0 0 0;
   font-size: 1vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .aboutus .container .who .whotitle {

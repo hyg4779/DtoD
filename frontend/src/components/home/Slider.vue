@@ -120,6 +120,7 @@ export default {
   text-align: center;
   font-size: 0.78vw;
   margin: 2.5vh 0 0 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 </style>

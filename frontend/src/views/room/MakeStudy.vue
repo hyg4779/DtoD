@@ -16,6 +16,14 @@
           <br>
           <textarea class="form-control" type="text" id="password" v-model="password" placeholder=" 비밀번호를 입력하세요"></textarea>
         </div>
+        <div class="people form-group">
+          <div class="peopletitle">인원</div>
+          <div class="peoplecount">
+            <input type="button" class="minusbtn" @click='count("minus")' value="-">
+            <div id='result'>0</div>
+            <input type="button" class="plusbtn" @click='count("plus")' value='+'>
+          </div>
+        </div>
         <div class="form-group">
           <div class="stacktitle">기술 스택 및 협업 툴</div>
           <div class="checkbox">
@@ -45,6 +53,10 @@
             </div>
           </div>
         </div>
+      <div class="ing form-group">
+        <div class="ingtitle">수행기간</div>
+        <IngRange />
+      </div>
         <div class="detail1 form-group">
           <label for="content1">오픈 카카오톡 (연락처)</label>
           <br>
@@ -68,22 +80,47 @@
 <script>
 import { api } from '../../../api.js'
 import axios from 'axios'
+import IngRange from '../../components/board/studyboard/IngRange.vue'
+import _ from 'lodash'
 
 export default {
   name: 'MakeStudy',
-
+  components: {
+    IngRange,
+  },
   data () {
     return {
       title: '',
       password: '',
+      peopleCount: 0,
       content1: '',
       content2: '',
+      ingDate: '',
+      img: '',
+      skills: [],
+
+      images: [
+        '001.png',
+        '002.png',
+        '003.png',
+      ],
       stacks: {
         javascript: false, c: false, kotlin: false, java: false, 
         react: false, cpp: false, django: false, spring: false, 
         vue: false, cs: false, go: false, flutter: false, 
         node: false, typescript: false, swift: false, etc: false},
-      skills: [],
+    }
+  },
+  computed: {
+    getIngDate() {
+      // console.log(this.$store.state.date.ingdate)
+      return this.$store.state.date.ingdate
+    }
+  },
+  watch: {
+    getIngDate(value) {
+      this.ingDate = value
+      // console.log(this.ingDate)
     }
   },
   methods: {
@@ -98,31 +135,98 @@ export default {
         }
       }
     },
+    stackCheckOut () {
+      this.skills = []
+    },
+    stackFalse () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }
+    },
+    count(type) {
+    // 결과를 표시할 element
+      const resultElement = document.getElementById('result');
+      // 현재 화면에 표시된 값
+      let number = resultElement.innerText;
+      // 더하기/빼기
+      if(type === 'plus') {
+        number = parseInt(number) + 1;
+      }else if(type === 'minus')  {
+        number = parseInt(number) - 1;
+      }
+      // 결과 출력
+      this.peopleCount = number;
+      // console.log(this.peopleCount)
+      resultElement.innerText = number;
+    },
     onSubmit(event) {
       event.preventDefault()
       this.stacksCheck()
-      if (this.title.length <= 50) {
-        axios({
-          url: api.CREATE_STUDY_ROOM,
-          method: 'POST',
-          data: {
-            title: this.title,
-            password: this.password,
-            content1: this.content1,
-            content2: this.content2,
-            skills: this.skills,
-          },
-          headers: {
-            Authorization: `JWT ${localStorage.getItem('jwt')}`
-          },
-        }).then(()=>{
-          this.$router.push('/studying')
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 50자 이하로 입력하세요.")
-      }  
+      if (0 < this.title.length && this.title.length <= 50) {
+        if (10 >= this.peopleCount && this.peopleCount > 0) {
+          if (0 < this.skills.length && this.skills.length <= 4) {
+            console.log(this.ingDate)
+            const temp = this.ingDate.split(' - ')
+            let res1 = []
+            for(let i = 0; i < temp.length; i++){
+              res1.push(temp[i])
+            }
+            console.log(res1)
+            let today = new Date()
+            let ingstart = new Date(res1[0])
+            console.log(today)
+            console.log(ingstart)
+            if (ingstart >= today.setHours(0,0,0,0)) {
+              const token = localStorage.getItem('jwt')
+              this.img = _.sample(this.images)
+              axios({
+                url: api.CREATE_STUDY_ROOM,
+                method: 'POST',
+                data: {
+                  sboardTitle: this.title,
+                  sboardPwd: this.password,
+                  sboardPerson: this.peopleCount,
+                  sboardTechstack: this.skills,
+                  sboardIngdate: this.ingDate,
+                  sboardContent1: this.content1,
+                  sboardContent2: this.content2,
+                  sboardImg: this.img,
+                },
+                headers: {
+                  Authorization: 'Bearer ' + token
+                },
+              }).then(()=>{
+                this.$router.push('/studying')
+              }).catch(err=>{
+                console.error(err)
+              })
+            }
+            else {
+              alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+              this.stackFalse()
+              this.stackCheckOut()
+            }
+          }
+          else {
+            alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+            this.stackFalse()
+            this.stackCheckOut()
+          }
+        }
+        else {
+          alert("인원을 1명 이상 10명 이하 선택해주세요")
+          this.stackFalse()
+          this.stackCheckOut()
+        }
+      } 
+      else {
+        alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackFalse()
+        this.stackCheckOut()
+      }
     },
   },
   created() {
@@ -159,6 +263,7 @@ export default {
   font-weight: bold;
   color: #0D1350;
   margin: 2vh 0 0 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form {
@@ -169,6 +274,7 @@ form div label {
   font-weight: bold;
   font-size: 1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 
@@ -176,6 +282,7 @@ form div .stacktitle {
   font-weight: bold;
   font-size: 1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div textarea {
@@ -185,6 +292,7 @@ form div textarea {
   border-radius: 0.5rem;
   height: 1vh;
   width: 30vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .detail1 textarea {
@@ -208,6 +316,7 @@ form .checkbox {
   margin: 0 0 2vh 0;
   display: grid;
   grid-template-columns: auto auto auto auto;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .checkbox div{
@@ -243,5 +352,57 @@ form .submitbtn {
   margin: 0 1vw 0 0;
   background-color: #24274A;
   border-radius: 1.1rem;
+}
+
+.people {
+  margin: 0 0 3vh 0;
+}
+.people .peopletitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.people .peoplecount {
+  display: flex;
+}
+
+.people #result {
+  font-size: 1vw;
+}
+
+.people .peoplecount .minusbtn {
+  cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1vw;
+  font-weight: bold;
+  color: #24274A;
+  padding: 0 0.6vw 0 0.6vw;
+  margin: 0 1vw 0 0;
+  border: 1px solid #24274A;
+  background-color: white;
+  border-radius: 1.1rem;
+}
+.people .peoplecount .plusbtn {
+  cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1vw;
+  font-weight: bold;
+  color: white;
+  padding: 0 0.6vw 0 0.6vw;
+  margin: 0 0 0 1vw;
+  background-color: #24274A;
+  border-radius: 1.1rem;
+}
+
+.ing {
+  margin: 0 0 3vh 0;
+}
+.ing .ingtitle {
+  font-weight: bold;
+  font-size: 1.1vw;
+  margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 </style>

@@ -212,13 +212,13 @@ export default {
                 data: {
                   sboardTitle: this.title,
                   sboardPerson: this.peopleCount,
+                  sboardTechstack: this.skills,
                   sboardIngdate: this.ingDate,
                   sboardJoindate: this.joinDate,
                   sboardContent1: this.content1,
                   sboardContent2: this.content2,
                   sboardContent3: this.content3,
                   sboardImg: this.img,
-                  sboardTechstack: this.skills,
                 },
                 headers: {
                   Authorization: 'Bearer ' + token
@@ -267,6 +267,7 @@ export default {
   margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form {
@@ -277,12 +278,14 @@ form div label {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div .stacktitle {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div textarea {
@@ -292,6 +295,7 @@ form div textarea {
   border-radius: 0.5rem;
   height: 4vh;
   width: 42vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .detail1 textarea {
@@ -325,6 +329,7 @@ form .checkbox {
   margin: 0 0 2vh 0;
   display: grid;
   grid-template-columns: 12vw 12vw 12vw 12vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .checkbox div{
@@ -369,6 +374,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .join {
@@ -378,6 +384,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .people {
@@ -387,6 +394,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .people .peoplecount {
@@ -399,7 +407,7 @@ form .checkbox div{
 
 .people .peoplecount .minusbtn {
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Epilogue', sans-serif;
   font-size: 1vw;
   font-weight: bold;
   color: #24274A;
@@ -410,7 +418,7 @@ form .checkbox div{
 }
 .people .peoplecount .plusbtn {
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Epilogue', sans-serif;
   font-size: 1vw;
   font-weight: bold;
   color: white;
