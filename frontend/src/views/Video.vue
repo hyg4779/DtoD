@@ -32,6 +32,9 @@
 					@click.native="updateMainVideoStreamManager(sub)"
 				/>
 
+				<div id="box">
+				</div>
+
     </body>
 
 		<footer>
@@ -190,7 +193,7 @@ export default {
             videoSource: undefined, // 캠. 캠 없을 때: undefined
             publishAudio: true,  	// 시작시 오디오 true/false 여부 
             publishVideo: true,  	// 시작시 캠 true/false 여부
-            resolution: '640x480',  // 비디오 해상도
+            resolution: '640x360',  // 비디오 해상도
             frameRate: 30,			// 초당프레임
             insertMode: 'APPEND',	// 캠 영상이 video태그에 삽입되는 방법
             mirror: false       	// 거울모드 true/false 여부
@@ -261,11 +264,17 @@ header div{
 
 body {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
 
+/* body div{
+	background-color: grey;
+	border: 1px solid black;
+	padding-bottom: calc(9/16 * 100);
+	max-width: 25em;
+} */
 
 footer{
   text-align: center;

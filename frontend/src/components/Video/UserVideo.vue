@@ -3,7 +3,7 @@
 	v-if="streamManager"
 	id="videoBox"
 >
-	<ov-video :stream-manager="streamManager"/>
+	<OvVideo :stream-manager="streamManager"/>
 	<div><p>{{ clientData }}</p></div>
 </div>
 </template>
