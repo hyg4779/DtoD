@@ -12,6 +12,11 @@
           <textarea class="form-control" type="text" id="title" v-model="title" placeholder=" 제목을 입력하세요"></textarea>
         </div>
         <div class="form-group">
+          <label for="password">비밀번호</label>
+          <br>
+          <textarea class="form-control" type="text" id="password" v-model="password" placeholder=" 비밀번호를 입력하세요"></textarea>
+        </div>
+        <div class="form-group">
           <div class="stacktitle">기술 스택 및 협업 툴</div>
           <div class="checkbox">
             <div>
@@ -70,6 +75,7 @@ export default {
   data () {
     return {
       title: '',
+      password: '',
       content1: '',
       content2: '',
       stacks: {
@@ -101,6 +107,7 @@ export default {
           method: 'POST',
           data: {
             title: this.title,
+            password: this.password,
             content1: this.content1,
             content2: this.content2,
             skills: this.skills,
@@ -176,7 +183,7 @@ form div textarea {
   padding: 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 0.5rem;
-  height: 4vh;
+  height: 1vh;
   width: 30vw;
 }
 

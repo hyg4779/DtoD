@@ -6,7 +6,7 @@
       </div>
       <div class="profilebox">
         <div class="profileicon">
-          <img v-if="userImg" :src="userImg"> 
+          <img v-if="this.itemuserImg" :src="this.itemuserImg"> 
           <img v-else src="../../assets/default_user.png">
         </div>
         <div class="profilename">{{itemuserName}}</div>
@@ -68,6 +68,40 @@
           <p v-html="getContent(this.content1)"></p>
         </div>
       </div>
+      <div v-if="this.token">
+      <hr>
+        <StudyComment
+          v-for="(comment, idx) in this.comments"
+          :key="idx"
+          :comment="comment"
+          :item_pk="item_pk"
+          @onParentDeleteComment="onParentDeleteComment"
+        />
+      <hr>
+      </div>
+      <div v-if="this.token">
+        <div class="commentprofilebox">
+          <div class="commentprofileicon">
+            <img v-if="this.userImg" :src="this.userImg"> 
+            <img v-else src="../../assets/default_user.png">
+          </div>
+          <div class="commentprofilename">{{userName}}</div>
+        </div>
+        <form @submit="commentSubmit">
+          <div class="form-group" style="margin-bottom:10px;">
+            <textarea 
+              class="form-control"
+              placeholder="댓글을 남겨주세요" 
+              id="comment" 
+              rows="2" 
+              v-model="mycomment" 
+              @keypress.enter="commentSubmit"
+              >
+            </textarea>
+            <button class="submit">등록</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -86,6 +120,8 @@ export default {
   },
   data() {
     return {
+      token: '',
+
       title: '',
       tech:'',
       content1: '',
@@ -96,6 +132,7 @@ export default {
       peopleCount: 0,
 
       itemuserName: '',
+      itemuserImg: '',
       userImg: '',
       userName: '',
 
@@ -129,6 +166,7 @@ export default {
   },
   created() {
     const token = localStorage.getItem('jwt')
+    this.token = token
     axios({
       url:  api.GET_STUDY_BOARD_DETAIL + `${this.item_pk}`,
       method: 'GET',
@@ -136,8 +174,9 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.itemuserName = res.data.user.userName
+      this.itemuserImg = res.data.user.userImg
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle
       this.peopleCount = res.data.sboardPerson
@@ -160,6 +199,7 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
+      this.userImg = res.data.userImg
     }).catch((err)=>{
       console.error(err)
     })

@@ -1,8 +1,8 @@
 <template>
   <div class="myinfo">
-    <div>
+    <!-- <div> -->
       <div class="profileicon">
-        <img v-if="picture" :src="picture"> 
+        <img v-if="this.credentials.img" :src="this.credentials.img">
         <img v-else src="../../assets/default_user.png">
       </div>
       <div class="profilebutton">
@@ -12,7 +12,7 @@
         <button class="imgadd"  @click="onUpload">이미지 등록</button>
       </div>
       <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
-    </div>
+    <!-- </div> -->
     <b-form class="form">
       <label class="nicknamelabel" for="nickname">닉네임</label>
       <b-form-input
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div id="btn_group">
-        <b-button class="sumbit_btn" pill >수정 완료</b-button>
+        <button @click="onSubmit" class="sumbit_btn" pill >수정 완료</button>
       </div>
     </b-form>
   </div>
@@ -118,6 +118,7 @@ export default {
         skills: [],
       },
       tech: '',
+      userEmail: '',
     }
   },
   methods: {
@@ -139,7 +140,61 @@ export default {
         }); 
       }
       )
-    }
+    },
+    stacksCheck () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] !== false){
+          this.credentials.skills.push(property)
+        }
+      }
+    },
+    stackCheckOut () {
+      this.credentials.skills = []
+    },
+    stackFalse () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }
+    },
+    onSubmit(event) {
+      event.preventDefault()
+      this.stacksCheck()
+      console.log(this.userEmail)
+      console.log(this.picture)
+      console.log(this.credentials.nickname)
+      console.log(this.credentials.jobs)
+      console.log(this.credentials.skills)
+      if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.USER_INFO_CHANGE,
+          method: 'PUT',
+          data: {
+            userEmail: this.userEmail,
+            userImg: this.picture,
+            userJobs: this.credentials.jobs,
+            userName: this.credentials.nickname,
+            userTechstack: this.credentials.skills
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then(()=> {
+          this.$router.go();
+        }).catch(err=>{
+          console.error(err)
+        })
+      }
+      else {
+        this.stackFalse()
+        this.stackCheckOut()
+        alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+      }
+    },
   },
   created() {
     const token = localStorage.getItem('jwt')
@@ -155,6 +210,8 @@ export default {
       this.credentials.nickname = res.data.userName
       this.credentials.jobs = res.data.userJobs
       this.tech = res.data.userTechstack
+      this.userEmail = res.data.userEmail
+      this.credentials.img = res.data.userImg
       const t = this.tech
       const temp = t.split(',')
       let result = []
@@ -181,7 +238,7 @@ export default {
 }
 
 .profileicon {
-  margin: 5vh auto 0;
+  margin: 3vh auto 0;
   width : 13vh;
   height : 13vh;
   /* border: 1px solid; */
@@ -241,34 +298,34 @@ export default {
 }
 
 .progress {
-  margin: 1vh 1vh 0 41.5vw;
+  margin: 0.5vh 0 0 41.5vw;
   font-weight: bold;
 }
 
 .nicknamelabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 1vh 0 -2vh 31.8vw;
+  margin: 2vh 0 -2vh 31.8vw;
 }
 .joblabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 1vh 0 -2vh 31.8vw;
+  margin: 0 0 -2vh 31.8vw;
 }
 .skilllabel {
   font-weight: bold;
   font-size: 0.95vw;
-  margin: 1vh 0 0 35vw;
+  margin: 0 0 0 35vw;
 }
 
 .form{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem !important;
+  /* padding: 0.1rem !important; */
   font: 'Roboto', sans-serif;
-  min-height: 600px !important;
-  /* margin: 0 0 0 30.5vw; */
+  min-height: 550px !important;
+  margin: 0 0 0 1vw;
 }
 
 #nickname{
@@ -277,7 +334,7 @@ export default {
   font-weight:bold !important;
   font-size: 1.2rem;
   padding: 1rem; 
-  margin: 0.4rem 0 0 31.8vw;
+  margin: 0 0 0 31.8vw;
   border-radius: 1rem !important;
   box-shadow: 0 0.1rem 0.1rem grey !important;
 }
@@ -288,13 +345,13 @@ export default {
   font-weight:bold !important;
   font-size: 1.2rem;
   padding: 1rem; 
-  margin: 0.4rem 0 2vh 31.8vw;
+  margin: 0 0 0 31.8vw;
   border-radius: 1rem !important;
   box-shadow: 0 0.1rem 0.1rem grey !important;
 }
 
 .checkbox {
-  margin: 0.4rem 0 2vh 25vw;
+  margin: 0.4rem 0 0 25vw;
   display: grid;
   grid-template-columns: 10vw 10vw 10vw 10vw;
 }
