@@ -80,9 +80,10 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-import _ from 'lodash'
 import IngRange from './IngRange.vue'
 import JoinRange from './JoinRange.vue'
+import { mapState } from 'vuex'
+
 
 export default {
   name: 'WriteBoard',
@@ -96,9 +97,6 @@ export default {
       content1: '',
       content2: '',
       content3: '',
-
-      joinDate: '',
-      ingDate: '',
 
       peopleCount: 0,
 
@@ -130,26 +128,14 @@ export default {
     }
   },
   computed: {
-    getJoinDate() {
-      // console.log(this.$store.state.date.joindate)
-      return this.$store.state.date.joindate
-    },
-    getIngDate() {
-      // console.log(this.$store.state.date.ingdate)
-      return this.$store.state.date.ingdate
-    }
-  },
-  watch: {
-    getJoinDate(value) {
-      this.joinDate = value
-      // console.log(this.joinDate)
-    },
-    getIngDate(value) {
-      this.ingDate = value
-      // console.log(this.ingDate)
-    }
+    // mapState로 joindate와 indate를 추출해서 사용
+    ...mapState([
+      'date'
+    ]),
   },
   methods: {
+
+    // 스터디 모집글 취소
     back () {
       this.$router.replace()
     },
@@ -169,6 +155,8 @@ export default {
       // console.log(this.peopleCount)
       resultElement.innerText = number;
     },
+
+    // 체크한 스텍들 추출
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
@@ -177,16 +165,16 @@ export default {
         }
       }
     },
-    stackCheckOut () {
-      this.skills = []
-    },
-    stackFalse () {
+
+    // 체크한 스텍들 초기화
+    stackInit () {
       for (let property in this.stacks){
         // console.log(property)
         if (this.stacks[property] === true){
           this.stacks[property] = false
         }
-      }
+      }this.skills = []
+      console.log(this.date.indate)
     },
     onSubmit(event) {
       event.preventDefault()
@@ -194,31 +182,36 @@ export default {
       if (0 < this.title.length && this.title.length <= 50) {
         if (10 >= this.peopleCount && this.peopleCount > 0) {
           if (0 < this.skills.length && this.skills.length <= 4) {
-            console.log(this.ingDate)
-            const temp = this.ingDate.split(' - ')
+            
+            // 진행기간 추출
+            // console.log(this.date.ingdate)
+            const temp = this.date.ingdate.split(' - ')
             let res1 = []
             for(let i = 0; i < temp.length; i++){
               res1.push(temp[i])
             }
             console.log(res1)
-            console.log(this.joinDate)
-            const tmp = this.joinDate.split(' - ')
+
+            // 모집기간 추출
+            // console.log(this.date.joindate)
+            const tmp = this.date.joindate.split(' - ')
             let res2 = []
             for(let i = 0; i < tmp.length; i++){
               res2.push(tmp[i])
             }
             console.log(res2)
+
             let today = new Date()
             let ingstart = new Date(res1[0])
             let joinstart = new Date(res2[0])
             let joinend = new Date(res2[1])
-            console.log(today)
-            console.log(ingstart)
-            console.log(joinstart)
-            console.log(joinend)
+            // console.log(today)
+            // console.log(ingstart)
+            // console.log(joinstart)
+            // console.log(joinend)
+
             if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
               const token = localStorage.getItem('jwt')
-              this.img = _.sample(this.images)
               axios({
                 url: api.CREATE_STUDY_BOARD,
                 method: 'POST',
@@ -226,12 +219,12 @@ export default {
                   sboardTitle: this.title,
                   sboardPerson: this.peopleCount,
                   sboardTechstack: this.skills,
-                  sboardIngdate: this.ingDate,
-                  sboardJoindate: this.joinDate,
+                  sboardIngdate: this.date.ingdate,
+                  sboardJoindate: this.date.joindate,
                   sboardContent1: this.content1,
                   sboardContent2: this.content2,
                   sboardContent3: this.content3,
-                  sboardImg: this.img,
+                  sboardImg: 'nonImage',
                 },
                 headers: {
                   Authorization: 'Bearer ' + token
@@ -244,26 +237,22 @@ export default {
             }
             else {
               alert("모집기간이 오늘 날짜보다 이전이거나 수행날짜보다 이후이면 안됩니다.")
-              this.stackFalse()
-              this.stackCheckOut()
+              this.stackInit()
             }
           }
           else {
             alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
-            this.stackFalse()
-            this.stackCheckOut()
+            this.stackInit()
           }
         }
         else {
           alert("인원을 1명 이상 10명 이하 선택해주세요")
-          this.stackFalse()
-          this.stackCheckOut()
+          this.stackInit()
         }
       } 
       else {
         alert("제목은 1자 이상 50자 이하로 입력하세요.")
-        this.stackFalse()
-        this.stackCheckOut()
+        this.stackInit()
       }  
     },
   },

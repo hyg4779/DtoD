@@ -1,80 +1,75 @@
 <template>
   <div class="itemdetail">
-    <div class="cardmodal">
-      <div class="detailtitle">
-        {{this.title}}
+    <header>
+      <h2>{{title}}</h2>
+      <div class="profileicon">
+        <img v-if="itemuserImg" :src="itemuserImg"> 
+        <img v-else src="../../../assets/default_user.png">
       </div>
-      <div class="profilebox">
-        <div class="profileicon">
-          <img v-if="this.itemuserImg" :src="this.itemuserImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="profilename">
-          작성자: {{itemuserName}}
-        </div>
+      작성자: {{itemuserName}}
+    </header>
+    <div class="tech-control">
+      <div class="techstack">
+        기술 스택
+        <span v-for="(item, idx) in getSkills" :key="idx">
+          {{item}}
+        </span>
       </div>
-      <div class="tech-control">
-        <div class="techstack">
-          기술 스택
-          <span v-for="(item, idx) in getSkills" :key="idx">
-            {{item}}
-          </span>
-        </div>
-        <div class="item-control" v-if="this.userName === this.itemuserName">
-          <button class="update" @click="updateArticle">수정</button>
-          <button class="delete" @click="deleteArticle">삭제</button>
-        </div>
+      <div class="btnGroup" v-if="userName === itemuserName">
+        <button class="myBtn" id="up" @click="updateArticle">수정</button>
+        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
       </div>
-      <div class="img-etc-box">
-        <div class="img-box">
-          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
-        </div>
-        <div class="etc-box">
-          <div class="people">
-            <div class="peopletitle">모집인원</div>
-            <div class="peoplecontent">
-            {{peopleCount}}명
-            </div>
-          </div>         
-          <div class="joindate">
-            <div class="joindatetitle">모집기간</div>
-            <div class="joindatecontent">
-            {{joinDate}}
-            </div>
+    </div>
+    <div class="img-etc-box">
+      <div class="img-box">
+        <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
+      </div>
+      <div class="etc-box">
+        <div class="people">
+          <div class="peopletitle">모집인원</div>
+          <div class="peoplecontent">
+          {{peopleCount}}명
           </div>
-          <div class="ingdate">
-            <div class="ingdatetitle">수행기간</div>
-            <div class="ingdatecontent">
-            {{ingDate}}
-            </div>
+        </div>         
+        <div class="joindate">
+          <div class="joindatetitle">모집기간</div>
+          <div class="joindatecontent">
+          {{joinDate}}
+          </div>
+        </div>
+        <div class="ingdate">
+          <div class="ingdatetitle">수행기간</div>
+          <div class="ingdatecontent">
+          {{ingDate}}
           </div>
         </div>
       </div>
-      <div class="content1">
-        <div class="contenttitle1">
-          스터디 소개
-        </div>
-        <div class="contentdetail1">
-          <p v-html="getContent(this.content2)"></p>
-        </div>
+    </div>
+    <div class="content1">
+      <div class="contenttitle1">
+        스터디 소개
       </div>
-      <div class="content2">
-        <div class="contenttitle2">
-          스터디 규칙
-        </div>
-        <div class="contentdetail2">
-          <p v-html="getContent(this.content3)"></p>
-        </div>
+      <div class="contentdetail1">
+        <p v-html="getContent(this.content2)"></p>
       </div>
-      <div class="content3">
-        <div class="contenttitle3">
-          오픈 카카오톡
-        </div>
-        <div class="contentdetail3">
-          <p v-html="getContent(this.content1)"></p>
-        </div>
+    </div>
+    <div class="content2">
+      <div class="contenttitle2">
+        스터디 규칙
       </div>
-      <hr>
+      <div class="contentdetail2">
+        <p v-html="getContent(this.content3)"></p>
+      </div>
+    </div>
+    <div class="content3">
+      <div class="contenttitle3">
+        오픈 카카오톡
+      </div>
+      <div class="contentdetail3">
+        <p v-html="getContent(this.content1)"></p>
+      </div>
+    </div>
+    <hr>
       <!-- <StudyComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
@@ -82,29 +77,30 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       /> -->
-      <hr>
-      <div class="commentprofilebox">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{userName}}</div>
+    <hr>
+    <div class="commentprofilebox">
+      <div class="commentprofileicon">
+        <img v-if="userImg" :src="userImg"> 
+        <img v-else src="../../../assets/default_user.png">
       </div>
-      <form @submit="commentSubmit">
-        <div class="form-group" style="margin-bottom:10px;">
-          <textarea 
-            class="form-control"
-            placeholder="댓글을 남겨주세요" 
-            id="comment" 
-            rows="2" 
-            v-model="mycomment" 
-            @keypress.enter="commentSubmit"
-            >
-          </textarea>
-          <button class="submit">등록</button>
-        </div>
-      </form>
+      <div class="commentprofilename">{{userName}}</div>
     </div>
+    <form @submit="commentSubmit">
+      <div class="form-group" style="margin-bottom:10px;">
+
+        <textarea 
+          class="form-control"
+          placeholder="댓글을 남겨주세요" 
+          id="comment" 
+          rows="2" 
+          v-model="mycomment" 
+          @keypress.enter="commentSubmit"
+          >
+        </textarea>
+
+        <button class="myBtn" id="sub">등록</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -240,18 +236,22 @@ export default {
   padding:10px !important;
   font-size: 20px;
 }
-.detailtitle {
-  text-align: center;
-  font-size: 1.5vw;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
-}
-.profilebox{
+
+header{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin: 1em;
 }
+
+header h2{
+  font-weight: bold;
+}
+
 .profileicon {
-  margin: 2vh 1vw 2vh 0;
+  margin: 2vh 1vw 2vh 1vw;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
@@ -263,7 +263,7 @@ export default {
   height:100%;
   object-fit:cover;
 }
-.profilename {
+.profilbox h5 {
   margin: 3.5vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
@@ -273,12 +273,13 @@ export default {
 .tech-control {
   display: flex;
   justify-content: space-between;
+  align-content: center;
 }
 
 .techstack {
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 2vh 0;
+  margin:  0.6vh 0 0.6vh 0;
   font-family: 'Epilogue', sans-serif;
 }
 .techstack span {
@@ -290,30 +291,42 @@ export default {
   font-weight: bold;
   font-family: 'Epilogue', sans-serif;
 }
-.item-control .update{
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
-  font-weight: bold;
-  color: #24274A;
-  height: 3vh;
-  width: 3vw;
-  margin: 0 1vw 0 0;
-  border: 1px solid;
-  background-color: white;
-  border-radius: 1.1rem;
+.btnGroup{
+  display: flex;
 }
-.item-control .delete{
+.myBtn {
+  border-radius: 1em;
+  color: #FFFFFF;
   cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
+  font-size: 1vw;
   font-weight: bold;
-  color: white;
-  height: 3vh;
-  width: 3vw;
-  /* margin: 0 1vw 0 0; */
-  background-color: #24274A;
-  border-radius: 1.1rem;
+  margin: 0 .1em 0 .1em;
+  padding: 0 1em 0 1em;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.myBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.myBtn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+#up{
+  background-color: rgb(30, 200, 30);
+}
+
+#de{
+  background-color: rgb(250, 100, 100);
+}
+
+#sub {
+  background-color: rgb(50,100,250);
 }
 
 .content1 .contenttitle1{
@@ -358,19 +371,6 @@ export default {
   border-radius: 1rem;
   height: 10vh;
   font-family: 'Epilogue', sans-serif;
-}
-
-.submit {
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.85vw;
-  font-weight: bold;
-  color: white;
-  height: 4vh;
-  width: 4vw;
-  margin: 1vh 0 0 0;
-  background-color: #24274A;
-  border-radius: 1.1rem;
 }
 
 .commentprofilebox{

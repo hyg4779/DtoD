@@ -203,7 +203,7 @@ export default {
       // console.log(this.nicknameCheck)
       event.preventDefault()
       if (this.nicknameCheck !== null && this.nicknameCheck === false) {
-        if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
+        if (0 < this.credentials.skills.length) {
           if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
             const token = localStorage.getItem('jwt')
             axios({
@@ -220,6 +220,7 @@ export default {
                 Authorization: 'Bearer ' + token
               },
             }).then(()=> {
+          
               this.$router.go();
             }).catch(err=>{
               console.error(err)
@@ -263,7 +264,7 @@ export default {
           this.stackCheckOut()
           this.nicknameCheck = null
           this.credentials.jobs = this.userJobs
-          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
           const token = localStorage.getItem('jwt')
           axios ({
             method: 'get',
@@ -293,7 +294,7 @@ export default {
       }
       else if (this.userName === this.credentials.nickname) {
         // this.nicknameCheck = true
-        if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
+        if (0 < this.credentials.skills.length) {
           if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
             const token = localStorage.getItem('jwt')
             axios({
@@ -353,7 +354,7 @@ export default {
           this.stackCheckOut()
           this.nicknameCheck = null
           this.credentials.jobs = this.userJobs
-          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
           const token = localStorage.getItem('jwt')
           axios ({
             method: 'get',
@@ -424,6 +425,7 @@ export default {
         Authorization: 'Bearer ' + token
       }
     }).then(res=>{
+      alert('수정완료!')
       console.log(res)
       this.credentials.nickname = res.data.userName
       this.credentials.jobs = res.data.userJobs
