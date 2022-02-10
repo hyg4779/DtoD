@@ -4,7 +4,7 @@
       <div v-if="this.tokenNum">{{ userName}}님 이런 스터디는 어떠세요?</div>
       <div v-else>방문자님 이런 스터디는 어떠세요?</div>
     </div>
-    <div @mouseover = "btnOn" @mouseleave = "btnOff">
+    <div @mouseover="btn=true" @mouseleave="btn=false">
       <swiper :options = "swiperOptions" ref = "slider" >
         <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
             <!-- v-for="(item, idx) in items" -->
@@ -14,14 +14,14 @@
           />
         </swiper-slide>
         <div 
-          v-if="buttonOn"
+          v-if="btn"
           class="swiper-button-prev swiper-button-white" 
           slot="button-prev"
           style="color: black;"
           @click = "prev">    
         </div>
         <div 
-          v-if="buttonOn"
+          v-if="btn"
           class="swiper-button-next swiper-button-white" 
           slot="button-next"
           style="color: black;"
@@ -54,7 +54,7 @@ export default {
       tokenNum: '',
       userName: '',
 
-      buttonOn : true,
+      btn : true,   // slider 양 옆 버튼
       swiperOptions: {
         slidesPerView: 5,
         spaceBetween: 5,
@@ -68,12 +68,6 @@ export default {
     }
   },
   methods: {
-    btnOn(){
-      this.buttonOn = true
-    },
-    btnOff(){
-      this.buttonOn = false
-    },
     prev(){
       for (let i = 0; i < 5; i++){
         this.$refs.slider.$swiper.slidePrev()

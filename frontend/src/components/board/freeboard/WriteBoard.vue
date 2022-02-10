@@ -25,7 +25,7 @@
             <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
             <v-checkbox v-model="stacks.c" label="C"/>
             <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-            <v-checkbox v-model="stacks.node" label="Java"/>
+            <v-checkbox v-model="stacks.java" label="Java"/>
           </div>
           <div>
             <v-checkbox v-model="stacks.react" label="React"/>

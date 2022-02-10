@@ -54,7 +54,7 @@ export default {
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       let data = this.credentials.userEmail.match(regExp)
       // console.log(data)
-      if(data !== null){
+      if(data !== null || this.credentials.userEmail === 'admin'){
         return true
       }return false
     },
