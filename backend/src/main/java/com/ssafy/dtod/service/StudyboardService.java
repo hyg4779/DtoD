@@ -88,6 +88,10 @@ public class StudyboardService {
 		studyboardRepository.delete(deleteboard);
 	}
 		
+	// 댓글용 id로 정보 가져오기
+	public Studyboard findByBoardId(Long sboardId) {
+		return studyboardRepository.findById(sboardId).get();
+	}
 	
 	
 }
