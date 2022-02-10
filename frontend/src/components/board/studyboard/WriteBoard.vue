@@ -103,9 +103,9 @@ export default {
       peopleCount: 0,
 
       images: [
-        '001.png',
-        '002.png',
-        '003.png',
+        '#FC8F8F',
+        '#FFAB5E',
+        '#83E38C',
       ],
       img: '',
       stacks: {

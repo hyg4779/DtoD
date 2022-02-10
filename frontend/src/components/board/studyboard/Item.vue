@@ -2,6 +2,7 @@
   <div class="item" @click="getItemDetail()">
     <div
       class="imgBox"
+      :style="style"
     >
       <img
         v-for="(stack, idx) in imgs"
@@ -61,6 +62,10 @@ export default {
       imgs: null,
       imgPath: '',
       item_pk: 0,
+
+      style: {
+        backgroundColor: this.imgPath
+      }
     }
   },
   computed: {
@@ -114,7 +119,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res.data.sboardTechstack)
+      console.log(res.data)
       // db에 저장된 item의 기술스텍 가져오기
       let stacks = res.data.sboardTechstack
       // 배열로 저장
@@ -129,6 +134,9 @@ export default {
         this.imgs = result
       }
       this.imgPath = res.data.sboardImg
+      this.style.backgroundColor = res.data.sboardImg
+      console.log(this.imgPath)
+      console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })
@@ -146,8 +154,11 @@ export default {
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   background-color: white;
 }
+
 .imgBox{
   display: flex;
+  border-radius: 2rem 2rem 0 0;
+  /* background-color: ; */
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
@@ -158,7 +169,6 @@ export default {
 #stackImg {
   width: 5vh;
 }
-
 
 .item .item-title {
   text-align: center;

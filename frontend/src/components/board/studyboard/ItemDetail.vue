@@ -26,8 +26,14 @@
         </div>
       </div>
       <div class="img-etc-box">
-        <div class="img-box">
-          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
+        <div class="img-box" :style="style">
+          <img 
+          v-for="(stack, idx) in imgs"
+          :key="idx"
+          id="stackImg"
+          :src="require(`@/assets/stacks/${stack}.png`)"
+          alt="img"
+          >
         </div>
         <div class="etc-box">
           <div class="people">
@@ -133,7 +139,12 @@ export default {
       ingDate: '',
       peopleCount: 0,
       imgPath: '',
+      imgs: null,
+      style: {
+        backgroundColor: this.imgPath
+      },
 
+      itemuserName: '',
       itemuserImg: '',
       itemuserEmail: '',
       userImg: '',
@@ -207,7 +218,22 @@ export default {
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
-      
+
+      let stacks = res.data.sboardTechstack
+      // 배열로 저장
+      let result = stacks.split(',')
+      // console.log(result.length)
+
+      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+      if(result.length >= 4){
+        console.log(result.slice(0,3))
+        this.imgs = result.slice(0,3)
+      }else{
+        this.imgs = result
+      }
+      this.style.backgroundColor = res.data.sboardImg
+      // console.log(this.imgPath)
+      // console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })
@@ -246,6 +272,7 @@ export default {
   font-weight: bold;
   font-family: 'Epilogue', sans-serif;
 }
+
 .profilebox{
   display: flex;
   justify-content: center;
@@ -400,9 +427,10 @@ export default {
   display: flex;
   margin:  0.6vh 0 2vh 0;
 }
-.img-etc-box .img-box img{
-  height: 30vh;
-  width: 30vh;
+
+.img-etc-box .img-box #stackImg {
+  margin: 9vh 0 0 0;
+  width: 10vh;
 }
 .img-etc-box .etc-box {
   margin: 0 0 0 3vw;
