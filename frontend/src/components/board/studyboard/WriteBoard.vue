@@ -82,6 +82,7 @@ import { api } from '../../../../api.js'
 import axios from 'axios'
 import IngRange from './IngRange.vue'
 import JoinRange from './JoinRange.vue'
+import _ from 'lodash'
 import { mapState } from 'vuex'
 
 
@@ -212,6 +213,7 @@ export default {
 
             if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
               const token = localStorage.getItem('jwt')
+              this.img = _.sample(this.images)
               axios({
                 url: api.CREATE_STUDY_BOARD,
                 method: 'POST',
@@ -224,7 +226,7 @@ export default {
                   sboardContent1: this.content1,
                   sboardContent2: this.content2,
                   sboardContent3: this.content3,
-                  sboardImg: 'nonImage',
+                  sboardImg: this.img,
                 },
                 headers: {
                   Authorization: 'Bearer ' + token
