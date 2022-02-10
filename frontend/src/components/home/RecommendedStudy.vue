@@ -6,7 +6,7 @@
     </div>
     <div @mouseover = "btnOn" @mouseleave = "btnOff">
       <swiper :options = "swiperOptions" ref = "slider" >
-        <swiper-slide v-for="(item, index) in items" :key="index">
+        <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
             <!-- v-for="(item, idx) in items" -->
           <Slider
             :key="idx"
@@ -58,8 +58,8 @@ export default {
       swiperOptions: {
         slidesPerView: 5,
         spaceBetween: 5,
-        loop: true,
-        loopedSlides: 5,
+        // loop: true,
+        // loopedSlides: 5,
         navigation: {
           nextEl: '#button-next-relacionados',
           prevEl: '#button-prev-relacionados'

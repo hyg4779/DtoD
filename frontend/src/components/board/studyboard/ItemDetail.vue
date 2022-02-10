@@ -73,13 +73,13 @@
         </div>
       </div>
       <hr>
-      <StudyComment 
+      <!-- <StudyComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
-      />
+      /> -->
       <hr>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
@@ -109,13 +109,13 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-import StudyComment from "./StudyComment.vue"
+// import StudyComment from "./StudyComment.vue"
 
 
 export default {
   name: 'ItemDetail',
   components: {
-    StudyComment,
+    // StudyComment,
   },
   props: {
     item_pk: Number,
@@ -130,8 +130,10 @@ export default {
       joinDate: '',
       ingDate: '',
       peopleCount: 0,
+      imgPath: '',
 
-      itemuserName: '',
+      itemuserImg: '',
+      itemuserEmail: '',
       userImg: '',
       userName: '',
 
@@ -190,7 +192,8 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
+      console.log(res)
+      this.itemuserEmail = res.data.user.userEmail
       this.itemuserName = res.data.user.userName
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle
@@ -201,6 +204,21 @@ export default {
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
+
+      axios({
+        url:  api.OTHER_USER_INFO_GET + `${this.itemuserEmail}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        // console.log(res)
+        this.userName = res.data.userName
+        this.userImg = res.data.userImg
+      }).catch((err)=>{
+        console.error(err)
+      })
+      
     }).catch((err)=>{
       console.error(err)
     })
@@ -214,9 +232,12 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
+      this.userImg = res.data.userImg
     }).catch((err)=>{
       console.error(err)
     })
+
+
 
   }
 }
