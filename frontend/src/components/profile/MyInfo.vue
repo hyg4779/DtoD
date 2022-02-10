@@ -123,6 +123,8 @@ export default {
       },
       tech: '',
       userEmail: '',
+      userName: '',
+      userJobs: '',
       nicknameCheck: null
     }
   },
@@ -133,7 +135,7 @@ export default {
       this.imageData = event.target.files[0]; 
     }, 
     onUpload( ){ 
-      this.picture=null; 
+      // this.picture=null;
       const storageRef = firebase.storage().ref(`${this. imageData.name}`).put(this.imageData); 
       storageRef.on( `state_changed` ,snapshot=>{ 
         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100; 
@@ -142,6 +144,7 @@ export default {
       storageRef.snapshot.ref.getDownloadURL().then((url)=>{ 
         this.picture =url; 
         // console.log(url)
+        alert("수정완료 버튼을 눌러서 저장해주세요")
         }); 
       }
       )
@@ -201,25 +204,59 @@ export default {
       event.preventDefault()
       if (this.nicknameCheck !== null && this.nicknameCheck === false) {
         if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
-          const token = localStorage.getItem('jwt')
-          axios({
-            url: api.USER_INFO_CHANGE,
-            method: 'PUT',
-            data: {
-              userEmail: this.userEmail,
-              userImg: this.picture,
-              userJobs: this.credentials.jobs,
-              userName: this.credentials.nickname,
-              userTechstack: this.credentials.skills
-            },
-            headers: {
-              Authorization: 'Bearer ' + token
-            },
-          }).then(()=> {
-            this.$router.go();
-          }).catch(err=>{
-            console.error(err)
-          })
+          if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
+            const token = localStorage.getItem('jwt')
+            axios({
+              url: api.USER_INFO_CHANGE,
+              method: 'PUT',
+              data: {
+                userEmail: this.userEmail,
+                userImg: this.picture,
+                userJobs: this.credentials.jobs,
+                userName: this.credentials.nickname,
+                userTechstack: this.credentials.skills
+              },
+              headers: {
+                Authorization: 'Bearer ' + token
+              },
+            }).then(()=> {
+              this.$router.go();
+            }).catch(err=>{
+              console.error(err)
+            })
+          }
+          else {
+            this.stackFalse()
+            this.stackCheckOut()
+            this.nicknameCheck = null
+            this.credentials.jobs = this.userJobs
+            alert("직업 선택을 리스트에서 선택해주세요")
+            const token = localStorage.getItem('jwt')
+            axios ({
+              method: 'get',
+              url: api.USER_INFO_GET,
+              headers: { 
+                Authorization: 'Bearer ' + token
+              }
+            }).then(res=>{
+              this.tech = res.data.userTechstack
+              const t = this.tech
+              const temp = t.split(',')
+              let result = []
+              for(let i = 0; i < temp.length; i++){
+                result.push(temp[i])
+              }
+              for(let j = 0; j < result.length; j++){
+                for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                  if (result[j] === Object.keys(this.stacks)[k]){
+                    this.stacks[Object.keys(this.stacks)[k]] = true
+                  }
+                }
+              }
+            }).catch(err=> {
+              console.log(err)
+            })
+          }
         }
         else {
           this.stackFalse()
@@ -251,6 +288,64 @@ export default {
           }).catch(err=> {
             console.log(err)
           })
+        }
+      }
+      else if (this.userName === this.credentials.nickname) {
+        // this.nicknameCheck = true
+        if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
+          if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
+            const token = localStorage.getItem('jwt')
+            axios({
+              url: api.USER_INFO_CHANGE,
+              method: 'PUT',
+              data: {
+                userEmail: this.userEmail,
+                userImg: this.picture,
+                userJobs: this.credentials.jobs,
+                userName: this.credentials.nickname,
+                userTechstack: this.credentials.skills
+              },
+              headers: {
+                Authorization: 'Bearer ' + token
+              },
+            }).then(()=> {
+              this.$router.go();
+            }).catch(err=>{
+              console.error(err)
+            })
+          }
+          else {
+            this.stackFalse()
+            this.stackCheckOut()
+            this.nicknameCheck = null
+            this.credentials.jobs = this.userJobs
+            alert("직업 선택을 리스트에서 선택해주세요")
+            const token = localStorage.getItem('jwt')
+            axios ({
+              method: 'get',
+              url: api.USER_INFO_GET,
+              headers: { 
+                Authorization: 'Bearer ' + token
+              }
+            }).then(res=>{
+              this.tech = res.data.userTechstack
+              const t = this.tech
+              const temp = t.split(',')
+              let result = []
+              for(let i = 0; i < temp.length; i++){
+                result.push(temp[i])
+              }
+              for(let j = 0; j < result.length; j++){
+                for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                  if (result[j] === Object.keys(this.stacks)[k]){
+                    this.stacks[Object.keys(this.stacks)[k]] = true
+                  }
+                }
+              }
+            }).catch(err=> {
+              console.log(err)
+            })
+          }
         }
       }
       else {
@@ -300,7 +395,9 @@ export default {
       this.credentials.nickname = res.data.userName
       this.credentials.jobs = res.data.userJobs
       this.tech = res.data.userTechstack
+      this.userName = res.data.userName
       this.userEmail = res.data.userEmail
+      this.userJobs = res.data.userJobs
       this.picture = res.data.userImg
       const t = this.tech
       const temp = t.split(',')
