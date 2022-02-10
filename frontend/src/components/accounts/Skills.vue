@@ -100,10 +100,12 @@ export default {
       } else {
         this.$swal({
           icon: 'error',
-          titleText: '한가지 이상 입력해주세요',
+          titleText: '1개 이상 입력해주세요',
           showConfirmButton: false,
           timer: 1500,
         })
+        this.credentials.skills = []
+        this.$store.dispatch('skills', this.credentials)
       }
     }
   },

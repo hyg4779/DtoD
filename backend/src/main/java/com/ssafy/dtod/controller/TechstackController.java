@@ -3,12 +3,7 @@ package com.ssafy.dtod.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.dtod.model.Techstack;
 import com.ssafy.dtod.repository.TechstackRepository;
@@ -19,7 +14,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api/tech")
 @Api(tags = {"기술스택 API"})
-
+@CrossOrigin("*")
 public class TechstackController {
 	
 	@Autowired

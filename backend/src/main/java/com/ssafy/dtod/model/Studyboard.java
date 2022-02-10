@@ -28,7 +28,7 @@ public class Studyboard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sboard_id")
-	private long sboardId;
+	private Long sboardId;
 	
 	//작성자 id(외래키 설정)
 	@ManyToOne

@@ -80,7 +80,6 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-// import _ from 'lodash'
 import IngRange from './IngRange.vue'
 import JoinRange from './JoinRange.vue'
 import { mapState } from 'vuex'
