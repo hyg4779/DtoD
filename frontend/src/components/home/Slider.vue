@@ -3,8 +3,14 @@
     <br>
     <swiper-slide>
       <div class="item" @click="getItemDetail()">
-        <div class="item-img">
-          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
+        <div class="item-img" :style="style">
+          <img
+            v-for="(stack, idx) in imgs"
+            :key="idx"
+            id="stackImg"
+            :src="require(`@/assets/stacks/${stack}.png`)"
+            alt="img"
+          >
         </div>
         <div class="item-title">
           <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
@@ -42,8 +48,13 @@ export default {
   },
   data() {
     return {
+      imgs: null,
       imgPath: '',
       item_pk: 0,
+
+      style: {
+        backgroundColor: this.imgPath
+      }
     }
   },
   computed: {
@@ -79,8 +90,24 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
+      console.log(res.data)
+      // db에 저장된 item의 기술스텍 가져오기
+      let stacks = res.data.sboardTechstack
+      // 배열로 저장
+      let result = stacks.split(',')
+      // console.log(result.length)
+
+      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+      if(result.length >= 4){
+        console.log(result.slice(0,3))
+        this.imgs = result.slice(0,3)
+      }else{
+        this.imgs = result
+      }
       this.imgPath = res.data.sboardImg
-      // console.log(this.imgPath)
+      this.style.backgroundColor = res.data.sboardImg
+      console.log(this.imgPath)
+      console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })
@@ -104,15 +131,18 @@ export default {
 }
 
 .item .item-img {
+  display: flex;
+  border-radius: 2rem 2rem 0 0;
+  /* background-color: ; */
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
   height: 40%;
 }
 
-.item .item-img img {
-  width: 100%;
-  height: 100%;
-  border-radius: 25px 25px 0 0;
-  object-fit: fill;
-
+#stackImg {
+  width: 5vh;
 }
 
 .item .item-title {
