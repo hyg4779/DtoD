@@ -235,6 +235,7 @@ export default {
 <style scoped>
 .myinfo {
   margin: 0 auto;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .profileicon {
@@ -351,13 +352,14 @@ export default {
 }
 
 .checkbox {
-  margin: 0.4rem 0 0 25vw;
+  margin: 0 0 0 25vw;
   display: grid;
   grid-template-columns: 10vw 10vw 10vw 10vw;
 }
 
 .checkbox div{
   margin: 0;
+  padding: 0;
 }
 
 .sumbit_btn{
