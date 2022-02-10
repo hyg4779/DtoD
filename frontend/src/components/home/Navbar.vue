@@ -221,6 +221,8 @@ import Signup from '../accounts/Signup.vue'
 import Nickname from '../accounts/Nickname.vue'
 import Jobs from '../accounts/Jobs.vue'
 import Skills from '../accounts/Skills.vue'
+import axios from 'axios'
+import { api } from '../../../api.js'
 
 
 export default {
@@ -315,6 +317,17 @@ export default {
     const token = localStorage.getItem('jwt')
     if (token) {
       this.login = true
+      axios ({
+      method: 'get',
+      url: api.USER_INFO_GET,
+      headers: { 
+        Authorization: 'Bearer ' + token
+      }
+      }).then(res=>{
+        this.userImg = res.data.userImg
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }

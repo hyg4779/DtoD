@@ -167,6 +167,14 @@ export default {
     stackCheckOut () {
       this.skills = []
     },
+    stackFalse () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }
+    },
     onSubmit(event) {
       event.preventDefault()
       this.stacksCheck()
@@ -218,22 +226,26 @@ export default {
               })
             }
             else {
-              alert("모집기간이 수행날짜보다 이후이면 안됩니다.")
+              alert("모집기간이 오늘 날짜보다 이전이거나 수행날짜보다 이후이면 안됩니다.")
+              this.stackFalse()
               this.stackCheckOut()
             }
           }
           else {
-            this.stackCheckOut()
             alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+            this.stackFalse()
+            this.stackCheckOut()
           }
         }
         else {
           alert("인원을 1명 이상 10명 이하 선택해주세요")
+          this.stackFalse()
           this.stackCheckOut()
         }
       } 
       else {
         alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackFalse()
         this.stackCheckOut()
       }  
     },
