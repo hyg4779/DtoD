@@ -7,7 +7,7 @@
       <div class="profilebox">
         <div class="profileicon">
           <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
+          <img v-else src="../../assets/default_user.png">
         </div>
         <div class="profilename">{{itemuserName}}</div>
       </div>
@@ -17,10 +17,6 @@
           <span v-for="(item, idx) in getSkills" :key="idx">
             {{item}}
           </span>
-        </div>
-        <div class="item-control" v-if="this.userName === this.itemuserName">
-          <button class="update" @click="updateArticle">수정</button>
-          <button class="delete" @click="deleteArticle">삭제</button>
         </div>
       </div>
       <div class="img-etc-box">
@@ -72,50 +68,18 @@
           <p v-html="getContent(this.content1)"></p>
         </div>
       </div>
-      <hr>
-      <StudyComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-      <hr>
-      <div class="commentprofilebox">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{userName}}</div>
-      </div>
-      <form @submit="commentSubmit">
-        <div class="form-group" style="margin-bottom:10px;">
-          <textarea 
-            class="form-control"
-            placeholder="댓글을 남겨주세요" 
-            id="comment" 
-            rows="2" 
-            v-model="mycomment" 
-            @keypress.enter="commentSubmit"
-            >
-          </textarea>
-          <button class="submit">등록</button>
-        </div>
-      </form>
     </div>
   </div>
 </template>
 
 <script>
-import { api } from '../../../../api.js'
+import { api } from '../../../api.js'
 import axios from 'axios'
-import StudyComment from "./StudyComment.vue"
 
 
 export default {
   name: 'ItemDetail',
   components: {
-    StudyComment,
   },
   props: {
     item_pk: Number,
@@ -162,24 +126,6 @@ export default {
     onParentDeleteComment() {
 
     },
-    deleteArticle() {
-      const token = localStorage.getItem('jwt')
-      axios({
-        url: api.DELETE_STUDY_BOARD + `${this.item_pk}`,
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        console.log(res)
-        this.$router.go();
-      }).catch((err)=>{
-        console.error(err)
-      })
-    },
-    updateArticle() {
-      this.$emit('update-modal-open', this.item_pk)
-    },
   },
   created() {
     const token = localStorage.getItem('jwt')
@@ -190,7 +136,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
+      console.log(res)
       this.itemuserName = res.data.user.userName
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle

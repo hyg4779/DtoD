@@ -118,22 +118,22 @@ export default {
   },
   computed: {
     getJoinDate() {
-      console.log(this.$store.state.date.joindate)
+      // console.log(this.$store.state.date.joindate)
       return this.$store.state.date.joindate
     },
     getIngDate() {
-      console.log(this.$store.state.date.ingdate)
+      // console.log(this.$store.state.date.ingdate)
       return this.$store.state.date.ingdate
     }
   },
   watch: {
     getJoinDate(value) {
       this.joinDate = value
-      console.log(this.joinDate)
+      // console.log(this.joinDate)
     },
     getIngDate(value) {
       this.ingDate = value
-      console.log(this.ingDate)
+      // console.log(this.ingDate)
     }
   },
   methods: {
@@ -164,36 +164,77 @@ export default {
         }
       }
     },
+    stackCheckOut () {
+      this.skills = []
+    },
     onSubmit(event) {
       event.preventDefault()
       this.stacksCheck()
-      if (this.title.length <= 50) {
-        const token = localStorage.getItem('jwt')
-        this.img = _.sample(this.images)
-        axios({
-          url: api.CREATE_STUDY_BOARD,
-          method: 'POST',
-          data: {
-            sboardTitle: this.title,
-            sboardPerson: this.peopleCount,
-            sboardIngdate: this.ingDate,
-            sboardJoindate: this.joinDate,
-            sboardContent1: this.content1,
-            sboardContent2: this.content2,
-            sboardContent3: this.content3,
-            sboardImg: this.img,
-            sboardTechstack: this.skills,
-          },
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-        }).then(()=>{
-          this.$router.go();
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 50자 이하로 입력하세요.")
+      if (0 < this.title.length && this.title.length <= 50) {
+        if (10 >= this.peopleCount && this.peopleCount > 0) {
+          if (0 < this.skills.length && this.skills.length <= 4) {
+            console.log(this.ingDate)
+            const temp = this.ingDate.split(' - ')
+            let res1 = []
+            for(let i = 0; i < temp.length; i++){
+              res1.push(temp[i])
+            }
+            console.log(res1)
+            console.log(this.joinDate)
+            const tmp = this.joinDate.split(' - ')
+            let res2 = []
+            for(let i = 0; i < tmp.length; i++){
+              res2.push(tmp[i])
+            }
+            console.log(res2)
+            let today = new Date()
+            let ingstart = new Date(res1[0])
+            let joinstart = new Date(res2[0])
+            let joinend = new Date(res2[1])
+            if (ingstart > joinend && joinstart >= today) {
+              const token = localStorage.getItem('jwt')
+              this.img = _.sample(this.images)
+              axios({
+                url: api.CREATE_STUDY_BOARD,
+                method: 'POST',
+                data: {
+                  sboardTitle: this.title,
+                  sboardPerson: this.peopleCount,
+                  sboardIngdate: this.ingDate,
+                  sboardJoindate: this.joinDate,
+                  sboardContent1: this.content1,
+                  sboardContent2: this.content2,
+                  sboardContent3: this.content3,
+                  sboardImg: this.img,
+                  sboardTechstack: this.skills,
+                },
+                headers: {
+                  Authorization: 'Bearer ' + token
+                },
+              }).then(()=>{
+                this.$router.go();
+              }).catch(err=>{
+                console.error(err)
+              })
+            }
+            else {
+              alert("모집기간이 수행날짜보다 이후이면 안됩니다.")
+              this.stackCheckOut()
+            }
+          }
+          else {
+            this.stackCheckOut()
+            alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          }
+        }
+        else {
+          alert("인원을 1명 이상 10명 이하 선택해주세요")
+          this.stackCheckOut()
+        }
+      } 
+      else {
+        alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackCheckOut()
       }  
     },
   },

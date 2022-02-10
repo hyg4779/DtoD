@@ -1,58 +1,121 @@
 <template>
   <div class="recommendedstudy">
-    <br>
-    <div class="sort-icon">
-        <div class="icon">
-          <i class="fab fa-font-awesome-flag"></i>
-          <span>추천순</span>
-        </div>
-        <div class="icon">
-          <i class="fas fa-history"></i>
-          <span>최신순</span>
-        </div>
-        <div class="icon">
-          <i class="fas fa-chart-line"></i>
-          <span>인기순</span>
-        </div>      
+    <div class="recommendedtitle">
+      <div v-if="this.tokenNum">{{ userName}}님 이런 스터디는 어떠세요?</div>
+      <div v-else>방문자님 이런 스터디는 어떠세요?</div>
     </div>
-    <Slider />
+    <div @mouseover = "btnOn" @mouseleave = "btnOff">
+      <swiper :options = "swiperOptions" ref = "slider" >
+        <swiper-slide v-for="(item, index) in items" :key="index">
+            <!-- v-for="(item, idx) in items" -->
+          <Slider
+            :key="idx"
+            :item="item"
+          />
+        </swiper-slide>
+        <div 
+          v-if="buttonOn"
+          class="swiper-button-prev swiper-button-white" 
+          slot="button-prev"
+          style="color: black;"
+          @click = "prev">    
+        </div>
+        <div 
+          v-if="buttonOn"
+          class="swiper-button-next swiper-button-white" 
+          slot="button-next"
+          style="color: black;"
+          @click = "next"
+          >
+      </div>
+      </swiper>
+    </div>
   </div>
 </template>
 
 <script>
 import Slider from './Slider.vue'
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import { api } from '../../../api.js'
+import axios from 'axios'
 
 export default {
   name: 'RecommendedStudy',
   components: {
     Slider,
+    Swiper,
+    SwiperSlide,
+  },
+  props: {
+    items: Array,
+  },
+  data() {
+    return {
+      tokenNum: '',
+      userName: '',
+
+      buttonOn : true,
+      swiperOptions: {
+        slidesPerView: 5,
+        spaceBetween: 5,
+        loop: true,
+        loopedSlides: 5,
+        navigation: {
+          nextEl: '#button-next-relacionados',
+          prevEl: '#button-prev-relacionados'
+        },
+      }
+    }
+  },
+  methods: {
+    btnOn(){
+      this.buttonOn = true
+    },
+    btnOff(){
+      this.buttonOn = false
+    },
+    prev(){
+      for (let i = 0; i < 5; i++){
+        this.$refs.slider.$swiper.slidePrev()
+      }
+      this.$refs.slider.$swiper.slidePrev()
+    },
+    next(){
+      for (let i = 0; i < 5; i++){
+        this.$refs.slider.$swiper.slideNext()
+      }
+      this.$refs.slider.$swiper.slideNext()
+    },
+  },
+  created() {
+    const token = localStorage.getItem('jwt')
+    this.tokenNum = token
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
 
 <style scoped>
 .recommendedstudy{
-  height: calc(100vh - 70px - 45vh);
+  height: calc(100vh - 7.498vh - 49vh);
   background-color: white;
+  margin: 0 auto;
 }
 
-.sort-icon {
-  margin: 0 0 0 20px;
-  display: flex;
+.recommendedtitle div {
+  margin: 4vh 0 0 2vw;
+  font-family: 'Dohyeon';
+  font-size: 1.5vw;
 }
-
-.sort-icon .icon {
-  display: grid;
-  padding: 0 20px 0 20px;
-  text-align: center;
-}
-
-.sort-icon .icon i {
-  font-size:35px; 
-}
-
-.sort-icon .icon span {
-  font-weight: bold;
-}
-
 </style>

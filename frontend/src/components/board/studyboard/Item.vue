@@ -82,7 +82,7 @@ export default {
     
     updateFin(){
       this.$refs['updateItem'].hide()
-      this.$router.go();
+      // this.$router.go();
       this.$refs['detail'].show()
     },
 
