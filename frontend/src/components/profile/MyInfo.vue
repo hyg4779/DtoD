@@ -200,7 +200,7 @@ export default {
     },
     onSubmit(event) {
       this.stacksCheck()
-      console.log(this.nicknameCheck)
+      // console.log(this.nicknameCheck)
       event.preventDefault()
       if (this.nicknameCheck !== null && this.nicknameCheck === false) {
         if (0 < this.credentials.skills.length && this.credentials.skills.length <= 4) {
@@ -262,6 +262,7 @@ export default {
           this.stackFalse()
           this.stackCheckOut()
           this.nicknameCheck = null
+          this.credentials.jobs = this.userJobs
           alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
           const token = localStorage.getItem('jwt')
           axios ({
@@ -346,6 +347,38 @@ export default {
               console.log(err)
             })
           }
+        }
+        else {
+          this.stackFalse()
+          this.stackCheckOut()
+          this.nicknameCheck = null
+          this.credentials.jobs = this.userJobs
+          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          const token = localStorage.getItem('jwt')
+          axios ({
+            method: 'get',
+            url: api.USER_INFO_GET,
+            headers: { 
+              Authorization: 'Bearer ' + token
+            }
+          }).then(res=>{
+            this.tech = res.data.userTechstack
+            const t = this.tech
+            const temp = t.split(',')
+            let result = []
+            for(let i = 0; i < temp.length; i++){
+              result.push(temp[i])
+            }
+            for(let j = 0; j < result.length; j++){
+              for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                if (result[j] === Object.keys(this.stacks)[k]){
+                  this.stacks[Object.keys(this.stacks)[k]] = true
+                }
+              }
+            }
+          }).catch(err=> {
+            console.log(err)
+          })
         }
       }
       else {
