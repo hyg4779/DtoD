@@ -6,7 +6,7 @@
       </div>
       <div class="profilebox">
         <div class="profileicon">
-          <img v-if="userImg" :src="userImg"> 
+          <img v-if="this.itemuserImg" :src="this.itemuserImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
         <div class="profilename">{{itemuserName}}</div>
@@ -192,8 +192,9 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.itemuserEmail = res.data.user.userEmail
+      this.itemuserImg = res.data.user.userImg
       this.itemuserName = res.data.user.userName
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle
@@ -204,20 +205,6 @@ export default {
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
-
-      axios({
-        url:  api.OTHER_USER_INFO_GET + `${this.itemuserEmail}`,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        // console.log(res)
-        this.userName = res.data.userName
-        this.userImg = res.data.userImg
-      }).catch((err)=>{
-        console.error(err)
-      })
       
     }).catch((err)=>{
       console.error(err)
