@@ -36,15 +36,20 @@ export default {
   },
 
   props: {
-    codedetail: String
+    codedetail: String,
   },
 
   data() {
     return {
+      isApp: false,
       editor: null,
+      code: null,
     }
   },
 
+  created() {
+    console.log(this.editor.content)
+  },
   mounted() {
     this.editor = new Editor({
       extensions: [
@@ -59,10 +64,17 @@ export default {
           })
           .configure({ lowlight }),
       ],
-      content: this.codedetail,
+      content: this.codedetail
     })
     this.editor.chain().focus().toggleCodeBlock().run()
   },
+  // computed: {
+  //   getCode: function() {
+  //     const t = this.codedetail
+  //     this.code = t
+  //     return this.code
+  //   }
+  // },
 
   // methods: {
   //   codesave () {

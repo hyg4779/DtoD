@@ -12,13 +12,13 @@
       <div class="form-group">
         <div class="categorytitle">카테고리</div>
         <div class="categorybox">
-          <input type="radio" name="radioBtn" id="r1" @change="categoryCheck($event)" value="자유">
+          <input type="radio" name="radioBtn" id="r1" @change="categoryCheck($event)" value="자유" checked>
           <label for="r1"> 자유</label>
           <input type="radio" name="radioBtn" id="r2" @change="categoryCheck($event)" value="질문">
           <label for="r2"> 질문</label>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" v-if="this.category === '질문'">
         <div class="stacktitle">기술 스택 및 협업 툴</div>
         <div class="checkbox">
           <div>
@@ -70,6 +70,7 @@
 import Tiptap from '../writeeditor/Tiptap.vue'
 import { api } from '../../../../api.js'
 import axios from 'axios'
+import _ from 'lodash'
 
 export default {
   name: 'WriteBoard',
@@ -78,9 +79,9 @@ export default {
   },
   data () {
     return {
-      title: '',
-      content: '',
-      code: '',
+      title: null,
+      content: null,
+      code: null,
       stacks: {
         javascript: false,
         c: false,
@@ -99,6 +100,12 @@ export default {
         swift: false,
         etc: false
       },
+      images: [
+        '#FC8F8F',
+        '#FFAB5E',
+        '#83E38C',
+      ],
+      img: null,
       skills: [],
       category: null,
     }
@@ -129,31 +136,97 @@ export default {
       }
     },
 
+    // 체크한 스텍들 초기화
+    stackInit () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }this.skills = []
+    },
+
     onSubmit(event) {
       event.preventDefault()
-      this.stacksCheck()
-      if (this.title.length <= 50) {
-        axios({
-          url: api.CREATE_FREE_BOARD,
-          method: 'POST',
-          data: {
-            title: this.title,
-            content: this.content,
-            code: this.code,
-            skills: this.skills,
-            category: this.category,
-          },
-          headers: {
-            Authorization: `JWT ${localStorage.getItem('jwt')}`
-          },
-        }).then(()=>{
-          this.$router.push('/freeboard')
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 50자 이하로 입력하세요.")
-      }  
+      if (this.category === '자유') {
+        if (0 < this.title.length && this.title.length <= 50) {
+          if (10 < this.content.length) {
+              const token = localStorage.getItem('jwt')
+              this.img = _.sample(this.images)
+              axios({
+                url: api.CREATE_FREE_BOARD,
+                method: 'POST',
+                data: {
+                  cboardTitle: this.title,
+                  cboardType: this.category,
+                  cboardTechstack: this.skills,
+                  cboardContent: this.content,
+                  cboardCode: this.code,
+                  cboardImg: this.img
+                },
+                headers: {
+                  Authorization: 'Bearer ' + token
+                },
+              }).then(()=>{
+                // console.log(res)
+                this.$router.go();
+              }).catch(err=>{
+                console.error(err)
+              })
+          }
+          else {
+            alert('내용을 10자 이상 입력해주세요')
+            this.stackInit()
+          }
+        } 
+        else {
+          alert("제목은 50자 이하로 입력하세요.")
+          this.stackInit()
+        }  
+      }
+      else {
+        this.stacksCheck()
+        if (0 < this.title.length && this.title.length <= 50) {
+          if (10 < this.content.length) {
+            if (0 < this.skills.length && this.skills.length <= 4) {
+              const token = localStorage.getItem('jwt')
+              this.img = _.sample(this.images)
+              axios({
+                url: api.CREATE_FREE_BOARD,
+                method: 'POST',
+                data: {
+                  cboardTitle: this.title,
+                  cboardType: this.category,
+                  cboardTechstack: this.skills,
+                  cboardContent: this.content,
+                  cboardCode: this.code,
+                  cboardImg: this.img
+                },
+                headers: {
+                  Authorization: 'Bearer ' + token
+                },
+              }).then(()=>{
+                // console.log(res)
+                this.$router.go();
+              }).catch(err=>{
+                console.error(err)
+              })
+            }
+            else {
+              alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+              this.stackInit()
+            }
+          }
+          else {
+            alert('내용을 10자 이상 입력해주세요')
+            this.stackInit()
+          }
+        } 
+        else {
+          alert("제목은 50자 이하로 입력하세요.")
+          this.stackInit()
+        }  
+      }
     },
   }
 }

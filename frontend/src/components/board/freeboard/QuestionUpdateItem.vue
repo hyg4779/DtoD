@@ -14,26 +14,26 @@
         <div class="checkbox">
           <div>
             <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
+            <v-checkbox v-model="stacks.react" label="React.js"/>
+            <v-checkbox v-model="stacks.vue" label="Vue.js"/>
+            <v-checkbox v-model="stacks.node" label="Node.js"/>
+          </div>
+          <div>
             <v-checkbox v-model="stacks.c" label="C"/>
-            <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-            <v-checkbox v-model="stacks.java" label="Java"/>
-          </div>
-          <div>
-            <v-checkbox v-model="stacks.react" label="React"/>
             <v-checkbox v-model="stacks.cpp" label="C++"/>
+            <v-checkbox v-model="stacks.cs" label="C#"/>
+            <v-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
+          </div>
+          <div>
+            <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
             <v-checkbox v-model="stacks.django" label="Django"/>
-            <v-checkbox v-model="stacks.spring" label="Spring"/>
-          </div>
-          <div>
-            <v-checkbox v-model="stacks.vue" label="Vue"/>
-            <v-checkbox v-model="stacks.python" label="Python"/>
             <v-checkbox v-model="stacks.go" label="Go"/>
-            <v-checkbox v-model="stacks.flutter" label="Flutter"/>
+            <v-checkbox v-model="stacks.swift" label="Swift"/>
           </div>
           <div>
-            <v-checkbox v-model="stacks.node" label="Node"/>
-            <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
-            <v-checkbox v-model="stacks.swift" label="Swift"/>
+            <v-checkbox v-model="stacks.java" label="Java"/>
+            <v-checkbox v-model="stacks.spring" label="Spring"/>
+            <v-checkbox v-model="stacks.flutter" label="Flutter"/>
             <v-checkbox v-model="stacks.etc" label="Etc"/>
           </div>
         </div>
@@ -77,28 +77,17 @@ export default {
       content1: '',
       content2: '',
       content3: '',
-      peopleCount: 0,
-      ingDate: null,
-      joinDate: null,
-
+      images: [
+        '001.png',
+        '002.png',
+        '003.png',
+      ],
+      img: '',
       stacks: {
-        javascript: false,
-        c: false,
-        kotlin: false,
-        java: false, 
-        react: false,
-        cpp: false,
-        django: false,
-        spring: false, 
-        vue: false,
-        python: false,
-        go: false,
-        flutter: false, 
-        node: false,
-        typescript: false,
-        swift: false,
-        etc: false
-      },
+        javascript: false, c: false, kotlin: false, java: false, 
+        react: false, cpp: false, django: false, spring: false, 
+        vue: false, cs: false, go: false, flutter: false, 
+        node: false, typescript: false, swift: false, etc: false},
       skills: [],
       tech: '',
     }
@@ -108,33 +97,6 @@ export default {
     back () {
       this.$router.replace()
     },
-    getStack () {
-      const token = localStorage.getItem('jwt')
-      axios({
-        url:  api.GET_STUDY_BOARD_DETAIL + `${this.itempk}`,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        this.tech = res.data.sboardTechstack
-        const t = this.tech
-        const temp = t.split(',')
-        let result = []
-        for(let i = 0; i < temp.length; i++){
-          result.push(temp[i])
-        }
-        for(let j = 0; j < result.length; j++){
-          for (let k = 0; k < Object.keys(this.stacks).length; k++){
-            if (result[j] === Object.keys(this.stacks)[k]){
-              this.stacks[Object.keys(this.stacks)[k]] = true
-            }
-          }
-        }
-      }).catch((err)=>{
-        console.error(err)
-      })
-    },
     stacksCheck () {
       for (let property in this.stacks){
         if (this.stacks[property] !== false){
@@ -142,60 +104,32 @@ export default {
         }
       }
     },
-    stackInit () {
-      for (let property in this.stacks){
-        // console.log(property)
-        if (this.stacks[property] === true){
-          this.stacks[property] = false
-        }
-      }
-      this.skills = []
-    },
     updateFin(event) {
       event.preventDefault()
       this.stacksCheck()
-      if (0 < this.title.length && this.title.length <= 50) {
-        if (0 < this.skills.length && this.skills.length <= 4) {
-          if (10 < this.content1.length && 10 < this.content2.length && 10 < this.content3.length) {
-            const token = localStorage.getItem('jwt')
-            axios({
-              url: api.UPDATE_STUDY_BOARD,
-              method: 'PUT',
-              data: {
-                sboardId: this.itempk,
-                sboardTitle: this.title,
-                sboardContent1: this.content1,
-                sboardContent2: this.content2,
-                sboardContent3: this.content3,
-                sboardTechstack: this.skills,
-                sboardPerson: this.peopleCount,
-                sboardIngdate: this.ingDate,
-                sboardJoindate: this.joinDate,
-              },
-              headers: {
-                Authorization: 'Bearer ' + token
-              },
-            }).then(()=>{
-              this.$emit('update-fin')
-            }).catch(err=>{
-              console.error(err)
-            })
-          }
-          else {
-            alert('내용을 10자 이상 입력해주세요')
-            this.stackInit()
-            this.getStack()
-          }
-        }
-        else {
-          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
-          this.stackInit()
-          this.getStack()
-        }
+       if (this.title.length <= 50) {
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.UPDATE_STUDY_BOARD,
+          method: 'PUT',
+          data: {
+            sboardId: this.itempk,
+            sboardTitle: this.title,
+            sboardContent1: this.content1,
+            sboardContent2: this.content2,
+            sboardContent3: this.content3,
+            sboardTechstack: this.skills,
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then(()=>{
+          this.$emit('update-fin')
+        }).catch(err=>{
+          console.error(err)
+        })
       } else {
-        alert("제목은 1자 이상 50자 이하로 입력하세요.")
-        this.stackInit()
-        this.getStack()
+        alert("제목은 50자 이하로 입력하세요.")
       }  
     },
   },
@@ -209,18 +143,13 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
+      this.itemuserName = res.data.user.userName
       this.title = res.data.sboardTitle
       this.tech = res.data.sboardTechstack
-      this.peopleCount = res.data.sboardPerson
-      this.ingDate = res.data.sboardIngdate
-      this.joinDate = res.data.sboardJoindate
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
-      // console.log(this.peopleCount)
-      // console.log(this.ingDate)
-      // console.log(this.joinDate)
       const t = this.tech
       const temp = t.split(',')
       let result = []

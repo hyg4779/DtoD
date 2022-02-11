@@ -7,9 +7,16 @@ export const api = {
   NICKNAME_CHECK: 'http://localhost:9090/api/user/checkname/',
   EMAIL_CHECK: 'http://localhost:9090/api/user/checkemail/',
 
+
   CREATE_STUDY_ROOM: 'http://localhost:9090/',
   
-  CREATE_FREE_BOARD: 'http://localhost:9090/',
+
+  GET_FREE_BOARD: 'http://localhost:9090/api/cboard/list',
+  GET_FREE_BOARD_DETAIL: 'http://localhost:9090/api/cboard/view/',
+  CREATE_FREE_BOARD: 'http://localhost:9090/api/cboard/regist',
+  UPDATE_FREE_BOARD: 'http://localhost:9090/api/cboard/update',
+  DELETE_FREE_BOARD: 'http://localhost:9090/api/cboard/delete/',
+
 
   GET_STUDY_BOARD: 'http://localhost:9090/api/sboard/list',
   GET_STUDY_BOARD_DETAIL: 'http://localhost:9090/api/sboard/view/',
