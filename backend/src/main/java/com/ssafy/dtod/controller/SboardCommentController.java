@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,7 +49,7 @@ public class SboardCommentController {
 	}
 	
 	//댓글 수정
-	@PostMapping("/update/{sboardId}")
+	@PutMapping("/update/{sboardId}")
 	public ResponseEntity<SboardComment> updateComment(@RequestBody UpdateSboardCommentDto updatesboardcommentDto, @PathVariable Long sboardId) {
 		updatesboardcommentDto.setUser(userService.getMyUserWithAuthorities().get());
 		updatesboardcommentDto.setStudyboard(studyboardService.findByBoardId(sboardId));

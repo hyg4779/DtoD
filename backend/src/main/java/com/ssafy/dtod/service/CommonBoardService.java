@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dtod.dto.RegistCommonBoardDto;
-import com.ssafy.dtod.dto.UpdateSboardCommentDto;
 import com.ssafy.dtod.dto.ViewCommonBoardDto;
 import com.ssafy.dtod.model.CommonBoard;
 import com.ssafy.dtod.repository.CommonBoardRepository;
@@ -60,6 +59,11 @@ public class CommonBoardService {
 	public void deleteBoard(Long cboardId) {
 		CommonBoard deleteboard = commonboardRepository.findById(cboardId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + cboardId));
 		commonboardRepository.delete(deleteboard);
+	}
+	
+	@Transactional
+	public CommonBoard findByBoardId(Long cboardId) {
+		return commonboardRepository.findById(cboardId).get();
 	}
 	
 }
