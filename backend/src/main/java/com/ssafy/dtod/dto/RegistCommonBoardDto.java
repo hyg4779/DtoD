@@ -22,7 +22,7 @@ public class RegistCommonBoardDto {
 	private String cboardTitle;
 	private String cboardCode;
 	private String cboardContent;
-	private String cboardTechstack;
+	private List<String> cboardTechstack;
 	private String cboardImg;
 	
 }
