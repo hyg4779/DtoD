@@ -25,10 +25,6 @@
           현재인원 / 모집인원: 
           <span>{{this.item.people}} / {{this.item.count}}명</span>
         </li>
-        <li>
-          비밀번호
-          <input id="pwd" type="password"/>
-        </li>
       </ul>
     </div>
 
@@ -44,7 +40,7 @@
         >
           <img            
             class="mt-2"
-            :src="require(`../../assets/stacks/${skill}.png`)"
+            :src="require(`../../../assets/stacks/${skill}.png`)"
             alt="stack_logo"
           >
           <p>{{ skill }}</p>
@@ -67,8 +63,7 @@
         </li>
       </ul>
       <footer>
-        <!-- <button id="applyBtn" @click="goVideo">신청</button> -->
-        <button id="applyBtn" @click="goMyStudy">신청</button>
+        <button id="applyBtn" @click="goVideo">입장</button>
         <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
     </div>
@@ -78,21 +73,14 @@
 
 <script>
 export default {
-  name: 'ItemDetail',
+  name: 'MyItemDetail',
   props: {
     item: Object,
   },
   methods:{
-    goMyStudy() {
-      //if 문 필요(이 게시글의 비번과 내가 입력한 비번이 같다면)
-      // 내 학습 디비에 이 게시글 번호 저장
-      this.$router.push({name:'MyStudy'})
-      // else도 필요 비번이 없는 경우
-      // 그냥 바로 디비에 이 게시글 번호 저장
-    },
-    // goVideo(){
-    //   this.$router.push({name:'Video', params:{sessionId: this.item.id}})
-    // }
+    goVideo(){
+      this.$router.push({name:'Video', params:{sessionId: this.item.id}})
+    }
   }
 }
 </script>

@@ -14,7 +14,7 @@
         <div class="form-group">
           <label for="password">비밀번호</label>
           <br>
-          <textarea class="form-control" type="text" id="password" v-model="password" placeholder=" 비밀번호를 입력하세요"></textarea>
+          <input class="form-control" type="password" id="password" v-model="password" placeholder=" 비밀번호를 입력하세요" />
         </div>
         <div class="people form-group">
           <div class="peopletitle">인원</div>
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
           <div class="stacktitle">기술 스택 및 협업 툴</div>
-          <div class="checkbox">
+          <div class="stackcheckbox">
             <div>
               <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
               <v-checkbox v-model="stacks.react" label="React.js"/>
@@ -53,10 +53,23 @@
             </div>
           </div>
         </div>
-      <div class="ing form-group">
-        <div class="ingtitle">수행기간</div>
-        <IngRange />
-      </div>
+        <div class="ing form-group">
+          <div class="ingtitle">수행기간</div>
+          <IngRange />
+        </div>
+        <div class="form-group">
+          <div class="daytitle">활동 요일</div>
+          <div class="daycheckbox">
+            <v-checkbox v-model="day.mon" label="월"/>
+            <v-checkbox v-model="day.tue" label="화"/>
+            <v-checkbox v-model="day.wed" label="수"/>
+            <v-checkbox v-model="day.thu" label="목"/>
+            <v-checkbox v-model="day.fri" label="금"/>
+            <v-checkbox v-model="day.sat" label="토"/>
+            <v-checkbox v-model="day.sun" label="일"/>
+            <v-checkbox v-model="day.yet" label="추후 협의"/>
+          </div>
+        </div>
         <div class="detail1 form-group">
           <label for="content1">오픈 카카오톡 (연락처)</label>
           <br>
@@ -97,7 +110,9 @@ export default {
       content2: '',
       ingDate: '',
       img: '',
+      days: [],
       skills: [],
+      
 
       images: [
         '001.png',
@@ -108,7 +123,12 @@ export default {
         javascript: false, c: false, kotlin: false, java: false, 
         react: false, cpp: false, django: false, spring: false, 
         vue: false, cs: false, go: false, flutter: false, 
-        node: false, typescript: false, swift: false, etc: false},
+        node: false, typescript: false, swift: false, etc: false
+      },
+      day: {
+        mon: false, tue: false, wed: false, thu: false, 
+        fri: false, sat: false, sun: false, yet: false
+      }
     }
   },
   computed: {
@@ -146,6 +166,31 @@ export default {
         }
       }
     },
+    dayCheck () {
+      for (let property in this.day){
+        // console.log(property)
+        if (this.day[property] !== false){
+          this.days.push(property)
+          if (this.days.includes('yet') && this.days.some(i => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(i))) {
+            // console.log(this.days)
+            alert('요일 선택과 추후 협의를 동시에 체크 할 수 없습니다.')
+            this.dayCheckOut()
+            this.dayFalse()
+          }
+        }
+      }
+    },
+    dayCheckOut () {
+      this.days = []
+    },
+    dayFalse () {
+      for (let property in this.day){
+        // console.log(property)
+        if (this.day[property] === true){
+          this.day[property] = false
+        }
+      }
+    },
     count(type) {
     // 결과를 표시할 element
       const resultElement = document.getElementById('result');
@@ -165,67 +210,86 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       this.stacksCheck()
+      this.dayCheck()
       if (0 < this.title.length && this.title.length <= 50) {
         if (10 >= this.peopleCount && this.peopleCount > 0) {
           if (0 < this.skills.length && this.skills.length <= 4) {
-            console.log(this.ingDate)
-            const temp = this.ingDate.split(' - ')
-            let res1 = []
-            for(let i = 0; i < temp.length; i++){
-              res1.push(temp[i])
-            }
-            console.log(res1)
-            let today = new Date()
-            let ingstart = new Date(res1[0])
-            console.log(today)
-            console.log(ingstart)
-            if (ingstart >= today.setHours(0,0,0,0)) {
-              const token = localStorage.getItem('jwt')
-              this.img = _.sample(this.images)
-              axios({
-                url: api.CREATE_STUDY_ROOM,
-                method: 'POST',
-                data: {
-                  sboardTitle: this.title,
-                  sboardPwd: this.password,
-                  sboardPerson: this.peopleCount,
-                  sboardTechstack: this.skills,
-                  sboardIngdate: this.ingDate,
-                  sboardContent1: this.content1,
-                  sboardContent2: this.content2,
-                  sboardImg: this.img,
-                },
-                headers: {
-                  Authorization: 'Bearer ' + token
-                },
-              }).then(()=>{
-                this.$router.push('/studying')
-              }).catch(err=>{
-                console.error(err)
-              })
+            if(0 < this.days.length) {
+              console.log(this.ingDate)
+              const temp = this.ingDate.split(' - ')
+              let res1 = []
+              for(let i = 0; i < temp.length; i++){
+                res1.push(temp[i])
+              }
+              console.log(res1)
+              let today = new Date()
+              let ingstart = new Date(res1[0])
+              console.log(today)
+              console.log(ingstart)
+              if (ingstart >= today.setHours(0,0,0,0)) {
+                const token = localStorage.getItem('jwt')
+                this.img = _.sample(this.images)
+                axios({
+                  url: api.CREATE_STUDY_ROOM,
+                  method: 'POST',
+                  data: {
+                    sboardTitle: this.title,
+                    sboardPwd: this.password,
+                    sboardPerson: this.peopleCount,
+                    sboardTechstack: this.skills,
+                    sboardIngdate: this.ingDate,
+                    sboardDays: this.days,
+                    sboardContent1: this.content1,
+                    sboardContent2: this.content2,
+                    sboardImg: this.img,
+                  },
+                  headers: {
+                    Authorization: 'Bearer ' + token
+                  },
+                }).then(()=>{
+                  this.$router.push('/studying')
+                }).catch(err=>{
+                  console.error(err)
+                })
+              }
+              else {
+                alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+                this.stackFalse()
+                this.stackCheckOut()
+                this.dayCheckOut()
+                this.dayFalse()
+              }
             }
             else {
-              alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+              alert("활동 요일을 1개 이상 선택해주세요.")
               this.stackFalse()
               this.stackCheckOut()
+              this.dayCheckOut()
+              this.dayFalse()
             }
           }
           else {
             alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
             this.stackFalse()
             this.stackCheckOut()
+            this.dayCheckOut()
+            this.dayFalse()
           }
         }
         else {
           alert("인원을 1명 이상 10명 이하 선택해주세요")
           this.stackFalse()
           this.stackCheckOut()
+          this.dayCheckOut()
+          this.dayFalse()
         }
       } 
       else {
         alert("제목은 1자 이상 50자 이하로 입력하세요.")
         this.stackFalse()
         this.stackCheckOut()
+        this.dayCheckOut()
+        this.dayFalse()
       }
     },
   },
@@ -285,6 +349,23 @@ form div .stacktitle {
   font-family: 'Epilogue', sans-serif;
 }
 
+form div .daytitle {
+  font-weight: bold;
+  font-size: 1vw;
+  margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
+}
+
+form div #password {
+  margin: 0 0 2vh 0;
+  padding: 0;
+  border: 0.1px solid #C4C4C4;
+  border-radius: 0.5rem;
+  height: 4.5vh;
+  width: 30vw;
+  font-family: 'Epilogue', sans-serif;
+}
+
 form div textarea {
   margin: 0 0 2vh 0;
   padding: 0;
@@ -312,16 +393,27 @@ form .detail2 textarea {
   margin-bottom: 2vh;
 }
 
-form .checkbox {
+form .stackcheckbox {
   margin: 0 0 2vh 0;
   display: grid;
   grid-template-columns: auto auto auto auto;
   font-family: 'Epilogue', sans-serif;
 }
-
-form .checkbox div{
+form .stackcheckbox div{
   margin: 0;
 }
+
+form .daycheckbox {
+  margin: 0 0 2vh 0;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  font-family: 'Epilogue', sans-serif;
+}
+
+form .daycheckbox div{
+  margin: 0;
+}
+
 
 form .submitbtn {
   margin: 0 0 1vh 0;
