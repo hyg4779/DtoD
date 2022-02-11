@@ -60,6 +60,8 @@
           </ul>
         </transition>
       </li>
+
+      <!-- 비로그인 상태 -->
       <li v-if="!getToken" class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
         <div class="profileicon">
           <img src="../../assets/default_user.png">
@@ -74,7 +76,8 @@
           </ul>
         </transition>
       </li>
-   
+
+      <!-- 로그인 상태 -->
       <li v-else class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
         <div class="profileicon">
           <img v-if="userImg" :src="userImg"> 
@@ -199,7 +202,7 @@ export default {
     // 유저의 프로필 이미지
     userImg(){
       if (this.getToken){
-        return this.$store.state.credentials.userImg
+        return this.$store.state.userInfo.userImg
       } return null
     }
 

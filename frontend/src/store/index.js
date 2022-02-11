@@ -14,9 +14,20 @@ export default new Vuex.Store({
   //   createPersistedState(),
   // ],  
   state: {
+
+    // 회원가입 정보를 임시적으로 저장해놓는 변수
     credentials:{
       userEmail: null,
       userPwd: null,
+      userImg: null,
+      userJobs: null,
+      userName: null,
+      userTechstack: null,
+    },
+
+    // 페이지에서 사용하는 로그인한 사용자 정보
+    userInfo: {
+      userEmail: null,
       userImg: null,
       userJobs: null,
       userName: null,
@@ -48,13 +59,14 @@ export default new Vuex.Store({
     ingDate(state, payload){
       state.date.ingdate = payload.ingdate
     },
-    getUserInfo({credentials}, payload){
-      credentials.userEmail = payload.userEmail
-      credentials.userImg = payload.userImg
-      credentials.userJobs = payload.userJobs
-      credentials.userName = payload.userName
-      credentials.userTechstack = payload.userTechstack
-      console.log(credentials)
+    getUserInfo({userInfo}, payload){
+      userInfo.userEmail = payload.userEmail
+      userInfo.userImg = payload.userImg
+      userInfo.userJobs = payload.userJobs
+      userInfo.userName = payload.userName
+      userInfo.userTechstack = payload.userTechstack.split(',')
+      
+      // console.log(credentials)
     }
 
   },
@@ -83,6 +95,7 @@ export default new Vuex.Store({
       commit('ingDate', payload)
     },
 
+    // Navbar.vue 에서 created 시 유저 정보를 받아오는 메서드
     getUserInfo({commit}){
       axios ({
       method: 'get',
