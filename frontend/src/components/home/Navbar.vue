@@ -371,6 +371,7 @@ export default {
   position: relative;
   min-width: 7.8vw;
   font-size: 1vw;
+  z-index: 1000;
 }
 
 .menu li:hover{
