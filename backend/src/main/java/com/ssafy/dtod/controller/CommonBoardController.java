@@ -40,7 +40,7 @@ public class CommonBoardController {
 	}
 	
 	@PostMapping("/regist")
-	public ResponseEntity<CommonBoard> registBoard(RegistCommonBoardDto dto){
+	public ResponseEntity<CommonBoard> registBoard(@RequestBody RegistCommonBoardDto dto){
 		dto.setUser(userService.getMyUserWithAuthorities().get());
 		return ResponseEntity.ok(commonboardService.registBoard(dto));
 	}

@@ -1,5 +1,7 @@
 package com.ssafy.dtod.dto;
 
+import java.util.List;
+
 import com.ssafy.dtod.model.User;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +23,6 @@ public class ViewCommonBoardDto {
 	private String cboardTitle;
 	private String cboardCode;
 	private String cboardContent;
-	private String cboardTechstack;
+	private List<String> cboardTechstack;
 	
 }
