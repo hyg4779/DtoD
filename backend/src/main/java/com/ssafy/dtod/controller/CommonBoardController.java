@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.dtod.dto.RegistCommonBoardDto;
+import com.ssafy.dtod.dto.ViewCommonBoardDto;
 import com.ssafy.dtod.model.CommonBoard;
 import com.ssafy.dtod.service.CommonBoardService;
 import com.ssafy.dtod.service.UserService;
@@ -40,6 +43,12 @@ public class CommonBoardController {
 	public ResponseEntity<CommonBoard> registBoard(RegistCommonBoardDto dto){
 		dto.setUser(userService.getMyUserWithAuthorities().get());
 		return ResponseEntity.ok(commonboardService.registBoard(dto));
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<CommonBoard> updateBoard(@RequestBody ViewCommonBoardDto dto){
+		dto.setUser(userService.getMyUserWithAuthorities().get());
+		return ResponseEntity.ok(commonboardService.updateBoard(dto));
 	}
 	
 	@DeleteMapping("/delete/{cboardId}")
