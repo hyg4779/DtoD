@@ -9,18 +9,29 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">username</div>
+        <div class="profilename">{{this.userName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
           기술 스택
-          <span>
-            Python
+          <span v-for="(item, idx) in getSkills" :key="idx">
+            {{item}}
           </span>
         </div>
         <div class="item-control">
           <button class="update" @click="updateArticle">수정</button>
           <button class="delete" @click="deleteArticle">삭제</button>
+        </div>
+      </div>
+      <div class="img-box">
+        <div class="img-box" :style="style">
+          <img 
+          v-for="(stack, idx) in imgs"
+          :key="idx"
+          id="stackImg"
+          :src="require(`@/assets/stacks/${stack}.png`)"
+          alt="img"
+          >
         </div>
       </div>
       <div class="content">
@@ -43,13 +54,13 @@
         </div>
       </div>
       <hr>
-      <QuestionComment 
+      <!-- <QuestionComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
-      />
+      /> -->
       <hr>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
@@ -77,17 +88,16 @@
 </template>
 
 <script>
-import { dummy } from "../../../../generated.js";
-// import axios from 'axios'
-// import jwt_decode from 'jwt-decode'
+import { api } from '../../../../api.js'
+import axios from 'axios'
 import Tiptap from "../vieweditor/Tiptap.vue"
-import QuestionComment from "./QuestionComment.vue"
+// import QuestionComment from "./QuestionComment.vue"
 
 export default {
   name: 'QuestionItemDetail',
   components: {
     Tiptap,
-    QuestionComment
+    // QuestionComment
   },
   props: {
     item_pk: Number,
@@ -95,13 +105,35 @@ export default {
   data() {
     return {
       title: '',
+      tech:'',
       content: '',
       code: '',
-      userImg: '',
+      imgPath: '',
+      imgs: null,
+      style: {
+        backgroundColor: this.imgPath
+      },
 
-      myComments: '',
+      itemuserName: '',
+      itemuserImg: '',
+      itemuserEmail: '',
+      userImg: '',
+      userName: '',
+
+      mycomment: '',
       comments: [],
     }
+  },
+  computed: {
+    getSkills: function() {
+      const t = this.tech
+      const temp = t.split(',')
+      let res = []
+      for(let i = 0; i < temp.length; i++){
+        res.push(temp[i])
+      }
+      return res
+    },
   },
   methods:{
     commentSubmit() {
@@ -111,23 +143,62 @@ export default {
 
     },
     deleteArticle() {
-
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.DELETE_FREE_BOARD + `${this.item_pk}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        console.log(res)
+        this.$router.go();
+      }).catch((err)=>{
+        console.error(err)
+      })
     },
     updateArticle() {
-      
-    }
+      this.$emit('update-modal-open', this.item_pk)
+    },
   },
   created() {
-    // console.log(this.item_pk)
-    const temp = dummy
-    for (let i=0; i < temp.length; i++) {
-      if (temp[i].id === this.item_pk) {
-        this.title = temp[i].title
-        this.content = temp[i].content
-        this.code = temp[i].code
-      }
-    }
+    const token = localStorage.getItem('jwt')
+    axios({
+      url:  api.GET_FREE_BOARD_DETAIL + `${this.item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res)
+      this.itemuserEmail = res.data.user.userEmail
+      this.itemuserImg = res.data.user.userImg
+      this.itemuserName = res.data.user.userName
+      this.title = res.data.cboardTitle
+      this.code = res.data.cboardCode
+      this.tech = res.data.cboardTechstack
+      this.content = res.data.cboardContent
+      this.imgPath = res.data.cboardImg
+      console.log(this.code)
+      
+      this.style.backgroundColor = res.data.cboardImg
+    }).catch((err)=>{
+      console.error(err)
+    })
 
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+      this.userImg = res.data.userImg
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
@@ -261,5 +332,14 @@ export default {
 }
 .commentprofilename {
   margin: 0.7vh 0 0 0;
+}
+
+.img-etc-box {
+  display: flex;
+  margin:  0.6vh 0 2vh 0;
+}
+.img-etc-box .img-box #stackImg {
+  margin: 9vh 0 0 0;
+  width: 10vh;
 }
 </style>

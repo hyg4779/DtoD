@@ -161,10 +161,8 @@ export default {
       }
       return res
     },
-
   },
   methods:{
-
     getContent(content) { 
       return content.split('\n').join('<br>'); 
     },
@@ -258,8 +256,7 @@ export default {
 <style scoped>
 .itemdetail{
   width: auto; 
-  height:auto; 
-  border-radius: 20px !important; 
+  height:auto;
   padding:10px !important;
   font-size: 20px;
 }
@@ -270,7 +267,7 @@ header{
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  margin: 1em;
+  margin: 0 0 2.5vh 0;
 }
 
 header h2{

@@ -183,62 +183,67 @@ export default {
       if (0 < this.title.length && this.title.length <= 50) {
         if (10 >= this.peopleCount && this.peopleCount > 0) {
           if (0 < this.skills.length && this.skills.length <= 4) {
-            
-            // 진행기간 추출
-            // console.log(this.date.ingdate)
-            const temp = this.date.ingdate.split(' - ')
-            let res1 = []
-            for(let i = 0; i < temp.length; i++){
-              res1.push(temp[i])
-            }
-            console.log(res1)
-
-            // 모집기간 추출
-            // console.log(this.date.joindate)
-            const tmp = this.date.joindate.split(' - ')
-            let res2 = []
-            for(let i = 0; i < tmp.length; i++){
-              res2.push(tmp[i])
-            }
-            console.log(res2)
-
-            let today = new Date()
-            let ingstart = new Date(res1[0])
-            let joinstart = new Date(res2[0])
-            let joinend = new Date(res2[1])
-            // console.log(today)
-            // console.log(ingstart)
-            // console.log(joinstart)
-            // console.log(joinend)
-
-            if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
-              const token = localStorage.getItem('jwt')
-              this.img = _.sample(this.images)
-              axios({
-                url: api.CREATE_STUDY_BOARD,
-                method: 'POST',
-                data: {
-                  sboardTitle: this.title,
-                  sboardPerson: this.peopleCount,
-                  sboardTechstack: this.skills,
-                  sboardIngdate: this.date.ingdate,
-                  sboardJoindate: this.date.joindate,
-                  sboardContent1: this.content1,
-                  sboardContent2: this.content2,
-                  sboardContent3: this.content3,
-                  sboardImg: this.img,
-                },
-                headers: {
-                  Authorization: 'Bearer ' + token
-                },
-              }).then(()=>{
-                this.$router.go();
-              }).catch(err=>{
-                console.error(err)
-              })
+            if (10 < this.content1.length && 10 < this.content2.length && 10 < this.content3.length) {
+              // 진행기간 추출
+              // console.log(this.date.ingdate)
+              const temp = this.date.ingdate.split(' - ')
+              let res1 = []
+              for(let i = 0; i < temp.length; i++){
+                res1.push(temp[i])
+              }
+              console.log(res1)
+  
+              // 모집기간 추출
+              // console.log(this.date.joindate)
+              const tmp = this.date.joindate.split(' - ')
+              let res2 = []
+              for(let i = 0; i < tmp.length; i++){
+                res2.push(tmp[i])
+              }
+              console.log(res2)
+  
+              let today = new Date()
+              let ingstart = new Date(res1[0])
+              let joinstart = new Date(res2[0])
+              let joinend = new Date(res2[1])
+              // console.log(today)
+              // console.log(ingstart)
+              // console.log(joinstart)
+              // console.log(joinend)
+  
+              if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
+                const token = localStorage.getItem('jwt')
+                this.img = _.sample(this.images)
+                axios({
+                  url: api.CREATE_STUDY_BOARD,
+                  method: 'POST',
+                  data: {
+                    sboardTitle: this.title,
+                    sboardPerson: this.peopleCount,
+                    sboardTechstack: this.skills,
+                    sboardIngdate: this.date.ingdate,
+                    sboardJoindate: this.date.joindate,
+                    sboardContent1: this.content1,
+                    sboardContent2: this.content2,
+                    sboardContent3: this.content3,
+                    sboardImg: this.img,
+                  },
+                  headers: {
+                    Authorization: 'Bearer ' + token
+                  },
+                }).then(()=>{
+                  this.$router.go();
+                }).catch(err=>{
+                  console.error(err)
+                })
+              }
+              else {
+                alert("모집기간이 오늘 날짜보다 이전이거나 수행날짜보다 이후이면 안됩니다.")
+                this.stackInit()
+              }
             }
             else {
-              alert("모집기간이 오늘 날짜보다 이전이거나 수행날짜보다 이후이면 안됩니다.")
+              alert('내용을 10자 이상 입력해주세요')
               this.stackInit()
             }
           }
