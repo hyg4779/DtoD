@@ -11,9 +11,7 @@ import com.ssafy.dtod.model.Studyboard;
 
 public interface SboardCommentRepository extends JpaRepository<SboardComment, Long>{
 
-	// 
 	@Query("select c from SboardComment c where c.studyboard =:studyboard order by c.scommentId")
 	List<SboardComment> findByStudyboard(@Param("studyboard") Studyboard studyboard);
-
 	
 }

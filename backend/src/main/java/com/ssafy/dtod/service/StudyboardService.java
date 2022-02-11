@@ -89,6 +89,7 @@ public class StudyboardService {
 	}
 		
 	// 댓글용 id로 정보 가져오기
+	@Transactional
 	public Studyboard findByBoardId(Long sboardId) {
 		return studyboardRepository.findById(sboardId).get();
 	}
