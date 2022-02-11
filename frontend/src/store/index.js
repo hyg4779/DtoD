@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import { api } from '../../api.js'
+
 // import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
+
+const token = localStorage.getItem('jwt')
 
 export default new Vuex.Store({
   // plugins: [
@@ -12,8 +17,9 @@ export default new Vuex.Store({
     credentials:{
       userEmail: null,
       userPwd: null,
-      userName: null,
+      userImg: null,
       userJobs: null,
+      userName: null,
       userTechstack: null,
     },
     date: {
@@ -41,25 +47,30 @@ export default new Vuex.Store({
     },
     ingDate(state, payload){
       state.date.ingdate = payload.ingdate
+    },
+    getUserInfo({credentials}, payload){
+      credentials.userEmail = payload.userEmail
+      credentials.userImg = payload.userImg
+      credentials.userJobs = payload.userJobs
+      credentials.userName = payload.userName
+      credentials.userTechstack = payload.userTechstack
+      console.log(credentials)
     }
-    // infoIntialize(state){
-    //   for(let property in state.credentials){
-    //     state.credentials[property] = null
-    //     console.log(state.credentials)
-    //   }
-    // }
 
   },
   actions: {
     userCreate({commit}, payload){
       commit('userCreate', payload)
     },
+
     nickName({commit}, payload){
       commit('nickName', payload)
     },
+
     jobs({commit}, payload){
       commit('jobs', payload)
     },
+
     skills({commit},payload){
       commit('skills', payload)
     },
@@ -67,12 +78,28 @@ export default new Vuex.Store({
     joinDate({commit}, payload){
       commit('joinDate', payload)
     },
+
     ingDate({commit}, payload){
       commit('ingDate', payload)
+    },
+
+    getUserInfo({commit}){
+      axios ({
+      method: 'get',
+      url: api.USER_INFO_GET,
+      headers: { 
+        Authorization: 'Bearer ' + token
+      }
+      }).then(res=>{
+
+        // 로그인된 사용자 정보
+        // console.log(res.data)
+        commit('getUserInfo', res.data)
+      }).catch(err => {
+        console.log(err)
+      })
+      
     }
-    // infoIntialize({commit}){
-    //   commit('infoIntialize')
-    // }
 
   },
   modules: {

@@ -1,18 +1,20 @@
 <template>
   <div class="myinfo">
-    <!-- <div> -->
-      <div class="profileicon">
-        <img v-if="picture" :src="picture">
-        <img v-else src="../../assets/default_user.png">
-      </div>
-      <div class="profilebutton">
-        <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->
-        <label for="profileimg">이미지 선택</label>
-        <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
-        <button class="imgadd"  @click="onUpload">이미지 등록</button>
-      </div>
-      <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
-    <!-- </div> -->
+    <div class="profileicon">
+      <img v-if="picture" :src="picture">
+      <img v-else src="../../assets/default_user.png">
+    </div>
+    <div class="profilebutton">
+      <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->
+      <label for="profileimg">이미지 선택</label>
+      <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
+      <button class="imgadd"  @click="onUpload">이미지 등록</button>
+    </div>
+    <div
+      v-if="uploadValue != 0"
+      class="progress">업로드:
+      {{ uploadValue.toFixed() + "%" }}
+    </div>
     <b-form class="form">
       <div class="nickname">
         <div>
@@ -79,13 +81,15 @@ import { api } from '../../../api.js'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
 
+const token = localStorage.getItem('jwt')
+
 export default {
   name: 'MyInfo',
   data() {
     return {
-      uploadValue : 0,
-      picture: null,
-      imageData: null,
+      uploadValue : 0,  // 이미지 업로드 진행상황 (단위: %)
+      picture: null,    // 변경한 이미지를 담는 변수
+      imageData: null,  // firebase에 담을 image를 
 
       stacks: {
         javascript: false,
@@ -129,11 +133,15 @@ export default {
     }
   },
   methods: {
+
+    //
     previewImage(event) { 
-      this.uploadValue=0; 
-      this.picture=null; 
+      this.uploadValue = 0; 
+      this.picture = null; 
       this.imageData = event.target.files[0]; 
     }, 
+
+    // 이미지 파일 등록 메서드
     onUpload( ){ 
       // this.picture=null;
       const storageRef = firebase.storage().ref(`${this. imageData.name}`).put(this.imageData); 
@@ -149,9 +157,10 @@ export default {
       }
       )
     },
+
+    // 닉네임 중복체크 메서드
     doubleCheck (event) {
       event.preventDefault()
-      const token = localStorage.getItem('jwt')
       if (this.credentials.nickname !== null && this.credentials.nickname.length >= 2) {
         axios({
           url: api.NICKNAME_CHECK + `${this.credentials.nickname}`,
@@ -160,16 +169,15 @@ export default {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          console.log(res)
+          // console.log(res)
           if (res.data === true) {
             this.nicknameCheck = res.data
-            console.log(this.nicknameCheck)
             alert('중복되는 닉네임이 있습니다.')
           }
           else {
             this.nicknameCheck = res.data
             console.log(this.nicknameCheck)
-            alert('중복되는 닉네임이 없습니다.')
+            alert('사용 가능합니다.')
           }
         }).catch(err=>{
           console.log(err)
@@ -179,6 +187,8 @@ export default {
         alert("닉네임을 2자 이상 입력하세요")
       }
     },
+
+    // 체크한 기술스텍만 담는 메서드
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
@@ -187,25 +197,25 @@ export default {
         }
       }
     },
-    stackCheckOut () {
-      this.credentials.skills = []
-    },
-    stackFalse () {
+
+    // 체크한 기술스텍 초기화 stackFalse stackCheckOut
+    stackInit () {
       for (let property in this.stacks){
         // console.log(property)
         if (this.stacks[property] === true){
           this.stacks[property] = false
         }
-      }
+      } this.credentials.skills = []
     },
+
+    // 개인정보 수정 메서드
     onSubmit(event) {
-      this.stacksCheck()
-      // console.log(this.nicknameCheck)
+      this.stacksCheck()  
       event.preventDefault()
+
       if (this.nicknameCheck !== null && this.nicknameCheck === false) {
         if (0 < this.credentials.skills.length) {
           if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
-            const token = localStorage.getItem('jwt')
             axios({
               url: api.USER_INFO_CHANGE,
               method: 'PUT',
@@ -227,12 +237,10 @@ export default {
             })
           }
           else {
-            this.stackFalse()
-            this.stackCheckOut()
+            this.stackInit()
             this.nicknameCheck = null
             this.credentials.jobs = this.userJobs
             alert("직업 선택을 리스트에서 선택해주세요")
-            const token = localStorage.getItem('jwt')
             axios ({
               method: 'get',
               url: api.USER_INFO_GET,
@@ -260,12 +268,10 @@ export default {
           }
         }
         else {
-          this.stackFalse()
-          this.stackCheckOut()
+          this.stackInit()
           this.nicknameCheck = null
           this.credentials.jobs = this.userJobs
           alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
-          const token = localStorage.getItem('jwt')
           axios ({
             method: 'get',
             url: api.USER_INFO_GET,
@@ -296,7 +302,6 @@ export default {
         // this.nicknameCheck = true
         if (0 < this.credentials.skills.length) {
           if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
-            const token = localStorage.getItem('jwt')
             axios({
               url: api.USER_INFO_CHANGE,
               method: 'PUT',
@@ -317,12 +322,10 @@ export default {
             })
           }
           else {
-            this.stackFalse()
-            this.stackCheckOut()
+            this.stackInit()
             this.nicknameCheck = null
             this.credentials.jobs = this.userJobs
             alert("직업 선택을 리스트에서 선택해주세요")
-            const token = localStorage.getItem('jwt')
             axios ({
               method: 'get',
               url: api.USER_INFO_GET,
@@ -350,12 +353,10 @@ export default {
           }
         }
         else {
-          this.stackFalse()
-          this.stackCheckOut()
+          this.stackInit()
           this.nicknameCheck = null
           this.credentials.jobs = this.userJobs
           alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
-          const token = localStorage.getItem('jwt')
           axios ({
             method: 'get',
             url: api.USER_INFO_GET,
@@ -387,7 +388,6 @@ export default {
         this.stackCheckOut()
         this.nicknameCheck = null
         alert('닉네임 중복검사를 해주세요')
-        const token = localStorage.getItem('jwt')
         axios ({
           method: 'get',
           url: api.USER_INFO_GET,
@@ -416,7 +416,6 @@ export default {
     },
   },
   created() {
-    const token = localStorage.getItem('jwt')
 
     axios ({
       method: 'get',
@@ -425,7 +424,6 @@ export default {
         Authorization: 'Bearer ' + token
       }
     }).then(res=>{
-      alert('수정완료!')
       console.log(res)
       this.credentials.nickname = res.data.userName
       this.credentials.jobs = res.data.userJobs
@@ -434,8 +432,8 @@ export default {
       this.userEmail = res.data.userEmail
       this.userJobs = res.data.userJobs
       this.picture = res.data.userImg
-      const t = this.tech
-      const temp = t.split(',')
+      const temp = this.tech.split(',')
+      
       let result = []
       for(let i = 0; i < temp.length; i++){
         result.push(temp[i])
