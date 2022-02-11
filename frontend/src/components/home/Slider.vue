@@ -18,10 +18,10 @@
         
         <b-modal
         ref="detail" 
-        size="lg" 
-        class="bg-black"
+        centered
         hide-footer 
         hide-header
+        size="lg" 
         >
           <SwiperDetail
             :item_pk = this.item.sboardId
@@ -130,10 +130,16 @@ export default {
   margin: 0 auto;
 }
 
+.item .item-title {
+  text-align: center;
+  font-size: 0.78vw;
+  margin: 2.5vh 0 0 0;
+  font-family: 'Epilogue', sans-serif;
+}
+
 .item .item-img {
   display: flex;
   border-radius: 2rem 2rem 0 0;
-  /* background-color: ; */
   flex-direction: row-reverse;
   justify-content: space-evenly;
   align-items: center;
@@ -145,11 +151,5 @@ export default {
   width: 5vh;
 }
 
-.item .item-title {
-  text-align: center;
-  font-size: 0.78vw;
-  margin: 2.5vh 0 0 0;
-  font-family: 'Epilogue', sans-serif;
-}
 
 </style>
