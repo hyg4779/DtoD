@@ -50,6 +50,8 @@ export default {
   },
 
   methods:{
+
+    // 정규표현식 메서드
     verifyEmail (){
       let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       let data = this.credentials.userEmail.match(regExp)
@@ -58,6 +60,8 @@ export default {
         return true
       }return false
     },
+
+    // 로그인
     Login(){
       if(this.verifyEmail()){
          axios({
@@ -91,6 +95,8 @@ export default {
         })
       }
     },
+
+    // 회원가입 모달 열기
     signupModalOpen(){
       this.$emit('signup-modal-open')
     },
