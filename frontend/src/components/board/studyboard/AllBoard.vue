@@ -36,7 +36,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       // const temp = []
       // res.data.forEach((element)=>{
         // console.log(element)

@@ -76,14 +76,15 @@
         <p v-html="getContent(this.content1)"></p>
       </div>
     </div>
-    <hr>
-      <!-- <StudyComment 
+    <div>
+      <StudyComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
-      /> -->
+      />
+    </div>
     <hr>
     <div class="commentprofilebox">
       <div class="commentprofileicon">
@@ -94,7 +95,6 @@
     </div>
     <form @submit="commentSubmit">
       <div class="form-group" style="margin-bottom:10px;">
-
         <textarea 
           class="form-control"
           placeholder="댓글을 남겨주세요" 
@@ -104,7 +104,6 @@
           @keypress.enter="commentSubmit"
           >
         </textarea>
-
         <button class="myBtn submit" id="sub">등록</button>
       </div>
     </form>
@@ -114,13 +113,12 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-// import StudyComment from "./StudyComment.vue"
-
+import StudyComment from "./StudyComment.vue"
 
 export default {
   name: 'ItemDetail',
   components: {
-    // StudyComment,
+    StudyComment,
   },
   props: {
     item_pk: Number,
@@ -147,7 +145,7 @@ export default {
       userImg: '',
       userName: '',
 
-      myComments: '',
+      mycomment: '',
       comments: [],
     }
   },
@@ -166,11 +164,66 @@ export default {
     getContent(content) { 
       return content.split('\n').join('<br>'); 
     },
-    commentSubmit() {
-      
+    commentSubmit(event) {
+      event.preventDefault()
+      if (this.mycomment.length !== 0) {
+        const item_pk = this.item_pk
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.CREATE_STUDY_BOARD_COMMENT + `${item_pk}`,
+          method: 'POST',
+          data: {
+            scommentContent: this.mycomment
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          console.log(res.data)
+          axios({
+            url: api. GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then((res)=>{
+              const temp = []
+              res.data.forEach((element)=>{
+                temp.push(element)
+              })
+              this.comments = temp
+          }).catch((err)=>{
+            console.error(err)
+          })
+        }).catch((err)=>{
+          console.error(err)
+        })
+        this.mycomment = ''
+      } 
+      else {
+        alert("댓글을 입력하세요.")
+      }
     },
     onParentDeleteComment() {
-
+      const item_pk = this.item_pk
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+          const temp = []
+          res.data.forEach((element)=>{
+            temp.push(element)
+          })
+          this.comments = temp
+      }).catch((err)=>{
+        const temp = []
+        this.comments = temp
+        console.error(err)
+      })
     },
     deleteArticle() {
       const token = localStorage.getItem('jwt')
@@ -180,8 +233,8 @@ export default {
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then((res)=>{
-        console.log(res)
+      }).then(()=>{
+        // console.log(res)
         this.$router.go();
       }).catch((err)=>{
         console.error(err)
@@ -192,7 +245,9 @@ export default {
     },
   },
   created() {
+    const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
+
     axios({
       url:  api.GET_STUDY_BOARD_DETAIL + `${this.item_pk}`,
       method: 'GET',
@@ -221,7 +276,7 @@ export default {
 
       // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
       if(result.length >= 4){
-        console.log(result.slice(0,3))
+        // console.log(result.slice(0,3))
         this.imgs = result.slice(0,3)
       }else{
         this.imgs = result
@@ -247,7 +302,23 @@ export default {
       console.error(err)
     })
 
-
+    axios({
+      url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res)
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
+      })
+      this.comments = temp
+      console.log(this.comments)
+    }).catch((err)=>{
+      console.error(err)
+    })
 
   }
 }
@@ -326,6 +397,7 @@ header h2{
   font-weight:300;
   margin: 0 0 2vh 0;
   font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw
 }
 
 .content2 .contenttitle2{
@@ -338,6 +410,7 @@ header h2{
   font-weight:300;
   margin: 0 0 2vh 0;
   font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw
 }
 
 .content3 .contenttitle3{
@@ -350,6 +423,7 @@ header h2{
   font-weight:300;
   margin: 0 0 2vh 0;
   font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw;
 }
 
 .form-group .form-control{
