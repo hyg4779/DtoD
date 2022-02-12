@@ -56,11 +56,11 @@ export default {
       const seconds = ('0' + today.getSeconds()).slice(-2);
       const timeString = hours + ':' + minutes  + ':' + seconds;
       const tmp = this.comment.scommentTime.slice(11,19)
-      console.log(timeString)
-      console.log(tmp)
-      console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))
-      console.log(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)))
-      console.log(Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))))
+      // console.log(timeString)
+      // console.log(tmp)
+      // console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))
+      // console.log(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)))
+      // console.log(Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))))
       if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 3) {
         this.time = '오래전'
         return this.time

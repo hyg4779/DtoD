@@ -28,14 +28,15 @@
         <p v-html="getContent(this.content)"></p>
       </div>
     </div>
-    <hr>
-      <!-- <FreeComment 
+    <div>
+      <FreeComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
-      /> -->
+      />
+    </div>
     <hr>
     <div class="commentprofilebox">
       <div class="commentprofileicon">
@@ -64,13 +65,12 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-// import FreeComment from "./FreeComment.vue"
-
+import FreeComment from "./FreeComment.vue"
 
 export default {
   name: 'ItemDetail',
   components: {
-    // FreeComment,
+    FreeComment,
   },
   props: {
     item_pk: Number,
@@ -92,7 +92,7 @@ export default {
       userImg: '',
       userName: '',
 
-      myComments: '',
+      mycomment: '',
       comments: [],
     }
   },
@@ -106,18 +106,71 @@ export default {
       }
       return res
     },
-
   },
   methods:{
-
     getContent(content) { 
       return content.split('\n').join('<br>'); 
     },
-    commentSubmit() {
-      
+    commentSubmit(event) {
+      event.preventDefault()
+      if (this.mycomment.length !== 0) {
+        const item_pk = this.item_pk
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.CREATE_FREE_BOARD_COMMENT + `${item_pk}`,
+          method: 'POST',
+          data: {
+            ccommentContent: this.mycomment
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          console.log(res.data)
+          axios({
+            url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then((res)=>{
+              const temp = []
+              res.data.forEach((element)=>{
+                temp.push(element)
+              })
+              this.comments = temp
+          }).catch((err)=>{
+            console.error(err)
+          })
+        }).catch((err)=>{
+          console.error(err)
+        })
+        this.mycomment = ''
+      } 
+      else {
+        alert("댓글을 입력하세요.")
+      }
     },
     onParentDeleteComment() {
-
+      const item_pk = this.item_pk
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+          const temp = []
+          res.data.forEach((element)=>{
+            temp.push(element)
+          })
+          this.comments = temp
+      }).catch((err)=>{
+        const temp = []
+        this.comments = temp
+        console.error(err)
+      })
     },
     deleteArticle() {
       const token = localStorage.getItem('jwt')
@@ -127,8 +180,8 @@ export default {
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then((res)=>{
-        console.log(res)
+      }).then(()=>{
+        // console.log(res)
         this.$router.go();
       }).catch((err)=>{
         console.error(err)
@@ -139,7 +192,9 @@ export default {
     },
   },
   created() {
+    const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
+
     axios({
       url:  api.GET_FREE_BOARD_DETAIL + `${this.item_pk}`,
       method: 'GET',
@@ -174,6 +229,24 @@ export default {
     }).catch((err)=>{
       console.error(err)
     })
+
+    axios({
+      url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res)
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
+      })
+      this.comments = temp
+      console.log(this.comments)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
@@ -182,7 +255,6 @@ export default {
 .itemdetail{
   width: auto; 
   height:auto; 
-  border-radius: 20px !important; 
   padding:10px !important;
   font-size: 20px;
 }
@@ -220,11 +292,11 @@ header h2{
   font-family: 'Epilogue', sans-serif;
 }
 
-.tech-control {
+/* .tech-control {
   display: flex;
   justify-content: space-between;
   align-content: center;
-}
+} */
 
 .content .contenttitle{
   font-weight: bold;
@@ -236,6 +308,7 @@ header h2{
   font-weight:300;
   margin: 0 0 2vh 0;
   font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw;
 }
 
 .form-group .form-control{
@@ -263,8 +336,8 @@ header h2{
   object-fit:cover;
 }
 .commentprofilename {
-  margin: 0.8vh 0 0 0;
-  font-size: 1.2vw;
+  margin: 1vh 0 0 0;
+  font-size: 1.1vw;
   font-weight: bold;
   font-family: 'Epilogue', sans-serif;
 }

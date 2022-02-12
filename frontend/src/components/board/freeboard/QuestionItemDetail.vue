@@ -9,7 +9,7 @@
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">{{this.userName}}</div>
+        <div class="profilename">작성자: {{this.itemuserName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
@@ -23,7 +23,7 @@
           <button class="delete" @click="deleteArticle">삭제</button>
         </div>
       </div>
-      <div class="img-box">
+      <div class="img-etc">
         <div class="img-box" :style="style">
           <img 
           v-for="(stack, idx) in imgs"
@@ -39,7 +39,7 @@
           내용
         </div>
         <div class="contentdetail">
-          {{this.content}}
+          <p v-html="getContent(this.content)"></p>
         </div>
       </div>
       <div class="code">
@@ -53,21 +53,22 @@
             <!-- :techstack="this.techstack" -->
         </div>
       </div>
-      <hr>
-      <!-- <QuestionComment 
+      <div>
+      <QuestionComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
-      /> -->
+      />
+      </div>
       <hr>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="commentprofilename">username</div>
+        <div class="commentprofilename">{{this.userName}}</div>
       </div>
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
@@ -91,13 +92,13 @@
 import { api } from '../../../../api.js'
 import axios from 'axios'
 import Tiptap from "../vieweditor/Tiptap.vue"
-// import QuestionComment from "./QuestionComment.vue"
+import QuestionComment from "./QuestionComment.vue"
 
 export default {
   name: 'QuestionItemDetail',
   components: {
     Tiptap,
-    // QuestionComment
+    QuestionComment
   },
   props: {
     item_pk: Number,
@@ -136,11 +137,69 @@ export default {
     },
   },
   methods:{
-    commentSubmit() {
-      
+    getContent(content) { 
+      return content.split('\n').join('<br>'); 
+    },
+    commentSubmit(event) {
+      event.preventDefault()
+      if (this.mycomment.length !== 0) {
+        const item_pk = this.item_pk
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.CREATE_FREE_BOARD_COMMENT + `${item_pk}`,
+          method: 'POST',
+          data: {
+            ccommentContent: this.mycomment
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          console.log(res.data)
+          axios({
+            url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then((res)=>{
+              const temp = []
+              res.data.forEach((element)=>{
+                temp.push(element)
+              })
+              this.comments = temp
+          }).catch((err)=>{
+            console.error(err)
+          })
+        }).catch((err)=>{
+          console.error(err)
+        })
+        this.mycomment = ''
+      } 
+      else {
+        alert("댓글을 입력하세요.")
+      }
     },
     onParentDeleteComment() {
-
+      const item_pk = this.item_pk
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+          const temp = []
+          res.data.forEach((element)=>{
+            temp.push(element)
+          })
+          this.comments = temp
+      }).catch((err)=>{
+        const temp = []
+        this.comments = temp
+        console.error(err)
+      })
     },
     deleteArticle() {
       const token = localStorage.getItem('jwt')
@@ -150,8 +209,8 @@ export default {
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then((res)=>{
-        console.log(res)
+      }).then(()=>{
+        // console.log(res)
         this.$router.go();
       }).catch((err)=>{
         console.error(err)
@@ -162,7 +221,9 @@ export default {
     },
   },
   created() {
+    const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
+
     axios({
       url:  api.GET_FREE_BOARD_DETAIL + `${this.item_pk}`,
       method: 'GET',
@@ -170,7 +231,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.itemuserEmail = res.data.user.userEmail
       this.itemuserImg = res.data.user.userImg
       this.itemuserName = res.data.user.userName
@@ -179,7 +240,19 @@ export default {
       this.tech = res.data.cboardTechstack
       this.content = res.data.cboardContent
       this.imgPath = res.data.cboardImg
-      console.log(this.code)
+
+      let stacks = res.data.cboardTechstack
+      // 배열로 저장
+      let result = stacks.split(',')
+      // console.log(result.length)
+
+      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+      if(result.length >= 4){
+        // console.log(result.slice(0,3))
+        this.imgs = result.slice(0,3)
+      }else{
+        this.imgs = result
+      }
       
       this.style.backgroundColor = res.data.cboardImg
     }).catch((err)=>{
@@ -199,6 +272,24 @@ export default {
     }).catch((err)=>{
       console.error(err)
     })
+
+    axios({
+      url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res)
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
+      })
+      this.comments = temp
+      console.log(this.comments)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
@@ -212,14 +303,14 @@ export default {
 }
 .detailtitle {
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 1.4vw;
   font-weight: bold;
 }
-.profilebox{
+/* .profilebox{
   display: flex;
-}
+} */
 .profileicon {
-  margin: 2vh 1vw 2vh 17vw;
+  margin: 2.5vh 1vw 2vh 17vw;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
@@ -232,7 +323,10 @@ export default {
   object-fit:cover;
 }
 .profilename {
-  margin: 3.5vh 0 0 0;
+  margin: 2vh 0 0 15vw;
+  font-size: 1vw;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 .tech-control {
   display: flex;
@@ -242,14 +336,17 @@ export default {
 .techstack {
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 2vh 0;
+  margin:  0.6vh 0 3vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .techstack span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.1vh 0.5vw 0.1vh 0.5vw;
+  padding: 0.5vh 0.5vw 0.6vh 0.8vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 .item-control .update{
   cursor: pointer;
@@ -283,15 +380,20 @@ export default {
 .content .contenttitle{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 0 0 1vh 0;
+  margin: 3vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content .contentdetail {
   font-weight:300;
+  font-family: 'Epilogue', sans-serif;
+  margin: 0 0 2vh 0;
+  font-size: 0.9vw
 }
 .code .codetitle{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .form-group .form-control{
@@ -331,17 +433,21 @@ export default {
   object-fit:cover;
 }
 .commentprofilename {
-  margin: 0.7vh 0 0 0;
+  margin: 1vh 0 0 0;
+  font-size: 1.1vw;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
-.img-etc-box {
+.img-etc {
   display: flex;
   margin:  0.6vh 0 2vh 0;
 }
-.img-etc-box .img-box {
+.img-etc .img-box {
   width: 31vh;
+  height: 30vh;
 }
-.img-etc-box .img-box #stackImg {
+.img-etc .img-box #stackImg {
   margin: 9vh 0 0 0;
   width: 10vh;
 }

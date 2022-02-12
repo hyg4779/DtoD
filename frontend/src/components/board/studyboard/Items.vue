@@ -139,7 +139,7 @@ export default {
 <style scoped>
 .form {
   display: flex;
-  margin: 0 0 0 60vw;
+  margin: 0 0 5vh 60vw;
 }
 
 .form .form-select {
@@ -160,7 +160,7 @@ export default {
 }
 
 .items {
-  margin: 7vh auto;
+  margin: auto;
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
