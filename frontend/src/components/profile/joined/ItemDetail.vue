@@ -19,6 +19,7 @@
         </li>
         <li>
           활동기간: 
+          <br>
           <span>{{this.item.ingDate}}</span>
         </li>
         <li>

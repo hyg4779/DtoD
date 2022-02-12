@@ -48,7 +48,7 @@
         </div>
         <div class="code">
           <Tiptap 
-            :codedetail="this.code"
+            :item_pk="item_pk"
           />
             <!-- :techstack="this.techstack" -->
         </div>
@@ -337,6 +337,9 @@ export default {
 .img-etc-box {
   display: flex;
   margin:  0.6vh 0 2vh 0;
+}
+.img-etc-box .img-box {
+  width: 31vh;
 }
 .img-etc-box .img-box #stackImg {
   margin: 9vh 0 0 0;

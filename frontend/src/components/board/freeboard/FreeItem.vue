@@ -119,7 +119,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res.data)
+      // console.log(res.data)
       // // db에 저장된 item의 기술스텍 가져오기
       // let stacks = res.data.cboardTechstack
       // // 배열로 저장
@@ -135,8 +135,8 @@ export default {
       // }
       this.imgPath = res.data.cboardImg
       this.style.backgroundColor = res.data.cboardImg
-      console.log(this.imgPath)
-      console.log(this.style.backgroundColor)
+      // console.log(this.imgPath)
+      // console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })

@@ -5,7 +5,7 @@
     </div>
     <div class="allitems">
       <QuestionItems
-        :items="items"
+        :items="this.items"
       />
     </div>
   </div>
@@ -37,14 +37,14 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       for (let i=0; i < res.data.length; i ++) {
-        console.log(res.data[i].cboardType)
+        // console.log(res.data[i].cboardType)
         if (res.data[i].cboardType === '질문') {
           this.items.push(res.data[i])
         }
       }
-      console.log(this.items)
+      // console.log(this.items)
     }).catch((err)=>{
       console.error(err)
     })
