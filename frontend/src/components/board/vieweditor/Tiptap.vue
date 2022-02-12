@@ -21,7 +21,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import CodeBlockComponent from './CodeBlockComponent.vue'
-
+import HardBreak from '@tiptap/extension-hard-break'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 
@@ -29,66 +29,70 @@ import lowlight from 'lowlight'
 // import lowlight from 'lowlight/lib/core'
 // import javascript from 'highlight.js/lib/languages/javascript'
 // lowlight.registerLanguage('javascript', javascript)
-
+import { api } from '../../../../api.js'
+import axios from 'axios'
 export default {
   components: {
     EditorContent,
   },
 
   props: {
-    codedetail: String,
+    item_pk: Number,
   },
 
   data() {
     return {
-      isApp: false,
       editor: null,
-      code: null,
+      editable: false,
     }
   },
 
-  created() {
-    console.log(this.editor.content)
-  },
-  mounted() {
-    this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockLowlight
-          .extend({
-            addNodeView() {
-              return VueNodeViewRenderer(CodeBlockComponent)
-            },
-          })
-          .configure({ lowlight }),
-      ],
-      content: this.codedetail
-    })
-    this.editor.chain().focus().toggleCodeBlock().run()
-  },
-  // computed: {
-  //   getCode: function() {
-  //     const t = this.codedetail
-  //     this.code = t
-  //     return this.code
-  //   }
-  // },
-
-  // methods: {
-  //   codesave () {
-  //     const code = this.editor.getJSON().content[0].content[0].text
-  //     // console.log(code)
-  //     this.$emit('code-save', code)
-  //   }
-  // },
-
-  // updated() {
-  //   console.log(this.editor.getJSON())
-  // },
   beforeUnmount() {
     this.editor.destroy()
+  },
+
+  methods: {
+    getContent(content) { 
+      return content.split('\n').join('<br>'); 
+    },
+  },
+  created() {
+    const token = localStorage.getItem('jwt')
+    const itempk = this.item_pk
+    axios({
+      url:  api.GET_FREE_BOARD_DETAIL + itempk,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res.data)
+      const temp = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
+      console.log(temp)
+      this.editor = new Editor({
+        editable: this.editable,
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          HardBreak,
+          CodeBlockLowlight
+            .extend({
+              addNodeView() {
+                return VueNodeViewRenderer(CodeBlockComponent)
+              },
+            })
+            .configure({ lowlight }),
+        ],
+        content: 
+          `${temp}`
+        ,
+      })
+      console.log(this.editor.options.content)
+      this.editor.chain().focus().setCodeBlock().run()
+    }).catch((err)=>{
+      console.error(err)
+    })
   },
 }
 </script>

@@ -14,11 +14,12 @@
           <span>{{this.item.madeDate}}</span>
         </li>
         <li>
-          활동요일: 
+          활동요일:
           <span>{{this.item.day}}</span>
         </li>
         <li>
           활동기간: 
+          <br>
           <span>{{this.item.ingDate}}</span>
         </li>
         <li>

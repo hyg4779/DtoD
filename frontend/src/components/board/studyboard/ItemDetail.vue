@@ -386,6 +386,10 @@ header h2{
 .img-etc-box {
   display: flex;
   margin:  0.6vh 0 2vh 0;
+  /* width: auto; */
+}
+.img-etc-box .img-box {
+  width: 31vh;
 }
 .img-etc-box .img-box #stackImg {
   margin: 9vh 0 0 0;

@@ -56,7 +56,7 @@ export default {
   methods: {
     clicked(event) {
       const className = event.target.className
-      console.dir(event.target)
+      // console.dir(event.target)
       if (className === 'all') {
         this.all = true
         this.write = false

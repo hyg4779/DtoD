@@ -68,7 +68,7 @@ export default {
   methods: {
     clicked(event) {
       const className = event.target.className
-      console.dir(event.target)
+      // console.dir(event.target)
       if (className === 'free') {
         this.free = true
         this.question = false
