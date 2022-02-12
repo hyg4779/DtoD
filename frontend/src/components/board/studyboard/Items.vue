@@ -131,7 +131,7 @@ export default {
   created(){
     // console.log(this.items)
     this.itembox = this.items
-    console.log(this.itembox)
+    // console.log(this.itembox)
   }
 }
 </script>
