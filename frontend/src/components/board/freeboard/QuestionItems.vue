@@ -123,7 +123,7 @@ export default {
     paginatedData () {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
-      const sortedItems = _.sortBy(this.items, 'cboardId').reverse()
+      const sortedItems = _.sortBy(this.items, 'id').reverse()
       return sortedItems.slice(start, end);
     },
   },

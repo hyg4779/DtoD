@@ -77,7 +77,7 @@ export default {
       }
       else if (this.selected === 'title') {
         this.items.forEach((element)=>{
-          console.log(element)
+          // console.log(element)
           const title = element.cboardTitle
           if (title.indexOf(keyword) !== -1) {
             temp.push(element)   
@@ -123,7 +123,7 @@ export default {
     paginatedData () {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
-      const sortedItems = _.sortBy(this.items, 'cboardId').reverse()
+      const sortedItems = _.sortBy(this.items, 'id').reverse()
       return sortedItems.slice(start, end);
     },
   },

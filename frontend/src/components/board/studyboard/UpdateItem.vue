@@ -209,7 +209,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.title = res.data.sboardTitle
       this.tech = res.data.sboardTechstack
       this.peopleCount = res.data.sboardPerson
