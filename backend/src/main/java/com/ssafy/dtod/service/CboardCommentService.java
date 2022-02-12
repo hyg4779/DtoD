@@ -1,6 +1,6 @@
 package com.ssafy.dtod.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -29,7 +29,7 @@ public class CboardCommentService {
 	public CboardComment registComment(RegistCboardCommentDto dto) {
 		CboardComment cboardcomment = CboardComment.builder()
 				.ccommentContent(dto.getCcommentContent())
-				.ccommentTime(LocalDate.now())
+				.ccommentTime(LocalDateTime.now())
 				.user(dto.getUser())
 				.commonboard(dto.getCommonboard())
 				.build();
@@ -40,7 +40,7 @@ public class CboardCommentService {
 	public CboardComment updateComment(UpdateCboardCommentDto dto) {
 		CboardComment updatecomment = cboardcommentRepository.findById(dto.getCcommentId()).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id = " + dto.getCcommentId()));
 		updatecomment.setCcommentContent(dto.getCcommentContent());
-		updatecomment.setCcommentTime(LocalDate.now());
+		updatecomment.setCcommentTime(LocalDateTime.now());
 		return cboardcommentRepository.save(updatecomment);
 	}
 	

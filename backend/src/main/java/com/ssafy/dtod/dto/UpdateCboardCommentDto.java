@@ -1,6 +1,6 @@
 package com.ssafy.dtod.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.ssafy.dtod.model.CommonBoard;
 import com.ssafy.dtod.model.User;
@@ -20,5 +20,5 @@ public class UpdateCboardCommentDto {
 	private CommonBoard commonboard;
 	private User user;
 	private String ccommentContent;
-	private LocalDate ccommentTime;
+	private LocalDateTime ccommentTime;
 }

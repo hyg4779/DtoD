@@ -1,6 +1,6 @@
 package com.ssafy.dtod.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "cboardcomment")
 public class CboardComment {
-	// 댓글 번호
+		// 댓글 번호
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		@Column(name = "ccomment_id")
@@ -51,5 +51,5 @@ public class CboardComment {
 		private String ccommentContent;
 		
 		@Column(name = "ccomment_time")
-		private LocalDate ccommentTime;
+		private LocalDateTime ccommentTime;
 }
