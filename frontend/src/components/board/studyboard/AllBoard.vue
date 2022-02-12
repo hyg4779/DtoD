@@ -36,15 +36,17 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
-      const temp = []
-      res.data.forEach((element)=>{
-        console.log(element)
-        temp.push(element)
-      })
-      console.log(temp)
-      this.items = temp
-      console.log(this.items)
+      console.log(res)
+      // const temp = []
+      // res.data.forEach((element)=>{
+        // console.log(element)
+      //   temp.push(element)
+      // })
+      // console.log(temp)
+      for(let i=0; i < res.data.length; i++) {
+        this.items.push(res.data[i])
+      }
+      // console.log(this.items)
     }).catch((err)=>{
       console.error(err)
     })

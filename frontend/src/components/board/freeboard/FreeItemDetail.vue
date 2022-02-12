@@ -147,7 +147,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.itemuserEmail = res.data.user.userEmail
       this.itemuserImg = res.data.user.userImg
       this.itemuserName = res.data.user.userName

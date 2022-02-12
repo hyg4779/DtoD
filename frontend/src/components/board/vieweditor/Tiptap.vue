@@ -44,6 +44,8 @@ export default {
     return {
       editor: null,
       editable: false,
+
+      code: '',
     }
   },
 
@@ -51,11 +53,6 @@ export default {
     this.editor.destroy()
   },
 
-  methods: {
-    getContent(content) { 
-      return content.split('\n').join('<br>'); 
-    },
-  },
   created() {
     const token = localStorage.getItem('jwt')
     const itempk = this.item_pk
@@ -66,16 +63,22 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res.data)
-      const temp = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
-      console.log(temp)
+      // console.log(res.data)
+      this.code = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
+      console.log(this.code)
       this.editor = new Editor({
         editable: this.editable,
         extensions: [
           Document,
           Paragraph,
           Text,
-          HardBreak,
+          HardBreak
+            .configure({
+              HTMLAttributes: {
+                class: 'my-custom-class',
+              },
+              keepMarks: false,
+            }),
           CodeBlockLowlight
             .extend({
               addNodeView() {
@@ -84,8 +87,7 @@ export default {
             })
             .configure({ lowlight }),
         ],
-        content: 
-          `${temp}`
+        content: `${this.code}`
         ,
       })
       console.log(this.editor.options.content)
