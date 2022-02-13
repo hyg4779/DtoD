@@ -7,34 +7,60 @@
         <br>
         (How To Use)
       </div>
-      <!-- <div class="image">
-        <img src="../../assets/about/howtouse/001.png" alt="001">
-        <img src="../../assets/about/howtouse/002.png" alt="002">
-        <img src="../../assets/about/howtouse/003.png" alt="003">
-        <img src="../../assets/about/howtouse/002.png" alt="002">
-        <img src="../../assets/about/howtouse/004.png" alt="004">
-      </div> -->
-      <div class="flow">
-        <div class="flowtitle">1. 스터디 진행의 흐름</div>
-        <div class="flowcontainer">
-          <div class="flowcontent">
-            흐름 내용
+      <div class="study-image">
+        <img class="image1" src="../../assets/about/howtouse/001.png" alt="001">
+        <img class="image2" src="../../assets/about/howtouse/002.png" alt="002">
+        <img class="image3" src="../../assets/about/howtouse/003.png" alt="003">
+        <img class="image2" src="../../assets/about/howtouse/002.png" alt="002">
+        <img class="image4" src="../../assets/about/howtouse/004.png" alt="004">
+      </div>
+      <div class="study">
+        <div class="studytitle">1. 스터디룸 이용방법</div>
+        <div class="studycontainer">
+          <div class="studycontent">
+            <div class="studycontent-title1">스터디를 모집할 경우</div>
+            <div class="studycontent-detail1">
+              <p>1-1) 먼저 게시판의 스터디 모집을 통해 본인이 희망하는 조건을 적어서 글을 게시합니다.</p>
+              <p>1-2) <span>기입한 오픈 카카오톡 혹은 연락처를 통해,</span> 연락이 오면 얘기하면서 스터디원을 모집합니다.</p>
+              <p>1-3) 스터디원 모집이 완료가 되면, 스터디룸내에서 스터디를 개설합니다.</p>
+              <p>1-4) 내 학습 페이지로 이동 후, 내가 개설한 스터디에서 온라인 스터디실로 입장합니다.</p>
+            </div>
+            <div class="studycontent-title2">스터디를 찾는 경우</div>
+            <div class="studycontent-detail2">
+              <p>1-1) 먼저 게시판의 스터디 모집을 통해 원하는 스터디가 있는지 찾습니다.</p>
+              <p>1-2) 기입된 오픈 카카오톡 혹은 연락처를 통해 스터디장과 연락합니다.</p>
+              <p>1-3) 스터디룸내에서 진행중인 스터디 게시글에서 <span>스터디장에게 받은 비밀번호와 신청 버튼을 누릅니다.</span></p>
+              <p>1-4) 내 학습 페이지로 이동 후, 내가 참여하는 스터디에서 온라인 스터디실로 입장합니다.</p>
+            </div>
           </div>
+        </div>
+      </div>
+      <hr>
+      <div class="board-image">
+        <div>
+          <img class="image1" src="../../assets/about/howtouse/005.png" alt="005">
+          <img class="image2" src="../../assets/about/howtouse/002.png" alt="002">
+          <img class="image3" src="../../assets/about/howtouse/006.png" alt="006">
+        </div>
+        <div>
+          <img class="image4" src="../../assets/about/howtouse/005.png" alt="005">
+          <img class="image2" src="../../assets/about/howtouse/002.png" alt="002">
+          <img class="image5" src="../../assets/about/howtouse/007.png" alt="007">
+          <img class="image6" src="../../assets/about/howtouse/008.png" alt="008">
         </div>
       </div>
       <div class="board">
         <div class="boardtitle">2. 게시판 이용방법</div>
         <div class="boardcontainer">
           <div class="boardcontent">
-            게시판
-          </div>
-        </div>
-      </div>
-      <div class="study">
-        <div class="studytitle">3. 스터디룸 이용방법</div>
-        <div class="studycontainer">
-          <div class="studycontent">
-            스터디룸
+            <p>2-1) 먼저 게시판은 스터디 모집 게시판과, 자유/질문 게시판이 있습니다.</p>
+            <p>2-2) 스터디 게시판에서는 직접 스터디원을 구인하기 위한 글을 쓸 수 있으며,</p>
+            <p>2-3) 원하는 스터디를 직접 골라서 스터디장과 연락할 수 있습니다.</p>
+            <p>2-4) 자유 게시판에서는 <span>부적절한 주제를 제외한</span> 모든 글을 게시할 수 있습니다.</p>
+            <p>2-5) 게시글에서 자유롭게 댓글로 얘기 할 수 있습니다.</p>
+            <p>2-6) 질문 게시판에서는 자신이 궁금한 코드를 첨부하여 글을 게시할 수 있습니다.</p>
+            <p>2-7) 주의할 점은 코드 첨부 시, <span>코드 저장 버튼을 꼭 눌러줘야합니다.</span></p>
+            <p>2-7) 게시글에서 자유롭게 댓글로 질문에 대해 얘기 할 수 있습니다.</p>
           </div>
         </div>
       </div>
@@ -74,44 +100,80 @@ export default {
   color: #24274A;
 }
 
-/* .howtouse .container .image {
+.howtouse .container .study-image {
   display: flex;
 }
 
-.howtouse .container .image img {
-  height: 50%;
-  width: 20%;
-} */
-
-.howtouse .flow .flowtitle {
-  font-family: 'Dohyeon';
-  font-size: 1.5vw;
-  margin: 10vh 0 0 0;
-  color: #24274A;
+.howtouse .container .study-image .image1 {
+  height: 16vh;
+  width: 22vw;
+  margin: 1vw auto;
+}
+.howtouse .container .study-image .image2 {
+  height: 5vh;
+  width: 3vw;
+  margin: 8vh 1vw 1vh 1vw;
+}
+.howtouse .container .study-image .image3 {
+  height: 16vh;
+  width: 22vw;
+  margin: 1vw auto;
+}
+.howtouse .container .study-image .image4 {
+  height: 18vh;
+  width: 16vw;
+  margin: 1vw auto;
 }
 
-.howtouse .flow .flowcontainer {
+.howtouse .container .board-image {
   display: flex;
-  justify-content: center;
-  margin: 3vh 0 0 0;
+  flex-direction: column;
+  margin: 8vh 0 0 0;
 }
 
-.howtouse .flow .flowcontainer img {
-  margin: auto 0;
-  height: 14vh;
-  margin: 0 1.5vw 0 0;
+.howtouse .container .board-image div {
+  display: flex;
 }
 
-.howtouse .flow .flowcontainer .flowcontent {
-  margin: auto 0;
-  font-family: 'Hanna';
-  font-size: 1vw;
+.howtouse .container .board-image .image1 {
+  height: 16vh;
+  width: 20vw;
+  margin: 1vw auto;
+}
+.howtouse .container .board-image .image2 {
+  height: 5vh;
+  width: 3vw;
+  margin: 8vh 1vw 1vh 1vw;
+}
+.howtouse .container .board-image .image3 {
+  height: 25vh;
+  width: 16vw;
+  margin: 1vw auto;
+}
+.howtouse .container .board-image .image4 {
+  height: 18vh;
+  width: 20vw;
+  margin: 1vw auto;
+}
+.howtouse .container .board-image .image5 {
+  height: 22vh;
+  width: 16vw;
+  margin: 1vw auto;
+}
+.howtouse .container .board-image .image6 {
+  height: 18vh;
+  width: 16vw;
+  margin: 1vw auto;
+}
+
+.howtouse .board {
+  margin: 0 0 5vh 0;  
 }
 
 .howtouse .board .boardtitle {
   font-family: 'Dohyeon';
   font-size: 1.5vw;
-  margin: 10vh 0 0 0;
+  margin: 5vh 0 0 0;
   color: #24274A;
 }
 
@@ -136,7 +198,7 @@ export default {
 .howtouse .study .studytitle {
   font-family: 'Dohyeon';
   font-size: 1.5vw;
-  margin: 10vh 0 0 0;
+  margin: 5vh 0 0 0;
   color: #24274A;
 }
 
@@ -156,5 +218,31 @@ export default {
   margin: 0 0 5vh 0;
   font-family: 'Hanna';
   font-size: 1vw;
+}
+
+.howtouse .study .studycontainer .studycontent .studycontent-title1 {
+  font-family: 'Dohyeon';
+  font-size: 1vw;
+  margin: 0 0 1vh 0;
+  color: #FFAB5E;
+}
+
+.howtouse .study .studycontainer .studycontent .studycontent-detail1 {
+  font-size: 1vw;
+  margin: 0 0 3vh 0;
+}
+
+.howtouse .study .studycontainer .studycontent .studycontent-title2 {
+  font-family: 'Dohyeon';
+  font-size: 1vw;
+  margin: 0 0 1vh 0;
+  color: #FFAB5E;
+}
+.howtouse .study .studycontainer .studycontent .studycontent-detail1 {
+  font-size: 1vw;
+}
+
+span {
+  background-color: #FC8F8F;
 }
 </style>
