@@ -1,39 +1,37 @@
 <template>
   <div class="myinfo">
-    <div class="profileicon">
-      <img v-if="credentials.userImg" :src="credentials.userImg">
-      <img v-else src="../../assets/default_user.png">
-    </div>
-    <div class="profilebutton">
-      <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->
-      <label for="profileimg">이미지 선택</label>
-      <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
-      <button class="imgadd"  @click="onUpload">이미지 등록</button>
-    </div>
-    <div
-      v-if="uploadValue != 0"
-      class="progress">업로드:
-      {{ uploadValue.toFixed() + "%" }}
-    </div>
+    <!-- <div> -->
+      <div class="profileicon">
+        <img v-if="picture" :src="picture">
+        <img v-else src="../../assets/default_user.png">
+      </div>
+      <div class="profilebutton">
+        <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->
+        <label for="profileimg">이미지 선택</label>
+        <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
+        <button class="imgadd"  @click="onUpload">이미지 등록</button>
+      </div>
+      <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
+    <!-- </div> -->
     <b-form class="form">
       <div class="nickname">
         <div>
           <label class="nicknamelabel" for="nickname">닉네임</label>
           <b-form-input
             id="nickname"
-            v-model="newName"
+            v-model="credentials.nickname"
             type="text"
             required
           >
           </b-form-input>
         </div>
         <div class="doublecheck">
-          <button @click="nameCheck">중복체크</button>
+          <button @click="doubleCheck">중복체크</button>
         </div>
       </div>
       <label class="joblabel" for="input-with-list">희망 직무를 선택하세요</label>
       <b-form-input
-        v-model="credentials.userJobs"
+        v-model="credentials.jobs"
         list="input-list"
         id="input-with-list">
       </b-form-input>
@@ -52,7 +50,7 @@
         <div>
           <v-checkbox v-model="stacks.c" label="C"/>
           <v-checkbox v-model="stacks.cpp" label="C++"/>
-          <v-checkbox v-model="stacks.python" label="Python"/>
+          <v-checkbox v-model="stacks.python" label="python"/>
           <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
         </div>
         <div>
@@ -81,15 +79,13 @@ import { api } from '../../../api.js'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
 
-const token = localStorage.getItem('jwt')
-
 export default {
   name: 'MyInfo',
   data() {
     return {
-      uploadValue : 0,  // 이미지 업로드 진행상황 (단위: %)
-      picture: null,    // 변경한 이미지를 담는 변수
-      imageData: null,  // firebase에 담을 image를 
+      uploadValue : 0,
+      picture: null,
+      imageData: null,
 
       stacks: {
         javascript: false,
@@ -121,50 +117,23 @@ export default {
       ],
 
       credentials: {
-        userEmail: null,
-        userImg: null,
-        userJobs: null,
-        userName: null,
-        userTechstack: null,
+        nickname: null,
+        jobs: null,
+        skills: [],
       },
-      newName: null,
+      tech: '',
+      userEmail: '',
+      userName: '',
+      userJobs: '',
       nicknameCheck: null
     }
   },
   methods: {
-    // 초기화
-    credentialsInit(){
-
-      this.nicknameCheck = null
-      this.picture = this.credentials.userImg
-
-      this.credentials = this.$store.state.userInfo
-
-      // v-model로 연동된 닉네임 값
-      this.newName = this.credentials.userName    
-
-      // user 기술스텍을 받아서 현재 stack값 초기화
-      let userStacks = this.credentials.userTechstack 
-      console.log(userStacks)
-      for(let property in this.stacks){
-        console.log(userStacks.includes(property))
-        if (userStacks.includes(property)===true){
-          this.stacks[property] = true
-        }else{
-          this.stacks[property] = false
-        }
-      }
-    },
-    //
     previewImage(event) { 
-      this.uploadValue = 0; 
-      this.picture = null; 
-      console.log(this.imageData)
+      this.uploadValue=0; 
+      this.picture=null; 
       this.imageData = event.target.files[0]; 
-      console.log(this.imageData)
     }, 
-
-    // 이미지 파일 등록 메서드
     onUpload( ){ 
       // this.picture=null;
       const storageRef = firebase.storage().ref(`${this. imageData.name}`).put(this.imageData); 
@@ -180,29 +149,27 @@ export default {
       }
       )
     },
-
-    // 닉네임 중복체크 메서드
-    nameCheck () {
-      if(this.newName === this.credentials.userName){
-        alert('같은 닉네임 입니다')
-        return 
-      }
-      if (this.newName.length >= 2) {
+    doubleCheck (event) {
+      event.preventDefault()
+      const token = localStorage.getItem('jwt')
+      if (this.credentials.nickname !== null && this.credentials.nickname.length >= 2) {
         axios({
-          url: api.NICKNAME_CHECK + `${this.credentials.userName}`,
+          url: api.NICKNAME_CHECK + `${this.credentials.nickname}`,
           method: 'GET',
           headers: {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          console.log(res.data) // true면 중복됨
-          if (res.data) {
-            this.nicknameCheck = false
-            alert('현재 사용중인 닉네임입니다.')
+          console.log(res)
+          if (res.data === true) {
+            this.nicknameCheck = res.data
+            console.log(this.nicknameCheck)
+            alert('중복되는 닉네임이 있습니다.')
           }
           else {
-            this.nicknameCheck = true
-            alert('사용 가능합니다.')
+            this.nicknameCheck = res.data
+            console.log(this.nicknameCheck)
+            alert('중복되는 닉네임이 없습니다.')
           }
         }).catch(err=>{
           console.log(err)
@@ -212,63 +179,275 @@ export default {
         alert("닉네임을 2자 이상 입력하세요")
       }
     },
-
-    // 체크한 기술스텍만 담는 메서드
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
         if (this.stacks[property] !== false){
-          this.credentials.userTechstack.push(property)
+          this.credentials.skills.push(property)
         }
       }
     },
-
-    // 개인정보 수정 메서드
+    stackCheckOut () {
+      this.credentials.skills = []
+    },
+    stackFalse () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }
+    },
     onSubmit(event) {
+      this.stacksCheck()
+      // console.log(this.nicknameCheck)
       event.preventDefault()
-
-      let userData = this.credentials
-      if (this.newName === this.credentials.userName || this.nicknameCheck === true) {
-        if (0 < this.credentials.userTechstack.length) {
-          if (this.credentials.userJobs !== null && this.options.includes(this.credentials.userJobs)) {
+      if (this.nicknameCheck !== null && this.nicknameCheck === false) {
+        if (0 < this.credentials.skills.length) {
+          if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
+            const token = localStorage.getItem('jwt')
             axios({
               url: api.USER_INFO_CHANGE,
               method: 'PUT',
               data: {
-                userData
+                userEmail: this.userEmail,
+                userImg: this.picture,
+                userJobs: this.credentials.jobs,
+                userName: this.credentials.nickname,
+                userTechstack: this.credentials.skills
               },
               headers: {
                 Authorization: 'Bearer ' + token
               },
             }).then(()=> {
-              
               this.$router.go();
             }).catch(err=>{
               console.error(err)
             })
           }
           else {
-            // 초기화
-            this.credentialsInit()
+            this.stackFalse()
+            this.stackCheckOut()
+            this.nicknameCheck = null
+            this.credentials.jobs = this.userJobs
             alert("직업 선택을 리스트에서 선택해주세요")
+            const token = localStorage.getItem('jwt')
+            axios ({
+              method: 'get',
+              url: api.USER_INFO_GET,
+              headers: { 
+                Authorization: 'Bearer ' + token
+              }
+            }).then(res=>{
+              this.tech = res.data.userTechstack
+              const t = this.tech
+              const temp = t.split(',')
+              let result = []
+              for(let i = 0; i < temp.length; i++){
+                result.push(temp[i])
+              }
+              for(let j = 0; j < result.length; j++){
+                for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                  if (result[j] === Object.keys(this.stacks)[k]){
+                    this.stacks[Object.keys(this.stacks)[k]] = true
+                  }
+                }
+              }
+            }).catch(err=> {
+              console.log(err)
+            })
           }
         }
         else {
-          // 초기화
-          this.credentialsInit()
+          this.stackFalse()
+          this.stackCheckOut()
+          this.nicknameCheck = null
+          this.credentials.jobs = this.userJobs
           alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
+          const token = localStorage.getItem('jwt')
+          axios ({
+            method: 'get',
+            url: api.USER_INFO_GET,
+            headers: { 
+              Authorization: 'Bearer ' + token
+            }
+          }).then(res=>{
+            this.tech = res.data.userTechstack
+            const t = this.tech
+            const temp = t.split(',')
+            let result = []
+            for(let i = 0; i < temp.length; i++){
+              result.push(temp[i])
+            }
+            for(let j = 0; j < result.length; j++){
+              for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                if (result[j] === Object.keys(this.stacks)[k]){
+                  this.stacks[Object.keys(this.stacks)[k]] = true
+                }
+              }
+            }
+          }).catch(err=> {
+            console.log(err)
+          })
+        }
+      }
+      else if (this.userName === this.credentials.nickname) {
+        // this.nicknameCheck = true
+        if (0 < this.credentials.skills.length) {
+          if (this.credentials.jobs !== null && this.options.includes(this.credentials.jobs)) {
+            const token = localStorage.getItem('jwt')
+            axios({
+              url: api.USER_INFO_CHANGE,
+              method: 'PUT',
+              data: {
+                userEmail: this.userEmail,
+                userImg: this.picture,
+                userJobs: this.credentials.jobs,
+                userName: this.credentials.nickname,
+                userTechstack: this.credentials.skills
+              },
+              headers: {
+                Authorization: 'Bearer ' + token
+              },
+            }).then(()=> {
+              this.$router.go();
+            }).catch(err=>{
+              console.error(err)
+            })
+          }
+          else {
+            this.stackFalse()
+            this.stackCheckOut()
+            this.nicknameCheck = null
+            this.credentials.jobs = this.userJobs
+            alert("직업 선택을 리스트에서 선택해주세요")
+            const token = localStorage.getItem('jwt')
+            axios ({
+              method: 'get',
+              url: api.USER_INFO_GET,
+              headers: { 
+                Authorization: 'Bearer ' + token
+              }
+            }).then(res=>{
+              this.tech = res.data.userTechstack
+              const t = this.tech
+              const temp = t.split(',')
+              let result = []
+              for(let i = 0; i < temp.length; i++){
+                result.push(temp[i])
+              }
+              for(let j = 0; j < result.length; j++){
+                for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                  if (result[j] === Object.keys(this.stacks)[k]){
+                    this.stacks[Object.keys(this.stacks)[k]] = true
+                  }
+                }
+              }
+            }).catch(err=> {
+              console.log(err)
+            })
+          }
+        }
+        else {
+          this.stackFalse()
+          this.stackCheckOut()
+          this.nicknameCheck = null
+          this.credentials.jobs = this.userJobs
+          alert("기술 스택 및 협업 툴을 1개 이상 선택해주세요")
+          const token = localStorage.getItem('jwt')
+          axios ({
+            method: 'get',
+            url: api.USER_INFO_GET,
+            headers: { 
+              Authorization: 'Bearer ' + token
+            }
+          }).then(res=>{
+            this.tech = res.data.userTechstack
+            const t = this.tech
+            const temp = t.split(',')
+            let result = []
+            for(let i = 0; i < temp.length; i++){
+              result.push(temp[i])
+            }
+            for(let j = 0; j < result.length; j++){
+              for (let k = 0; k < Object.keys(this.stacks).length; k++){
+                if (result[j] === Object.keys(this.stacks)[k]){
+                  this.stacks[Object.keys(this.stacks)[k]] = true
+                }
+              }
+            }
+          }).catch(err=> {
+            console.log(err)
+          })
         }
       }
       else {
-        // 초기화
-        this.credentialsInit()
+        this.stackFalse()
+        this.stackCheckOut()
+        this.nicknameCheck = null
         alert('닉네임 중복검사를 해주세요')
+        const token = localStorage.getItem('jwt')
+        axios ({
+          method: 'get',
+          url: api.USER_INFO_GET,
+          headers: { 
+            Authorization: 'Bearer ' + token
+          }
+        }).then(res=>{
+          this.tech = res.data.userTechstack
+          const t = this.tech
+          const temp = t.split(',')
+          let result = []
+          for(let i = 0; i < temp.length; i++){
+            result.push(temp[i])
+          }
+          for(let j = 0; j < result.length; j++){
+            for (let k = 0; k < Object.keys(this.stacks).length; k++){
+              if (result[j] === Object.keys(this.stacks)[k]){
+                this.stacks[Object.keys(this.stacks)[k]] = true
+              }
+            }
+          }
+        }).catch(err=> {
+          console.log(err)
+        })
       }
     },
   },
-  beforeMount() {
-    // vuex에 있는 user 정보 받아옴
-    this.credentialsInit()
+  created() {
+    const token = localStorage.getItem('jwt')
+
+    axios ({
+      method: 'get',
+      url: api.USER_INFO_GET,
+      headers: { 
+        Authorization: 'Bearer ' + token
+      }
+    }).then(res=>{
+      console.log(res)
+      this.credentials.nickname = res.data.userName
+      this.credentials.jobs = res.data.userJobs
+      this.tech = res.data.userTechstack
+      this.userName = res.data.userName
+      this.userEmail = res.data.userEmail
+      this.userJobs = res.data.userJobs
+      this.picture = res.data.userImg
+      const t = this.tech
+      const temp = t.split(',')
+      let result = []
+      for(let i = 0; i < temp.length; i++){
+        result.push(temp[i])
+      }
+      for(let j = 0; j < result.length; j++){
+        for (let k = 0; k < Object.keys(this.stacks).length; k++){
+          if (result[j] === Object.keys(this.stacks)[k]){
+            this.stacks[Object.keys(this.stacks)[k]] = true
+          }
+        }
+      }
+    }).catch(error => {
+      console.log(error)
+    })
   }
 }
 </script>

@@ -5,7 +5,7 @@
       <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
+          <img v-else src="../../../../assets/default_user.png">
         </div>
         <div class="commentprofilename">{{ getName }}</div>
         <div class="time">
@@ -22,7 +22,7 @@
 
 <script>
 import axios from 'axios'
-import { api } from '../../../../api.js'
+import { api } from '../../../../../api.js'
 
 export default {
   data() {

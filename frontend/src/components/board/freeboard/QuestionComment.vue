@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     getComment() {
-      console.log(this.comment)
+      // console.log(this.comment)
       return this.comment.ccommentContent
     },
     getName() {
@@ -57,7 +57,7 @@ export default {
       const timeString = hours + ':' + minutes  + ':' + seconds;
       const tmp = this.comment.ccommentTime.slice(11,19)
       // console.log(timeString)
-      console.log(tmp)
+      // console.log(tmp)
       // console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))
       // console.log(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)))
       // console.log(Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))))
@@ -150,7 +150,7 @@ export default {
     }
   },
   created() {
-    console.log(this.comment)
+    // console.log(this.comment)
     this.getTime()
     const token = localStorage.getItem('jwt')
     axios({

@@ -4,7 +4,7 @@
       <h2>{{title}}</h2>
       <div class="profileicon">
         <img v-if="itemuserImg" :src="itemuserImg"> 
-        <img v-else src="../../../assets/default_user.png">
+        <img v-else src="../../../../assets/default_user.png">
       </div>
       작성자: {{itemuserName}}
     </header>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div>
-      <FreeComment 
+      <MyFreeComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
         :comment="comment"
@@ -41,7 +41,7 @@
     <div class="commentprofilebox">
       <div class="commentprofileicon">
         <img v-if="userImg" :src="userImg"> 
-        <img v-else src="../../../assets/default_user.png">
+        <img v-else src="../../../../assets/default_user.png">
       </div>
       <div class="commentprofilename">{{userName}}</div>
     </div>
@@ -63,14 +63,14 @@
 </template>
 
 <script>
-import { api } from '../../../../api.js'
+import { api } from '../../../../../api.js'
 import axios from 'axios'
-import FreeComment from "./FreeComment.vue"
+import MyFreeComment from "./MyFreeComment.vue"
 
 export default {
   name: 'ItemDetail',
   components: {
-    FreeComment,
+    MyFreeComment,
   },
   props: {
     item_pk: Number,
