@@ -138,7 +138,7 @@ export default {
   color: #24274A;
   height: 4vh;
   width: 5vw;
-  margin: 7.5vh 0 0 2vw;
+  margin: 7vh 0 0 1.5vw;
   background-color: white;
   border-radius: 0.8rem;
   box-shadow: none !important;

@@ -71,7 +71,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res.data)
+      // console.log(res.data)
       // this.code = res.data.cboardCode.split('\n').join('<br />');
       // this.code = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
       // this.code = res.data.cboardCode.replace(/(?:\r\n|\r|\n)/g, '<br />')

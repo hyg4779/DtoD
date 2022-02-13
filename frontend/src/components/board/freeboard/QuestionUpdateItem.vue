@@ -211,7 +211,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       this.title = res.data.cboardTitle
       this.category = res.data.cboardType
       this.content = res.data.cboardContent

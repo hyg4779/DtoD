@@ -309,13 +309,13 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res)
+      // console.log(res)
       const temp = []
       res.data.forEach((element)=>{
         temp.push(element)
       })
       this.comments = temp
-      console.log(this.comments)
+      // console.log(this.comments)
     }).catch((err)=>{
       console.error(err)
     })

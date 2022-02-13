@@ -152,7 +152,22 @@ export default {
   created() {
     // console.log(this.comment)
     this.getTime()
+    // const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
+
+    // axios({
+    //   url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: 'Bearer ' + token
+    //   },
+    // }).then((res)=>{
+    //   console.log(res.data)
+
+    // }).catch((err)=>{
+    //   console.error(err)
+    // })
+
     axios({
       url: api. USER_INFO_GET,
       method: 'GET',
