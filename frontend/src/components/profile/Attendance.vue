@@ -18,7 +18,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+import { api } from '../../../api.js'
 import Calendars from './Calendars.vue';
 
 export default {
@@ -32,9 +33,24 @@ export default {
       activeListData: null,
     };
   },
-  methods: {  
-    },
+  created() {
+    const token = localStorage.getItem('jwt')
 
+
+    axios({
+      url: api. USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userImg = res.data.userImg
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
+  }
 }
 </script>
 
