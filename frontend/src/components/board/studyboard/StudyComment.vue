@@ -155,18 +155,7 @@ export default {
     // const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
 
-    // axios({
-    //   url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: 'Bearer ' + token
-    //   },
-    // }).then((res)=>{
-    //   console.log(res.data)
-
-    // }).catch((err)=>{
-    //   console.error(err)
-    // })
+    this.userImg = this.comment.user.userImg
 
     axios({
       url: api. USER_INFO_GET,
@@ -177,7 +166,6 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
-      this.userImg = res.data.userImg
     }).catch((err)=>{
       console.error(err)
     })

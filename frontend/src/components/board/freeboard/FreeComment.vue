@@ -153,6 +153,9 @@ export default {
     // console.log(this.comment)
     this.getTime()
     const token = localStorage.getItem('jwt')
+
+    this.userImg = this.comment.user.userImg
+
     axios({
       url: api. USER_INFO_GET,
       method: 'GET',
@@ -162,7 +165,6 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
-      this.userImg = res.data.userImg
     }).catch((err)=>{
       console.error(err)
     })
