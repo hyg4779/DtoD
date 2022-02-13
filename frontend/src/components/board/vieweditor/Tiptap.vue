@@ -70,7 +70,7 @@ export default {
       // this.code = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
       // this.code = res.data.cboardCode.replace(/(?:\r\n|\r|\n)/g, '<br />')
       this.code = res.data.cboardCode
-      console.log(this.code)
+      // console.log(this.code)
       this.editor = new Editor({
         editable: this.editable,
         extensions: [

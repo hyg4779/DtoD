@@ -121,7 +121,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      console.log(res.data)
+      // console.log(res.data)
       // db에 저장된 item의 기술스텍 가져오기
       let stacks = res.data.sboardTechstack
       // 배열로 저장
@@ -130,15 +130,15 @@ export default {
 
       // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
       if(result.length >= 4){
-        console.log(result.slice(0,3))
+        // console.log(result.slice(0,3))
         this.imgs = result.slice(0,3)
       }else{
         this.imgs = result
       }
       this.imgPath = res.data.sboardImg
       this.style.backgroundColor = res.data.sboardImg
-      console.log(this.imgPath)
-      console.log(this.style.backgroundColor)
+      // console.log(this.imgPath)
+      // console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })

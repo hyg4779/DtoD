@@ -36,7 +36,7 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         const temp = []
         let lodashtemp = []
         res.data.forEach((element)=>{
@@ -55,7 +55,7 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         const temp = []
         let lodashtemp = []
         res.data.forEach((element)=>{
