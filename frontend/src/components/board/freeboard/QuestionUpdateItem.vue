@@ -1,7 +1,7 @@
 <template>
   <div class="updateboard">
     <div class="title">
-      스터디 모집
+      게시글 수정
     </div>
     <form>
       <div class="form-group">
@@ -14,44 +14,42 @@
         <div class="checkbox">
           <div>
             <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
-            <v-checkbox v-model="stacks.react" label="React.js"/>
-            <v-checkbox v-model="stacks.vue" label="Vue.js"/>
-            <v-checkbox v-model="stacks.node" label="Node.js"/>
-          </div>
-          <div>
             <v-checkbox v-model="stacks.c" label="C"/>
-            <v-checkbox v-model="stacks.cpp" label="C++"/>
-            <v-checkbox v-model="stacks.cs" label="C#"/>
-            <v-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
-          </div>
-          <div>
             <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-            <v-checkbox v-model="stacks.django" label="Django"/>
-            <v-checkbox v-model="stacks.go" label="Go"/>
-            <v-checkbox v-model="stacks.swift" label="Swift"/>
+            <v-checkbox v-model="stacks.java" label="Java"/>
           </div>
           <div>
-            <v-checkbox v-model="stacks.java" label="Java"/>
+            <v-checkbox v-model="stacks.react" label="React"/>
+            <v-checkbox v-model="stacks.cpp" label="C++"/>
+            <v-checkbox v-model="stacks.django" label="Django"/>
             <v-checkbox v-model="stacks.spring" label="Spring"/>
+          </div>
+          <div>
+            <v-checkbox v-model="stacks.vue" label="Vue"/>
+            <v-checkbox v-model="stacks.python" label="Python"/>
+            <v-checkbox v-model="stacks.go" label="Go"/>
             <v-checkbox v-model="stacks.flutter" label="Flutter"/>
+          </div>
+          <div>
+            <v-checkbox v-model="stacks.node" label="Node"/>
+            <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
+            <v-checkbox v-model="stacks.swift" label="Swift"/>
             <v-checkbox v-model="stacks.etc" label="Etc"/>
           </div>
         </div>
       </div>
       <div class="detail1 form-group">
-         <label for="content1">오픈 카카오톡 (연락처)</label>
+        <label for="content">내용</label>
         <br>
-        <textarea class="form-control" type="text" id="content1" v-model="content1" placeholder=" 연락처를 입력하세요"></textarea>
+        <textarea class="form-control" type="text" id="content" v-model="content" placeholder=" 내용를 입력하세요"></textarea>
       </div>
-      <div class="detail2 form-group">
-         <label for="content2">스터디 소개</label>
+      <div v-if="this.category === '질문'" class="detail2 form-group">
+        <Tiptap
+        :itempk="itempk"
+        @code-save="codesave"/>
+        <!-- <label for="code">코드 입력</label>
         <br>
-        <textarea class="form-control" type="text" id="content2" v-model="content2" placeholder=" 스터디 소개를 입력하세요"></textarea>
-      </div>
-      <div class="detail3 form-group">
-        <label for="content3">스터디 규칙</label>
-        <br>
-        <textarea class="form-control" type="text" id="content3" v-model="content3" placeholder=" 스터디 규칙을 입력하세요"></textarea>
+        <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea> -->
       </div>
       <div class="submitbtn">
         <button class="cancel" @click="back()">취소</button>
@@ -64,38 +62,80 @@
 
 <script>
 import { api } from '../../../../api.js'
+import Tiptap from '../updateeditor/Tiptap.vue'
 import axios from 'axios'
 
 export default {
   name: 'UpdateItem',
+  components: {
+    Tiptap,
+  },
   props: {
     itempk: Number,
   },
   data () {
     return {
-      title: '',
-      content1: '',
-      content2: '',
-      content3: '',
-      images: [
-        '001.png',
-        '002.png',
-        '003.png',
-      ],
-      img: '',
+      title: null,
+      content: null,
+      code: null,
       stacks: {
-        javascript: false, c: false, kotlin: false, java: false, 
-        react: false, cpp: false, django: false, spring: false, 
-        vue: false, cs: false, go: false, flutter: false, 
-        node: false, typescript: false, swift: false, etc: false},
+        javascript: false,
+        c: false,
+        kotlin: false,
+        java: false, 
+        react: false,
+        cpp: false,
+        django: false,
+        spring: false, 
+        vue: false,
+        python: false,
+        go: false,
+        flutter: false, 
+        node: false,
+        typescript: false,
+        swift: false,
+        etc: false
+      },
       skills: [],
       tech: '',
+      category: null,
     }
   },
 
   methods:{
     back () {
       this.$router.replace()
+    },
+    codesave(value){
+      this.code = value
+      console.log(this.code)
+    },
+    getStack () {
+      const token = localStorage.getItem('jwt')
+      axios({
+        url:  api.GET_FREE_BOARD_DETAIL + `${this.itempk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        this.tech = res.data.cboardTechstack
+        const t = this.tech
+        const temp = t.split(',')
+        let result = []
+        for(let i = 0; i < temp.length; i++){
+          result.push(temp[i])
+        }
+        for(let j = 0; j < result.length; j++){
+          for (let k = 0; k < Object.keys(this.stacks).length; k++){
+            if (result[j] === Object.keys(this.stacks)[k]){
+              this.stacks[Object.keys(this.stacks)[k]] = true
+            }
+          }
+        }
+      }).catch((err)=>{
+        console.error(err)
+      })
     },
     stacksCheck () {
       for (let property in this.stacks){
@@ -104,52 +144,79 @@ export default {
         }
       }
     },
+    stackInit () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }
+      this.skills = []
+    },
     updateFin(event) {
       event.preventDefault()
       this.stacksCheck()
-       if (this.title.length <= 50) {
-        const token = localStorage.getItem('jwt')
-        axios({
-          url: api.UPDATE_STUDY_BOARD,
-          method: 'PUT',
-          data: {
-            sboardId: this.itempk,
-            sboardTitle: this.title,
-            sboardContent1: this.content1,
-            sboardContent2: this.content2,
-            sboardContent3: this.content3,
-            sboardTechstack: this.skills,
-          },
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-        }).then(()=>{
-          this.$emit('update-fin')
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 50자 이하로 입력하세요.")
+      if (0 < this.title.length && this.title.length <= 50) {
+        if (0 < this.skills.length && this.skills.length <= 4) {
+          if (10 < this.content.length) {
+            const token = localStorage.getItem('jwt')
+            axios({
+              url: api.UPDATE_FREE_BOARD,
+              method: 'PUT',
+              data: {
+                cboardId: this.itempk,
+                cboardTitle: this.title,
+                cboardContent: this.content,
+                cboardTechstack: this.skills,
+                cboardCode: this.code,
+                cboardType: this.category,
+              },
+              headers: {
+                Authorization: 'Bearer ' + token
+              },
+            }).then(()=>{
+              this.$emit('update-fin')
+            }).catch(err=>{
+              console.error(err)
+            })
+          }
+          else {
+            alert('내용을 10자 이상 입력해주세요')
+            this.stackInit()
+            this.getStack()
+          }
+        }
+        else {
+          alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+          this.stackInit()
+          this.getStack()
+        }
+      }
+      else {
+        alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackInit()
+        this.getStack()
       }  
+       
+
     },
   },
   created() {
     // console.log(this.itempk)
     const token = localStorage.getItem('jwt')
     axios({
-      url:  api.GET_STUDY_BOARD_DETAIL + `${this.itempk}`,
+      url:  api.GET_FREE_BOARD_DETAIL + `${this.itempk}`,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
-      this.itemuserName = res.data.user.userName
-      this.title = res.data.sboardTitle
-      this.tech = res.data.sboardTechstack
-      this.content1 = res.data.sboardContent1
-      this.content2 = res.data.sboardContent2
-      this.content3 = res.data.sboardContent3
+      console.log(res)
+      this.title = res.data.cboardTitle
+      this.category = res.data.cboardType
+      this.content = res.data.cboardContent
+      this.tech = res.data.cboardTechstack
+      this.code = res.data.cboardCode
       const t = this.tech
       const temp = t.split(',')
       let result = []
@@ -210,26 +277,8 @@ form .detail1 textarea {
   padding: 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 0.5rem;
-  height: 4vh;
-  width: 45rem;
-}
-
-form .detail2 textarea {
-  margin: 0 0 2vh 0;
-  border: 0.1px solid #C4C4C4;
-  border-radius: 0.5rem;
   height: 30vh;
   width: 45rem;
-  margin-bottom: 2vh;
-}
-
-form .detail3 textarea {
-  margin: 0 0 2vh 0;
-  border: 0.1px solid #C4C4C4;
-  border-radius: 0.5rem;
-  height: 30vh;
-  width: 45rem;
-  margin-bottom: 2vh;
 }
 
 form .checkbox {

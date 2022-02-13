@@ -1,15 +1,15 @@
 <template>
 <div class="editor">
-  <!-- <div v-if="editor">
-    <input
+  <div v-if="editor">
+    <!-- <input
     type="button"
      @click="editor.chain().focus().toggleCodeBlock().run()" 
      class="code-block-btn"
      :class="{ 'is-active': editor.isActive('codeBlock') }"
      value="코드입력"
-     >
+     > -->
      <input class="code-btn" type="button" value="코드저장" @click="codesave">
-  </div> -->
+  </div>
   <editor-content  :editor="editor" />
 </div>
 </template>
@@ -37,15 +37,21 @@ export default {
   },
 
   props: {
-    item_pk: Number,
+    itempk: Number,
   },
 
   data() {
     return {
       editor: null,
-      editable: false,
-
       code: '',
+    }
+  },
+
+  methods: {
+    codesave () {
+      const code = this.editor.getJSON().content[0].content[0].text
+      // console.log(code)
+      this.$emit('code-save', code)
     }
   },
 
@@ -57,7 +63,7 @@ export default {
 
   created() {
     const token = localStorage.getItem('jwt')
-    const itempk = this.item_pk
+    const itempk = this.itempk
     axios({
       url:  api.GET_FREE_BOARD_DETAIL + itempk,
       method: 'GET',
@@ -65,14 +71,13 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res.data)
+      console.log(res.data)
       // this.code = res.data.cboardCode.split('\n').join('<br />');
       // this.code = res.data.cboardCode.replace(/(\n|\r\n)/g, '<br>');
       // this.code = res.data.cboardCode.replace(/(?:\r\n|\r|\n)/g, '<br />')
       this.code = res.data.cboardCode
       // console.log(this.code)
       this.editor = new Editor({
-        editable: this.editable,
         extensions: [
           Document,
           Paragraph,

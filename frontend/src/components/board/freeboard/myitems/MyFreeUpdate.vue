@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { api } from '../../../../api.js'
+import { api } from '../../../../../api.js'
 import axios from 'axios'
 
 export default {
@@ -46,13 +46,13 @@ export default {
     back () {
       this.$router.replace()
     },
-    // stacksCheck () {
-    //   for (let property in this.stacks){
-    //     if (this.stacks[property] !== false){
-    //       this.skills.push(property)
-    //     }
-    //   }
-    // },
+    stacksCheck () {
+      for (let property in this.stacks){
+        if (this.stacks[property] !== false){
+          this.skills.push(property)
+        }
+      }
+    },
     updateFin(event) {
       event.preventDefault()
       if (0 < this.title.length && this.title.length <= 50) {
