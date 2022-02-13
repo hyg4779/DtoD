@@ -25,6 +25,19 @@
         >
           <SwiperDetail
             :item_pk = this.item.sboardId
+            @update-modal-open="updateModalOpen"
+          />
+        </b-modal>
+        <b-modal
+          ref="updateItem"
+          centered
+          size="lg"
+          hide-footer 
+          hide-header
+        >
+          <SliderUpdate
+            :itempk="this.item_pk"
+            @update-fin="updateFin"
           />
         </b-modal>
       </div>
@@ -35,13 +48,15 @@
 
 <script>
 import SwiperDetail from './SwiperDetail.vue'
+import SliderUpdate from "./SliderUpdate.vue"
 import { api } from '../../../api.js'
 import axios from 'axios'
 
 export default {
   name: 'Slider',
   components: {
-    SwiperDetail
+    SwiperDetail,
+    SliderUpdate
   },
   props: {
     item: Object
@@ -78,6 +93,22 @@ export default {
   methods: {
     getItemDetail() {
       this.$refs['detail'].show()
+    },
+    updateModalOpen(e) {
+      this.getItemPk(e)
+      // console.log(this.item_pk)
+      this.$refs['detail'].hide()
+      this.$refs['updateItem'].show()
+    },
+    
+    updateFin(){
+      this.$refs['updateItem'].hide()
+      // this.$router.go();
+      this.$refs['detail'].show()
+    },
+    getItemPk(e) {
+      this.item_pk = e
+      return this.item_pk
     },
   },
   created() {
