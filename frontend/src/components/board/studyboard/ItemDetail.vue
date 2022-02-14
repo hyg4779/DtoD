@@ -76,23 +76,6 @@
         <p v-html="getContent(this.content1)"></p>
       </div>
     </div>
-    <div>
-      <StudyComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-    </div>
-    <hr>
-    <div class="commentprofilebox">
-      <div class="commentprofileicon">
-        <img v-if="userImg" :src="userImg"> 
-        <img v-else src="../../../assets/default_user.png">
-      </div>
-      <div class="commentprofilename">{{userName}}</div>
-    </div>
     <form @submit="commentSubmit">
       <div class="form-group" style="margin-bottom:10px;">
         <textarea 
@@ -107,6 +90,24 @@
         <button class="myBtn submit" id="sub">등록</button>
       </div>
     </form>
+    <div>
+      <StudyComment 
+        v-for="(comment, idx) in this.comments"
+        :key="idx"
+        :comment="comment"
+        :item_pk="item_pk"
+        @onParentDeleteComment="onParentDeleteComment"
+      />
+    </div>
+    <hr>
+    <!-- <div class="commentprofilebox">
+      <div class="commentprofileicon">
+        <img v-if="userImg" :src="userImg"> 
+        <img v-else src="../../../assets/default_user.png">
+      </div>
+      <div class="commentprofilename">{{userName}}</div>
+    </div> -->
+    
   </div>
 </template>
 
@@ -530,11 +531,6 @@ header h2{
   will-change: transform;
 }
 
-.submit {
-  margin: 0.7vh 0 0 0;
-  padding: 0.5vh 0.5vw 0.8vh 0.5vw;
-}
-
 .myBtn:hover {
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
@@ -554,6 +550,10 @@ header h2{
 }
 
 #sub {
-  background-color: rgb(50,100,250);
+  background-color: rgb(110,110,110);
+  font-size: 1.5vw;
+  font-weight: bold;
+  margin: 0.3vw 0.3vw;
+  width: 100%;
 }
 </style>

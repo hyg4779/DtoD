@@ -167,6 +167,11 @@ export default {
   /* align-content: stretch; */
 }
 
+.item:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
+}
+
 .btn-cover {
   margin: 3rem auto;
   text-align: center;

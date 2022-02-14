@@ -53,23 +53,6 @@
             <!-- :techstack="this.techstack" -->
         </div>
       </div>
-      <div>
-      <MyQuestionComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-      </div>
-      <hr>
-      <div class="commentprofilebox">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{this.userName}}</div>
-      </div>
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -81,9 +64,26 @@
             @keypress.enter="commentSubmit"
             >
           </textarea>
-          <button class="myBtn submit" id="sub">등록</button>
+          <button class="myBtn" id="sub">등록</button>
         </div>
       </form>
+      <div>
+      <MyQuestionComment 
+        v-for="(comment, idx) in this.comments"
+        :key="idx"
+        :comment="comment"
+        :item_pk="item_pk"
+        @onParentDeleteComment="onParentDeleteComment"
+      />
+      </div>
+      <hr>
+      <!-- <div class="commentprofilebox">
+        <div class="commentprofileicon">
+          <img v-if="userImg" :src="userImg"> 
+          <img v-else src="../../../../assets/default_user.png">
+        </div>
+        <div class="commentprofilename">{{this.userName}}</div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -491,6 +491,10 @@ export default {
 }
 
 #sub {
-  background-color: rgb(50,100,250);
+  background-color: rgb(110,110,110);
+  font-size: 1.5vw;
+  margin: 0.3vw 0.3vw;
+  width: 100%;
+  height: 100%;
 }
 </style>
