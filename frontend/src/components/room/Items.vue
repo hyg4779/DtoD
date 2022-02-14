@@ -1,7 +1,16 @@
 <template>
   <div>
+    <form @submit="searchSome" class="form">
+      <select v-model="selected" name="kind" class='form-select'>
+        <option disabled value>선택</option>
+        <option value="title">제목</option>
+        <option value="person">글쓴이</option>
+      </select>
+      <input class="form-control" v-model="search" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-success" type="submit">Search</button>
+    </form>
     <div class="items">
-      <Item
+      <Item 
         class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
@@ -9,7 +18,7 @@
       />
     </div>
     <p></p>
-    <div class="btn-cover">
+    <div v-if="this.items.length != 0" class="btn-cover" style="color:white;">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
       </button>
@@ -18,12 +27,19 @@
         다음
       </button>
     </div>
+    <div v-else>
+      <div class="nodata">
+        작성한 게시글이 없습니다
+      </div>
+    </div>
     <p></p>
   </div>
 </template>
 
 <script>
 import Item from './Item.vue'
+import axios from 'axios'
+import { api } from '../../../api.js'
 import _ from 'lodash'
 
 export default {
@@ -38,6 +54,10 @@ export default {
     return {
       pageNum: 0,
       pageSize: 6,
+
+      selected: '',
+      search: '',
+      itembox: null,
     }
   },
   methods: {
@@ -47,6 +67,51 @@ export default {
     prevPage () {
       this.pageNum -= 1;
     },
+    searchSome(event) {
+      event.preventDefault()
+      const keyword = this.search
+      const temp = []
+      this.items = this.itembox
+      if (this.selected === '') {
+        alert("카테고리를 선택해주세요")
+        this.items = this.itembox
+      }
+      else if (this.selected === 'title') {
+        // this.items = this.itembox
+        this.items.forEach((element)=>{
+          // console.log(element)
+          const title = element.roomTitle
+          if (title.indexOf(keyword) !== -1) {
+            // console.log(title)
+            temp.push(element)   
+          }
+          this.items = temp
+        })
+      } 
+      else {
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.GET_STUDY_ROOM,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          console.log(res)
+          for (let i=0; i < res.data.length; i++) {
+            if (res.data[i].user.userName.indexOf(keyword) !== -1) {
+              temp.push(res.data[i])
+            }
+          }
+          this.items = temp
+          // console.log(this.items)
+        }).catch((err)=>{
+          console.error(err)
+        }) 
+      }
+      this.selected = ''
+      this.search = ''
+    }
   },
   computed: {
     pageCount () {
@@ -66,13 +131,37 @@ export default {
   },
   created(){
     // console.log(this.items)
+    this.itembox = this.items
+    // console.log(this.itembox)
   }
 }
 </script>
 
 <style scoped>
+.form {
+  display: flex;
+  margin: 0 0 5vh 60vw;
+}
+
+.form .form-select {
+  height: 5vh;
+  width: 13vh;
+  font-size: 1.7vh;
+}
+
+.form .form-control {
+  height: 5vh;
+  width: 30vh;
+  margin: 0 0.1vw 0 0;
+}
+
+.form button {
+  height: 5vh;
+  margin: 0 1vw 0 0;
+}
+
 .items {
-  margin: 7vh auto;
+  margin: auto;
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
@@ -81,22 +170,21 @@ export default {
   /* align-content: stretch; */
 }
 
-.item:hover{
-  transform: scale(1.05);
-  transition: all 0.3s ease 0s;
-}
-
 .btn-cover {
   margin: 3rem auto;
   text-align: center;
   color:white;
 }
 
+.item:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
+}
+
 .btn-cover .page-btn {
   width: 4.5vw;
   height: 4.5vh;
   font-size: 1vw;
-  line-height: 3vh;
   letter-spacing: 0.05vw;
   border: 1px solid;
   border-radius: 1rem;
@@ -112,5 +200,11 @@ export default {
 .btn-cover .page-count {
   padding: 0 1rem;
   color: black;
+}
+
+.nodata {
+  margin: 23vh 0 0 33vw;
+  font-family: 'Dohyeon';
+  font-size: 2vw;
 }
 </style>

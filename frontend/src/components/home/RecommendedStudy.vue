@@ -88,18 +88,23 @@ export default {
   created() {
     const token = localStorage.getItem('jwt')
     this.tokenNum = token
-    axios({
-      url:  api.USER_INFO_GET,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      // console.log(res)
-      this.userName = res.data.userName
-    }).catch((err)=>{
-      console.error(err)
-    })
+    if (this.tokenNum) {
+      axios({
+        url:  api.USER_INFO_GET,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        // console.log(res)
+        this.userName = res.data.userName
+      }).catch((err)=>{
+        console.error(err)
+      })
+    }
+    else {
+      //pass
+    }
   }
 }
 </script>

@@ -163,12 +163,12 @@ export default {
           console.log(res)
           if (res.data === true) {
             this.nicknameCheck = res.data
-            console.log(this.nicknameCheck)
+            // console.log(this.nicknameCheck)
             alert('중복되는 닉네임이 있습니다.')
           }
           else {
             this.nicknameCheck = res.data
-            console.log(this.nicknameCheck)
+            // console.log(this.nicknameCheck)
             alert('중복되는 닉네임이 없습니다.')
           }
         }).catch(err=>{

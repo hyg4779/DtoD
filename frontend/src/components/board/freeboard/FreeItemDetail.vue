@@ -126,8 +126,8 @@ export default {
           headers: {
             Authorization: 'Bearer ' + token
           },
-        }).then((res)=>{
-          console.log(res.data)
+        }).then(()=>{
+          // console.log(res.data)
           axios({
             url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
             method: 'GET',

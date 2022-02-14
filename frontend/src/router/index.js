@@ -50,7 +50,7 @@ const routes = [
     component: MakeStudy
   },
   {
-    path: '/editmystudy',
+    path: '/editmystudy/:sessionId',
     name: 'EditMyStudy',
     component: EditMyStudy
   },

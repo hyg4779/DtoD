@@ -14,7 +14,9 @@
     </div>
     <div class="mainmenu">
       <div v-if="this.editinfo === true">
-        <EditInfo />
+        <EditInfo 
+        :item_pk="this.itempk"
+        />
       </div>
       <!-- <div v-if="this.editmember === true">
         <EditMember />
@@ -40,12 +42,14 @@ export default {
 
       isActive1: true,
       // isActive2: false,
+
+      itempk: null,
     }
   },
   methods: {
     clicked(event) {
       const className = event.target.className
-      console.dir(event.target)
+      // console.dir(event.target)
       if (className === 'editinfo') {
         this.editinfo = true
         // this.editmember = false
@@ -66,6 +70,9 @@ export default {
     if (localStorage.getItem('jwt')) {
       // const token = localStorage.getItem('jwt')
       // console.log(token)
+      // console.log(this.$route.params.sessionId)
+      this.itempk = this.$route.params.sessionId
+
     } else {
       alert('로그인을 해주세요')
       this.$router.push({ name: 'Home' })

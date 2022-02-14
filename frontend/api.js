@@ -8,14 +8,24 @@ export const api = {
   EMAIL_CHECK: 'http://localhost:9090/api/user/checkemail/',
 
 
-  CREATE_STUDY_ROOM: 'http://localhost:9090/',
+  GET_STUDY_ROOM: 'http://localhost:9090/api/studyroom/list',
+  GET_STUDY_ROOM_DETAIL: 'http://localhost:9090/api/studyroom/view/',
+  CREATE_STUDY_ROOM: 'http://localhost:9090/api/studyroom/regist',
+  UPDATE_STUDY_ROOM: 'http://localhost:9090/api/studyroom/update',
+  DELETE_STUDY_ROOM: 'http://localhost:9090/api/studyroom/delete/',
   
 
+  GET_MY_ROOM: 'http://localhost:9090/api/myroom/list',
+  CREATE_MY_ROOM: 'http://localhost:9090/api/myroom/regist/',
+  DELETE_MY_ROOM: 'http://localhost:9090/api/myroom/delete/',
+
+  
   GET_FREE_BOARD: 'http://localhost:9090/api/cboard/list',
   GET_FREE_BOARD_DETAIL: 'http://localhost:9090/api/cboard/view/',
   CREATE_FREE_BOARD: 'http://localhost:9090/api/cboard/regist',
   UPDATE_FREE_BOARD: 'http://localhost:9090/api/cboard/update',
   DELETE_FREE_BOARD: 'http://localhost:9090/api/cboard/delete/',
+
 
   GET_FREE_BOARD_COMMENT: 'http://localhost:9090/api/ccomment/list/',
   CREATE_FREE_BOARD_COMMENT: 'http://localhost:9090/api/ccomment/regist/',
@@ -29,6 +39,7 @@ export const api = {
   CREATE_STUDY_BOARD: 'http://localhost:9090/api/sboard/regist',
   UPDATE_STUDY_BOARD: 'http://localhost:9090/api/sboard/update/',
   DELETE_STUDY_BOARD: 'http://localhost:9090/api/sboard/delete/',
+
 
   GET_STUDY_BOARD_COMMENT: 'http://localhost:9090/api/scomment/list/',
   CREATE_STUDY_BOARD_COMMENT: 'http://localhost:9090/api/scomment/regist/',

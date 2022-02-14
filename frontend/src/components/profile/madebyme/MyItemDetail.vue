@@ -2,29 +2,29 @@
   <div class="itemdetail">
     <div id="left">
       <header>
-        {{this.item.title}}
+        {{this.item.roomTitle}}
       </header>
       <ul>
         <li>
           스터디장: 
-          <span>{{this.item.user_id}}</span>
+          <span>{{this.item.user.userName}}</span>
         </li>
         <li>
           개설날짜: 
-          <span>{{this.item.madeDate}}</span>
+          <span>{{this.item.roomTime}}</span>
         </li>
         <li>
-          활동요일:
-          <span>{{this.item.day}}</span>
+          활동요일: 
+          <span>{{this.days}}</span>
         </li>
         <li>
           활동기간: 
           <br>
-          <span>{{this.item.ingDate}}</span>
+          <span>{{this.item.roomIngdate}}</span>
         </li>
         <li>
-          현재인원 / 모집인원: 
-          <span>{{this.item.people}} / {{this.item.count}}명</span>
+          모집인원: 
+          <span>{{this.item.roomPerson}}명</span>
         </li>
       </ul>
     </div>
@@ -35,16 +35,16 @@
         class="imgBox"
       >
         <div
-          v-for="(skill, idx) in this.item.stacks"
+          v-for="(stack, idx) in imgs"
           :key="idx"
           id="imagedatail"
         >
           <img            
             class="mt-2"
-            :src="require(`../../../assets/stacks/${skill}.png`)"
+            :src="require(`@/assets/stacks/${stack}.png`)"
             alt="stack_logo"
           >
-          <p>{{ skill }}</p>
+          <p>{{ stack }}</p>
         </div>
       </div>
       <ul>
@@ -52,20 +52,19 @@
           설명
           <br>
           <div>
-            {{ this.item.content }}
+            <span v-html="getContent(this.item.roomContent2)"></span>
           </div>
         </li>
         <li>
           오픈카카오톡
           <br>
           <div>
-            {{ this.item.kakaoCode }}
+            <span v-html="getContent(this.item.roomContent1)"></span>
           </div>
         </li>
       </ul>
       <footer>
         <button id="manageBtn" @click="goManage">관리</button>
-        <!-- <button id="applyBtn" @click="goVideo">입장</button> -->
         <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
     </div>
@@ -79,13 +78,71 @@ export default {
   props: {
     item: Object,
   },
+  data() {
+    return {
+      imgs: null,
+      days: null,
+      
+      itemid: null,
+      itempassword: null,
+
+      password: null,
+    }
+  },
   methods:{
-    goManage(){
-      this.$router.push({name:'EditMyStudy'})
+    getContent(content) { 
+      return content.split('\n').join('<br>'); 
     },
-    // goVideo(){
-    //   this.$router.push({name:'Video', params:{sessionId: this.item.id}})
-    // }
+    goManage(){
+      this.$router.push({name:'EditMyStudy', params:{sessionId: this.item.roomId}})
+    },
+  },
+  created() {
+    // console.log(this.item)
+
+    this.itemid = this.item.roomId
+    this.itempassword = this.item.roomPwd
+
+    let stacks = this.item.roomTechstack
+    // 배열로 저장
+    let result = stacks.split(',')
+    // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+    if(result.length >= 4){
+      // console.log(result.slice(0,3))
+      this.imgs = result.slice(0,3)
+    }else{
+      this.imgs = result
+    }
+
+    let days = this.item.roomIngday
+    let temp = days.split(',')
+    for (let i=0; i < temp.length; i++) {
+      if (temp[i] === 'mon') {
+        temp[i] = '월'
+      }
+      if (temp[i] === 'tue') {
+        temp[i] = '화'
+      }
+      if (temp[i] === 'wed') {
+        temp[i] = '수'
+      }
+      if (temp[i] === 'thu') {
+        temp[i] = '목'
+      }
+      if (temp[i] === 'fri') {
+        temp[i] = '금'
+      }
+      if (temp[i] === 'sat') {
+        temp[i] = '토'
+      }
+      if (temp[i] === 'sun') {
+        temp[i] = '일'
+      }
+      if (temp[i] === 'yet') {
+        temp[i] = '추후 미정'
+      }
+    }
+    this.days = temp.join(',')
   }
 }
 </script>
@@ -106,14 +163,15 @@ export default {
 }
 
 #left header {
-  font-size: 2.7vw;
+  font-size: 1.8vw;
   margin: 0 auto;
   text-align: center;
   font-weight: bold;
+  /* border: 1px solid gray; */
   border-radius: 1rem;
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(150,150,150);
   /* padding: 0 0 0 1vw; */
-  width: 80%;
+  /* width: 90%; */
 }
 
 #left ul{
@@ -209,9 +267,5 @@ footer button:nth-child(1){
   background-color: #24274A;
   color: white;
 }
-/* footer button:nth-child(2){
-  background-color: #24274A;
-  color: white;
-} */
 
 </style>
