@@ -5,6 +5,7 @@
       <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
           <!-- v-for="(item, idx) in items" -->
         <MyFree
+          id="card"
           :key="idx"
           :item="item"
         />
@@ -80,7 +81,8 @@ export default {
 </script>
 
 <style scoped>
-/* .items {
-  margin: auto;
-} */
+#card:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
+}
 </style>

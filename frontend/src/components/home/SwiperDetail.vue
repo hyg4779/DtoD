@@ -76,23 +76,6 @@
         <p v-html="getContent(this.content1)"></p>
       </div>
     </div>
-    <div v-if="this.token">
-      <StudyComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-    </div>
-    <hr v-if="this.token">
-    <div class="commentprofilebox" v-if="this.token">
-      <div class="commentprofileicon">
-        <img v-if="userImg" :src="userImg"> 
-        <img v-else src="../../assets/default_user.png">
-      </div>
-      <div class="commentprofilename">{{userName}}</div>
-    </div>
     <form @submit="commentSubmit" v-if="this.token">
       <div class="form-group" style="margin-bottom:10px;">
         <textarea 
@@ -107,6 +90,24 @@
         <button class="myBtn submit" id="sub">등록</button>
       </div>
     </form>
+    <div v-if="this.token">
+      <StudyComment 
+        v-for="(comment, idx) in this.comments"
+        :key="idx"
+        :comment="comment"
+        :item_pk="item_pk"
+        @onParentDeleteComment="onParentDeleteComment"
+      />
+    </div>
+    <hr v-if="this.token">
+    <!-- <div class="commentprofilebox" v-if="this.token">
+      <div class="commentprofileicon">
+        <img v-if="userImg" :src="userImg"> 
+        <img v-else src="../../assets/default_user.png">
+      </div>
+      <div class="commentprofilename">{{userName}}</div>
+    </div> -->
+    
   </div>
 </template>
 
@@ -524,19 +525,15 @@ header h2{
   border-radius: 1rem;
   color: #FFFFFF;
   cursor: pointer;
-  font-size: 0.8vw;
+  font-size: 1.5vw;
   font-weight: bold;
-  margin: 0 0.3vw 0 0.3vw;
+  margin: 0.3vw 0.3vw;
+  width: 100%;
   padding: 0 0.5vw 0.1vh 0.5vw;
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   touch-action: manipulation;
-  will-change: transform;
 }
 
-.submit {
-  margin: 0.7vh 0 0 0;
-  padding: 0.5vh 0.5vw 0.8vh 0.5vw;
-}
 
 .myBtn:hover {
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
@@ -548,15 +545,11 @@ header h2{
   transform: translateY(0);
 }
 
-#up{
-  background-color: rgb(30, 200, 30);
-}
-
-#de{
-  background-color: rgb(250, 100, 100);
-}
-
 #sub {
-  background-color: rgb(50,100,250);
+  background-color: rgb(110,110,110);
+}
+
+hr{
+  margin:8px;
 }
 </style>
