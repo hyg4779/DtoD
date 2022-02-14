@@ -29,26 +29,26 @@
           <div class="stackcheckbox">
             <div>
               <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
-              <v-checkbox v-model="stacks.react" label="React.js"/>
-              <v-checkbox v-model="stacks.vue" label="Vue.js"/>
-              <v-checkbox v-model="stacks.node" label="Node.js"/>
-            </div>
-            <div>
               <v-checkbox v-model="stacks.c" label="C"/>
-              <v-checkbox v-model="stacks.cpp" label="C++"/>
-              <v-checkbox v-model="stacks.cs" label="C#"/>
-              <v-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
-            </div>
-            <div>
               <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-              <v-checkbox v-model="stacks.django" label="Django"/>
-              <v-checkbox v-model="stacks.go" label="Go"/>
-              <v-checkbox v-model="stacks.swift" label="Swift"/>
+              <v-checkbox v-model="stacks.java" label="Java"/>
             </div>
             <div>
-              <v-checkbox v-model="stacks.java" label="Java"/>
+              <v-checkbox v-model="stacks.react" label="React"/>
+              <v-checkbox v-model="stacks.cpp" label="C++"/>
+              <v-checkbox v-model="stacks.django" label="Django"/>
               <v-checkbox v-model="stacks.spring" label="Spring"/>
+            </div>
+            <div>
+              <v-checkbox v-model="stacks.vue" label="Vue"/>
+              <v-checkbox v-model="stacks.python" label="Python"/>
+              <v-checkbox v-model="stacks.go" label="Go"/>
               <v-checkbox v-model="stacks.flutter" label="Flutter"/>
+            </div>
+            <div>
+              <v-checkbox v-model="stacks.node" label="Node"/>
+              <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
+              <v-checkbox v-model="stacks.swift" label="Swift"/>
               <v-checkbox v-model="stacks.etc" label="Etc"/>
             </div>
           </div>
@@ -115,15 +115,27 @@ export default {
       
 
       images: [
-        '001.png',
-        '002.png',
-        '003.png',
+        '#FC8F8F',
+        '#FFAB5E',
+        '#83E38C',
       ],
       stacks: {
-        javascript: false, c: false, kotlin: false, java: false, 
-        react: false, cpp: false, django: false, spring: false, 
-        vue: false, cs: false, go: false, flutter: false, 
-        node: false, typescript: false, swift: false, etc: false
+        javascript: false,
+        c: false,
+        kotlin: false,
+        java: false, 
+        react: false,
+        cpp: false,
+        django: false,
+        spring: false, 
+        vue: false,
+        python: false,
+        go: false,
+        flutter: false, 
+        node: false,
+        typescript: false,
+        swift: false,
+        etc: false
       },
       day: {
         mon: false, tue: false, wed: false, thu: false, 

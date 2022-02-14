@@ -251,18 +251,21 @@ form div label {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div .stacktitle {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div .categorytitle {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div .categorybox {
@@ -277,6 +280,7 @@ form div .categorybox label{
   margin: 0 2vh 0 0;
   font-size: 1vw;
   font-weight: 500;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div textarea {
@@ -301,6 +305,7 @@ form .checkbox {
   margin: 0 0 2vh 0;
   display: grid;
   grid-template-columns: 12vw 12vw 12vw 12vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .checkbox div{

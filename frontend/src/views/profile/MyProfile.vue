@@ -56,7 +56,7 @@ export default {
   methods: {
     clicked(event) {
       const className = event.target.className
-      console.dir(event.target)
+      // console.dir(event.target)
       if (className === 'myinfo') {
         this.myinfo = true
         this.attendance = false

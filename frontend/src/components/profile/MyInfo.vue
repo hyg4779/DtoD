@@ -424,7 +424,7 @@ export default {
         Authorization: 'Bearer ' + token
       }
     }).then(res=>{
-      console.log(res)
+      // console.log(res)
       this.credentials.nickname = res.data.userName
       this.credentials.jobs = res.data.userJobs
       this.tech = res.data.userTechstack
