@@ -1,5 +1,6 @@
 package com.ssafy.dtod.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.dtod.dto.RegistMyRoomDto;
 import com.ssafy.dtod.dto.RegistStudyRoomDto;
 import com.ssafy.dtod.dto.ViewStudyRoomDto;
 import com.ssafy.dtod.model.StudyRoom;
@@ -18,6 +20,10 @@ public class StudyRoomService {
 
 	@Autowired
 	private StudyRoomRepository studyroomrepository;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private MyRoomService myroomService;
 	
 	@Transactional
 	public List<StudyRoom> listRoom(){
@@ -42,7 +48,12 @@ public class StudyRoomService {
 				.roomContent1(dto.getRoomContent1())
 				.roomContent2(dto.getRoomContent2())
 				.roomImg(dto.getRoomImg())
+				.roomTime(LocalDate.now())
 				.build();
+//		RegistMyRoomDto myroomDto = new RegistMyRoomDto();
+//		myroomDto.setUser(userService.getMyUserWithAuthorities().get());
+//		myroomDto.setStudyroom(studyroomrepository.findById(studyroom.getRoomId()).get());
+//		myroomService.registMyRoom(myroomDto);
 		return studyroomrepository.save(studyroom);
 	}
 	
@@ -57,7 +68,7 @@ public class StudyRoomService {
 		updateroom.setRoomIngday(String.join(",", dto.getRoomIngday()));
 		updateroom.setRoomContent1(dto.getRoomContent1());
 		updateroom.setRoomContent2(dto.getRoomContent2());
-		
+		updateroom.setRoomTime(LocalDate.now());
 		return studyroomrepository.save(updateroom);
 	}
 	
