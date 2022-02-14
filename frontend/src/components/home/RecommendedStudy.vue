@@ -6,7 +6,11 @@
     </div>
     <div @mouseover="btn=true" @mouseleave="btn=false">
       <swiper :options = "swiperOptions" ref = "slider" >
-        <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
+        <swiper-slide
+          id="card"
+          v-for="(item, idx) in items"
+          :key="idx"
+          :item="item">
             <!-- v-for="(item, idx) in items" -->
           <Slider
             :key="idx"
@@ -111,5 +115,10 @@ export default {
   margin: 4vh 0 0 2vw;
   font-family: 'Dohyeon';
   font-size: 1.5vw;
+}
+
+#card:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
 }
 </style>

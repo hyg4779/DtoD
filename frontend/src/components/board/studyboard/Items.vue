@@ -175,6 +175,11 @@ export default {
   color:white;
 }
 
+.item:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
+}
+
 .btn-cover .page-btn {
   width: 4.5vw;
   height: 4.5vh;
