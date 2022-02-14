@@ -7,9 +7,9 @@
       </div>
       <div class="profilebutton">
         <!-- <button class="imgadd" @click="selectUploadFile()">이미지 등록</button> -->
-        <label for="profileimg">이미지 선택</label>
+        <label for="profileimg">이미지선택</label>
         <input id="profileimg" type="file" accept="image/*" @change="previewImage" /> 
-        <button class="imgadd"  @click="onUpload">이미지 등록</button>
+        <button class="imgadd"  @click="onUpload">이미지등록</button>
       </div>
       <div v-if="uploadValue != 0" class="progress">업로드: {{ uploadValue.toFixed() + "%" }}</div>
     <!-- </div> -->
