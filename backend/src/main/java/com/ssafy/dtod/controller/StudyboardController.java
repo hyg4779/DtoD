@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.dtod.dto.RecommendSboardDto;
 import com.ssafy.dtod.dto.RegistStudyboardDto;
 import com.ssafy.dtod.dto.ViewStudyboardDto;
 import com.ssafy.dtod.model.Studyboard;
+import com.ssafy.dtod.model.User;
 import com.ssafy.dtod.service.StudyboardService;
 import com.ssafy.dtod.service.UserService;
 
@@ -65,6 +67,12 @@ public class StudyboardController {
 	@DeleteMapping("/delete/{sboardId}")
 	public void deleteBoard(@PathVariable Long sboardId){
 		studyboardService.delete(sboardId);
+	}
+	
+	@GetMapping("/recommend")
+	public ResponseEntity<List<Studyboard>> recommendBoard(){
+		User user = userService.getMyUserWithAuthorities().get();
+		return ResponseEntity.ok(studyboardService.findByTechstack(user));
 	}
 	
 }

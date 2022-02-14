@@ -1,6 +1,7 @@
 package com.ssafy.dtod.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.dtod.dto.RegistStudyboardDto;
 import com.ssafy.dtod.dto.ViewStudyboardDto;
 import com.ssafy.dtod.model.Studyboard;
+import com.ssafy.dtod.model.User;
 import com.ssafy.dtod.repository.StudyboardRepository;
 
 @Service
@@ -94,5 +96,34 @@ public class StudyboardService {
 		return studyboardRepository.findById(sboardId).get();
 	}
 	
+	public List<Studyboard> findByTechstack(User user) {
+		List<String> list = new ArrayList<String>();
+//		System.out.println(user.getUserTechstack());
+		String[] splitTech = user.getUserTechstack().split(",");
+		for(int i=0; i<splitTech.length; i++) {
+//		System.out.println(splitTech[i]);
+		}
+		for(int i=0; i<splitTech.length; i++) {
+			list.add(splitTech[i]);
+		}
+//		System.out.println(list);
+		List<Studyboard> listBoard = studyboardRepository.findAll();
+		List<Studyboard> recommendBoard = new ArrayList<Studyboard>();
+		for(int i=0; i<listBoard.size(); i++) {
+			for(int j=0; j<list.size(); j++) {
+				if(listBoard.get(i).getSboardTechstack().contains(list.get(j))) {
+					recommendBoard.add(listBoard.get(i));
+				}
+			}
+		}
+		for(int i=0; i<recommendBoard.size(); i++) {
+			for(int j=i+1; j<recommendBoard.size(); j++) {
+				if(recommendBoard.get(i).getSboardId() == recommendBoard.get(j).getSboardId()) {
+					recommendBoard.remove(j);
+				}
+			}
+		}
+		return recommendBoard;
+	}
 	
 }
