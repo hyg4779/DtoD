@@ -26,5 +26,5 @@ public class RegistStudyRoomDto {
 	private List<String> roomIngday;
 	private String roomContent1;
 	private String roomContent2;
-	
+	private String roomImg;
 }
