@@ -346,6 +346,7 @@ form .detail1 textarea {
   margin: 0 0 2vh 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 0.5rem;
+  width: 40vw;
   height: 4vh;
 }
 
