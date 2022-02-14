@@ -13,17 +13,17 @@ import EditMyStudy from '../views/profile/EditMyStudy.vue'
 import Page404 from '../views/Page404.vue'
 import Video from '../views/Video.vue'
 
-import Test from '../views/Test.vue'
+// import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
 
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test
-  },
+  // {
+  //   path: '/test',
+  //   name: 'Test',
+  //   component: Test
+  // },
   {
     path: '/',
     name: 'Home',

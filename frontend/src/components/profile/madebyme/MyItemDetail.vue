@@ -64,6 +64,7 @@
         </li>
       </ul>
       <footer>
+        <button id="manageBtn" @click="goManage">관리</button>
         <button id="applyBtn" @click="goVideo">입장</button>
         <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
@@ -79,6 +80,9 @@ export default {
     item: Object,
   },
   methods:{
+    goManage(){
+      this.$router.push({name:'EditMyStudy'})
+    },
     goVideo(){
       this.$router.push({name:'Video', params:{sessionId: this.item.id}})
     }
@@ -202,6 +206,10 @@ footer button{
 }
 
 footer button:nth-child(1){
+  background-color: #24274A;
+  color: white;
+}
+footer button:nth-child(2){
   background-color: #24274A;
   color: white;
 }

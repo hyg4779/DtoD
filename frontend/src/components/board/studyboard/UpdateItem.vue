@@ -54,7 +54,7 @@
         <textarea class="form-control" type="text" id="content3" v-model="content3" placeholder=" 스터디 규칙을 입력하세요"></textarea>
       </div>
       <div class="submitbtn">
-        <button class="cancel" @click="back()">취소</button>
+        <button class="cancel" @click="back">취소</button>
         <button class="submit" @click="updateFin">등록</button>
       </div>
     </form>
@@ -105,8 +105,10 @@ export default {
   },
 
   methods:{
-    back () {
-      this.$router.replace()
+    back (event) {
+      // this.$router.replace()
+      event.preventDefault()
+      this.$emit('close-modal')
     },
     getStack () {
       const token = localStorage.getItem('jwt')

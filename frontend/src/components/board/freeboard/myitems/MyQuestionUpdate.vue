@@ -52,7 +52,7 @@
         <textarea class="form-control" type="text" id="code" v-model="code" placeholder=" 코드를 입력하세요"></textarea> -->
       </div>
       <div class="submitbtn">
-        <button class="cancel" @click="back()">취소</button>
+        <button class="cancel" @click="back">취소</button>
         <button class="submit" @click="updateFin">등록</button>
       </div>
     </form>
@@ -103,8 +103,10 @@ export default {
   },
 
   methods:{
-    back () {
-      this.$router.replace()
+    back (event) {
+      // this.$router.replace()
+      event.preventDefault()
+      this.$emit('close-modal')
     },
     codesave(value){
       this.code = value

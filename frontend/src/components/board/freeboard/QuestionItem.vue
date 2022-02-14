@@ -37,6 +37,7 @@
       <QuestionUpdateItem
         :itempk="this.item_pk"
         @update-fin="updateFin"
+        @close-modal="closeModal"
       />
     </b-modal>
   </div>
@@ -99,7 +100,10 @@ export default {
       // this.$router.go();
       this.$refs['detail'].show()
     },
-
+    closeModal(){
+      this.$refs['updateItem'].hide()
+      this.$refs['detail'].show()
+    },
     getItemPk(e) {
       this.item_pk = e
       return this.item_pk

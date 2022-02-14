@@ -37,6 +37,7 @@
       <UpdateItem
         :itempk="this.item_pk"
         @update-fin="updateFin"
+        @close-modal="closeModal"
       />
     </b-modal>
   </div>
@@ -97,6 +98,11 @@ export default {
     updateFin(){
       this.$refs['updateItem'].hide()
       // this.$router.go();
+      this.$refs['detail'].show()
+    },
+
+    closeModal(){
+      this.$refs['updateItem'].hide()
       this.$refs['detail'].show()
     },
 
