@@ -41,6 +41,7 @@ public class StudyRoomService {
 				.roomIngday(String.join(",", dto.getRoomIngday()))
 				.roomContent1(dto.getRoomContent1())
 				.roomContent2(dto.getRoomContent2())
+				.roomImg(dto.getRoomImg())
 				.build();
 		return studyroomrepository.save(studyroom);
 	}
