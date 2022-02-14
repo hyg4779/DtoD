@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="items">
-      <Item 
+      <Item
+        class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
         :item="item"
@@ -78,6 +79,11 @@ export default {
   grid-gap: 5vh 0;
   justify-content: space-around;
   /* align-content: stretch; */
+}
+
+.item:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
 }
 
 .btn-cover {
