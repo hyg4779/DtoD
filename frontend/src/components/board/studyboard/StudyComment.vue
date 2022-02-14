@@ -9,7 +9,8 @@
         </div>
         <div class="commentprofilename">{{ getName }}</div>
         <div class="time">
-          <div>{{ this.time }}</div>
+          <!-- <div>{{ this.time }}</div> -->
+          <div>{{ getCommentTime }}</div>
         </div>
       </div>
       <button v-if="getName == userName" @click="deleteComment">삭제</button>
@@ -46,7 +47,9 @@ export default {
       // console.log(this.comment.user.userName)
       return this.comment.user.userName
     },
-
+    getCommentTime(){
+      return this.getTime()
+    }
   },
   methods: {
     getTime() {
@@ -56,80 +59,86 @@ export default {
       const seconds = ('0' + today.getSeconds()).slice(-2);
       const timeString = hours + ':' + minutes  + ':' + seconds;
       const tmp = this.comment.scommentTime.slice(11,19)
-      // console.log(timeString)
-      // console.log(tmp)
-      // console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))
+      console.log(timeString)
+      console.log(tmp)
+      console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))
       // console.log(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)))
       // console.log(Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))))
-      if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 3) {
-        this.time = '오래전'
-        return this.time
-      }
-      if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 2) {
-        this.time = '2시간전'
-        return this.time
-      }
-      else if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 1) {
-        this.time = '1시간전'
-        return this.time
-      }
-      else if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) < 1) {
-        if((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) > 0)) {
-          if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 30) {
-            this.time = '30분전'
-            return this.time
-          }
-          else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 20) {
-            this.time = '20분전'
-            return this.time
-          }
-          else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 10) {
-            this.time = '10분전'
-            return this.time
-          }
-          else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 5) {
-            this.time = '5분전'
-            return this.time
-          }
-          else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 3) {
-            this.time = '3분전'
-            return this.time
-          }
-          else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 1) {
-            this.time = '1분전'
-            return this.time
-          }
-        }
-        else if((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) < 0)) {
-          if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 30) {
-            this.time = '30분전'
-            return this.time
-          }
-          else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 40) {
-            this.time = '20분전'
-            return this.time
-          }
-          else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 50) {
-            this.time = '10분전'
-            return this.time
-          }
-          else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 55) {
-            this.time = '5분전'
-            return this.time
-          }
-          else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 57) {
-            this.time = '3분전'
-            return this.time
-          }
-          else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 59) {
-            this.time = '1분전'
-            return this.time
-          }
-        }
-        else if ((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) === 0)) {
-          this.time = '몇초전'
+      if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 0) {
+        if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 3) {
+          this.time = '오래전'
           return this.time
         }
+        else if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 2) {
+          this.time = '2시간전'
+          return this.time
+        }
+        else if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) >= 1) {
+          this.time = '1시간전'
+          return this.time
+        }
+        else if ((Number(timeString.slice(0,2)) - Number(tmp.slice(0,2))) < 1) {
+          if((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) > 0)) {
+            if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 30) {
+              this.time = '30분전'
+              return this.time
+            }
+            else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 20) {
+              this.time = '20분전'
+              return this.time
+            }
+            else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 10) {
+              this.time = '10분전'
+              return this.time
+            }
+            else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 5) {
+              this.time = '5분전'
+              return this.time
+            }
+            else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 3) {
+              this.time = '3분전'
+              return this.time
+            }
+            else if( Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) >= 1) {
+              this.time = '1분전'
+              return this.time
+            }
+          }
+          else if((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) < 0)) {
+            if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 30) {
+              this.time = '30분전'
+              return this.time
+            }
+            else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 40) {
+              this.time = '20분전'
+              return this.time
+            }
+            else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 50) {
+              this.time = '10분전'
+              return this.time
+            }
+            else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 55) {
+              this.time = '5분전'
+              return this.time
+            }
+            else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 57) {
+              this.time = '3분전'
+              return this.time
+            }
+            else if( Math.abs(Number(timeString.slice(3,5)) - Number(tmp.slice(3,5))) >= 59) {
+              this.time = '1분전'
+              return this.time
+            }
+          }
+          else if ((Number(timeString.slice(3,5)) - Number(tmp.slice(3,5)) === 0)) {
+            this.time = '몇초전'
+            return this.time
+          }
+        }
+      }
+      else {
+        this.time = '오래전'
+        return this.time
       }
     },
     deleteComment(event) {
@@ -151,7 +160,7 @@ export default {
   },
   created() {
     // console.log(this.comment)
-    this.getTime()
+    // this.getTime()
     // const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
 
