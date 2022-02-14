@@ -396,6 +396,10 @@ export default {
   font-family: 'Epilogue', sans-serif;
 }
 
+form {
+  position: relative;
+}
+
 .form-group .form-control{
   /* background-color: black; 
   color:white; */
@@ -491,5 +495,8 @@ export default {
 
 #sub {
   background-color: rgb(50,100,250);
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
 }
 </style>
