@@ -1,7 +1,7 @@
 <template>
   <div class="mystudy">
     <br>
-    <div class="madebyme">
+    <div class="madebyme" v-if="this.madeitems">
       <div class="title">
         내가 만든 스터디
       </div>
@@ -13,7 +13,7 @@
     </div>
     <br>
     <br>
-    <div class="joinedstudy">
+    <div class="joinedstudy" v-if="this.joineditems">
       <div class="title">
         내가 참여하는 스터디
       </div>
