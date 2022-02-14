@@ -395,8 +395,10 @@ header h2{
 }
 
 #sub {
-  background-color: rgb(110,110,110);
-  font-size: 1.5vw;
+  background-color: rgb(76, 91, 231);
+  font-size: 1.2vw;
+  padding: 0.4vh;
+  /* font-weight: bold; */
   margin: 0.3vw 0.3vw;
   width: 100%;
   height: 100%;
