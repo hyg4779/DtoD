@@ -13,12 +13,13 @@ import com.ssafy.dtod.model.MyRoom;
 import com.ssafy.dtod.model.StudyRoom;
 import com.ssafy.dtod.model.User;
 import com.ssafy.dtod.repository.MyRoomRepository;
+import com.ssafy.dtod.repository.StudyRoomRepository;
 
 @Service
 public class MyRoomService {
 	
 	@Autowired MyRoomRepository myroomRepository;
-	
+	@Autowired StudyRoomRepository studyroomRepository;
 	
 	
 	@Transactional
@@ -33,8 +34,16 @@ public class MyRoomService {
 	
 	@Transactional
 	public List<StudyRoom> listMyRoom(User user){
+		List<MyRoom> allList = myroomRepository.findAll();
 		List<StudyRoom> list = new ArrayList<StudyRoom>();
-		list.add(myroomRepository.findByUser(user).getStudyroom());
+		
+		for(int i=0; i<allList.size(); i++) {
+			if(user.getUserId() == allList.get(i).getUser().getUserId()) {
+			list.add(allList.get(i).getStudyroom());
+			}
+		}
+		
+//		list.add(myroomRepository.findByUser(user).getStudyroom());
 		return list;
 	}
 	
