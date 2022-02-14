@@ -87,15 +87,22 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { api } from '../../../../api.js'
 import IngRange from '../../../components/board/studyboard/IngRange.vue'
 
 export default {
   name: 'EditInfo',
+  props: {
+    item_pk: Number
+  },
   components: {
     IngRange,
   },
   data() {
     return {
+      itempk: null,
+
       title: '',
       password: '',
       peopleCount: 0,
@@ -104,6 +111,9 @@ export default {
       ingDate: '',
       days: [],
       skills: [],
+
+      tech: '',
+      date: '',
 
       stacks: {
         javascript: false,
@@ -145,16 +155,57 @@ export default {
     back () {
       this.$router.go(-1)
     },
+    getStackDay () {
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_STUDY_ROOM_DETAIL + `${this.item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        // console.log(res)
+        this.tech = res.data.roomTechstack
+        this.date = res.data.roomIngday
+        // console.log(res.data.roomTechstack)
+        const t = this.tech
+        const temp = t.split(',')
+        let result = []
+        for(let i = 0; i < temp.length; i++){
+          result.push(temp[i])
+        }
+        for(let j = 0; j < result.length; j++){
+          for (let k = 0; k < Object.keys(this.stacks).length; k++){
+            if (result[j] === Object.keys(this.stacks)[k]){
+              this.stacks[Object.keys(this.stacks)[k]] = true
+            }
+          }
+        }
+        const d = this.date
+        const tmp = d.split(',')
+        let ret = []
+        for(let i = 0; i < tmp.length; i++){
+          ret.push(tmp[i])
+        }
+        for(let j = 0; j < ret.length; j++){
+          for (let k = 0; k < Object.keys(this.day).length; k++){
+            if (ret[j] === Object.keys(this.day)[k]){
+              this.day[Object.keys(this.day)[k]] = true
+            }
+          }
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     stacksCheck () {
       for (let property in this.stacks){
-        // console.log(property)
         if (this.stacks[property] !== false){
+          // console.log(property)
           this.skills.push(property)
         }
       }
-    },
-    stackCheckOut () {
-      this.skills = []
+      // console.log(this.skills)
     },
     stackFalse () {
       for (let property in this.stacks){
@@ -163,6 +214,7 @@ export default {
           this.stacks[property] = false
         }
       }
+      this.skills = []
     },
     dayCheck () {
       for (let property in this.day){
@@ -178,9 +230,6 @@ export default {
         }
       }
     },
-    dayCheckOut () {
-      this.days = []
-    },
     dayFalse () {
       for (let property in this.day){
         // console.log(property)
@@ -188,6 +237,7 @@ export default {
           this.day[property] = false
         }
       }
+      this.days = []
     },
     count(type) {
     // 결과를 표시할 element
@@ -207,10 +257,143 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault()
-    }
+      this.stacksCheck()
+      this.dayCheck()
+      if (0 < this.title.length && this.title.length <= 50) {
+        if( 0< this.password.length && this.password.length <= 10) {
+          if (10 >= this.peopleCount && this.peopleCount > 0) {
+            if (0 < this.skills.length && this.skills.length <= 4) {
+              if(0 < this.days.length) {
+                // console.log(this.ingDate)
+                const temp = this.ingDate.split(' - ')
+                let res1 = []
+                for(let i = 0; i < temp.length; i++){
+                  res1.push(temp[i])
+                }
+                // console.log(res1)
+                let today = new Date()
+                let ingstart = new Date(res1[0])
+                // console.log(today)
+                // console.log(ingstart)
+                if (ingstart >= today.setHours(0,0,0,0)) {
+                  const token = localStorage.getItem('jwt')
+                  axios({
+                    url: api.UPDATE_STUDY_ROOM,
+                    method: 'PUT',
+                    data: {
+                      roomId: this.item_pk,
+                      roomTitle: this.title,
+                      roomPwd: this.password,
+                      roomPerson: this.peopleCount,
+                      roomTechstack: this.skills,
+                      roomIngdate: this.ingDate,
+                      roomIngday: this.days,
+                      roomContent1: this.content1,
+                      roomContent2: this.content2,
+                    },
+                    headers: {
+                      Authorization: 'Bearer ' + token
+                    },
+                  }).then(()=>{
+                    // console.log(res)
+                    this.$router.push('/mystudy')
+                  }).catch(err=>{
+                    console.error(err)
+                  })
+                }
+                else {
+                  alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+                  this.stackFalse()
+                  this.dayFalse()
+                  this.getStackDay()
+                }
+              }
+              else {
+                alert("활동 요일을 1개 이상 선택해주세요.")
+                this.stackFalse()
+                this.dayFalse()
+                this.getStackDay()
+              }
+            }
+            else {
+              alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+              this.stackFalse()
+              this.dayFalse()
+              this.getStackDay()
+            }
+          }
+          else {
+            alert("인원을 1명 이상 10명 이하 선택해주세요")
+            this.stackFalse()
+            this.dayFalse()
+            this.getStackDay()
+          }
+        }
+        else {
+          alert("비밀번호를 1 ~ 10자리로 입력해주세요")
+          this.stackFalse()
+          this.dayFalse()
+          this.getStackDay()
+        }
+      } 
+      else {
+        alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackFalse()
+        this.dayFalse()
+        this.getStackDay()
+      }
+    },
   },
   created() {
-  
+    this.itempk = this.item_pk
+    const token = localStorage.getItem('jwt')
+    axios({
+      url: api.GET_STUDY_ROOM_DETAIL + `${this.itempk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.title = res.data.roomTitle
+      this.password = res.data.roomPwd
+      this.peopleCount = res.data.roomPerson
+      this.tech = res.data.roomTechstack
+      this.ingDate = res.data.roomIngdate
+      this.date = res.data.roomIngday
+      this.content1 = res.data.roomContent1
+      this.content2 = res.data.roomContent2
+      // console.log(res.data.roomTechstack)
+      const t = this.tech
+      const temp = t.split(',')
+      let result = []
+      for(let i = 0; i < temp.length; i++){
+        result.push(temp[i])
+      }
+      for(let j = 0; j < result.length; j++){
+        for (let k = 0; k < Object.keys(this.stacks).length; k++){
+          if (result[j] === Object.keys(this.stacks)[k]){
+            this.stacks[Object.keys(this.stacks)[k]] = true
+          }
+        }
+      }
+
+      const d = this.date
+      const tmp = d.split(',')
+      let ret = []
+      for(let i = 0; i < tmp.length; i++){
+        ret.push(tmp[i])
+      }
+      for(let j = 0; j < ret.length; j++){
+        for (let k = 0; k < Object.keys(this.day).length; k++){
+          if (ret[j] === Object.keys(this.day)[k]){
+            this.day[Object.keys(this.day)[k]] = true
+          }
+        }
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
   }
 }
 </script>

@@ -15,10 +15,6 @@
           {{item}}
         </span>
       </div>
-      <!-- <div class="btnGroup" v-if="userName === itemuserName">
-        <button class="myBtn" id="up" @click="updateArticle">수정</button>
-        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
-      </div> -->
     </div>
     <br>
     <div class="img-etc-box">
@@ -122,11 +118,12 @@ export default {
     StudyComment,
   },
   props: {
-    item_pk: Number,
+    item: Object
   },
   data() {
     return {
       token: '',
+      item_pk: this.item.sboardId,
 
       title: '',
       tech:'',
@@ -170,7 +167,7 @@ export default {
     commentSubmit(event) {
       event.preventDefault()
       if (this.mycomment.length !== 0) {
-        const item_pk = this.item_pk
+        const item_pk = this.item.sboardId
         const token = localStorage.getItem('jwt')
         axios({
           url: api.CREATE_STUDY_BOARD_COMMENT + `${item_pk}`,
@@ -208,7 +205,7 @@ export default {
       }
     },
     onParentDeleteComment() {
-      const item_pk = this.item_pk
+      const item_pk = this.item.sboardId
       const token = localStorage.getItem('jwt')
       axios({
         url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
@@ -228,70 +225,42 @@ export default {
         console.error(err)
       })
     },
-    deleteArticle() {
-      const token = localStorage.getItem('jwt')
-      axios({
-        url: api.DELETE_STUDY_BOARD + `${this.item_pk}`,
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then(()=>{
-        // console.log(res)
-        this.$router.go();
-      }).catch((err)=>{
-        console.error(err)
-      })
-    },
-    updateArticle() {
-      this.$emit('update-modal-open', this.item_pk)
-    },
   },
   created() {
-    const item_pk = this.item_pk
+    // console.log(this.item)
+    
+    this.itemuserEmail = this.item.user.userEmail
+    this.itemuserImg = this.item.user.userImg
+    this.itemuserName = this.item.user.userName
+    this.imgPath = this.item.sboardImg
+    this.title = this.item.sboardTitle
+    this.peopleCount = this.item.sboardPerson
+    this.ingDate = this.item.sboardIngdate
+    this.joinDate = this.item.sboardJoindate
+    this.tech = this.item.sboardTechstack
+    this.content1 = this.item.sboardContent1
+    this.content2 = this.item.sboardContent2
+    this.content3 = this.item.sboardContent3
+    
+    let stacks = this.item.sboardTechstack
+    // 배열로 저장
+    let result = stacks.split(',')
+    // console.log(result.length)
+
+    // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+    if(result.length >= 4){
+      // console.log(result.slice(0,3))
+      this.imgs = result.slice(0,3)
+    }else{
+      this.imgs = result
+    }
+    this.style.backgroundColor = this.item.sboardImg
+    // console.log(this.imgPath)
+    // console.log(this.style.backgroundColor)
+
     const token = localStorage.getItem('jwt')
     this.token = token
-
-    axios({
-      url:  api.GET_STUDY_BOARD_DETAIL + `${this.item_pk}`,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      // console.log(res)
-      this.itemuserEmail = res.data.user.userEmail
-      this.itemuserImg = res.data.user.userImg
-      this.itemuserName = res.data.user.userName
-      this.imgPath = res.data.sboardImg
-      this.title = res.data.sboardTitle
-      this.peopleCount = res.data.sboardPerson
-      this.ingDate = res.data.sboardIngdate
-      this.joinDate = res.data.sboardJoindate
-      this.tech = res.data.sboardTechstack
-      this.content1 = res.data.sboardContent1
-      this.content2 = res.data.sboardContent2
-      this.content3 = res.data.sboardContent3
-      
-      let stacks = res.data.sboardTechstack
-      // 배열로 저장
-      let result = stacks.split(',')
-      // console.log(result.length)
-
-      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
-      if(result.length >= 4){
-        // console.log(result.slice(0,3))
-        this.imgs = result.slice(0,3)
-      }else{
-        this.imgs = result
-      }
-      this.style.backgroundColor = res.data.sboardImg
-      // console.log(this.imgPath)
-      // console.log(this.style.backgroundColor)
-    }).catch((err)=>{
-      console.error(err)
-    })
-
+    
     axios({
       url:  api.USER_INFO_GET,
       method: 'GET',
@@ -307,7 +276,7 @@ export default {
     })
 
     axios({
-      url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+      url: api.GET_STUDY_BOARD_COMMENT + `${this.item.sboardId}`,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token

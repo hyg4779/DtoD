@@ -224,48 +224,58 @@ export default {
       this.stacksCheck()
       this.dayCheck()
       if (0 < this.title.length && this.title.length <= 50) {
-        if (10 >= this.peopleCount && this.peopleCount > 0) {
-          if (0 < this.skills.length && this.skills.length <= 4) {
-            if(0 < this.days.length) {
-              console.log(this.ingDate)
-              const temp = this.ingDate.split(' - ')
-              let res1 = []
-              for(let i = 0; i < temp.length; i++){
-                res1.push(temp[i])
-              }
-              console.log(res1)
-              let today = new Date()
-              let ingstart = new Date(res1[0])
-              console.log(today)
-              console.log(ingstart)
-              if (ingstart >= today.setHours(0,0,0,0)) {
-                const token = localStorage.getItem('jwt')
-                this.img = _.sample(this.images)
-                axios({
-                  url: api.CREATE_STUDY_ROOM,
-                  method: 'POST',
-                  data: {
-                    sboardTitle: this.title,
-                    sboardPwd: this.password,
-                    sboardPerson: this.peopleCount,
-                    sboardTechstack: this.skills,
-                    sboardIngdate: this.ingDate,
-                    sboardDays: this.days,
-                    sboardContent1: this.content1,
-                    sboardContent2: this.content2,
-                    sboardImg: this.img,
-                  },
-                  headers: {
-                    Authorization: 'Bearer ' + token
-                  },
-                }).then(()=>{
-                  this.$router.push('/studying')
-                }).catch(err=>{
-                  console.error(err)
-                })
+        if( 0< this.password.length && this.password.length <= 10) {
+          if (10 >= this.peopleCount && this.peopleCount > 0) {
+            if (0 < this.skills.length && this.skills.length <= 4) {
+              if(0 < this.days.length) {
+                // console.log(this.ingDate)
+                const temp = this.ingDate.split(' - ')
+                let res1 = []
+                for(let i = 0; i < temp.length; i++){
+                  res1.push(temp[i])
+                }
+                // console.log(res1)
+                let today = new Date()
+                let ingstart = new Date(res1[0])
+                // console.log(today)
+                // console.log(ingstart)
+                if (ingstart >= today.setHours(0,0,0,0)) {
+                  const token = localStorage.getItem('jwt')
+                  this.img = _.sample(this.images)
+                  axios({
+                    url: api.CREATE_STUDY_ROOM,
+                    method: 'POST',
+                    data: {
+                      roomTitle: this.title,
+                      roomPwd: this.password,
+                      roomPerson: this.peopleCount,
+                      roomTechstack: this.skills,
+                      roomIngdate: this.ingDate,
+                      roomIngday: this.days,
+                      roomContent1: this.content1,
+                      roomContent2: this.content2,
+                      roomImg: this.img,
+                    },
+                    headers: {
+                      Authorization: 'Bearer ' + token
+                    },
+                  }).then(()=>{
+                    // console.log(res)
+                    this.$router.push('/studying')
+                  }).catch(err=>{
+                    console.error(err)
+                  })
+                }
+                else {
+                  alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+                  this.stackFalse()
+                  this.stackCheckOut()
+                  this.dayCheckOut()
+                  this.dayFalse()
+                }
               }
               else {
-                alert("활동기간 시작일이 오늘 날짜보다 이전이면 안됩니다.")
+                alert("활동 요일을 1개 이상 선택해주세요.")
                 this.stackFalse()
                 this.stackCheckOut()
                 this.dayCheckOut()
@@ -273,7 +283,7 @@ export default {
               }
             }
             else {
-              alert("활동 요일을 1개 이상 선택해주세요.")
+              alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
               this.stackFalse()
               this.stackCheckOut()
               this.dayCheckOut()
@@ -281,7 +291,7 @@ export default {
             }
           }
           else {
-            alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+            alert("인원을 1명 이상 10명 이하 선택해주세요")
             this.stackFalse()
             this.stackCheckOut()
             this.dayCheckOut()
@@ -289,7 +299,7 @@ export default {
           }
         }
         else {
-          alert("인원을 1명 이상 10명 이하 선택해주세요")
+          alert("비밀번호를 1 ~ 10자리로 입력해주세요")
           this.stackFalse()
           this.stackCheckOut()
           this.dayCheckOut()

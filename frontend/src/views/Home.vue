@@ -51,9 +51,9 @@ export default {
       axios({
         url: api.GET_STUDY_BOARD,
         method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
+        // headers: {
+        //   Authorization: 'Bearer ' + token
+        // },
       }).then((res)=>{
         // console.log(res)
         const temp = []

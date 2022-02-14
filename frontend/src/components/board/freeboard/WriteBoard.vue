@@ -117,14 +117,14 @@ export default {
 
     codesave(value){
       this.code = value
-      console.log(this.code)
+      // console.log(this.code)
     },
 
     categoryCheck (event) {
       let selected = event.target.value;
-      console.log("selected : ", selected);
+      // console.log("selected : ", selected);
       this.category = selected
-      console.log(this.category)
+      // console.log(this.category)
     },
 
     stacksCheck () {
@@ -149,7 +149,7 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       if (this.category === '자유') {
-        console.log(this.category)
+        // console.log(this.category)
         if (0 < this.title.length && this.title.length <= 50) {
           if (10 < this.content.length) {
               const token = localStorage.getItem('jwt')
@@ -187,7 +187,7 @@ export default {
       }
       else {
         this.stacksCheck()
-        console.log(this.category)
+        // console.log(this.category)
         if (0 < this.title.length && this.title.length <= 50) {
           if (10 < this.content.length) {
             if (0 < this.skills.length && this.skills.length <= 4) {

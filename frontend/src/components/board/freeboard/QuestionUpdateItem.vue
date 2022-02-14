@@ -110,7 +110,7 @@ export default {
     },
     codesave(value){
       this.code = value
-      console.log(this.code)
+      // console.log(this.code)
     },
     getStack () {
       const token = localStorage.getItem('jwt')

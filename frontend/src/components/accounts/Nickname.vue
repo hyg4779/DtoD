@@ -51,7 +51,7 @@ export default {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          console.log(res)
+          // console.log(res)
           if (res.data === true) {
             this.nicknameCheck = res.data
             console.log(this.nicknameCheck)

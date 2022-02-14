@@ -13,8 +13,9 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import { dummy } from "../../../generated.js";
+import axios from 'axios'
+// import { dummy } from "../../../generated.js";
+import { api } from '../../../api.js'
 import Items from '../../components/room/Items.vue'
 
 export default {
@@ -29,9 +30,20 @@ export default {
   },
   created() {
     if (localStorage.getItem('jwt')) {
-      this.items = dummy
-      // const token = localStorage.getItem('jwt')
-      // console.log(token)
+      // this.items = dummy
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_STUDY_ROOM,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        // console.log(res)
+        this.items = res.data
+      }).catch(err=>{
+        console.error(err)
+      })
     } else {
       alert('로그인을 해주세요')
       this.$router.push({ name: 'Home' })

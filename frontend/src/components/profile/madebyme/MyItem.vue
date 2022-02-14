@@ -3,20 +3,19 @@
     <br>
     <swiper-slide>
       <div class="item" @click="getItemDetail()">
-        <div
-          class="imgBox"
-        >
+        <div class="item-img" :style="style">
           <img
-            v-for="(skill,idx) in myStacks"
+            v-for="(stack, idx) in imgs"
             :key="idx"
             id="stackImg"
-            :src="require(`../../../assets/stacks/${skill}.png`)"
-            alt="stack_logo"
+            :src="require(`@/assets/stacks/${stack}.png`)"
+            alt="img"
           >
         </div>
         <div class="item-title">
-          <p>{{ item.title }}</p>
+          <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
         </div>
+
         <b-modal
           ref="detail"
           centered
@@ -46,11 +45,33 @@ export default {
   props: {
     item: Object,
   },
-  computed: {
-    myStacks(){
-      // console.log(this.item.stacks)
-      return this.item.stacks
+  data() {
+    return {
+      imgs: null,
+      imgPath: '',
+
+      style: {
+        backgroundColor: this.imgPath
+      }
     }
+  },
+  computed: {
+    getTitle: function() {
+      const t = this.item.roomTitle
+      const temp = t.split(' ')
+      let res = []
+      let tp = ''
+      for(let i = 0; i < temp.length; i++){
+        if(tp.length + temp[i].length < 28 ){ 
+          tp += ' ' + temp[i]
+        }else{
+          res.push(tp)
+          tp = temp[i]
+        }
+      }
+      res.push(tp)
+      return res
+    },
   },
   methods: {
     getItemDetail() {
@@ -62,6 +83,21 @@ export default {
   },
   created() {
     // console.log(this.item)
+
+    let stacks = this.item.roomTechstack
+    // 배열로 저장
+    let result = stacks.split(',')
+    // console.log(result.length)
+
+    // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+    if(result.length >= 4){
+      // console.log(result.slice(0,3))
+      this.imgs = result.slice(0,3)
+    }else{
+      this.imgs = result
+    }
+    this.imgPath = this.item.roomImg
+    this.style.backgroundColor = this.item.roomImg
   }
 }
 </script>
@@ -78,14 +114,14 @@ export default {
   margin: 0 auto;
 }
 
-
 .item .item-title {
   text-align: center;
   font-size: 0.78vw;
   margin: 2.5vh 0 0 0;
   font-family: 'Epilogue', sans-serif;
 }
-.imgBox{
+
+.item .item-img {
   display: flex;
   border-radius: 2rem 2rem 0 0;
   flex-direction: row-reverse;
