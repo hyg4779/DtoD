@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.dtod.dto.RegistMyRoomDto;
 import com.ssafy.dtod.dto.RegistStudyRoomDto;
 import com.ssafy.dtod.dto.ViewStudyRoomDto;
 import com.ssafy.dtod.model.StudyRoom;
+import com.ssafy.dtod.service.MyRoomService;
 import com.ssafy.dtod.service.StudyRoomService;
 import com.ssafy.dtod.service.UserService;
 
@@ -28,6 +30,8 @@ public class StudyRoomController {
 	private StudyRoomService studyroomService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MyRoomService myroomService;
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<StudyRoom>> listRoom(){
@@ -42,7 +46,13 @@ public class StudyRoomController {
 	@PostMapping("/regist")
 	public ResponseEntity<StudyRoom> saveRoom(@RequestBody RegistStudyRoomDto dto){
 		dto.setUser(userService.getMyUserWithAuthorities().get());
-		return ResponseEntity.ok(studyroomService.saveRoom(dto));
+		StudyRoom studyroomDto = studyroomService.saveRoom(dto);
+		
+		RegistMyRoomDto myroomDto = new RegistMyRoomDto();
+		myroomDto.setUser(userService.getMyUserWithAuthorities().get());
+		myroomDto.setStudyroom(studyroomService.findByRoomId(studyroomDto.getRoomId()));
+		myroomService.registMyRoom(myroomDto);
+		return ResponseEntity.ok(studyroomDto);
 	}
 	
 	@PutMapping("/update")

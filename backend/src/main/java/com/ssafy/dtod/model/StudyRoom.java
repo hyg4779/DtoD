@@ -1,5 +1,7 @@
 package com.ssafy.dtod.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -65,4 +67,6 @@ public class StudyRoom {
 	@Column(name = "room_content2", columnDefinition = "TEXT")
 	private String roomContent2;
 	
+	@Column(name = "room_time")
+	private LocalDate roomTime;
 }

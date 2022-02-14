@@ -1,5 +1,6 @@
 package com.ssafy.dtod.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ssafy.dtod.model.User;
@@ -27,4 +28,5 @@ public class RegistStudyRoomDto {
 	private String roomContent1;
 	private String roomContent2;
 	private String roomImg;
+	private LocalDate roomTime;
 }
