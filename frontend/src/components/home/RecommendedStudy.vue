@@ -58,7 +58,7 @@ export default {
       tokenNum: '',
       userName: '',
 
-      btn : true,   // slider 양 옆 버튼
+      btn : false,   // slider 양 옆 버튼
       swiperOptions: {
         slidesPerView: 5,
         spaceBetween: 5,

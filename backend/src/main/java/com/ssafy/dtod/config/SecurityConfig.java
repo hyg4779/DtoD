@@ -82,6 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/checkemail/{userEmail}").permitAll()
                 .antMatchers("/api/user/checkname/{userName}").permitAll()
                 .antMatchers("/api/sboard/*").permitAll()
+                .antMatchers("/api/studyroom/*").permitAll()
+                .antMatchers("/api/myroom/*").permitAll()
 //                .antMatchers("/api/sboard/regist").permitAll()
 //                .antMatchers("/api/sboard/list").permitAll()
 //                .antMatchers("/api/sboard/update").permitAll()
