@@ -15,10 +15,10 @@
           {{item}}
         </span>
       </div>
-      <div class="btnGroup" v-if="userName === itemuserName">
+      <!-- <div class="btnGroup" v-if="userName === itemuserName">
         <button class="myBtn" id="up" @click="updateArticle">수정</button>
         <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
-      </div>
+      </div> -->
     </div>
     <br>
     <div class="img-etc-box">

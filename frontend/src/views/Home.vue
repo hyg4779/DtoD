@@ -30,13 +30,13 @@ export default {
     const token = localStorage.getItem('jwt')
     if (token) {
       axios({
-        url: api.GET_STUDY_BOARD,
+        url: api.GET_RECOMMEND_STUDY_BOARD,
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-        // console.log(res)
+        console.log(res)
         const temp = []
         let lodashtemp = []
         res.data.forEach((element)=>{

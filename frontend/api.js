@@ -24,6 +24,7 @@ export const api = {
 
 
   GET_STUDY_BOARD: 'http://localhost:9090/api/sboard/list',
+  GET_RECOMMEND_STUDY_BOARD: 'http://localhost:9090/api/sboard/recommend',
   GET_STUDY_BOARD_DETAIL: 'http://localhost:9090/api/sboard/view/',
   CREATE_STUDY_BOARD: 'http://localhost:9090/api/sboard/regist',
   UPDATE_STUDY_BOARD: 'http://localhost:9090/api/sboard/update/',

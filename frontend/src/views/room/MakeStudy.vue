@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     back () {
-      this.$router.replace()
+      this.$router.push({name: 'Home'})
     },
     stacksCheck () {
       for (let property in this.stacks){
@@ -361,7 +361,7 @@ form div #password {
   padding: 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 0.5rem;
-  height: 4.5vh;
+  height: 4vh;
   width: 30vw;
   font-family: 'Epilogue', sans-serif;
 }
@@ -371,7 +371,8 @@ form div textarea {
   padding: 0;
   border: 0.1px solid #C4C4C4;
   border-radius: 0.5rem;
-  height: 1vh;
+  height: 4vh;
+  line-height: 2.2;
   width: 30vw;
   font-family: 'Epilogue', sans-serif;
 }
