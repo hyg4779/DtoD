@@ -13,8 +13,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistCheckInDto {
+public class RegistCheckOutDto {
 
 	private User user;
-	private LocalDateTime checkDate;
+	private LocalDateTime checkoutDate;
+	
 }
