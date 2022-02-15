@@ -355,7 +355,7 @@ nav{
 #stacks span{
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.5vh 0.5vw 0.5vh 0.5vw;
+  padding: 0 0.5vw 0.5vh 0.5vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
 }

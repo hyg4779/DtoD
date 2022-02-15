@@ -73,7 +73,7 @@
           @onParentDeleteComment="onParentDeleteComment"
         />
       </div>
-      <br>
+      <hr v-if="this.comments.length !== 0" style="margin: 8px;">
       <form @submit="commentSubmit" v-if="this.token">
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -390,7 +390,7 @@ ul{
   justify-content: space-between;
   margin-right: 10rem;
   padding-left: 1rem;
-  height: 15rem;
+  /* height: 15rem; */
 }
 
 ul p:nth-child(1){

@@ -75,7 +75,7 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
-      <br>
+      <hr v-if="this.comments.length !== 0" style="margin: 8px;">
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -380,7 +380,7 @@ nav{
 #stack span{
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.5vh 0.5vw 0.5vh 0.5vw;
+  padding: 0 0.5vw 0.5vh 0.5vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
 }
@@ -418,7 +418,7 @@ ul{
   justify-content: space-between;
   margin-right: 10rem;
   padding-left: 1rem;
-  height: 15rem;
+  /* height: 15rem; */
 }
 
 ul p:nth-child(1){
