@@ -9,6 +9,8 @@ export const api = {
 
   GET_ATTENDANCE: 'http://localhost:9090/api/checkin/mycheckin',
   CREATE_ATTENDANCE: 'http://localhost:9090/api/checkin/regist',
+  GET_LEAVE: 'http://localhost:9090/api/checkout/mycheckout',
+  CREATE_LEAVE: 'http://localhost:9090/api/checkout/regist',
 
   GET_STUDY_ROOM: 'http://localhost:9090/api/studyroom/list',
   GET_STUDY_ROOM_DETAIL: 'http://localhost:9090/api/studyroom/view/',

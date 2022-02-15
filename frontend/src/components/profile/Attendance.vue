@@ -13,13 +13,14 @@
     </div>
     <div class="attend-leave">
       <button class="attend" @click="submitAttend">출석</button>
-      <!-- <button class="leave">퇴실</button> -->
+      <button class="leave" @click="submitLeave">퇴실</button>
     </div>
     <div class="calendar">
       <Calendars
+        data-app
         v-if="attend"
        :attend="attend"
-        data-app
+       :leave="leave"
       />
     </div>
   </div>
@@ -39,18 +40,17 @@ export default {
     return {
       userImg: null,
       attend: null,
+      leave: null,
     };
   },
   methods: {
     submitAttend() {
-      const date = new Date().toISOString().substr(0, 10);
-      // console.log(date)
       const token = localStorage.getItem('jwt')
       axios({
         url: api. CREATE_ATTENDANCE,
         method: 'POST',
         data: {
-          checkDate: date
+          checkDate: ''
         },
         headers: {
           Authorization: 'Bearer ' + token
@@ -73,9 +73,66 @@ export default {
         console.error(err)
       })
     },
+    submitLeave() {
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api. CREATE_LEAVE,
+        method: 'POST',
+        data: {
+          checkDate: ''
+        },
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then(()=>{
+        // console.log(res)
+        axios({
+          url: api. GET_LEAVE,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          // console.log(res)
+          this.leave = res.data
+        }).catch((err)=>{
+          console.error(err)
+        })
+      }).catch((err)=>{
+        console.error(err)
+      })
+    }
   },
   created() {
     const token = localStorage.getItem('jwt')
+
+    axios({
+      url: api. GET_LEAVE,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.leave = res.data
+      // console.log(this.leave)
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+    axios({
+      url: api. GET_ATTENDANCE,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.attend = res.data
+      // console.log(this.attend)
+    }).catch((err)=>{
+      console.error(err)
+    })
 
     axios({
       url: api. USER_INFO_GET,
@@ -90,21 +147,6 @@ export default {
     }).catch((err)=>{
       console.error(err)
     })
-
-    axios({
-      url: api. GET_ATTENDANCE,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      console.log(res)
-      this.attend = res.data
-      console.log(this.attend)
-    }).catch((err)=>{
-      console.error(err)
-    })
-
   }
 }
 </script>
