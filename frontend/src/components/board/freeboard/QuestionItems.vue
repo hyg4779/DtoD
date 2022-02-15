@@ -77,7 +77,7 @@ export default {
       }
       else if (this.selected === 'title') {
         this.items.forEach((element)=>{
-          console.log(element)
+          // console.log(element)
           const title = element.cboardTitle
           if (title.indexOf(keyword) !== -1) {
             temp.push(element)   

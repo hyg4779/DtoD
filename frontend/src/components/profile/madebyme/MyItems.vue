@@ -1,32 +1,30 @@
 <template>
-  <div>
-    <div class="items">
-      <div @mouseover="btn=true" @mouseleave="btn=false">
-        <swiper :options = "swiperOptions" ref = "slider" >
-          <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
-              <!-- v-for="(item, idx) in items" -->
-            <MyItem
-              :key="idx"
-              :item="item"
-            />
-          </swiper-slide>
-          <div 
-            v-if="btn"
-            class="swiper-button-prev swiper-button-white" 
-            slot="button-prev"
-            style="color: black;"
-            @click = "prev">    
-          </div>
-          <div 
-            v-if="btn"
-            class="swiper-button-next swiper-button-white" 
-            slot="button-next"
-            style="color: black;"
-            @click = "next"
-            >
-          </div>
-        </swiper>
-      </div>
+  <div class="items">
+    <div @mouseover="btn=true" @mouseleave="btn=false">
+      <swiper :options = "swiperOptions" ref = "slider" >
+        <swiper-slide v-for="(item, idx) in items" :key="idx" :item="item">
+            <!-- v-for="(item, idx) in items" -->
+          <MyItem
+            :key="idx"
+            :item="item"
+          />
+        </swiper-slide>
+        <div 
+          v-if="btn"
+          class="swiper-button-prev swiper-button-white" 
+          slot="button-prev"
+          style="color: black;"
+          @click = "prev">    
+        </div>
+        <div 
+          v-if="btn"
+          class="swiper-button-next swiper-button-white" 
+          slot="button-next"
+          style="color: black;"
+          @click = "next"
+          >
+        </div>
+      </swiper>
     </div>
   </div>
 </template>

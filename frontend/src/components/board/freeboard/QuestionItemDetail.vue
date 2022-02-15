@@ -154,8 +154,8 @@ export default {
           headers: {
             Authorization: 'Bearer ' + token
           },
-        }).then((res)=>{
-          console.log(res.data)
+        }).then(()=>{
+          // console.log(res.data)
           axios({
             url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
             method: 'GET',
@@ -396,6 +396,10 @@ export default {
   font-family: 'Epilogue', sans-serif;
 }
 
+form {
+  position: relative;
+}
+
 .form-group .form-control{
   /* background-color: black; 
   color:white; */
@@ -491,5 +495,8 @@ export default {
 
 #sub {
   background-color: rgb(50,100,250);
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
 }
 </style>

@@ -129,8 +129,8 @@ export default {
           headers: {
             Authorization: 'Bearer ' + token
           },
-        }).then((res)=>{
-          console.log(res.data)
+        }).then(()=>{
+          // console.log(res.data)
           axios({
             url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
             method: 'GET',
@@ -416,8 +416,10 @@ body > div{
 }
 
 #sub {
-  background-color: rgb(110,110,110);
-  font-size: 1.5vw;
+  background-color: rgb(50,100,250);
+  font-size: 1.2vw;
+  padding: 0.4vh;
+  /* font-weight: bold; */
   margin: 0.3vw 0.3vw;
   width: 100%;
   height: 100%;

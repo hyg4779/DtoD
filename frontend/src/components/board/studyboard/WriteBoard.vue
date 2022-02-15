@@ -191,7 +191,7 @@ export default {
               for(let i = 0; i < temp.length; i++){
                 res1.push(temp[i])
               }
-              console.log(res1)
+              // console.log(res1)
   
               // 모집기간 추출
               // console.log(this.date.joindate)
@@ -200,7 +200,7 @@ export default {
               for(let i = 0; i < tmp.length; i++){
                 res2.push(tmp[i])
               }
-              console.log(res2)
+              // console.log(res2)
   
               let today = new Date()
               let ingstart = new Date(res1[0])

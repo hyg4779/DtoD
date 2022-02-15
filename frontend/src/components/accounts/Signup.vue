@@ -73,7 +73,7 @@ export default {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          console.log(res)
+          // console.log(res)
           if (res.data === true) {
             this.emailCheck = res.data
             console.log(this.emailCheck)
