@@ -149,7 +149,7 @@ export default {
 header form {
   display: flex;
   align-items: center;
-  margin: 0 0 5vh 70vw;
+  margin: 0 0 2vh 70vw;
 }
 
 header form select {

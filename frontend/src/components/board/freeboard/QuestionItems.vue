@@ -149,7 +149,7 @@ header{
 header form {
   display: flex;
   align-items: center;
-  margin: 5vh;
+  margin: 0 1vw 3vh 0;
 }
 
 header form select {
