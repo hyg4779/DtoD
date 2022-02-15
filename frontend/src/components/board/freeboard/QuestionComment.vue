@@ -1,7 +1,7 @@
 <template>
   <div>
     <hr>
-    <div class="comment">
+    <article>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="getImg" :src="getImg"> 
@@ -10,14 +10,18 @@
         <div class="commentprofilename">{{ getName }}</div>
         <div class="time">
           <!-- <div>{{ this.time }}</div> -->
-          <div>{{ getCommentTime }}</div>
+          <div>| {{ getCommentTime }}</div>
         </div>
       </div>
-      <button v-if="getName == userName" @click="deleteComment">삭제</button>
-    </div>
-    <div>
-      <div class="commentdetail">{{ getComment }}</div>
-    </div>
+      <a
+        v-if="getName == userName"
+        @click="deleteComment"
+        id="delete"
+      >  
+        삭제
+      </a>
+    </article>
+    <footer>{{ getComment }}</footer>
   </div>
 </template>
 
@@ -217,22 +221,35 @@ export default {
 hr{
   margin: 8px;
 }
-.comment {
+article {
   display: flex; 
   justify-content: space-between;
+  align-content: center;
   font-family: 'Epilogue', sans-serif;
 }
-.comment button{
-  margin: 0 0 4.5vh 0; 
-  font-size: 0.8vw;
+#delete{
+  display: flex;
+  align-items: center ;
+  margin: 0;
+  padding: 0 .6rem 0 .6rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: .7vw;
 }
+
+#delete:hover{
+  transition: all 0.3s ease 0s;
+  color: rgb(200, 50, 50);
+}
+
 .commentprofilebox{
   display: flex;
+  align-items: center;
 }
 .commentprofileicon {
-  margin: 0 1vw 2vh 0;
-  width : 5vh;
-  height : 5vh;
+  margin: 8px;
+  width : 36px;
+  height : 36px;
   /* border: 1px solid; */
   border-radius: 50%;
   overflow:hidden;
@@ -247,9 +264,11 @@ hr{
   font-size: 1vw;
   font-weight: bold;
 }
-.commentdetail {
+footer {
+  margin: 0 0 0 52px;
   font-size: 0.9vw;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
 }
 .time {
   margin: 0 0 0.6vh 0.5vw;

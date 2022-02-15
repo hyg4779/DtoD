@@ -1,38 +1,44 @@
 <template>
   <div>
-    <form @submit="searchSome" class="form">
-      <select v-model="selected" name="kind" class='form-select'>
-        <option disabled value>선택</option>
-        <option value="title">제목</option>
-        <option value="person">글쓴이</option>
-      </select>
-      <input class="form-control" v-model="search" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-success" type="submit">Search</button>
-    </form>
-    <div class="items">
+    <header>
+      <form>
+        <select v-model="selected" class='form-select'>
+          <option disabled value>선택</option>
+          <option value="title">제목</option>
+          <option value="person">작성자</option>
+        </select>
+        <input
+          class="form-control"
+          v-model="search"
+          type="text"
+        >
+        <button id="sub" @click="searchSome">검색🔍</button>
+      </form>
+    </header>
+
+    <body>
       <QuestionItem 
         class="item"
         v-for="(item, idx) in paginatedData"
         :key="idx"
         :item="item"
       />
-    </div>
-    <p></p>
-    <div v-if="this.items.length != 0" class="btn-cover" style="color:white;">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
-      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
-        다음
-      </button>
-    </div>
-    <div v-else>
-      <div class="nodata">
+    </body>
+    
+    <footer>
+      <div v-if="this.items.length != 0" class="btn-cover" style="color:white;">
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+          이전
+        </button>
+        <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+          다음
+        </button>
+      </div>
+      <div v-else class="nodata">
         작성한 게시글이 없습니다
       </div>
-    </div>
-    <p></p>
+    </footer>
   </div>
 </template>
 
@@ -135,29 +141,44 @@ export default {
 </script>
 
 <style scoped>
-.form {
+header{
   display: flex;
-  margin: 0 0 5vh 60vw;
+  justify-content: flex-end;
 }
 
-.form .form-select {
+header form {
+  display: flex;
+  align-items: center;
+  margin: 5vh;
+}
+
+header form select {
   height: 5vh;
   width: 13vh;
   font-size: 1.7vh;
 }
 
-.form .form-control {
+.form-control {
   height: 5vh;
   width: 30vh;
   margin: 0 0.1vw 0 0;
 }
 
-.form button {
-  height: 5vh;
-  margin: 0 1vw 0 0;
+#sub {
+  font-size: 1vw;
+  font-weight: bold;
+  padding: 1vh 1vw 1vh 1vw;
+  border-radius: 1rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(150,150,150);
+  background-color: rgb(250, 250, 250);
 }
 
-.items {
+#sub:hover{
+  transition: all 0.3s ease 0s;
+  background-color: rgba(250, 250, 250, 0.5);
+}
+
+body {
   margin: auto;
   display: grid;
   grid-template-rows: auto auto;
@@ -167,15 +188,15 @@ export default {
   /* align-content: stretch; */
 }
 
-.item:hover{
-  transform: scale(1.05);
-  transition: all 0.3s ease 0s;
-}
-
 .btn-cover {
   margin: 3rem auto;
   text-align: center;
   color:white;
+}
+
+.item:hover{
+  transform: scale(1.05);
+  transition: all 0.3s ease 0s;
 }
 
 .btn-cover .page-btn {

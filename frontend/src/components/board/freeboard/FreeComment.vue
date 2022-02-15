@@ -1,7 +1,7 @@
 <template>
   <div>
     <hr>
-    <div class="comment">
+    <article>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="getImg" :src="getImg"> 
@@ -20,8 +20,8 @@
       >
         삭제
       </a>
-    </div>
-    <div class="commentdetail">{{ getComment }}</div>
+    </article>
+    <footer>{{ getComment }}</footer>
     <!-- <hr> -->
   </div>
 </template>
@@ -222,7 +222,7 @@ export default {
 hr{
   margin: 8px;
 }
-.comment {
+article {
   display: flex; 
   justify-content: space-between;
   align-content: center;
@@ -265,7 +265,7 @@ hr{
   font-size: 1vw;
   font-weight: bold;
 }
-.commentdetail {
+footer {
   margin: 0 0 0 52px;
   font-size: 0.9vw;
   font-weight: bold;

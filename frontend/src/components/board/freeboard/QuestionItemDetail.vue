@@ -1,29 +1,32 @@
 <template>
   <div class="questionitemdetail">
-    <div class="cardmodal">
-      <div class="detailtitle">
-        {{this.title}}
+    <header>
+      <h3>{{this.title}}</h3>
+      <div class="profileicon">
+        <img v-if="itemuserImg" :src="itemuserImg"> 
+        <img v-else src="../../../assets/default_user.png">
       </div>
-      <div class="profilebox">
-        <div class="profileicon">
-          <img v-if="itemuserImg" :src="itemuserImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="profilename">작성자: {{this.itemuserName}}</div>
-      </div>
-      <div class="tech-control">
-        <div class="techstack">
-          기술 스택
-          <span v-for="(item, idx) in getSkills" :key="idx">
+      {{this.itemuserName}}
+    </header>
+
+    <body>
+      <nav>
+        <div id="stacks">
+          <h6 class="p-0 m-0">기술 스택</h6>
+          <span
+            v-for="(item, idx) in getSkills"
+            :key="idx"
+          >
             {{item}}
           </span>
         </div>
-      <div class="btnGroup" v-if="userName === itemuserName">
-        <button class="myBtn" id="up" @click="updateArticle">수정</button>
-        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
-      </div>
-      </div>
-      <div class="img-etc">
+        <div class="btnGroup" v-if="userName === itemuserName">
+          <button class="myBtn" id="up" @click="updateArticle">수정</button>
+          <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
+        </div>
+      </nav>
+
+      <section>
         <div class="img-box" :style="style">
           <img 
           v-for="(stack, idx) in imgs"
@@ -33,27 +36,24 @@
           alt="img"
           >
         </div>
-      </div>
-      <div class="content">
-        <div class="contenttitle">
-          내용
-        </div>
-        <div class="contentdetail">
-          <p v-html="getContent(this.content)"></p>
-        </div>
-      </div>
-      <div class="code">
-        <div class="codetitle">
-          코드
-        </div>
-        <div class="code">
+        <ul>
+          <li>
+            <p>질문내용</p>
+            <p v-html="getContent(this.content)"></p>
+          </li>
+        </ul>
+      </section>
+
+      <article>
+          <p>코드</p>
           <Tiptap 
             :item_pk="item_pk"
           />
             <!-- :techstack="this.techstack" -->
-        </div>
-      </div>
-      <div>
+      </article>
+    </body>
+
+    <footer>
       <QuestionComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
@@ -61,7 +61,6 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
-      </div>
       <hr v-if="this.comments.length !== 0">
       <!-- <div class="commentprofilebox">
         <div class="commentprofileicon">
@@ -70,21 +69,22 @@
         </div>
         <div class="commentprofilename">{{this.userName}}</div>
       </div> -->
-      <form @submit="commentSubmit">
-        <div class="form-group" style="margin-bottom:10px;">
-          <textarea 
-            class="form-control"
-            placeholder="댓글을 남겨주세요" 
-            id="comment" 
-            rows="2" 
-            v-model="mycomment" 
-            @keypress.enter="commentSubmit"
-            >
-          </textarea>
-          <button class="myBtn submit" id="sub">등록</button>
-        </div>
+      <form
+        @submit="commentSubmit"
+        class="form-group"
+      >
+        <textarea 
+          class="form-control"
+          placeholder="댓글을 남겨주세요" 
+          id="comment" 
+          rows="2" 
+          v-model="mycomment" 
+          @keypress.enter="commentSubmit"
+          >
+        </textarea>
+        <button class="myBtn" id="sub">등록</button>
       </form>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -299,160 +299,119 @@ hr{
   margin: 8px;
 }
 .questionitemdetail{
-  width: auto; 
-  height: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto;
+  height:auto;
   padding:10px !important;
-  font-size: 20px;
 }
-.detailtitle {
-  text-align: center;
-  font-size: 1.4vw;
+
+header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 2.5vh 0;
+}
+
+header h3{
   font-weight: bold;
 }
-/* .profilebox{
-  display: flex;
-} */
+
 .profileicon {
-  margin: 2.5vh 1vw 2vh 17vw;
+  margin: 2vh 1vw 2vh 1vw;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
   border-radius: 50%;
   overflow:hidden;
 }
+
 .profileicon img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-.profilename {
-  margin: 2vh 0 0 15vw;
-  font-size: 1vw;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
+
+body{
+  background-color: #FFFFFF !important;
 }
-.tech-control {
+
+nav{
   display: flex;
   justify-content: space-between;
-  margin: 1.5vh 0 0 0;
 }
 
-.techstack {
+#stacks{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 3vh 0;
-  font-family: 'Epilogue', sans-serif;
 }
-.techstack span {
+
+#stacks span{
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.5vh 0.5vw 0.6vh 0.8vw;
+  padding: 0.5vh 0.5vw 0.5vh 0.5vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
 }
-/* .item-control .update{
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
-  font-weight: bold;
-  color: #24274A;
-  height: 3vh;
-  width: 3vw;
-  margin: 0 1vw 0 0;
-  border: 1px solid;
-  background-color: white;
-  border-radius: 1.1rem;
-}
-.item-control .delete{
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
-  font-weight: bold;
-  color: white;
-  height: 3vh;
-  width: 3vw;
-  background-color: #24274A;
-  border-radius: 1.1rem;
-} */
 
-.content {
-  margin: 0 0 2vh 0;
+section{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin:  0.6vh 0 2vh 0;
 }
-.content .contenttitle{
+
+.img-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top:1rem;
+  padding: 1rem;
+  width: 20rem;
+  height: 15rem;
+  border-radius: 2rem;
+  box-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.25);
+}
+
+.img-box img{
+  margin: .5rem;
+  width: 5rem;
+  height: 5rem;
+}
+
+ul{
+  list-style-type: none;
+  margin: 1rem 0 0 0;
+}
+
+ul p:nth-child(1){
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 3vh 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
 }
-.content .contentdetail {
-  font-weight:300;
-  font-family: 'Epilogue', sans-serif;
-  margin: 0 0 2vh 0;
-  font-size: 0.9vw
-}
-.code .codetitle{
+
+article{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
+  padding: 1rem;
+}
+
+
+footer form {
+  position: relative;
+  margin-bottom:10px;
 }
 
 .form-group .form-control{
-  /* background-color: black; 
-  color:white; */
   border-radius: 1rem;
   height: 10vh;
-}
-
-/* .submit {
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.85vw;
-  font-weight: bold;
-  color: white;
-  height: 4vh;
-  width: 4vw;
-  margin: 1vh 0 0 0;
-  background-color: #24274A;
-  border-radius: 1.1rem;
-} */
-
-.commentprofilebox{
-  display: flex;
-}
-.commentprofileicon {
-  margin: 0 1vw 1vh 0;
-  width : 5vh;
-  height : 5vh;
-  /* border: 1px solid; */
-  border-radius: 50%;
-  overflow:hidden;
-}
-.commentprofileicon img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.commentprofilename {
-  margin: 1vh 0 0 0;
-  font-size: 1.1vw;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
-}
-
-.img-etc {
-  display: flex;
-  margin:  0.6vh 0 2vh 0;
-}
-.img-etc .img-box {
-  width: 31vh;
-  height: 30vh;
-}
-.img-etc .img-box #stackImg {
-  margin: 9vh 0 0 0;
-  width: 10vh;
 }
 
 .myBtn {
@@ -467,11 +426,6 @@ hr{
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   touch-action: manipulation;
   will-change: transform;
-}
-
-.submit {
-  margin: 0.7vh 0 0 0;
-  padding: 0.5vh 0.5vw 0.8vh 0.5vw;
 }
 
 .myBtn:hover {
@@ -502,4 +456,39 @@ form {
   bottom: 1vh;
   padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
+/* .submit {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.85vw;
+  font-weight: bold;
+  color: white;
+  height: 4vh;
+  width: 4vw;
+  margin: 1vh 0 0 0;
+  background-color: #24274A;
+  border-radius: 1.1rem;
+} */
+
+/* .commentprofilebox{
+  display: flex;
+} */
+/* .commentprofileicon {
+  margin: 0 1vw 1vh 0;
+  width : 5vh;
+  height : 5vh;
+  border: 1px solid;
+  border-radius: 50%;
+  overflow:hidden;
+} */
+/* .commentprofileicon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+} */
+/* .commentprofilename {
+  margin: 1vh 0 0 0;
+  font-size: 1.1vw;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
+} */
 </style>

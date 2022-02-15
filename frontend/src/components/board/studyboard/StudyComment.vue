@@ -235,7 +235,7 @@ hr{
   padding: 0 .6rem 0 .6rem;
   border-radius: 1rem;
   cursor: pointer;
-  font-size: 1vw;
+  font-size: .7vw;
 }
 
 #delete:hover{

@@ -1,24 +1,20 @@
 <template>
   <div class="myboard">
-    <div class="myitems">
-      <div v-if="this.freeitems.length !== 0">
-        <div class="title">
-          내가 작성한 자유 게시글
-        </div>
+    <body>
+      <article v-if="this.freeitems.length !== 0">
+        <p>내가 작성한 자유 게시글</p>
         <MyFreeItem
           :items="this.freeitems"
         />
-      </div>
+      </article>
       <br>
-      <div v-if="this.questionitems.length !== 0">
-        <div class="title">
-          내가 작성한 질문 게시글
-        </div>
+      <article v-if="this.questionitems.length !== 0">
+        <p>내가 작성한 질문 게시글</p>
         <MyQuestionItem
           :items="this.questionitems"
         />
-      </div>
-    </div>
+      </article>
+    </body>
   </div>
 </template>
 
@@ -98,16 +94,16 @@ export default {
 </script>
 
 <style scoped>
+body {
+  margin: 6vh auto;
+}
 
 
-.myboard .title {
+body p {
   font-size: 1.58vw;
   margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
-}
-.myitems {
-  margin: 6vh auto;
 }
 
 </style>
