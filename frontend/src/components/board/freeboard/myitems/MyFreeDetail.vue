@@ -1,36 +1,33 @@
 <template>
   <div class="itemdetail">
+
     <header>
-      <h2>{{title}}</h2>
       <div class="profileicon">
         <img v-if="itemuserImg" :src="itemuserImg"> 
         <img v-else src="../../../../assets/default_user.png">
       </div>
-      작성자: {{itemuserName}}
+      <h6 style='font-weight: bold'>{{itemuserName}}</h6>
     </header>
-    <br>
-    <!-- <div class="img-btn">
-      <div class="img-box" :style="style">
-        <div class="img-box" >
-          <div></div>
-        </div>
-      </div>
-    </div> -->
-    <div class="content">
+
+    <body>
       <div>
-        <div class="contenttitle">
-          내용
+        <div id="title">
+          <h5>글 제목</h5>
+          <p>{{title}}</p>
         </div>
-        <div class="contentdetail">
-          <p v-html="getContent(this.content)"></p>
+        <div class="btnGroup" v-if="userName === itemuserName">
+          <button class="myBtn" id="up" @click="updateArticle">수정</button>
+          <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
         </div>
       </div>
-      <div class="btnGroup" v-if="userName === itemuserName">
-        <button class="myBtn" id="up" @click="updateArticle">수정</button>
-        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
+      <div id="title">
+        <h5>내용</h5>
+        <!-- <p>{{content}}</p> -->
+        <p v-html="getContent(this.content)"></p>
       </div>
-    </div>
-    <div>
+    </body>
+
+    <footer>
       <MyFreeComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
@@ -38,26 +35,30 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
-    </div>
-    <hr v-if="this.comments.length !== 0">
-    <form @submit="commentSubmit">
-      <div class="form-group" style="margin-bottom:10px;">
-        <textarea 
-          class="form-control"
-          placeholder="댓글을 남겨주세요" 
-          id="comment" 
-          rows="2" 
-          v-model="mycomment" 
-          @keypress.enter="commentSubmit"
-          >
-        </textarea>
-        <button class="myBtn submit" id="sub">등록</button>
-      </div>
-    </form>
+      <hr v-if="this.comments.length !== 0" style="margin: 8px;">
+      <form>
+        <div class="form-group" style="margin-bottom:10px;">
+          <textarea 
+            class="form-control"
+            placeholder="댓글을 남겨주세요" 
+            id="comment" 
+            rows="2" 
+            v-model="mycomment" 
+            @keypress.enter="commentSubmit"
+            >
+          </textarea>
+          <button
+            class="myBtn submit"
+            id="sub"
+            @click="commentSubmit"
+          >등록</button>
+        </div>
+      </form>
+    </footer>
     <!-- <div class="commentprofilebox">
       <div class="commentprofileicon">
         <img v-if="userImg" :src="userImg"> 
-        <img v-else src="../../../../assets/default_user.png">
+        <img v-else src="../../../assets/default_user.png">
       </div>
       <div class="commentprofilename">{{userName}}</div>
     </div> -->
@@ -258,10 +259,12 @@ hr{
   margin: 8px;
 }
 .itemdetail{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding:10px !important;
   width: auto; 
   height:auto; 
-  padding:10px !important;
-  font-size: 20px;
 }
 
 header{
@@ -277,25 +280,46 @@ header h2{
   font-weight: bold;
 }
 
+body{
+  background-color: #FFFFFF !important;
+}
+
+body > div{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#title{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#title h5{
+  font-weight: bold;
+}
+
 .profileicon {
   margin: 2vh 1vw 2vh 1vw;
   width : 6.5vh;
   height : 6.5vh;
-  /* border: 1px solid; */
   border-radius: 50%;
   overflow:hidden;
 }
+
 .profileicon img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-.profilbox h5 {
+
+/* .profilbox h5 {
   margin: 3.5vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
   font-family: 'Epilogue', sans-serif;
-}
+} */
 
 /* .tech-control {
   display: flex;
@@ -303,17 +327,7 @@ header h2{
   align-content: center;
 } */
 
-.content{
-  display: flex;
-  justify-content: space-between;
-}
 
-.content .contenttitle{
-  font-weight: bold;
-  font-size: 1.1vw;
-  margin: 1vh 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
-}
 .content .contentdetail {
   font-weight:300;
   margin: 0 0 2vh 0;
@@ -352,7 +366,7 @@ header h2{
   font-family: 'Epilogue', sans-serif;
 }
 
-/* .img-btn {
+.img-btn {
   display: flex;
   justify-content: space-between;
 }
@@ -365,7 +379,7 @@ header h2{
   margin: 9vh 0 0 0;
   width: 15vw;
   height: 17vh;
-} */
+}
 
 .btnGroup{
   display: flex;
@@ -383,11 +397,6 @@ header h2{
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   touch-action: manipulation;
   will-change: transform;
-}
-
-.submit {
-  margin: 0.7vh 0 0 0;
-  padding: 0.5vh 0.5vw 0.8vh 0.5vw;
 }
 
 .myBtn:hover {
@@ -416,6 +425,5 @@ form {
   position: absolute;
   right: 0.5vw;
   bottom: 1vh;
-  padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
 </style>
