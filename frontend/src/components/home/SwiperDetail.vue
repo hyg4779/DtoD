@@ -11,7 +11,7 @@
 
     <body>
       <section>
-        <h6 class="p-0 m-0">기술 스택</h6>
+        <h6 class="p-0 ms-3 mt-2">기술 스택</h6>
         <span
           v-for="(item, idx) in getSkills"
           :key="idx"
@@ -21,7 +21,7 @@
       </section>
       <br>
       <aside>
-        <div class="img-box">
+        <div class="img-box" :style="style">
           <img 
           v-for="(stack, idx) in imgs"
           :key="idx"
@@ -89,6 +89,13 @@
         </div>
       </form>
       <hr v-if="this.token">
+      <!-- <div class="commentprofilebox" v-if="this.token">
+        <div class="commentprofileicon">
+          <img v-if="userImg" :src="userImg"> 
+          <img v-else src="../../assets/default_user.png">
+        </div>
+        <div class="commentprofilename">{{userName}}</div>
+      </div> -->
     </footer>
     
   </div>
@@ -285,6 +292,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .itemdetail{
   display: flex;
   flex-direction: column;
@@ -336,9 +346,10 @@ section {
 section span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.5vh 0.5vw 0.5vh 0.8vw;
+  padding: 0.3vh 0.6vw 0.2vh 0.6vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 aside {
@@ -411,13 +422,13 @@ ul p:nth-child(1){
   border-radius: 1rem;
   color: #FFFFFF;
   cursor: pointer;
-  font-size: 1.5vw;
+  font-size: 0.8vw;
   font-weight: bold;
-  margin: 0.3vw 0.3vw;
-  width: 100%;
+  margin: 0 0.3vw 0 0.3vw;
   padding: 0 0.5vw 0.1vh 0.5vw;
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   touch-action: manipulation;
+  will-change: transform;
 }
 
 
@@ -431,11 +442,14 @@ ul p:nth-child(1){
   transform: translateY(0);
 }
 
-#sub {
-  background-color: rgb(110,110,110);
+form {
+  position: relative;
 }
-
-hr{
-  margin:8px;
+#sub {
+  background-color: rgb(50,100,250);
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
+  padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
 </style>

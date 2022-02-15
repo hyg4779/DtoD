@@ -40,8 +40,19 @@ export default {
         const temp = []
         let lodashtemp = []
         res.data.forEach((element)=>{
-          temp.push(element)
+          // console.log(element)
+          if(!temp.includes(element)) {
+            temp.push(element)
+          }
         })
+        // console.log(temp)
+        for (let i=0; i < temp.length -1; i ++) {
+          if (temp[i].sboardId === temp[i+1].sboardId) {
+            temp.splice(i, 1)
+            i--;
+          }
+        }
+        // console.log(temp)
         lodashtemp = _.sampleSize(temp, 10)
         this.items = lodashtemp
       }).catch((err)=>{

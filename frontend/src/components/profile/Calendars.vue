@@ -21,7 +21,7 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-menu bottom right>
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{ on, attrs }" >
               <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>
@@ -45,6 +45,7 @@
       </v-sheet>
       <v-sheet height="60vh" width="auto">
         <v-calendar
+          :dark="true"
           ref="calendar"
           v-model="focus"
           color="primary"
@@ -94,9 +95,9 @@
 <script>
 export default {
   name:'Calendars',
-  props: [
-    'attendInfo'
-  ],
+  props: {
+    attend: Array
+  },
   data: () => ({
     focus: '',
     type: 'month',
@@ -112,7 +113,7 @@ export default {
     colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
 
-    attend: null,
+    attendInfo: null,
   }),
   // mounted () {
   //   this.$refs.calendar.checkChange()
@@ -153,10 +154,12 @@ export default {
     updateRange () {
       const events = [];
 
-      for (let i = 0; i < this.activeListData.length; i++) {
-        var name = '학습 #' + this.activeListData[i].id;
-        var start_time = new Date(this.activeListData[i].start_time);
-        var end_time = new Date(this.activeListData[i].end_time);
+      for (let i = 0; i < this.attendInfo.length; i++) {
+        const name = '출석 완료 ' + this.attendInfo[i];
+        // var start_time = new Date(this.attendInfo[i].start_time);
+        // var end_time = new Date(this.attendInfo[i].end_time);
+        const start_time = new Date(this.attendInfo[i] + 'T09:00:00');
+        const end_time = new Date(this.attendInfo[i], 'T25:00:00');
 
         events.push({
           name: name,
@@ -173,5 +176,10 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a
     },
   },
+  created() {
+    console.log(this.attend)
+    this.attendInfo = this.attend
+    console.log(this.attendInfo)
+  }
 }
 </script>

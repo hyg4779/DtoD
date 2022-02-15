@@ -61,6 +61,7 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
+      <hr v-if="this.comments.length !== 0">
       <!-- <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
@@ -294,6 +295,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .questionitemdetail{
   display: flex;
   flex-direction: column;
@@ -442,11 +446,15 @@ footer form {
   background-color: rgb(250, 100, 100);
 }
 
+form {
+  position: relative;
+}
 #sub {
   background-color: rgb(50,100,250);
   position: absolute;
   right: 0.5vw;
   bottom: 1vh;
+  padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
 /* .submit {
   cursor: pointer;

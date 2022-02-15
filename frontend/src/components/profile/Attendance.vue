@@ -15,9 +15,11 @@
       <button class="attend" @click="submitAttend">출석</button>
       <!-- <button class="leave">퇴실</button> -->
     </div>
-    <div data-app class="calendar">
-      <Calendars 
-       :attendInfo="attend"
+    <div class="calendar">
+      <Calendars
+        v-if="attend"
+       :attend="attend"
+        data-app
       />
     </div>
   </div>
@@ -41,7 +43,35 @@ export default {
   },
   methods: {
     submitAttend() {
-
+      const date = new Date().toISOString().substr(0, 10);
+      // console.log(date)
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api. CREATE_ATTENDANCE,
+        method: 'POST',
+        data: {
+          checkDate: date
+        },
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then(()=>{
+        // console.log(res)
+        axios({
+          url: api. GET_ATTENDANCE,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          // console.log(res)
+          this.attend = res.data
+        }).catch((err)=>{
+          console.error(err)
+        })
+      }).catch((err)=>{
+        console.error(err)
+      })
     },
   },
   created() {
@@ -61,6 +91,19 @@ export default {
       console.error(err)
     })
 
+    axios({
+      url: api. GET_ATTENDANCE,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      console.log(res)
+      this.attend = res.data
+      console.log(this.attend)
+    }).catch((err)=>{
+      console.error(err)
+    })
 
   }
 }
@@ -93,6 +136,26 @@ export default {
   margin: 0 0 1vh 1vw;
 }
 
+.attend-leave .attend {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.85vw;
+  font-weight: bold;
+  color: white;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
+  background-color: #24274A;
+  border-radius: 1.1rem;
+}
+
+.attend-leave .attend:hover {
+  color: #24292F;
+  border: 1px solid #24292F;
+  background-color: white;
+  transition: .2s;
+}
+
 .attend-leave .leave {
   cursor: pointer;
   font-family: 'Roboto';
@@ -113,23 +176,4 @@ export default {
   transition: .2s;
 }
 
-.attend-leave .attend {
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.85vw;
-  font-weight: bold;
-  color: white;
-  height: 4vh;
-  width: 4vw;
-  margin: 0 1vw 0 0;
-  background-color: #24274A;
-  border-radius: 1.1rem;
-}
-
-.attend-leave .attend:hover {
-  color: #24292F;
-  border: 1px solid #24292F;
-  background-color: white;
-  transition: .2s;
-}
 </style>

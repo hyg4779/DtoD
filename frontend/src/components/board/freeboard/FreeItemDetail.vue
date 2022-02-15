@@ -28,6 +28,14 @@
     </body>
 
     <footer>
+      <FreeComment 
+        v-for="(comment, idx) in this.comments"
+        :key="idx"
+        :comment="comment"
+        :item_pk="item_pk"
+        @onParentDeleteComment="onParentDeleteComment"
+      />
+      <hr v-if="this.comments.length !== 0" style="margin: 8px;">
       <form>
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -46,15 +54,6 @@
           >등록</button>
         </div>
       </form>
-
-      <FreeComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-      <hr>
     </footer>
     <!-- <div class="commentprofilebox">
       <div class="commentprofileicon">
@@ -256,6 +255,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .itemdetail{
   display: flex;
   flex-direction: column;
@@ -291,7 +293,7 @@ body > div{
 #title{
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 #title h5{
@@ -415,13 +417,13 @@ body > div{
   background-color: rgb(250, 100, 100);
 }
 
+form {
+  position: relative;
+}
 #sub {
   background-color: rgb(50,100,250);
-  font-size: 1.2vw;
-  padding: 0.4vh;
-  /* font-weight: bold; */
-  margin: 0.3vw 0.3vw;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
 }
 </style>

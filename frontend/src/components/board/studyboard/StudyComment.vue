@@ -4,7 +4,7 @@
     <div class="comment">
       <div class="commentprofilebox">
         <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
+          <img v-if="getImg" :src="getImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
         <div class="commentprofilename">{{ getName }}</div>
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       userName: '',
-      userImg: '',
+      // userImg: '',
 
       time: '',
     }
@@ -43,6 +43,10 @@ export default {
     item_pk: Number
   },
   computed: {
+    getImg() {
+      // console.log(this.comment)
+      return this.comment.user.userImg
+    },
     getComment() {
       // console.log(this.comment.scommentContent)
       return this.comment.scommentContent
@@ -196,7 +200,7 @@ export default {
     // const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
 
-    this.userImg = this.comment.user.userImg
+    // this.userImg = this.comment.user.userImg
 
     axios({
       url: api. USER_INFO_GET,
@@ -231,7 +235,7 @@ hr{
   padding: 0 .6rem 0 .6rem;
   border-radius: 1rem;
   cursor: pointer;
-  font-size: 1vw;
+  font-size: .7vw;
 }
 
 #delete:hover{
@@ -268,8 +272,8 @@ hr{
   color: rgba(0, 0, 0, 0.6);
 }
 .time {
-  margin: 0 0 0 0.5vw;
-  font-size: 1vw;
+  margin: 0 0 0.6vh 0.5vw;
+  font-size: 0.7vw;
   font-weight: bold;
   color: gray;
 }
