@@ -140,7 +140,7 @@ export default {
 <style scoped>
 .form {
   display: flex;
-  margin: 0 0 5vh 60vw;
+  margin: 0 0 5vh 70vw;
 }
 
 .form .form-select {

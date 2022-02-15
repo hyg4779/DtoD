@@ -210,6 +210,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .comment {
   display: flex; 
   justify-content: space-between;
@@ -245,8 +248,8 @@ export default {
   font-weight: bold;
 }
 .time {
-  margin: 0 0 0 1vw;
-  font-size: 0.8vw;
+  margin: 0 0 0.6vh 0.5vw;
+  font-size: 0.7vw;
   font-weight: bold;
   color: gray;
 }

@@ -9,10 +9,20 @@
       작성자: {{itemuserName}}
     </header>
     <br>
-    <div class="img-btn">
+    <!-- <div class="img-btn">
       <div class="img-box" :style="style">
         <div class="img-box" >
           <div></div>
+        </div>
+      </div>
+    </div> -->
+    <div class="content">
+      <div>
+        <div class="contenttitle">
+          내용
+        </div>
+        <div class="contentdetail">
+          <p v-html="getContent(this.content)"></p>
         </div>
       </div>
       <div class="btnGroup" v-if="userName === itemuserName">
@@ -20,14 +30,16 @@
         <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
       </div>
     </div>
-    <div class="content">
-      <div class="contenttitle">
-        내용
-      </div>
-      <div class="contentdetail">
-        <p v-html="getContent(this.content)"></p>
-      </div>
+    <div>
+      <MyFreeComment 
+        v-for="(comment, idx) in this.comments"
+        :key="idx"
+        :comment="comment"
+        :item_pk="item_pk"
+        @onParentDeleteComment="onParentDeleteComment"
+      />
     </div>
+    <hr v-if="this.comments.length !== 0">
     <form @submit="commentSubmit">
       <div class="form-group" style="margin-bottom:10px;">
         <textarea 
@@ -42,16 +54,6 @@
         <button class="myBtn submit" id="sub">등록</button>
       </div>
     </form>
-    <div>
-      <MyFreeComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-    </div>
-    <hr>
     <!-- <div class="commentprofilebox">
       <div class="commentprofileicon">
         <img v-if="userImg" :src="userImg"> 
@@ -252,6 +254,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .itemdetail{
   width: auto; 
   height:auto; 
@@ -298,6 +303,11 @@ header h2{
   align-content: center;
 } */
 
+.content{
+  display: flex;
+  justify-content: space-between;
+}
+
 .content .contenttitle{
   font-weight: bold;
   font-size: 1.1vw;
@@ -342,7 +352,7 @@ header h2{
   font-family: 'Epilogue', sans-serif;
 }
 
-.img-btn {
+/* .img-btn {
   display: flex;
   justify-content: space-between;
 }
@@ -355,7 +365,7 @@ header h2{
   margin: 9vh 0 0 0;
   width: 15vw;
   height: 17vh;
-}
+} */
 
 .btnGroup{
   display: flex;
@@ -398,11 +408,14 @@ header h2{
   background-color: rgb(250, 100, 100);
 }
 
+form {
+  position: relative;
+}
 #sub {
-  background-color: rgb(110,110,110);
-  font-size: 1.5vw;
-  margin: 0.3vw 0.3vw;
-  width: 100%;
-  height: 100%;
+  background-color: rgb(50,100,250);
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
+  padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
 </style>

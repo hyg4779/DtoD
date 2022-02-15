@@ -72,7 +72,7 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         for (let i=0; i < res.data.length; i++){
           if( this.username === res.data[i].user.userName) {
             this.madeitems.push(res.data[i])
@@ -89,7 +89,7 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         this.joineditems = res.data
       }).catch(err=>{
         console.error(err)

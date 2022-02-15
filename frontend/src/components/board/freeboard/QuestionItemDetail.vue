@@ -62,14 +62,14 @@
         @onParentDeleteComment="onParentDeleteComment"
       />
       </div>
-      <hr>
-      <div class="commentprofilebox">
+      <hr v-if="this.comments.length !== 0">
+      <!-- <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
         <div class="commentprofilename">{{this.userName}}</div>
-      </div>
+      </div> -->
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -295,6 +295,9 @@ export default {
 </script>
 
 <style scoped>
+hr{
+  margin: 8px;
+}
 .questionitemdetail{
   width: auto; 
   height: auto; 
@@ -396,10 +399,6 @@ export default {
   font-family: 'Epilogue', sans-serif;
 }
 
-form {
-  position: relative;
-}
-
 .form-group .form-control{
   /* background-color: black; 
   color:white; */
@@ -493,10 +492,14 @@ form {
   background-color: rgb(250, 100, 100);
 }
 
+form {
+  position: relative;
+}
 #sub {
   background-color: rgb(50,100,250);
   position: absolute;
   right: 0.5vw;
   bottom: 1vh;
+  padding: 0.4vh 0.6vw 0.5vh 0.6vw;
 }
 </style>

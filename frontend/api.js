@@ -7,6 +7,8 @@ export const api = {
   NICKNAME_CHECK: 'http://localhost:9090/api/user/checkname/',
   EMAIL_CHECK: 'http://localhost:9090/api/user/checkemail/',
 
+  GET_ATTENDANCE: 'http://localhost:9090/api/checkin/mycheckin',
+  CREATE_ATTENDANCE: 'http://localhost:9090/api/checkin/regist',
 
   GET_STUDY_ROOM: 'http://localhost:9090/api/studyroom/list',
   GET_STUDY_ROOM_DETAIL: 'http://localhost:9090/api/studyroom/view/',

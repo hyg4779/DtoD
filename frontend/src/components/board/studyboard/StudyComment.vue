@@ -268,8 +268,8 @@ hr{
   color: rgba(0, 0, 0, 0.6);
 }
 .time {
-  margin: 0 0 0 0.5vw;
-  font-size: 1vw;
+  margin: 0 0 0.6vh 0.5vw;
+  font-size: 0.7vw;
   font-weight: bold;
   color: gray;
 }
