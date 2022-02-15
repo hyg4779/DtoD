@@ -6,7 +6,7 @@
         <img v-if="itemuserImg" :src="itemuserImg"> 
         <img v-else src="../../assets/default_user.png">
       </div>
-      {{itemuserName}}
+      <p>{{itemuserName}}</p>
     </header>
 
     <body>
@@ -29,7 +29,7 @@
           alt="img"
           >
         </div>
-        <ul class="etc-box">
+        <ul>
           <li>
             <p>모집인원</p>
             <p>{{peopleCount}}명</p>
@@ -88,7 +88,6 @@
           <button class="myBtn submit" id="sub">등록</button>
         </div>
       </form>
-      <hr v-if="this.token">
       <!-- <div class="commentprofilebox" v-if="this.token">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
@@ -316,6 +315,11 @@ header h3{
   font-weight: bold;
 }
 
+header p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .profileicon {
   margin: 2vh 1vw 2vh 1vw;
   width : 6.5vh;
@@ -381,7 +385,12 @@ aside {
 
 ul{
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 10rem;
   padding-left: 1rem;
+  height: 15rem;
 }
 
 ul p:nth-child(1){
@@ -389,13 +398,7 @@ ul p:nth-child(1){
   font-size: 1.1vw;
 }
 
-.etc-box{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 10rem;
-  height: 15rem;
-}
+
 
 .form-group .form-control{
   /* background-color: black; 
