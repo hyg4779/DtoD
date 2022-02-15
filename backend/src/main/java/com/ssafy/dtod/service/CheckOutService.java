@@ -25,10 +25,17 @@ public class CheckOutService {
 	
 	@Transactional
 	public CheckOut registCheckOut(RegistCheckOutDto dto) {
+		CheckOut duplicateCheck = new CheckOut();
 		CheckOut checkout = CheckOut.builder()
 				.user(dto.getUser())
 				.checkoutDate(LocalDateTime.now())
 				.build();
+		List<CheckOut> allList = checkoutRepository.findAll();
+		for(int i=0; i<allList.size(); i++) {
+			if(allList.get(i).getCheckoutDate().toString().substring(0,9).equals(checkout.getCheckoutDate().toString().substring(0,9))) {
+				return duplicateCheck;
+			}
+		}
 		return checkoutRepository.save(checkout);
 	}
 	
