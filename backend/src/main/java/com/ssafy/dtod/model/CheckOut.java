@@ -1,5 +1,6 @@
 package com.ssafy.dtod.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -27,20 +28,18 @@ import lombok.Setter;
 @NoArgsConstructor // 파라미터가 없는 기본 생성자 생성
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자
 @Entity
-@Table(name = "checkin")
-public class CheckIn {
-
+@Table(name = "checkout")
+public class CheckOut {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "check_id")
-	private Long checkId;
+	@Column(name = "checkout_id")
+	private Long checkoutId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
-	@Column(name = "check_date")
-	private LocalDateTime checkDate;
-	
+	@Column(name = "checkout_date")
+	private LocalDateTime checkoutDate;
 }

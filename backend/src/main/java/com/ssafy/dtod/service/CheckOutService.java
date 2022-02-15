@@ -11,33 +11,34 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.dtod.dto.RegistCheckInDto;
-import com.ssafy.dtod.model.CheckIn;
+import com.ssafy.dtod.dto.RegistCheckOutDto;
+import com.ssafy.dtod.model.CheckOut;
 import com.ssafy.dtod.model.User;
-import com.ssafy.dtod.repository.CheckInRepository;
+import com.ssafy.dtod.repository.CheckOutRepository;
 
 @Service
-public class CheckInService {
+public class CheckOutService {
 
-	@Autowired CheckInRepository checkinRepository;
+	@Autowired
+	private CheckOutRepository checkoutRepository;
+	
 	
 	@Transactional
-	public CheckIn registCheckIn(RegistCheckInDto dto) {
-		CheckIn checkin = CheckIn.builder()
+	public CheckOut registCheckOut(RegistCheckOutDto dto) {
+		CheckOut checkout = CheckOut.builder()
 				.user(dto.getUser())
-				.checkDate(LocalDateTime.now())
+				.checkoutDate(LocalDateTime.now())
 				.build();
-		return checkinRepository.save(checkin);
+		return checkoutRepository.save(checkout);
 	}
 	
-	// 원래는 중복된 LocalDate값이 DB에 저장 될 수 없게 해야한다.(프론트단이던, 백단이던) 임시 방편으로 중복값 제거 후 데이터를 뿌려주기 위해 SET을 사용
 	@Transactional
-	public List<LocalDateTime> myCheckIn(User user){
-		List<CheckIn> allList = checkinRepository.findAll();
+	public List<LocalDateTime> myCheckOut(User user){
+		List<CheckOut> allList = checkoutRepository.findAll();
 		List<LocalDateTime> myCheck = new ArrayList<LocalDateTime>();
 		for(int i=0; i<allList.size(); i++) {
 			if(user.getUserId() == allList.get(i).getUser().getUserId()) {
-				myCheck.add(allList.get(i).getCheckDate());
+				myCheck.add(allList.get(i).getCheckoutDate());
 			}
 		}
 		Set<LocalDateTime> set = new HashSet<LocalDateTime>(myCheck);
