@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.dtod.dto.RegistCheckInDto;
-import com.ssafy.dtod.model.CheckIn;
+import com.ssafy.dtod.dto.RegistCheckOutDto;
+import com.ssafy.dtod.model.CheckOut;
 import com.ssafy.dtod.model.User;
-import com.ssafy.dtod.service.CheckInService;
+import com.ssafy.dtod.service.CheckOutService;
 import com.ssafy.dtod.service.UserService;
 
 @RestController
-@RequestMapping("/api/checkin")
-public class CheckInController {
-	
+@RequestMapping("/api/checkout")
+public class CheckOutController {
+
 	@Autowired
-	private CheckInService checkinService;
+	private CheckOutService checkoutService;
 	@Autowired
 	private UserService userService;
 	
 	@PostMapping("/regist")
-	public ResponseEntity<CheckIn> registCheckIn(@RequestBody RegistCheckInDto dto){
+	public ResponseEntity<CheckOut> registCheckIn(@RequestBody RegistCheckOutDto dto){
 		dto.setUser(userService.getMyUserWithAuthorities().get());
-		return ResponseEntity.ok(checkinService.registCheckIn(dto));
+		return ResponseEntity.ok(checkoutService.registCheckOut(dto));
 	}
 	
-	@GetMapping("/mycheckin")
+	@GetMapping("/mycheckout")
 	public ResponseEntity<List<LocalDateTime>> myCheckIn(){
 		User user = userService.getMyUserWithAuthorities().get();
-		return ResponseEntity.ok(checkinService.myCheckIn(user));
+		return ResponseEntity.ok(checkoutService.myCheckOut(user));
 	}
 	
 }

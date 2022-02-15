@@ -77,6 +77,7 @@ export default {
         this.items = this.itembox
       }
       else if (this.selected === 'title') {
+        this.items = this.itembox
         // this.items = this.itembox
         this.items.forEach((element)=>{
           // console.log(element)
