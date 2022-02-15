@@ -4,7 +4,7 @@
     <div class="comment">
       <div class="commentprofilebox">
         <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
+          <img v-if="getImg" :src="getImg"> 
           <img v-else src="../../../../assets/default_user.png">
         </div>
         <div class="commentprofilename">{{ getName }}</div>
@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       userName: '',
-      userImg: '',
+      // userImg: '',
 
       time: '',
     }
@@ -39,6 +39,10 @@ export default {
     item_pk: Number
   },
   computed: {
+    getImg() {
+      // console.log(this.comment)
+      return this.comment.user.userImg
+    },
     getComment() {
       // console.log(this.comment)
       return this.comment.ccommentContent
@@ -191,7 +195,7 @@ export default {
     // this.getTime()
     const token = localStorage.getItem('jwt')
 
-    this.userImg = this.comment.user.userImg
+    // this.userImg = this.comment.user.userImg
 
     axios({
       url: api. USER_INFO_GET,
