@@ -32,7 +32,7 @@ public class CheckOutService {
 				.build();
 		List<CheckOut> allList = checkoutRepository.findAll();
 		for(int i=0; i<allList.size(); i++) {
-			if(allList.get(i).getCheckoutDate().toString().substring(0,9).equals(checkout.getCheckoutDate().toString().substring(0,9))) {
+			if(allList.get(i).getCheckoutDate().toString().substring(0,10).equals(checkout.getCheckoutDate().toString().substring(0,10))) {
 				return duplicateCheck;
 			}
 		}
