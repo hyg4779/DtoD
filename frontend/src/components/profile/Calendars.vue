@@ -195,10 +195,10 @@ export default {
   created() {
     // console.log(this.attend)
     this.attendInfo = this.attend
-    // console.log(this.attendInfo)
+    console.log(this.attendInfo)
     // console.log(this.leave)
     this.leaveInfo = this.leave
-    // console.log(this.leaveInfo)
+    console.log(this.leaveInfo)
   }
 }
 </script>

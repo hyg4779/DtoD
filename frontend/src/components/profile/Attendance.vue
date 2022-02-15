@@ -55,8 +55,8 @@ export default {
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then(()=>{
-        // console.log(res)
+      }).then((res)=>{
+        console.log(res)
         axios({
           url: api. GET_ATTENDANCE,
           method: 'GET',
@@ -64,7 +64,7 @@ export default {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          // console.log(res)
+          console.log(res)
           this.attend = res.data
         }).catch((err)=>{
           console.error(err)
@@ -79,13 +79,13 @@ export default {
         url: api. CREATE_LEAVE,
         method: 'POST',
         data: {
-          checkDate: ''
+          checkoutDate: ''
         },
         headers: {
           Authorization: 'Bearer ' + token
         },
-      }).then(()=>{
-        // console.log(res)
+      }).then((res)=>{
+        console.log(res)
         axios({
           url: api. GET_LEAVE,
           method: 'GET',
@@ -93,7 +93,7 @@ export default {
             Authorization: 'Bearer ' + token
           },
         }).then((res)=>{
-          // console.log(res)
+          console.log(res)
           this.leave = res.data
         }).catch((err)=>{
           console.error(err)
@@ -115,7 +115,7 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.leave = res.data
-      // console.log(this.leave)
+      console.log(this.leave)
     }).catch((err)=>{
       console.error(err)
     })
@@ -129,7 +129,7 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.attend = res.data
-      // console.log(this.attend)
+      console.log(this.attend)
     }).catch((err)=>{
       console.error(err)
     })
@@ -192,8 +192,8 @@ export default {
 }
 
 .attend-leave .attend:hover {
-  color: #24292F;
-  border: 1px solid #24292F;
+  color: #24274A;
+  border: 1px solid #24274A;
   background-color: white;
   transition: .2s;
 }
