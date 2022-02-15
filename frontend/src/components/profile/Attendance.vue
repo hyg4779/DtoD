@@ -11,14 +11,21 @@
         <span>과거의 나는 어땠을까요?</span>
       </div>
     </div>
+    <div class="attend-leave">
+      <button class="attend" @click="submitAttend">출석</button>
+      <!-- <button class="leave">퇴실</button> -->
+    </div>
     <div data-app class="calendar">
-      <Calendars />
+      <Calendars 
+       :attendInfo="attend"
+      />
     </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+import { api } from '../../../api.js'
 import Calendars from './Calendars.vue';
 
 export default {
@@ -29,12 +36,33 @@ export default {
   data() {
     return {
       userImg: null,
-      activeListData: null,
+      attend: null,
     };
   },
-  methods: {  
-    },
+  methods: {
+    submitAttend() {
 
+    },
+  },
+  created() {
+    const token = localStorage.getItem('jwt')
+
+    axios({
+      url: api. USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userImg = res.data.userImg
+      this.userName = res.data.userName
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+
+  }
 }
 </script>
 
@@ -60,7 +88,48 @@ export default {
   font-style: Italic; 
   font-weight: bold;
 }
-.calendar{
-  margin: 1.5vh 0 0 0;
+
+.attend-leave {
+  margin: 0 0 1vh 1vw;
+}
+
+.attend-leave .leave {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.85vw;
+  font-weight: bold;
+  color: #24274A;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
+  border: 1px solid;
+  background-color: white;
+  border-radius: 1.1rem;
+}
+
+.attend-leave .leave:hover {
+  color: white;
+  background-color: #24292F;
+  transition: .2s;
+}
+
+.attend-leave .attend {
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-size: 0.85vw;
+  font-weight: bold;
+  color: white;
+  height: 4vh;
+  width: 4vw;
+  margin: 0 1vw 0 0;
+  background-color: #24274A;
+  border-radius: 1.1rem;
+}
+
+.attend-leave .attend:hover {
+  color: #24292F;
+  border: 1px solid #24292F;
+  background-color: white;
+  transition: .2s;
 }
 </style>

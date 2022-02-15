@@ -5,7 +5,7 @@
     </div>
     <div class="myitems">
       <Items
-        :items="items"
+        :items="this.items"
       />
     </div>
   </div>
@@ -29,7 +29,6 @@ export default {
   },
   created() {
     const token = localStorage.getItem('jwt')
-
     axios({
       url:  api.USER_INFO_GET,
       method: 'GET',
@@ -47,6 +46,7 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
+      // console.log(res)
         const temp = []
         res.data.forEach((element)=>{
           temp.push(element)
@@ -57,7 +57,7 @@ export default {
             this.items.push(temp[i])
           }
         }
-        console.log(this.items)
+        // console.log(this.items)
       }).catch((err)=>{
         console.error(err)
       })

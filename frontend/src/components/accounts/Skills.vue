@@ -82,7 +82,7 @@ export default {
       },
     signupFin(){
       this.stacksCheck()
-      console.log(this.credentials.skills)
+      // console.log(this.credentials.skills)
       if(this.credentials.skills.length >= 1){
         this.$store.dispatch('skills', this.credentials)
         axios({
@@ -90,8 +90,8 @@ export default {
           url: api.SIGN_UP,
           data: this.$store.state.credentials
         })
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          // console.log(res)
           this.$emit('signup-fin')  
         })
         .catch(err => {
@@ -100,10 +100,12 @@ export default {
       } else {
         this.$swal({
           icon: 'error',
-          titleText: '한가지 이상 입력해주세요',
+          titleText: '1개 이상 입력해주세요',
           showConfirmButton: false,
           timer: 1500,
         })
+        this.credentials.skills = []
+        this.$store.dispatch('skills', this.credentials)
       }
     }
   },

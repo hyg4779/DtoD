@@ -1,5 +1,8 @@
 <template>
-	<video autoplay/>
+	<video
+		autoplay
+		id="video"
+	/>
 </template>
 
 <script>
@@ -15,3 +18,10 @@ export default {
 	},
 };
 </script>
+<style scoped>
+	#video{
+		border-radius: 1em;
+		width: 25em;
+		margin: 1em;
+	}
+</style>

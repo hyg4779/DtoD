@@ -1,13 +1,13 @@
 <template>
 <div class="editor">
   <div v-if="editor">
-    <input
+    <!-- <input
     type="button"
      @click="editor.chain().focus().toggleCodeBlock().run()" 
      class="code-block-btn"
      :class="{ 'is-active': editor.isActive('codeBlock') }"
      value="코드입력"
-     >
+     > -->
      <input class="code-btn" type="button" value="코드저장" @click="codesave">
   </div>
   <editor-content :editor="editor"/>
@@ -21,7 +21,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import CodeBlockComponent from './CodeBlockComponent.vue'
-
+import HardBreak from '@tiptap/extension-hard-break'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 
@@ -47,6 +47,7 @@ export default {
         Document,
         Paragraph,
         Text,
+        HardBreak,
         CodeBlockLowlight
           .extend({
             addNodeView() {
@@ -57,6 +58,7 @@ export default {
       ],
       content: '',
     })
+    this.editor.chain().focus().setCodeBlock().run()
   },
 
   methods: {
@@ -157,7 +159,7 @@ export default {
   width: 50vw;
 }
 
-.code-block-btn{
+/* .code-block-btn{
   border: 1px solid black;
   border-radius: 0.5rem;
   background-color: white;
@@ -165,7 +167,7 @@ export default {
   font-size: 0.78vw;
   padding: 0.5vh 0.5vw 0.5vh 0.5vw;
   margin: 0 1vw 0 0;
-}
+} */
 
 .code-btn{
   border: 1px solid black;
@@ -174,6 +176,6 @@ export default {
   font-weight: bold;
   font-size: 0.78vw;
   padding: 0.5vh 0.5vw 0.5vh 0.5vw;
-  margin: 0;
+  margin: 0 0 0.1vh 0;
 }
 </style>

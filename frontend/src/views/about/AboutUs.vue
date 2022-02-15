@@ -74,7 +74,7 @@
         </div> -->
         <div>
           <div class="picture-icon">
-            <img src="../../assets/people/seongyu.png" alt="seokjun">
+            <img src="../../assets/people/hong.jpg" alt="seokjun">
           </div>
           <div class="name">
             <div>
@@ -153,7 +153,7 @@
             <br>
             개발자라는 같은 꿈을 이루기 위해 공부하는 공간입니다.
             <br>
-            또한 학습 상태 분석을 통해 체계적인 자기 관리가 가능한 서비스를 제공합니다.
+            또한 추후에 학습 상태 분석을 통해 체계적인 자기 관리가 가능한 서비스를 제공할 예정입니다.
             <br>
             이제, 집에서도 혼자 개발하지 마세요!
           </div>
@@ -253,6 +253,7 @@ export default {
   margin: 1vh 0 0 0;
   font-size: 1vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .aboutus .container .who .whotitle {

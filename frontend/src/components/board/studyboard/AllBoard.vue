@@ -5,7 +5,7 @@
     </div>
     <div class="allitems">
       <Items
-        :items="items"
+        :items="this.items"
       />
     </div>
   </div>
@@ -28,8 +28,6 @@ export default {
     }
   },
   created() {
-    // this.items = dummy
-
     const token = localStorage.getItem('jwt')
     axios({
       url: api.GET_STUDY_BOARD,
@@ -38,11 +36,16 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      const temp = []
-      res.data.forEach((element)=>{
-        temp.push(element)
-      })
-      this.items = temp
+      // console.log(res)
+      // const temp = []
+      // res.data.forEach((element)=>{
+        // console.log(element)
+      //   temp.push(element)
+      // })
+      // console.log(temp)
+      for(let i=0; i < res.data.length; i++) {
+        this.items.push(res.data[i])
+      }
       // console.log(this.items)
     }).catch((err)=>{
       console.error(err)

@@ -7,7 +7,7 @@
         </div>
       </a>
     </div>
-    <ul v-if="!login" class="menu">
+    <ul class="menu">
     <!-- <ul class="menu"> -->
       <li @mouseover="listOne = true" @mouseleave="listOne = false">
         <a href="#">DTOD 소개</a>
@@ -60,7 +60,9 @@
           </ul>
         </transition>
       </li>
-      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+
+      <!-- 비로그인 상태 -->
+      <li v-if="!getToken" class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
         <div class="profileicon">
           <img src="../../assets/default_user.png">
         </div>
@@ -74,61 +76,9 @@
           </ul>
         </transition>
       </li>
-    </ul>
 
-    <ul v-else class="menu">
-      <li @mouseover="listOne = true" @mouseleave="listOne = false">
-        <a href="#">DtoD 소개</a>
-        <transition name="fade">
-          <ul v-if="listOne" @click="listOne = false">
-            <li>
-              <router-link :to="{ name: 'AboutUs' }">
-                DtoD란?
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'HowToUse' }">
-                이용 방법
-              </router-link>
-            </li>
-          </ul>        
-        </transition>
-      </li>  
-      <li @mouseover="listTwo = true" @mouseleave="listTwo = false">
-        <a href="#">스터디룸</a>
-        <transition name="fade">
-          <ul v-if="listTwo" @click="listTwo = false">
-            <li>
-              <router-link :to="{ name: 'Studying' }">
-                진행중
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'MakeStudy' }">
-                스터디 만들기
-              </router-link>
-            </li>
-          </ul>        
-        </transition>     
-      </li>     
-      <li @mouseover="listThree = true" @mouseleave="listThree = false">   
-        <a href="#">게시판</a>
-        <transition name="fade">        
-          <ul v-if="listThree" @click="listThree = false">
-            <li>
-              <router-link :to="{ name: 'StudyBoard' }">
-                스터디 모집
-              </router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'FreeBoard' }">
-                게시판
-              </router-link>
-            </li>
-          </ul>
-        </transition>
-      </li>
-      <li class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
+      <!-- 로그인 상태 -->
+      <li v-else class="profile" @mouseover="listFour = true" @mouseleave="listFour = false">
         <div class="profileicon">
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../assets/default_user.png">
@@ -154,7 +104,8 @@
         </transition>
       </li>
     </ul>
-    
+ 
+    <!-- 로그인 모달 -->
     <b-modal
       ref="login"
       id="login"
@@ -168,6 +119,7 @@
       />
     </b-modal>
 
+    <!-- 회원가입모달 -->
     <b-modal
       ref="signup"
       centered
@@ -179,6 +131,7 @@
       />
     </b-modal>
 
+    <!-- 닉네임모달 -->
     <b-modal
       ref="nickname"
       centered
@@ -189,7 +142,7 @@
       @jobs-modal-open="jobsModalOpen"
       />
     </b-modal>
-
+    <!-- 직무 모달 -->
     <b-modal
       ref="jobs"
       centered
@@ -200,7 +153,7 @@
       @skills-modal-open="skillsModalOpen"
       />
     </b-modal>
-
+    <!-- 기술스텍 모달 -->
     <b-modal
       ref="skills"
       centered
@@ -222,7 +175,6 @@ import Nickname from '../accounts/Nickname.vue'
 import Jobs from '../accounts/Jobs.vue'
 import Skills from '../accounts/Skills.vue'
 
-
 export default {
   name: 'Navbar',
   components:{
@@ -235,13 +187,25 @@ export default {
   },
   data () {
     return {
-      login: false,
       listOne: false,
       listTwo: false,
       listThree: false,
       listFour: false,
-      userImg: null,
     }
+  },
+  computed:{
+    // 토큰으로 로그인 여부 판단
+    getToken(){
+      return localStorage.getItem('jwt')
+    },
+
+    // 유저의 프로필 이미지
+    userImg(){
+      if (this.getToken){
+        return this.$store.state.userInfo.userImg
+      } return null
+    }
+
   },
   methods:{
     Login(){
@@ -254,9 +218,8 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         })
-    
       this.$refs['login'].hide()
-      this.login = true
+      this.$router.go()
     },
     loginModalOpen(){
       this.$refs['login'].show()
@@ -288,15 +251,13 @@ export default {
           timer: 2000,
         })
 
-      // alert('축하합니다! 회원가입이 완료되었습니다')
-      // alert('로그인을 진행해주세요')
       this.$refs['login'].show()
     },
 
     logout() {
       localStorage.removeItem('jwt')
-      this.login = false
       this.$router.push({ name: 'Home' })
+      this.$router.go()
       this.$swal({
           toast: true,
           position: "top-end",
@@ -309,10 +270,14 @@ export default {
       
     },
   },
+
+  /* 
+  로그인 경우: 유저정보 받아와서 Vuex에 넣기
+  비로그인 경우: Navbar default Img 설정
+  */
   created() {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      this.login = true
+    if(this.getToken){
+      this.$store.dispatch('getUserInfo')
     }
   }
 }
@@ -356,6 +321,7 @@ export default {
   position: relative;
   min-width: 7.8vw;
   font-size: 1vw;
+  z-index: 1000;
 }
 
 .menu li:hover{

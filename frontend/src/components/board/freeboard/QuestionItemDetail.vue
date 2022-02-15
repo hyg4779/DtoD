@@ -6,21 +6,32 @@
       </div>
       <div class="profilebox">
         <div class="profileicon">
-          <img v-if="userImg" :src="userImg"> 
+          <img v-if="itemuserImg" :src="itemuserImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="profilename">username</div>
+        <div class="profilename">작성자: {{this.itemuserName}}</div>
       </div>
       <div class="tech-control">
         <div class="techstack">
           기술 스택
-          <span>
-            Python
+          <span v-for="(item, idx) in getSkills" :key="idx">
+            {{item}}
           </span>
         </div>
-        <div class="item-control">
-          <button class="update" @click="updateArticle">수정</button>
-          <button class="delete" @click="deleteArticle">삭제</button>
+      <div class="btnGroup" v-if="userName === itemuserName">
+        <button class="myBtn" id="up" @click="updateArticle">수정</button>
+        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
+      </div>
+      </div>
+      <div class="img-etc">
+        <div class="img-box" :style="style">
+          <img 
+          v-for="(stack, idx) in imgs"
+          :key="idx"
+          id="stackImg"
+          :src="require(`@/assets/stacks/${stack}.png`)"
+          alt="img"
+          >
         </div>
       </div>
       <div class="content">
@@ -28,7 +39,7 @@
           내용
         </div>
         <div class="contentdetail">
-          {{this.content}}
+          <p v-html="getContent(this.content)"></p>
         </div>
       </div>
       <div class="code">
@@ -37,12 +48,12 @@
         </div>
         <div class="code">
           <Tiptap 
-            :codedetail="this.code"
+            :item_pk="item_pk"
           />
             <!-- :techstack="this.techstack" -->
         </div>
       </div>
-      <hr>
+      <div>
       <QuestionComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
@@ -50,13 +61,14 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
+      </div>
       <hr>
       <div class="commentprofilebox">
         <div class="commentprofileicon">
           <img v-if="userImg" :src="userImg"> 
           <img v-else src="../../../assets/default_user.png">
         </div>
-        <div class="commentprofilename">username</div>
+        <div class="commentprofilename">{{this.userName}}</div>
       </div>
       <form @submit="commentSubmit">
         <div class="form-group" style="margin-bottom:10px;">
@@ -69,7 +81,7 @@
             @keypress.enter="commentSubmit"
             >
           </textarea>
-          <button class="submit">등록</button>
+          <button class="myBtn submit" id="sub">등록</button>
         </div>
       </form>
     </div>
@@ -77,9 +89,8 @@
 </template>
 
 <script>
-import { dummy } from "../../../../generated.js";
-// import axios from 'axios'
-// import jwt_decode from 'jwt-decode'
+import { api } from '../../../../api.js'
+import axios from 'axios'
 import Tiptap from "../vieweditor/Tiptap.vue"
 import QuestionComment from "./QuestionComment.vue"
 
@@ -95,39 +106,190 @@ export default {
   data() {
     return {
       title: '',
+      tech:'',
       content: '',
       code: '',
-      userImg: '',
+      imgPath: '',
+      imgs: null,
+      style: {
+        backgroundColor: this.imgPath
+      },
 
-      myComments: '',
+      itemuserName: '',
+      itemuserImg: '',
+      itemuserEmail: '',
+      userImg: '',
+      userName: '',
+
+      mycomment: '',
       comments: [],
     }
   },
+  computed: {
+    getSkills: function() {
+      const t = this.tech
+      const temp = t.split(',')
+      let res = []
+      for(let i = 0; i < temp.length; i++){
+        res.push(temp[i])
+      }
+      return res
+    },
+  },
   methods:{
-    commentSubmit() {
-      
+    getContent(content) { 
+      return content.split('\n').join('<br>'); 
+    },
+    commentSubmit(event) {
+      event.preventDefault()
+      if (this.mycomment.length !== 0) {
+        const item_pk = this.item_pk
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.CREATE_FREE_BOARD_COMMENT + `${item_pk}`,
+          method: 'POST',
+          data: {
+            ccommentContent: this.mycomment
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then(()=>{
+          // console.log(res.data)
+          axios({
+            url: api. GET_FREE_BOARD_COMMENT + `${item_pk}`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then((res)=>{
+              const temp = []
+              res.data.forEach((element)=>{
+                temp.push(element)
+              })
+              this.comments = temp
+          }).catch((err)=>{
+            console.error(err)
+          })
+        }).catch((err)=>{
+          console.error(err)
+        })
+        this.mycomment = ''
+      } 
+      else {
+        alert("댓글을 입력하세요.")
+      }
     },
     onParentDeleteComment() {
-
+      const item_pk = this.item_pk
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+          const temp = []
+          res.data.forEach((element)=>{
+            temp.push(element)
+          })
+          this.comments = temp
+      }).catch((err)=>{
+        const temp = []
+        this.comments = temp
+        console.error(err)
+      })
     },
     deleteArticle() {
-
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.DELETE_FREE_BOARD + `${this.item_pk}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then(()=>{
+        // console.log(res)
+        this.$router.go();
+      }).catch((err)=>{
+        console.error(err)
+      })
     },
     updateArticle() {
-      
-    }
+      this.$emit('update-modal-open', this.item_pk)
+    },
   },
   created() {
-    // console.log(this.item_pk)
-    const temp = dummy
-    for (let i=0; i < temp.length; i++) {
-      if (temp[i].id === this.item_pk) {
-        this.title = temp[i].title
-        this.content = temp[i].content
-        this.code = temp[i].code
-      }
-    }
+    const item_pk = this.item_pk
+    const token = localStorage.getItem('jwt')
 
+    axios({
+      url:  api.GET_FREE_BOARD_DETAIL + `${this.item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.itemuserEmail = res.data.user.userEmail
+      this.itemuserImg = res.data.user.userImg
+      this.itemuserName = res.data.user.userName
+      this.title = res.data.cboardTitle
+      this.code = res.data.cboardCode
+      this.tech = res.data.cboardTechstack
+      this.content = res.data.cboardContent
+      this.imgPath = res.data.cboardImg
+
+      let stacks = res.data.cboardTechstack
+      // 배열로 저장
+      let result = stacks.split(',')
+      // console.log(result.length)
+
+      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+      if(result.length >= 4){
+        // console.log(result.slice(0,3))
+        this.imgs = result.slice(0,3)
+      }else{
+        this.imgs = result
+      }
+      
+      this.style.backgroundColor = res.data.cboardImg
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+    axios({
+      url:  api.USER_INFO_GET,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      this.userName = res.data.userName
+      this.userImg = res.data.userImg
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+    axios({
+      url: api.GET_FREE_BOARD_COMMENT + `${item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
+      })
+      this.comments = temp
+      // console.log(this.comments)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 }
 </script>
@@ -141,14 +303,14 @@ export default {
 }
 .detailtitle {
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 1.4vw;
   font-weight: bold;
 }
-.profilebox{
+/* .profilebox{
   display: flex;
-}
+} */
 .profileicon {
-  margin: 2vh 1vw 2vh 17vw;
+  margin: 2.5vh 1vw 2vh 17vw;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
@@ -161,26 +323,33 @@ export default {
   object-fit:cover;
 }
 .profilename {
-  margin: 3.5vh 0 0 0;
+  margin: 2vh 0 0 15vw;
+  font-size: 1vw;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 .tech-control {
   display: flex;
   justify-content: space-between;
+  margin: 1.5vh 0 0 0;
 }
 
 .techstack {
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 2vh 0;
+  margin:  0.6vh 0 3vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .techstack span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.1vh 0.5vw 0.1vh 0.5vw;
+  padding: 0.5vh 0.5vw 0.6vh 0.8vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
-.item-control .update{
+/* .item-control .update{
   cursor: pointer;
   font-family: 'Roboto';
   font-size: 0.7vw;
@@ -201,10 +370,9 @@ export default {
   color: white;
   height: 3vh;
   width: 3vw;
-  /* margin: 0 1vw 0 0; */
   background-color: #24274A;
   border-radius: 1.1rem;
-}
+} */
 
 .content {
   margin: 0 0 2vh 0;
@@ -212,15 +380,24 @@ export default {
 .content .contenttitle{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 0 0 1vh 0;
+  margin: 3vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content .contentdetail {
   font-weight:300;
+  font-family: 'Epilogue', sans-serif;
+  margin: 0 0 2vh 0;
+  font-size: 0.9vw
 }
 .code .codetitle{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
+}
+
+form {
+  position: relative;
 }
 
 .form-group .form-control{
@@ -230,7 +407,7 @@ export default {
   height: 10vh;
 }
 
-.submit {
+/* .submit {
   cursor: pointer;
   font-family: 'Roboto';
   font-size: 0.85vw;
@@ -241,7 +418,7 @@ export default {
   margin: 1vh 0 0 0;
   background-color: #24274A;
   border-radius: 1.1rem;
-}
+} */
 
 .commentprofilebox{
   display: flex;
@@ -260,6 +437,66 @@ export default {
   object-fit:cover;
 }
 .commentprofilename {
+  margin: 1vh 0 0 0;
+  font-size: 1.1vw;
+  font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.img-etc {
+  display: flex;
+  margin:  0.6vh 0 2vh 0;
+}
+.img-etc .img-box {
+  width: 31vh;
+  height: 30vh;
+}
+.img-etc .img-box #stackImg {
+  margin: 9vh 0 0 0;
+  width: 10vh;
+}
+
+.myBtn {
+  border-radius: 1rem;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 0.8vw;
+  font-weight: bold;
+  height: 3.5vh;
+  margin: 0 0.3vw 0 0.3vw;
+  padding: 0 0.5vw 0.1vh 0.5vw;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.submit {
   margin: 0.7vh 0 0 0;
+  padding: 0.5vh 0.5vw 0.8vh 0.5vw;
+}
+
+.myBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.myBtn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+#up{
+  background-color: rgb(30, 200, 30);
+}
+
+#de{
+  background-color: rgb(250, 100, 100);
+}
+
+#sub {
+  background-color: rgb(50,100,250);
+  position: absolute;
+  right: 0.5vw;
+  bottom: 1vh;
 }
 </style>

@@ -12,6 +12,7 @@ import Carousel from '@/components/home/Carousel.vue'
 import RecommendedStudy from '@/components/home/RecommendedStudy.vue'
 import axios from 'axios'
 import { api } from '../../api.js'
+import _ from 'lodash'
 
 export default {
   name: 'Home',
@@ -22,26 +23,51 @@ export default {
   data() {
     return {
       items: [],
+      stacks: [],
     }
   },
   created() {
     const token = localStorage.getItem('jwt')
-    axios({
-      url: api.GET_STUDY_BOARD,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      const temp = []
-      res.data.forEach((element)=>{
-        temp.push(element)
+    if (token) {
+      axios({
+        url: api.GET_RECOMMEND_STUDY_BOARD,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+        // console.log(res)
+        const temp = []
+        let lodashtemp = []
+        res.data.forEach((element)=>{
+          temp.push(element)
+        })
+        lodashtemp = _.sampleSize(temp, 10)
+        this.items = lodashtemp
+      }).catch((err)=>{
+        console.error(err)
       })
-      this.items = temp
-      // console.log(this.items)
-    }).catch((err)=>{
-      console.error(err)
-    })
+    } else {
+      axios({
+        url: api.GET_STUDY_BOARD,
+        method: 'GET',
+        // headers: {
+        //   Authorization: 'Bearer ' + token
+        // },
+      }).then((res)=>{
+        // console.log(res)
+        const temp = []
+        let lodashtemp = []
+        res.data.forEach((element)=>{
+          temp.push(element)
+        })
+        lodashtemp = _.sampleSize(temp, 10)
+        this.items = lodashtemp
+        // console.log(this.items)
+      }).catch((err)=>{
+        console.error(err)
+      })
+    }
   }
 }
 </script>

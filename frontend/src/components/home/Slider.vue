@@ -3,8 +3,14 @@
     <br>
     <swiper-slide>
       <div class="item" @click="getItemDetail()">
-        <div class="item-img">
-          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
+        <div class="item-img" :style="style">
+          <img
+            v-for="(stack, idx) in imgs"
+            :key="idx"
+            id="stackImg"
+            :src="require(`@/assets/stacks/${stack}.png`)"
+            alt="img"
+          >
         </div>
         <div class="item-title">
           <div v-for="(item,idx) in getTitle" :key="idx">{{ item }}</div>
@@ -12,13 +18,13 @@
         
         <b-modal
         ref="detail" 
-        size="lg" 
-        class="bg-black"
+        centered
         hide-footer 
         hide-header
+        size="lg" 
         >
           <SwiperDetail
-            :item_pk = this.item.sboardId
+            :item="this.item"
           />
         </b-modal>
       </div>
@@ -29,22 +35,24 @@
 
 <script>
 import SwiperDetail from './SwiperDetail.vue'
-import { api } from '../../../api.js'
-import axios from 'axios'
 
 export default {
   name: 'Slider',
   components: {
-    SwiperDetail
+    SwiperDetail,
   },
   props: {
     item: Object
   },
   data() {
     return {
-      SwiperDetail,
+      imgs: null,
       imgPath: '',
       item_pk: 0,
+
+      style: {
+        backgroundColor: this.imgPath
+      }
     }
   },
   computed: {
@@ -71,25 +79,34 @@ export default {
     },
   },
   created() {
-    const itempk = this.item.sboardId
-    const token = localStorage.getItem('jwt')
-    axios({
-      url:  api.GET_STUDY_BOARD_DETAIL + `${itempk}`,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      this.imgPath = res.data.sboardImg
-      // console.log(this.imgPath)
-    }).catch((err)=>{
-      console.error(err)
-    })
+    // console.log(this.item)
+    this.item_pk = this.item.sboardId
+    // console.log(res.data)
+    // db에 저장된 item의 기술스텍 가져오기
+    let stacks = this.item.sboardTechstack
+    // 배열로 저장
+    let result = stacks.split(',')
+    // console.log(result.length)
+
+    // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+    if(result.length >= 4){
+      // console.log(result.slice(0,3))
+      this.imgs = result.slice(0,3)
+    }else{
+      this.imgs = result
+    }
+    this.imgPath = this.item.sboardImg
+    this.style.backgroundColor = this.item.sboardImg
+    // console.log(this.imgPath)
+    // console.log(this.style.backgroundColor)
   }
 }
 </script>
 
 <style scoped>
+/* .slider{
+  margin: 0 0 0 1vw !important;
+} */
 .item{
   width: 13vw;
   height: 27vh;
@@ -98,24 +115,29 @@ export default {
   border-radius: 2rem;
   box-shadow: 5px 5px 5px rgb(122, 122, 122);
   background-color: white;
-}
-
-.item .item-img {
-  height: 40%;
-}
-
-.item .item-img img {
-  width: 100%;
-  height: 100%;
-  border-radius: 25px 25px 0 0;
-  object-fit: fill;
-
+  margin: 0 auto;
 }
 
 .item .item-title {
   text-align: center;
   font-size: 0.78vw;
   margin: 2.5vh 0 0 0;
+  font-family: 'Epilogue', sans-serif;
 }
+
+.item .item-img {
+  display: flex;
+  border-radius: 2rem 2rem 0 0;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: 40%;
+}
+
+#stackImg {
+  width: 5vh;
+}
+
 
 </style>

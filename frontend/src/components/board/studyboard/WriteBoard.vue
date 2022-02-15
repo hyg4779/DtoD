@@ -22,26 +22,26 @@
         <div class="checkbox">
           <div>
             <v-checkbox v-model="stacks.javascript" label="JavaScript"/>
-            <v-checkbox v-model="stacks.react" label="React.js"/>
-            <v-checkbox v-model="stacks.vue" label="Vue.js"/>
-            <v-checkbox v-model="stacks.node" label="Node.js"/>
-          </div>
-          <div>
             <v-checkbox v-model="stacks.c" label="C"/>
-            <v-checkbox v-model="stacks.cpp" label="C++"/>
-            <v-checkbox v-model="stacks.cs" label="C#"/>
-            <v-checkbox v-model="stacks.typescript" label="TypeScript.js"/>
-          </div>
-          <div>
             <v-checkbox v-model="stacks.kotlin" label="Kotlin"/>
-            <v-checkbox v-model="stacks.django" label="Django"/>
-            <v-checkbox v-model="stacks.go" label="Go"/>
-            <v-checkbox v-model="stacks.swift" label="Swift"/>
+            <v-checkbox v-model="stacks.java" label="Java"/>
           </div>
           <div>
-            <v-checkbox v-model="stacks.java" label="Java"/>
+            <v-checkbox v-model="stacks.react" label="React"/>
+            <v-checkbox v-model="stacks.cpp" label="C++"/>
+            <v-checkbox v-model="stacks.django" label="Django"/>
             <v-checkbox v-model="stacks.spring" label="Spring"/>
+          </div>
+          <div>
+            <v-checkbox v-model="stacks.vue" label="Vue"/>
+            <v-checkbox v-model="stacks.python" label="Python"/>
+            <v-checkbox v-model="stacks.go" label="Go"/>
             <v-checkbox v-model="stacks.flutter" label="Flutter"/>
+          </div>
+          <div>
+            <v-checkbox v-model="stacks.node" label="Node"/>
+            <v-checkbox v-model="stacks.typescript" label="TypeScript"/>
+            <v-checkbox v-model="stacks.swift" label="Swift"/>
             <v-checkbox v-model="stacks.etc" label="Etc"/>
           </div>
         </div>
@@ -80,9 +80,11 @@
 <script>
 import { api } from '../../../../api.js'
 import axios from 'axios'
-import _ from 'lodash'
 import IngRange from './IngRange.vue'
 import JoinRange from './JoinRange.vue'
+import _ from 'lodash'
+import { mapState } from 'vuex'
+
 
 export default {
   name: 'WriteBoard',
@@ -97,46 +99,44 @@ export default {
       content2: '',
       content3: '',
 
-      joinDate: '',
-      ingDate: '',
-
       peopleCount: 0,
 
       images: [
-        '001.png',
-        '002.png',
-        '003.png',
+        '#FC8F8F',
+        '#FFAB5E',
+        '#83E38C',
       ],
       img: '',
       stacks: {
-        javascript: false, c: false, kotlin: false, java: false, 
-        react: false, cpp: false, django: false, spring: false, 
-        vue: false, cs: false, go: false, flutter: false, 
-        node: false, typescript: false, swift: false, etc: false},
+        javascript: false,
+        c: false,
+        kotlin: false,
+        java: false, 
+        react: false,
+        cpp: false,
+        django: false,
+        spring: false, 
+        vue: false,
+        python: false,
+        go: false,
+        flutter: false, 
+        node: false,
+        typescript: false,
+        swift: false,
+        etc: false
+      },
       skills: [],
     }
   },
   computed: {
-    getJoinDate() {
-      console.log(this.$store.state.date.joindate)
-      return this.$store.state.date.joindate
-    },
-    getIngDate() {
-      console.log(this.$store.state.date.ingdate)
-      return this.$store.state.date.ingdate
-    }
-  },
-  watch: {
-    getJoinDate(value) {
-      this.joinDate = value
-      console.log(this.joinDate)
-    },
-    getIngDate(value) {
-      this.ingDate = value
-      console.log(this.ingDate)
-    }
+    // mapState로 joindate와 indate를 추출해서 사용
+    ...mapState([
+      'date'
+    ]),
   },
   methods: {
+
+    // 스터디 모집글 취소
     back () {
       this.$router.replace()
     },
@@ -156,6 +156,8 @@ export default {
       // console.log(this.peopleCount)
       resultElement.innerText = number;
     },
+
+    // 체크한 스텍들 추출
     stacksCheck () {
       for (let property in this.stacks){
         // console.log(property)
@@ -164,36 +166,100 @@ export default {
         }
       }
     },
+
+    // 체크한 스텍들 초기화
+    stackInit () {
+      for (let property in this.stacks){
+        // console.log(property)
+        if (this.stacks[property] === true){
+          this.stacks[property] = false
+        }
+      }this.skills = []
+      console.log(this.date.indate)
+    },
     onSubmit(event) {
       event.preventDefault()
       this.stacksCheck()
-      if (this.title.length <= 50) {
-        const token = localStorage.getItem('jwt')
-        this.img = _.sample(this.images)
-        axios({
-          url: api.CREATE_STUDY_BOARD,
-          method: 'POST',
-          data: {
-            sboardTitle: this.title,
-            sboardPerson: this.peopleCount,
-            sboardIngdate: this.ingDate,
-            sboardJoindate: this.joinDate,
-            sboardContent1: this.content1,
-            sboardContent2: this.content2,
-            sboardContent3: this.content3,
-            sboardImg: this.img,
-            sboardTechstack: this.skills,
-          },
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-        }).then(()=>{
-          this.$router.go();
-        }).catch(err=>{
-          console.error(err)
-        })
-      } else {
-        alert("제목은 50자 이하로 입력하세요.")
+      if (0 < this.title.length && this.title.length <= 50) {
+        if (10 >= this.peopleCount && this.peopleCount > 0) {
+          if (0 < this.skills.length && this.skills.length <= 4) {
+            if (10 < this.content1.length && 10 < this.content2.length && 10 < this.content3.length) {
+              // 진행기간 추출
+              // console.log(this.date.ingdate)
+              const temp = this.date.ingdate.split(' - ')
+              let res1 = []
+              for(let i = 0; i < temp.length; i++){
+                res1.push(temp[i])
+              }
+              // console.log(res1)
+  
+              // 모집기간 추출
+              // console.log(this.date.joindate)
+              const tmp = this.date.joindate.split(' - ')
+              let res2 = []
+              for(let i = 0; i < tmp.length; i++){
+                res2.push(tmp[i])
+              }
+              // console.log(res2)
+  
+              let today = new Date()
+              let ingstart = new Date(res1[0])
+              let joinstart = new Date(res2[0])
+              let joinend = new Date(res2[1])
+              // console.log(today)
+              // console.log(ingstart)
+              // console.log(joinstart)
+              // console.log(joinend)
+  
+              if (ingstart > joinend && joinstart >= today.setHours(0,0,0,0)) {
+                const token = localStorage.getItem('jwt')
+                this.img = _.sample(this.images)
+                axios({
+                  url: api.CREATE_STUDY_BOARD,
+                  method: 'POST',
+                  data: {
+                    sboardTitle: this.title,
+                    sboardPerson: this.peopleCount,
+                    sboardTechstack: this.skills,
+                    sboardIngdate: this.date.ingdate,
+                    sboardJoindate: this.date.joindate,
+                    sboardContent1: this.content1,
+                    sboardContent2: this.content2,
+                    sboardContent3: this.content3,
+                    sboardImg: this.img,
+                  },
+                  headers: {
+                    Authorization: 'Bearer ' + token
+                  },
+                }).then(()=>{
+                  this.$router.go();
+                }).catch(err=>{
+                  console.error(err)
+                })
+              }
+              else {
+                alert("모집기간이 오늘 날짜보다 이전이거나 수행날짜보다 이후이면 안됩니다.")
+                this.stackInit()
+              }
+            }
+            else {
+              alert('내용을 10자 이상 입력해주세요')
+              this.stackInit()
+            }
+          }
+          else {
+            alert("기술 스택 및 협업 툴을 1개 이상 4개 이하 선택해주세요")
+            this.stackInit()
+          }
+        }
+        else {
+          alert("인원을 1명 이상 10명 이하 선택해주세요")
+          this.stackInit()
+        }
+      } 
+      else {
+        alert("제목은 1자 이상 50자 이하로 입력하세요.")
+        this.stackInit()
       }  
     },
   },
@@ -210,6 +276,7 @@ export default {
   margin: 2.5vh 0 0 1vw;
   font-weight: bold;
   color: #0D1350;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form {
@@ -220,12 +287,14 @@ form div label {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div .stacktitle {
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form div textarea {
@@ -235,6 +304,7 @@ form div textarea {
   border-radius: 0.5rem;
   height: 4vh;
   width: 42vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .detail1 textarea {
@@ -268,6 +338,7 @@ form .checkbox {
   margin: 0 0 2vh 0;
   display: grid;
   grid-template-columns: 12vw 12vw 12vw 12vw;
+  font-family: 'Epilogue', sans-serif;
 }
 
 form .checkbox div{
@@ -312,6 +383,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .join {
@@ -321,6 +393,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .people {
@@ -330,6 +403,7 @@ form .checkbox div{
   font-weight: bold;
   font-size: 1.1vw;
   margin: 0 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .people .peoplecount {
@@ -342,7 +416,7 @@ form .checkbox div{
 
 .people .peoplecount .minusbtn {
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Epilogue', sans-serif;
   font-size: 1vw;
   font-weight: bold;
   color: #24274A;
@@ -353,7 +427,7 @@ form .checkbox div{
 }
 .people .peoplecount .plusbtn {
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Epilogue', sans-serif;
   font-size: 1vw;
   font-weight: bold;
   color: white;

@@ -1,78 +1,96 @@
 <template>
   <div class="itemdetail">
-    <div class="cardmodal">
-      <div class="detailtitle">
-        {{this.title}}
+    <header>
+      <h2>{{title}}</h2>
+      <div class="profileicon">
+        <img v-if="itemuserImg" :src="itemuserImg"> 
+        <img v-else src="../../../assets/default_user.png">
       </div>
-      <div class="profilebox">
-        <div class="profileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="profilename">{{userName}}</div>
+      작성자: {{itemuserName}}
+    </header>
+    <div class="tech-control">
+      <div class="techstack">
+        기술 스택
+        <span v-for="(item, idx) in getSkills" :key="idx">
+          {{item}}
+        </span>
       </div>
-      <div class="tech-control">
-        <div class="techstack">
-          기술 스택
-          <span v-for="(item, idx) in getSkills" :key="idx">
-            {{item}}
-          </span>
-        </div>
-        <div class="item-control" v-if="this.userName === this.itemuserName">
-          <button class="update" @click="updateArticle">수정</button>
-          <button class="delete" @click="deleteArticle">삭제</button>
-        </div>
+      <div class="btnGroup" v-if="userName === itemuserName">
+        <button class="myBtn" id="up" @click="updateArticle">수정</button>
+        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
       </div>
-      <div class="img-etc-box">
-        <div class="img-box">
-          <img :src="require(`@/assets/color/${imgPath}`)" alt="img">
-        </div>
-        <div class="etc-box">
-          <div class="people">
-            <div class="peopletitle">모집인원</div>
-            <div class="peoplecontent">
-            {{peopleCount}}명
-            </div>
-          </div>         
-          <div class="joindate">
-            <div class="joindatetitle">모집기간</div>
-            <div class="joindatecontent">
-            {{joinDate}}
-            </div>
+    </div>
+    <br>
+    <div class="img-etc-box">
+      <div class="img-box" :style="style">
+        <img 
+        v-for="(stack, idx) in imgs"
+        :key="idx"
+        id="stackImg"
+        :src="require(`@/assets/stacks/${stack}.png`)"
+        alt="img"
+        >
+      </div>
+      <div class="etc-box">
+        <div class="people">
+          <div class="peopletitle">모집인원</div>
+          <div class="peoplecontent">
+          {{peopleCount}}명
           </div>
-          <div class="ingdate">
-            <div class="ingdatetitle">수행기간</div>
-            <div class="ingdatecontent">
-            {{ingDate}}
-            </div>
+        </div>         
+        <div class="joindate">
+          <div class="joindatetitle">모집기간</div>
+          <div class="joindatecontent">
+          {{joinDate}}
           </div>
         </div>
-      </div>
-      <div class="content1">
-        <div class="contenttitle1">
-          스터디 소개
-        </div>
-        <div class="contentdetail1">
-          <p v-html="getContent(this.content2)"></p>
+        <div class="ingdate">
+          <div class="ingdatetitle">수행기간</div>
+          <div class="ingdatecontent">
+          {{ingDate}}
+          </div>
         </div>
       </div>
-      <div class="content2">
-        <div class="contenttitle2">
-          스터디 규칙
-        </div>
-        <div class="contentdetail2">
-          <p v-html="getContent(this.content3)"></p>
-        </div>
+    </div>
+    <div class="content1">
+      <div class="contenttitle1">
+        스터디 소개
       </div>
-      <div class="content3">
-        <div class="contenttitle3">
-          오픈 카카오톡
-        </div>
-        <div class="contentdetail3">
-          <p v-html="getContent(this.content1)"></p>
-        </div>
+      <div class="contentdetail1">
+        <p v-html="getContent(this.content2)"></p>
       </div>
-      <hr>
+    </div>
+    <div class="content2">
+      <div class="contenttitle2">
+        스터디 규칙
+      </div>
+      <div class="contentdetail2">
+        <p v-html="getContent(this.content3)"></p>
+      </div>
+    </div>
+    <div class="content3">
+      <div class="contenttitle3">
+        오픈 카카오톡
+      </div>
+      <div class="contentdetail3">
+        <p v-html="getContent(this.content1)"></p>
+      </div>
+    </div>
+    <form @submit="commentSubmit">
+      <div class="form-group" style="margin-bottom:10px;">
+        <textarea 
+          class="form-control"
+          placeholder="댓글을 남겨주세요" 
+          id="comment" 
+          rows="2" 
+          v-model="mycomment" 
+          @keypress.enter="commentSubmit"
+          >
+        </textarea>
+        <button class="myBtn submit" id="sub">등록</button>
+      </div>
+    </form>
+    <div>
       <StudyComment 
         v-for="(comment, idx) in this.comments"
         :key="idx"
@@ -80,29 +98,16 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
-      <hr>
-      <div class="commentprofilebox">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{userName}}</div>
-      </div>
-      <form @submit="commentSubmit">
-        <div class="form-group" style="margin-bottom:10px;">
-          <textarea 
-            class="form-control"
-            placeholder="댓글을 남겨주세요" 
-            id="comment" 
-            rows="2" 
-            v-model="mycomment" 
-            @keypress.enter="commentSubmit"
-            >
-          </textarea>
-          <button class="submit">등록</button>
-        </div>
-      </form>
     </div>
+    <hr>
+    <!-- <div class="commentprofilebox">
+      <div class="commentprofileicon">
+        <img v-if="userImg" :src="userImg"> 
+        <img v-else src="../../../assets/default_user.png">
+      </div>
+      <div class="commentprofilename">{{userName}}</div>
+    </div> -->
+    
   </div>
 </template>
 
@@ -110,7 +115,6 @@
 import { api } from '../../../../api.js'
 import axios from 'axios'
 import StudyComment from "./StudyComment.vue"
-
 
 export default {
   name: 'ItemDetail',
@@ -130,12 +134,19 @@ export default {
       joinDate: '',
       ingDate: '',
       peopleCount: 0,
+      imgPath: '',
+      imgs: null,
+      style: {
+        backgroundColor: this.imgPath
+      },
 
       itemuserName: '',
+      itemuserImg: '',
+      itemuserEmail: '',
       userImg: '',
       userName: '',
 
-      myComments: '',
+      mycomment: '',
       comments: [],
     }
   },
@@ -149,18 +160,71 @@ export default {
       }
       return res
     },
-
   },
   methods:{
-
     getContent(content) { 
       return content.split('\n').join('<br>'); 
     },
-    commentSubmit() {
-      
+    commentSubmit(event) {
+      event.preventDefault()
+      if (this.mycomment.length !== 0) {
+        const item_pk = this.item_pk
+        const token = localStorage.getItem('jwt')
+        axios({
+          url: api.CREATE_STUDY_BOARD_COMMENT + `${item_pk}`,
+          method: 'POST',
+          data: {
+            scommentContent: this.mycomment
+          },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then(()=>{
+          // console.log(res.data)
+          axios({
+            url: api. GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+          }).then((res)=>{
+              const temp = []
+              res.data.forEach((element)=>{
+                temp.push(element)
+              })
+              this.comments = temp
+          }).catch((err)=>{
+            console.error(err)
+          })
+        }).catch((err)=>{
+          console.error(err)
+        })
+        this.mycomment = ''
+      } 
+      else {
+        alert("댓글을 입력하세요.")
+      }
     },
     onParentDeleteComment() {
-
+      const item_pk = this.item_pk
+      const token = localStorage.getItem('jwt')
+      axios({
+        url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token
+        },
+      }).then((res)=>{
+          const temp = []
+          res.data.forEach((element)=>{
+            temp.push(element)
+          })
+          this.comments = temp
+      }).catch((err)=>{
+        const temp = []
+        this.comments = temp
+        console.error(err)
+      })
     },
     deleteArticle() {
       const token = localStorage.getItem('jwt')
@@ -182,7 +246,9 @@ export default {
     },
   },
   created() {
+    const item_pk = this.item_pk
     const token = localStorage.getItem('jwt')
+
     axios({
       url:  api.GET_STUDY_BOARD_DETAIL + `${this.item_pk}`,
       method: 'GET',
@@ -191,6 +257,8 @@ export default {
       },
     }).then((res)=>{
       // console.log(res)
+      this.itemuserEmail = res.data.user.userEmail
+      this.itemuserImg = res.data.user.userImg
       this.itemuserName = res.data.user.userName
       this.imgPath = res.data.sboardImg
       this.title = res.data.sboardTitle
@@ -201,6 +269,22 @@ export default {
       this.content1 = res.data.sboardContent1
       this.content2 = res.data.sboardContent2
       this.content3 = res.data.sboardContent3
+      
+      let stacks = res.data.sboardTechstack
+      // 배열로 저장
+      let result = stacks.split(',')
+      // console.log(result.length)
+
+      // 기술이 4개 이상이면 3개만 담고 그 이하는 다 담기
+      if(result.length >= 4){
+        // console.log(result.slice(0,3))
+        this.imgs = result.slice(0,3)
+      }else{
+        this.imgs = result
+      }
+      this.style.backgroundColor = res.data.sboardImg
+      // console.log(this.imgPath)
+      // console.log(this.style.backgroundColor)
     }).catch((err)=>{
       console.error(err)
     })
@@ -214,6 +298,25 @@ export default {
     }).then((res)=>{
       // console.log(res)
       this.userName = res.data.userName
+      this.userImg = res.data.userImg
+    }).catch((err)=>{
+      console.error(err)
+    })
+
+    axios({
+      url: api.GET_STUDY_BOARD_COMMENT + `${item_pk}`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+    }).then((res)=>{
+      // console.log(res)
+      const temp = []
+      res.data.forEach((element)=>{
+        temp.push(element)
+      })
+      this.comments = temp
+      // console.log(this.comments)
     }).catch((err)=>{
       console.error(err)
     })
@@ -225,21 +328,26 @@ export default {
 <style scoped>
 .itemdetail{
   width: auto; 
-  height:auto; 
-  border-radius: 20px !important; 
+  height:auto;
   padding:10px !important;
   font-size: 20px;
 }
-.detailtitle {
-  text-align: center;
-  font-size: 1.5vw;
+
+header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin: 0 0 2.5vh 0;
+}
+
+header h2{
   font-weight: bold;
 }
-.profilebox{
-  display: flex;
-}
+
 .profileicon {
-  margin: 2vh 1vw 2vh 17vw;
+  margin: 2vh 1vw 2vh 1vw;
   width : 6.5vh;
   height : 6.5vh;
   /* border: 1px solid; */
@@ -251,85 +359,72 @@ export default {
   height:100%;
   object-fit:cover;
 }
-.profilename {
+.profilbox h5 {
   margin: 3.5vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .tech-control {
   display: flex;
   justify-content: space-between;
+  align-content: center;
 }
 
 .techstack {
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 2vh 0;
+  margin:  0.6vh 0 0 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .techstack span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.1vh 0.5vw 0.5vh 0.8vw;
+  padding: 0.5vh 0.5vw 0.6vh 0.8vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
   font-weight: bold;
-  
-}
-.item-control .update{
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
-  font-weight: bold;
-  color: #24274A;
-  height: 3vh;
-  width: 3vw;
-  margin: 0 1vw 0 0;
-  border: 1px solid;
-  background-color: white;
-  border-radius: 1.1rem;
-}
-.item-control .delete{
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.7vw;
-  font-weight: bold;
-  color: white;
-  height: 3vh;
-  width: 3vw;
-  /* margin: 0 1vw 0 0; */
-  background-color: #24274A;
-  border-radius: 1.1rem;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .content1 .contenttitle1{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 1.5vh 0 1vh 0;
+  margin: 5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content1 .contentdetail1 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw
 }
 
 .content2 .contenttitle2{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 1.5vh 0 1vh 0;
+  margin: 5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content2 .contentdetail2 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw
 }
 
 .content3 .contenttitle3{
   font-weight: bold;
   font-size: 1.1vw;
-  margin: 1.5vh 0 1vh 0;
+  margin: 5vh 0 1vh 0;
+  font-family: 'Epilogue', sans-serif;
 }
 .content3 .contentdetail3 {
   font-weight:300;
   margin: 0 0 2vh 0;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.9vw;
 }
 
 .form-group .form-control{
@@ -337,26 +432,14 @@ export default {
   color:white; */
   border-radius: 1rem;
   height: 10vh;
-}
-
-.submit {
-  cursor: pointer;
-  font-family: 'Roboto';
-  font-size: 0.85vw;
-  font-weight: bold;
-  color: white;
-  height: 4vh;
-  width: 4vw;
-  margin: 1vh 0 0 0;
-  background-color: #24274A;
-  border-radius: 1.1rem;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .commentprofilebox{
   display: flex;
 }
 .commentprofileicon {
-  margin: 0 1vw 1vh 0;
+  margin: 0 1vw 2vh 0;
   width : 5vh;
   height : 5vh;
   /* border: 1px solid; */
@@ -369,18 +452,23 @@ export default {
   object-fit:cover;
 }
 .commentprofilename {
-  margin: 0.7vh 0 0 0;
+  margin: 0.8vh 0 0 0;
   font-size: 1.2vw;
   font-weight: bold;
+  font-family: 'Epilogue', sans-serif;
 }
 
 .img-etc-box {
   display: flex;
   margin:  0.6vh 0 2vh 0;
+  /* width: auto; */
 }
-.img-etc-box .img-box img{
-  height: 30vh;
-  width: 30vh;
+.img-etc-box .img-box {
+  width: 31vh;
+}
+.img-etc-box .img-box #stackImg {
+  margin: 9vh 0 0 0;
+  width: 10vh;
 }
 .img-etc-box .etc-box {
   margin: 0 0 0 3vw;
@@ -398,24 +486,75 @@ export default {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .joindate .joindatetitle {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .ingdate .ingdatetitle {
   margin: 0 0 0.5vh 0;
   font-weight: bold;
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .people .peoplecontent {
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .joindate .joindatecontent{
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
 }
 .img-etc-box .etc-box .ingdate .ingdatecontent {
   font-size: 1vw;
+  font-family: 'Epilogue', sans-serif;
+}
+
+
+.btnGroup{
+  display: flex;
+}
+
+.myBtn {
+  border-radius: 1rem;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 0.8vw;
+  font-weight: bold;
+  margin: 0 0.3vw 0 0.3vw;
+  padding: 0 0.5vw 0.1vh 0.5vw;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.myBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.myBtn:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+#up{
+  background-color: rgb(30, 200, 30);
+}
+
+#de{
+  background-color: rgb(250, 100, 100);
+}
+
+#sub {
+  background-color: rgb(76, 91, 231);
+  font-size: 1.2vw;
+  padding: 0.4vh;
+  /* font-weight: bold; */
+  margin: 0.3vw 0.3vw;
+  width: 100%;
 }
 </style>

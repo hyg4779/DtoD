@@ -92,82 +92,86 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      focus: '',
-      type: 'month',
-      typeToLabel: {
-        month: '월 단위',
-        // week: '주 단위',
-        day: '일 단위',
-      },
-      selectedEvent: {},
-      selectedElement: null,
-      selectedOpen: false,
-      events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-
-      activesData: null,
-    }),
-    // mounted () {
-    //   this.$refs.calendar.checkChange()
-    // },
-    methods: {
-      viewDay ({ date }) {
-        this.focus = date
-        this.type = 'day'
-      },
-      getEventColor (event) {
-        return event.color
-      },
-      setToday () {
-        this.focus = ''
-      },
-      prev () {
-        this.$refs.calendar.prev()
-      },
-      next () {
-        this.$refs.calendar.next()
-      },
-      // showEvent ({ nativeEvent, event }) {
-      //   const open = () => {
-      //     this.selectedEvent = event
-      //     this.selectedElement = nativeEvent.target
-      //     requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
-      //   }
-
-      //   if (this.selectedOpen) {
-      //     this.selectedOpen = false
-      //     requestAnimationFrame(() => requestAnimationFrame(() => open()))
-      //   } else {
-      //     open()
-      //   }
-
-      //   nativeEvent.stopPropagation()
-      // },
-      updateRange () {
-        const events = [];
-
-        for (let i = 0; i < this.activeListData.length; i++) {
-          var name = '학습 #' + this.activeListData[i].id;
-          var start_time = new Date(this.activeListData[i].start_time);
-          var end_time = new Date(this.activeListData[i].end_time);
-
-          events.push({
-            name: name,
-            start: start_time,
-            end: end_time,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: true,
-          })
-        }
-
-        this.events = events
-      },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-      },
+export default {
+  name:'Calendars',
+  props: [
+    'attendInfo'
+  ],
+  data: () => ({
+    focus: '',
+    type: 'month',
+    typeToLabel: {
+      month: '월 단위',
+      // week: '주 단위',
+      day: '일 단위',
     },
-  }
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+    events: [],
+    colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+
+    attend: null,
+  }),
+  // mounted () {
+  //   this.$refs.calendar.checkChange()
+  // },
+  methods: {
+    viewDay ({ date }) {
+      this.focus = date
+      this.type = 'day'
+    },
+    getEventColor (event) {
+      return event.color
+    },
+    setToday () {
+      this.focus = ''
+    },
+    prev () {
+      this.$refs.calendar.prev()
+    },
+    next () {
+      this.$refs.calendar.next()
+    },
+    // showEvent ({ nativeEvent, event }) {
+    //   const open = () => {
+    //     this.selectedEvent = event
+    //     this.selectedElement = nativeEvent.target
+    //     requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
+    //   }
+
+    //   if (this.selectedOpen) {
+    //     this.selectedOpen = false
+    //     requestAnimationFrame(() => requestAnimationFrame(() => open()))
+    //   } else {
+    //     open()
+    //   }
+
+    //   nativeEvent.stopPropagation()
+    // },
+    updateRange () {
+      const events = [];
+
+      for (let i = 0; i < this.activeListData.length; i++) {
+        var name = '학습 #' + this.activeListData[i].id;
+        var start_time = new Date(this.activeListData[i].start_time);
+        var end_time = new Date(this.activeListData[i].end_time);
+
+        events.push({
+          name: name,
+          start: start_time,
+          end: end_time,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          timed: true,
+        })
+      }
+
+      this.events = events
+    },
+    rnd (a, b) {
+      return Math.floor((b - a + 1) * Math.random()) + a
+    },
+  },
+}
 </script>

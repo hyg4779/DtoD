@@ -35,5 +35,4 @@ public class RegistStudyboardDto {
 	private String sboardJoindate;
 	private Integer sboardPerson;
 	
-//	private LocalDateTime sboardCreateddate;
 }

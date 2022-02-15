@@ -68,7 +68,7 @@ export default {
   methods: {
     clicked(event) {
       const className = event.target.className
-      console.dir(event.target)
+      // console.dir(event.target)
       if (className === 'free') {
         this.free = true
         this.question = false
@@ -113,8 +113,8 @@ export default {
   },
   created() {
     if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt')
-      console.log(token)
+      // const token = localStorage.getItem('jwt')
+      // console.log(token)
     } else {
       alert('로그인을 해주세요')
       this.$router.push({ name: 'Home' })
