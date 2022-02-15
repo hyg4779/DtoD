@@ -22,8 +22,8 @@
       </div>
       <div id="title">
         <h5>내용</h5>
-        <p>{{content}}</p>
-        <!-- <p v-html="getContent(this.content)"></p> -->
+        <!-- <p>{{content}}</p> -->
+        <p v-html="getContent(this.content)"></p>
       </div>
     </body>
 

@@ -1,112 +1,101 @@
 <template>
   <div class="itemdetail">
     <header>
-      <h2>{{title}}</h2>
+      <h3 style="font-weight: bold;">{{title}}</h3>
       <div class="profileicon">
         <img v-if="itemuserImg" :src="itemuserImg"> 
         <img v-else src="../../assets/default_user.png">
       </div>
-      작성자: {{itemuserName}}
+      {{itemuserName}}
     </header>
-    <div class="tech-control">
-      <div class="techstack">
-        기술 스택
-        <span v-for="(item, idx) in getSkills" :key="idx">
+
+    <body>
+      <section>
+        <h6 class="p-0 m-0">기술 스택</h6>
+        <span
+          v-for="(item, idx) in getSkills"
+          :key="idx"
+        >
           {{item}}
         </span>
-      </div>
-      <!-- <div class="btnGroup" v-if="userName === itemuserName">
-        <button class="myBtn" id="up" @click="updateArticle">수정</button>
-        <button class="myBtn" id="de" @click="deleteArticle">삭제</button>
-      </div> -->
-    </div>
-    <br>
-    <div class="img-etc-box">
-      <div class="img-box" :style="style">
-        <img 
-        v-for="(stack, idx) in imgs"
-        :key="idx"
-        id="stackImg"
-        :src="require(`@/assets/stacks/${stack}.png`)"
-        alt="img"
-        >
-      </div>
-      <div class="etc-box">
-        <div class="people">
-          <div class="peopletitle">모집인원</div>
-          <div class="peoplecontent">
-          {{peopleCount}}명
-          </div>
-        </div>         
-        <div class="joindate">
-          <div class="joindatetitle">모집기간</div>
-          <div class="joindatecontent">
-          {{joinDate}}
-          </div>
-        </div>
-        <div class="ingdate">
-          <div class="ingdatetitle">수행기간</div>
-          <div class="ingdatecontent">
-          {{ingDate}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content1">
-      <div class="contenttitle1">
-        스터디 소개
-      </div>
-      <div class="contentdetail1">
-        <p v-html="getContent(this.content2)"></p>
-      </div>
-    </div>
-    <div class="content2">
-      <div class="contenttitle2">
-        스터디 규칙
-      </div>
-      <div class="contentdetail2">
-        <p v-html="getContent(this.content3)"></p>
-      </div>
-    </div>
-    <div class="content3">
-      <div class="contenttitle3">
-        오픈 카카오톡
-      </div>
-      <div class="contentdetail3">
-        <p v-html="getContent(this.content1)"></p>
-      </div>
-    </div>
-    <form @submit="commentSubmit" v-if="this.token">
-      <div class="form-group" style="margin-bottom:10px;">
-        <textarea 
-          class="form-control"
-          placeholder="댓글을 남겨주세요" 
-          id="comment" 
-          rows="2" 
-          v-model="mycomment" 
-          @keypress.enter="commentSubmit"
+      </section>
+      <br>
+      <aside>
+        <div class="img-box">
+          <img 
+          v-for="(stack, idx) in imgs"
+          :key="idx"
+          :src="require(`@/assets/stacks/${stack}.png`)"
+          alt="img"
           >
-        </textarea>
-        <button class="myBtn submit" id="sub">등록</button>
+        </div>
+        <ul class="etc-box">
+          <li>
+            <p>모집인원</p>
+            <p>{{peopleCount}}명</p>
+          </li>
+          <li>
+            <p>모집기간</p>
+            <p>{{joinDate}}</p>
+          </li>
+          <li>
+            <p>수행기간</p>
+            <p>{{ingDate}}</p>
+          </li>             
+        </ul>
+      </aside>
+
+      <div>
+        <ul>
+          <li>
+            <p>스터디 소개</p>
+            <p v-html="getContent(this.content2)"></p>
+          </li>
+          <li>
+            <p>스터디 규칙</p>
+            <p v-html="getContent(this.content3)"></p>
+          </li>
+          <li>
+            <p>오픈 카카오톡</p>
+            <p v-html="getContent(this.content1)"></p>
+          </li>
+        </ul>
       </div>
-    </form>
-    <div v-if="this.token">
-      <StudyComment 
-        v-for="(comment, idx) in this.comments"
-        :key="idx"
-        :comment="comment"
-        :item_pk="item_pk"
-        @onParentDeleteComment="onParentDeleteComment"
-      />
-    </div>
-    <hr v-if="this.token">
-    <!-- <div class="commentprofilebox" v-if="this.token">
-      <div class="commentprofileicon">
-        <img v-if="userImg" :src="userImg"> 
-        <img v-else src="../../assets/default_user.png">
+    </body>
+
+    <footer>
+      <form @submit="commentSubmit" v-if="this.token">
+        <div class="form-group" style="margin-bottom:10px;">
+          <textarea 
+            class="form-control"
+            placeholder="댓글을 남겨주세요" 
+            id="comment" 
+            rows="2" 
+            v-model="mycomment" 
+            @keypress.enter="commentSubmit"
+            >
+          </textarea>
+          <button class="myBtn submit" id="sub">등록</button>
+        </div>
+      </form>
+      <div v-if="this.token">
+        <StudyComment 
+          v-for="(comment, idx) in this.comments"
+          :key="idx"
+          :comment="comment"
+          :item_pk="item_pk"
+          @onParentDeleteComment="onParentDeleteComment"
+        />
       </div>
-      <div class="commentprofilename">{{userName}}</div>
-    </div> -->
+      <hr v-if="this.token">
+      <!-- <div class="commentprofilebox" v-if="this.token">
+        <div class="commentprofileicon">
+          <img v-if="userImg" :src="userImg"> 
+          <img v-else src="../../assets/default_user.png">
+        </div>
+        <div class="commentprofilename">{{userName}}</div>
+      </div> -->
+    </footer>
     
   </div>
 </template>
@@ -330,10 +319,12 @@ export default {
 
 <style scoped>
 .itemdetail{
-  width: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto;
   height:auto;
   padding:10px !important;
-  font-size: 20px;
 }
 
 header{
@@ -341,7 +332,6 @@ header{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
   margin: 0 0 2.5vh 0;
 }
 
@@ -369,26 +359,69 @@ header h2{
   font-family: 'Epilogue', sans-serif;
 }
 
-.tech-control {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
+body{
+  background-color: #FFFFFF !important;
 }
 
-.techstack {
+section {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
   font-weight: 400;
   font-size: 1vw;
-  margin:  0.6vh 0 0 0;
-  font-family: 'Epilogue', sans-serif;
 }
-.techstack span {
+
+section span {
   border: 1px solid #F0F0F0;
   border-radius: 8rem;
-  padding: 0.5vh 0.5vw 0.6vh 0.8vw;
+  padding: 0.5vh 0.5vw 0.5vh 0.8vw;
   margin: 0 0 0 1vw;
   background-color: #F0F0F0;
+}
+
+.img-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  width: 20rem;
+  height: 15rem;
+  border-radius: 2rem;
+  box-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.25);
+}
+
+.img-box img{
+  margin: 0;
+  width: 5rem;
+  height: 5rem;
+}
+
+aside {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin:  0.6vh 0 2vh 0;
+}
+
+ul{
+  list-style-type: none;
+  padding-left: 1rem;
+}
+
+ul p:nth-child(1){
   font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
+  font-size: 1.1vw;
+}
+
+.etc-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 10rem;
+  height: 15rem;
 }
 
 .content1 .contenttitle1{
@@ -461,60 +494,6 @@ header h2{
   font-family: 'Epilogue', sans-serif;
 }
 
-.img-etc-box {
-  display: flex;
-  margin:  0.6vh 0 2vh 0;
-  /* width: auto; */
-}
-.img-etc-box .img-box {
-  width: 31vh;
-}
-.img-etc-box .img-box #stackImg {
-  margin: 9vh 0 0 0;
-  width: 10vh;
-}
-.img-etc-box .etc-box {
-  margin: 0 0 0 3vw;
-}
-.img-etc-box .etc-box .people {
-  margin: 0 0 5vh 0;
-}
-.img-etc-box .etc-box .joindate {
-  margin: 0 0 5vh 0;
-} 
-.img-etc-box .etc-box .ingdate {
-  margin: 0 0 0 0;
-}
-.img-etc-box .etc-box .people .peopletitle {
-  margin: 0 0 0.5vh 0;
-  font-weight: bold;
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
-.img-etc-box .etc-box .joindate .joindatetitle {
-  margin: 0 0 0.5vh 0;
-  font-weight: bold;
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
-.img-etc-box .etc-box .ingdate .ingdatetitle {
-  margin: 0 0 0.5vh 0;
-  font-weight: bold;
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
-.img-etc-box .etc-box .people .peoplecontent {
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
-.img-etc-box .etc-box .joindate .joindatecontent{
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
-.img-etc-box .etc-box .ingdate .ingdatecontent {
-  font-size: 1vw;
-  font-family: 'Epilogue', sans-serif;
-}
 
 
 .btnGroup{
