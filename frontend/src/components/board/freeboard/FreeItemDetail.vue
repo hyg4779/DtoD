@@ -54,8 +54,8 @@
         :item_pk="item_pk"
         @onParentDeleteComment="onParentDeleteComment"
       />
+      <hr>
     </footer>
-    <hr>
     <!-- <div class="commentprofilebox">
       <div class="commentprofileicon">
         <img v-if="userImg" :src="userImg"> 

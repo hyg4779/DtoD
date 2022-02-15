@@ -64,6 +64,16 @@
     </body>
 
     <footer>
+      <div v-if="this.token">
+        <StudyComment 
+          v-for="(comment, idx) in this.comments"
+          :key="idx"
+          :comment="comment"
+          :item_pk="item_pk"
+          @onParentDeleteComment="onParentDeleteComment"
+        />
+      </div>
+      <br>
       <form @submit="commentSubmit" v-if="this.token">
         <div class="form-group" style="margin-bottom:10px;">
           <textarea 
@@ -78,23 +88,7 @@
           <button class="myBtn submit" id="sub">등록</button>
         </div>
       </form>
-      <div v-if="this.token">
-        <StudyComment 
-          v-for="(comment, idx) in this.comments"
-          :key="idx"
-          :comment="comment"
-          :item_pk="item_pk"
-          @onParentDeleteComment="onParentDeleteComment"
-        />
-      </div>
       <hr v-if="this.token">
-      <!-- <div class="commentprofilebox" v-if="this.token">
-        <div class="commentprofileicon">
-          <img v-if="userImg" :src="userImg"> 
-          <img v-else src="../../assets/default_user.png">
-        </div>
-        <div class="commentprofilename">{{userName}}</div>
-      </div> -->
     </footer>
     
   </div>
@@ -308,7 +302,7 @@ header{
   margin: 0 0 2.5vh 0;
 }
 
-header h2{
+header h3{
   font-weight: bold;
 }
 
@@ -325,12 +319,6 @@ header h2{
   height:100%;
   object-fit:cover;
 }
-.profilbox h5 {
-  margin: 3.5vh 0 0 0;
-  font-size: 1.2vw;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
-}
 
 body{
   background-color: #FFFFFF !important;
@@ -339,7 +327,7 @@ body{
 section {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   font-weight: 400;
   font-size: 1vw;
@@ -353,10 +341,17 @@ section span {
   background-color: #F0F0F0;
 }
 
-.img-box{
+aside {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin:  0.6vh 0 2vh 0;
+}
+
+.img-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   margin: 1rem;
   padding: 1rem;
@@ -367,17 +362,11 @@ section span {
 }
 
 .img-box img{
-  margin: 0;
+  margin: .5rem;
   width: 5rem;
   height: 5rem;
 }
 
-aside {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin:  0.6vh 0 2vh 0;
-}
 
 ul{
   list-style-type: none;
@@ -397,45 +386,6 @@ ul p:nth-child(1){
   height: 15rem;
 }
 
-.content1 .contenttitle1{
-  font-weight: bold;
-  font-size: 1.1vw;
-  margin: 5vh 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
-}
-.content1 .contentdetail1 {
-  font-weight:300;
-  margin: 0 0 2vh 0;
-  font-family: 'Epilogue', sans-serif;
-  font-size: 0.9vw
-}
-
-.content2 .contenttitle2{
-  font-weight: bold;
-  font-size: 1.1vw;
-  margin: 5vh 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
-}
-.content2 .contentdetail2 {
-  font-weight:300;
-  margin: 0 0 2vh 0;
-  font-family: 'Epilogue', sans-serif;
-  font-size: 0.9vw
-}
-
-.content3 .contenttitle3{
-  font-weight: bold;
-  font-size: 1.1vw;
-  margin: 5vh 0 1vh 0;
-  font-family: 'Epilogue', sans-serif;
-}
-.content3 .contentdetail3 {
-  font-weight:300;
-  margin: 0 0 2vh 0;
-  font-family: 'Epilogue', sans-serif;
-  font-size: 0.9vw;
-}
-
 .form-group .form-control{
   /* background-color: black; 
   color:white; */
@@ -444,9 +394,6 @@ ul p:nth-child(1){
   font-family: 'Epilogue', sans-serif;
 }
 
-.commentprofilebox{
-  display: flex;
-}
 .commentprofileicon {
   margin: 0 1vw 2vh 0;
   width : 5vh;
@@ -455,19 +402,6 @@ ul p:nth-child(1){
   border-radius: 50%;
   overflow:hidden;
 }
-.commentprofileicon img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.commentprofilename {
-  margin: 0.8vh 0 0 0;
-  font-size: 1.2vw;
-  font-weight: bold;
-  font-family: 'Epilogue', sans-serif;
-}
-
-
 
 .btnGroup{
   display: flex;
