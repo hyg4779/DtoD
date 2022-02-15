@@ -27,12 +27,13 @@ public class CheckInService {
 				.checkDate(LocalDateTime.now())
 				.build();
 		List<CheckIn> allList = checkinRepository.findAll();
+//		System.out.println(allList.get(6).getCheckDate().toString().substring(0,10));
 		for(int i=0; i<allList.size(); i++) {
-			if(allList.get(i).getCheckDate().toString().substring(0,9).equals(checkin.getCheckDate().toString().substring(0,9))) {
+			if(allList.get(i).getCheckDate().toString().substring(0,10).equals(checkin.getCheckDate().toString().substring(0,10))) {
 				return duplicateCheck;
 			}
 		}
-//		System.out.println(allList.get(6).getCheckDate().toString().substring(9));
+		
 		return checkinRepository.save(checkin);
 	}
 	
