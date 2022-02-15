@@ -29,7 +29,7 @@ public class CheckInService {
 		List<CheckIn> allList = checkinRepository.findAll();
 //		System.out.println(allList.get(6).getCheckDate().toString().substring(0,10));
 		for(int i=0; i<allList.size(); i++) {
-			if(allList.get(i).getCheckDate().toString().substring(0,10).equals(checkin.getCheckDate().toString().substring(0,10))) {
+			if(checkin.getUser().getUserId() == allList.get(i).getUser().getUserId() && allList.get(i).getCheckDate().toString().substring(0,10).equals(checkin.getCheckDate().toString().substring(0,10))) {
 				return duplicateCheck;
 			}
 		}
