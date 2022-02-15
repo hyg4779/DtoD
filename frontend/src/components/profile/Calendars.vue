@@ -44,8 +44,8 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="60vh" width="auto">
+          <!-- :dark="true" -->
         <v-calendar
-          :dark="true"
           ref="calendar"
           v-model="focus"
           color="primary"
@@ -159,13 +159,13 @@ export default {
         // var start_time = new Date(this.attendInfo[i].start_time);
         // var end_time = new Date(this.attendInfo[i].end_time);
         const start_time = new Date(this.attendInfo[i] + 'T09:00:00');
-        const end_time = new Date(this.attendInfo[i], 'T25:00:00');
+        const end_time = new Date(this.attendInfo[i] + 'T23:59:59');
 
         events.push({
           name: name,
           start: start_time,
           end: end_time,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          color: this.colors[0],
           timed: true,
         })
       }
