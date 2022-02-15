@@ -2,9 +2,7 @@ package com.ssafy.dtod.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -32,7 +30,7 @@ public class CheckOutService {
 				.build();
 		List<CheckOut> allList = checkoutRepository.findAll();
 		for(int i=0; i<allList.size(); i++) {
-			if(allList.get(i).getCheckoutDate().toString().substring(0,10).equals(checkout.getCheckoutDate().toString().substring(0,10))) {
+			if(checkout.getUser().getUserId() == allList.get(i).getUser().getUserId() && allList.get(i).getCheckoutDate().toString().substring(0,10).equals(checkout.getCheckoutDate().toString().substring(0,10))) {
 				return duplicateCheck;
 			}
 		}
@@ -48,8 +46,8 @@ public class CheckOutService {
 				myCheck.add(allList.get(i).getCheckoutDate());
 			}
 		}
-		Set<LocalDateTime> set = new HashSet<LocalDateTime>(myCheck);
-		myCheck = new ArrayList<LocalDateTime>(set);
+//		Set<LocalDateTime> set = new HashSet<LocalDateTime>(myCheck);
+//		myCheck = new ArrayList<LocalDateTime>(set);
 		return myCheck;
 	}
 }
