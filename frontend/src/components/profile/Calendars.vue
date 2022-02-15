@@ -20,7 +20,7 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-menu bottom right>
+          <!-- <v-menu bottom right>
             <template v-slot:activator="{ on, attrs }" >
               <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
@@ -33,14 +33,14 @@
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>일 단위</v-list-item-title>
               </v-list-item>
-              <!-- <v-list-item @click="type = 'week'">
+              <v-list-item @click="type = 'week'">
                 <v-list-item-title>주 단위</v-list-item-title>
-              </v-list-item> -->
+              </v-list-item>
               <v-list-item @click="type = 'month'">
                 <v-list-item-title>월 단위</v-list-item-title>
               </v-list-item>
             </v-list>
-          </v-menu>
+          </v-menu> -->
         </v-toolbar>
       </v-sheet>
       <v-sheet height="60vh" width="auto">
@@ -52,12 +52,12 @@
           :events="events"
           :event-color="getEventColor"
           :type="type"
-          @click:more="viewDay"
-          @click:date="viewDay"
           @change="updateRange"
         ></v-calendar>
+          <!-- @click:more="viewDay" -->
+          <!-- @click:date="viewDay" -->
           <!-- @click:event="showEvent" -->
-        <v-menu
+        <!-- <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
@@ -86,7 +86,7 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </v-menu>
+        </v-menu> -->
       </v-sheet>
     </v-col>
   </v-row>
@@ -96,33 +96,35 @@
 export default {
   name:'Calendars',
   props: {
-    attend: Array
+    attend: Array,
+    leave: Array
   },
   data: () => ({
     focus: '',
     type: 'month',
-    typeToLabel: {
-      month: '월 단위',
-      // week: '주 단위',
-      day: '일 단위',
-    },
-    selectedEvent: {},
-    selectedElement: null,
-    selectedOpen: false,
+    // typeToLabel: {
+    //   month: '월 단위',
+    //   week: '주 단위',
+    //   day: '일 단위',
+    // },
+    // selectedEvent: {},
+    // selectedElement: null,
+    // selectedOpen: false,
     events: [],
     colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+    // names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
 
     attendInfo: null,
+    leaveInfo: null,
   }),
   // mounted () {
   //   this.$refs.calendar.checkChange()
   // },
   methods: {
-    viewDay ({ date }) {
-      this.focus = date
-      this.type = 'day'
-    },
+    // viewDay ({ date }) {
+    //   this.focus = date
+    //   this.type = 'day'
+    // },
     getEventColor (event) {
       return event.color
     },
@@ -155,17 +157,31 @@ export default {
       const events = [];
 
       for (let i = 0; i < this.attendInfo.length; i++) {
-        const name = '출석 완료 ' + this.attendInfo[i];
-        // var start_time = new Date(this.attendInfo[i].start_time);
-        // var end_time = new Date(this.attendInfo[i].end_time);
-        const start_time = new Date(this.attendInfo[i] + 'T09:00:00');
-        const end_time = new Date(this.attendInfo[i] + 'T23:59:59');
+
+        const name1 = '출석 완료';
+        const start_time1 = new Date(this.attendInfo[i]);
+        const end_time1 = new Date(this.attendInfo[i]);
 
         events.push({
-          name: name,
-          start: start_time,
-          end: end_time,
-          color: this.colors[0],
+          name: name1,
+          start: start_time1,
+          end: end_time1,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          timed: true,
+        })
+      }
+
+      for (let i = 0; i < this.leaveInfo.length; i++) {
+
+        const name2 = '퇴실 완료 ';
+        const start_time2 = new Date(this.leaveInfo[i]);
+        const end_time2 = new Date(this.leaveInfo[i]);
+
+        events.push({
+          name: name2,
+          start: start_time2,
+          end: end_time2,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
           timed: true,
         })
       }
@@ -177,9 +193,12 @@ export default {
     },
   },
   created() {
-    console.log(this.attend)
+    // console.log(this.attend)
     this.attendInfo = this.attend
-    console.log(this.attendInfo)
+    // console.log(this.attendInfo)
+    // console.log(this.leave)
+    this.leaveInfo = this.leave
+    // console.log(this.leaveInfo)
   }
 }
 </script>
