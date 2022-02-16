@@ -1,9 +1,8 @@
 <template>
   <div id="Video">
-
 		<header>
 			<div>
-				스터디 룸: {{ mySessionId }}
+				스터디 룸: {{ $route.params.sessionId }}
 			</div>
 
       <button
@@ -38,13 +37,13 @@
 
 <script>
 import axios from 'axios';
-import { OpenVidu } from 'openvidu-browser';
+// import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '../components/Video/UserVideo';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://i6b210.p.ssafy.io:5443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_URL = "https://i6b210.p.ssafy.io:5443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "Video",
@@ -59,12 +58,12 @@ export default {
 			publisher: undefined,
 			subscribers: [],
 
-			mySessionId: undefined,
+			mySessionId: this.$route.params.sessionId,
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
 		}
 	},
 	methods: {
-		joinSession () {
+		/* joinSession () {
     // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
 
@@ -126,20 +125,23 @@ export default {
 			});
 
 			window.addEventListener('beforeunload', this.leaveSession)
-		},
+		}, */
 
 		leaveSession () {
 			// 세션종료 메서드
-			if (this.session) this.session.disconnect();
+						if (this.session) this.session.disconnect();
+			
+						this.session = undefined;
+						this.mainStreamManager = undefined;
+						this.publisher = undefined;
+						this.subscribers = [];
+						this.OV = undefined;
+			
+						window.removeEventListener('beforeunload', this.leaveSession);
 
-			this.session = undefined;
-			this.mainStreamManager = undefined;
-			this.publisher = undefined;
-			this.subscribers = [];
-			this.OV = undefined;
+						return this.$router.push({name:'MyStudy'}) 
 
-			window.removeEventListener('beforeunload', this.leaveSession);
-			this.$router.push({name:'MyStudy'})
+
 		},
 
 		updateMainVideoStreamManager (stream) {
@@ -159,61 +161,80 @@ export default {
 			* 3) '연결'토큰은 Session.connect() 메서드에서 소비되어야 합니다.
 			*/
 
-		getToken (mySessionId) {
-			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
-		},
+		// getToken (id) {		// id == this.sessionId
+		// 	const myToken = this.createSession(id).then(sessionId => this.createToken(sessionId));
+		// 	console.log(myToken)
+		// 	return myToken
+		// },
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
-		createSession (sessionId) {
-			return new Promise((resolve, reject) => {
-				axios
-					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
-						customSessionId: sessionId,
-					}), {
-						auth: {
-							username: 'OPENVIDUAPP',
-							password: OPENVIDU_SERVER_SECRET,
-						},
-					})
-					.then(response => response.data)
-					.then(data => resolve(data.id))
-					.catch(error => {
-						if (error.response.status === 409) {
-							resolve(sessionId);
-						} else {
-							console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
-							if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
-								location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
-							}
-							reject(error.response);
-						}
-					});
-			});
-		},
+		// // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
+		// createSession (sessionId) {
+		// 	return new Promise((resolve, reject) => {
+		// 		axios
+		// 			.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
+		// 				customSessionId: sessionId,		// == getToken 으로 들어온 sessionId
+		// 			}), {
+		// 				auth: {
+		// 					username: 'OPENVIDUAPP',
+		// 					password: OPENVIDU_SERVER_SECRET,
+		// 				},
+		// 			})
+		// 			.then(response => {
+		// 				response.data
+		// 				console.log(response.data)
+		// 			})
+		// 			.then(data => {
+		// 				resolve(data.id)
+		// 				console.log(resolve(data.id))
+		// 			})
+		// 			.catch(error => {
+		// 				if (error.response.status === 409) {
+		// 					resolve(sessionId);
+		// 				} else {
+		// 					console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
+		// 					if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
+		// 						location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
+		// 					}
+		// 					reject(error.response);
+		// 				}
+		// 			});
+		// 	});
+		// },
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
-		createToken (sessionId) {
-			return new Promise((resolve, reject) => {
-				axios
-					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
-						auth: {
-							username: 'OPENVIDUAPP',
-							password: OPENVIDU_SERVER_SECRET,
-						},
-					})
-					.then(response => response.data)
-					.then(data => resolve(data.token))
-					.catch(error => reject(error.response));
-			});
-		},
+		// // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
+		// createToken (sessionId) {
+		// 	return new Promise((resolve, reject) => {
+		// 		axios
+		// 			.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
+		// 				auth: {
+		// 					username: 'OPENVIDUAPP',
+		// 					password: OPENVIDU_SERVER_SECRET,
+		// 				},
+		// 			})
+		// 			.then(response => {
+		// 				response.data
+		// 				console.log(response.data)})
+		// 			.then(data => {
+		// 				resolve(data.token) 
+		// 				console.log(data.token)})
+
+		// 			.catch(error => reject(error.response));
+		// 	});
+		// },
 	},
   mounted(){
 		// 세션생성
-		this.joinSession()
-    //	룸번호 지정
-    this.mySessionId = this.$route.params.sessionId
-  }
+		const videoInfo = this.$store.state.videoInfomation
 
+		this.OV =  videoInfo.OV,
+		this.session = videoInfo.session,
+		this.mainStreamManager = videoInfo.mainStreamManager,
+		this.publisher = videoInfo.publisher,
+		this.subscribers = videoInfo.subscribers,
+		this.mySessionId = this.$route.params.sessionId,
+		this.myUserName = videoInfo.myUserName
+
+	}
 }
 </script>
 
