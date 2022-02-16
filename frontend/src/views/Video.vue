@@ -31,14 +31,7 @@
 					:stream-manager="sub"
 					@click.native="updateMainVideoStreamManager(sub)"
 				/>
-
-				<div id="box">
-				</div>
-
     </body>
-
-		<footer>
-		</footer>
 
   </div>
 </template>
@@ -70,7 +63,71 @@ export default {
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
 		}
 	},
-  methods: {
+	methods: {
+		joinSession () {
+    // OpenVidu 객체 생성 ---
+			this.OV = new OpenVidu();
+
+    // 세션 초기화
+			this.session = this.OV.initSession();
+
+    // 세션 이벤트가 발생할 때 수행할 작업 지정
+
+    // 수신된 새 스트림마다 subscribers에 추가
+			this.session.on('streamCreated', ({ stream }) => {
+				const subscriber = this.session.subscribe(stream);
+				this.subscribers.push(subscriber);
+			});
+
+    // 스트림이 없어지면
+			this.session.on('streamDestroyed', ({ stream }) => {
+				const index = this.subscribers.indexOf(stream.streamManager, 0);
+				if (index >= 0) {
+					this.subscribers.splice(index, 1);
+				}
+			});
+
+    // 비동기 오류가 나면
+			this.session.on('exception', ({ exception }) => {
+				console.warn(exception);
+			});
+
+    // 유효한 사용자 토큰을 사용하여 세션에 연결
+
+    // getToken: 서버에서 수행할 작업을 시뮬레이션 한 것.
+    // token은 백엔드에서 받아와야 한다
+			this.getToken(this.mySessionId).then(token => {
+				this.session.connect(token, { clientData: this.myUserName })
+					.then(() => {
+
+          // 원하는 속성을 가진 고유한 카메라 스트림 가져오기
+
+						let publisher = this.OV.initPublisher(undefined, {
+							audioSource: undefined, // 오디오 / 마이크 없을 때: undefined
+							videoSource: undefined, // 캠. 캠 없을 때: undefined
+							publishAudio: true,  	// 시작시 오디오 true/false 여부 
+							publishVideo: true,  	// 시작시 캠 true/false 여부
+							resolution: '640x360',  // 비디오 해상도
+							frameRate: 30,			// 초당프레임
+							insertMode: 'APPEND',	// 캠 영상이 video태그에 삽입되는 방법
+							mirror: false       	// 거울모드 true/false 여부
+						});
+
+						this.mainStreamManager = publisher;
+						this.publisher = publisher;
+
+          // 스트림 게시
+
+						this.session.publish(this.publisher);
+					})
+					.catch(error => {
+						console.log('There was an error connecting to the session:', error.code, error.message);
+					});
+			});
+
+			window.addEventListener('beforeunload', this.leaveSession)
+		},
+
 		leaveSession () {
 			// 세션종료 메서드
 			if (this.session) this.session.disconnect();
@@ -82,7 +139,7 @@ export default {
 			this.OV = undefined;
 
 			window.removeEventListener('beforeunload', this.leaveSession);
-      this.$router.push({name:'MyStudy'})
+			this.$router.push({name:'MyStudy'})
 		},
 
 		updateMainVideoStreamManager (stream) {
@@ -150,71 +207,10 @@ export default {
 			});
 		},
 	},
-  created(){
-    // OpenVidu 객체 생성 ---
-    this.OV = new OpenVidu();
-
-    // 세션 초기화
-    this.session = this.OV.initSession();
-
-    // 세션 이벤트가 발생할 때 수행할 작업 지정
-
-    // 수신된 새 스트림마다 subscribers에 추가...
-    this.session.on('streamCreated', ({ stream }) => {
-			const subscriber = this.session.subscribe(stream);
-      this.subscribers.push(subscriber);
-    });
-
-    // 스트림이 없어지면...
-    this.session.on('streamDestroyed', ({ stream }) => {
-      const index = this.subscribers.indexOf(stream.streamManager, 0);
-      if (index >= 0) {
-        this.subscribers.splice(index, 1);
-      }
-    });
-
-    // 비동기 오류가 나면
-    this.session.on('exception', ({ exception }) => {
-      console.warn(exception);
-    });
-
-    // 유효한 사용자 토큰을 사용하여 세션에 연결
-
-    // getToken: 서버에서 수행할 작업을 시뮬레이션 한 것.
-    // token은 백엔드에서 받아와야 한다
-    this.getToken(this.mySessionId).then(token => {
-      this.session.connect(token, { clientData: this.myUserName })
-        .then(() => {
-
-          // 원하는 속성을 가진 고유한 카메라 스트림 가져오기
-
-          let publisher = this.OV.initPublisher(undefined, {
-            audioSource: undefined, // 오디오 / 마이크 없을 때: undefined
-            videoSource: undefined, // 캠. 캠 없을 때: undefined
-            publishAudio: true,  	// 시작시 오디오 true/false 여부 
-            publishVideo: true,  	// 시작시 캠 true/false 여부
-            resolution: '640x360',  // 비디오 해상도
-            frameRate: 30,			// 초당프레임
-            insertMode: 'APPEND',	// 캠 영상이 video태그에 삽입되는 방법
-            mirror: false       	// 거울모드 true/false 여부
-          });
-
-          this.mainStreamManager = publisher;
-          this.publisher = publisher;
-
-          // 스트림 게시
-          this.session.publish(this.publisher);
-        })
-        .catch(error => {
-          console.log('There was an error connecting to the session:', error.code, error.message);
-        });
-    });
-
-    window.addEventListener('beforeunload', this.leaveSession)
-		
-  },
   mounted(){
-    //
+		// 세션생성
+		this.joinSession()
+    //	룸번호 지정
     this.mySessionId = this.$route.params.sessionId
   }
 
@@ -268,13 +264,6 @@ body {
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-
-/* body div{
-	background-color: grey;
-	border: 1px solid black;
-	padding-bottom: calc(9/16 * 100);
-	max-width: 25em;
-} */
 
 footer{
   text-align: center;
