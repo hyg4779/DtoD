@@ -34,8 +34,6 @@
         </div>
 
         <div>
-          <button @click="share" id="shareBtn">화면공유</button>
-          <button @click="stopShare" id="stopBtn">공유취소</button>
           <button @click="leaveSession" id="leaveBtn">퇴실</button>
         </div>
       </header>
@@ -96,7 +94,7 @@
           <button @click="send">전송</button>
         </div>
       </footer>
-  </div>
+    </div>
   </div>
 </template>
 <script>
@@ -136,10 +134,6 @@ export default {
 
       sendData: null,   // 보내는 메세지
       receiveMsg: [],   // 수신한 메세지
-
-      screenOV: null,  // 화면공유 객체
-      screenSession: null,
-      screenPublisher: null  // 공유된 화면 publisher
     }
   },
   computed:{
@@ -181,17 +175,17 @@ export default {
   methods: {
     // 메세지 보내기
     send(event) {
-        console.log(event.target.value)
-        
-        this.session.signal({
-            data: this.sendData,
-            to: [],
-            type: "my-chat",
-        }).catch((error) => {
-            console.error(error);
-        });
-        this.sendData = null
-      },
+      console.log(event.target.value)
+      
+      this.session.signal({
+          data: this.sendData,
+          to: [],
+          type: "my-chat",
+      }).catch((error) => {
+          console.error(error);
+      });
+      this.sendData = null
+    },
     
     // 화상회의 만들기
     joinSession () {      
@@ -409,15 +403,15 @@ export default {
   },
 
   destroyed(){
-      if (this.data.session) this.data.session.disconnect();
-      this.data.session = undefined;
-      this.data.mainStreamManager = undefined;
-      this.data.publisher = undefined;
-      this.data.subscribers = [];
-      this.data.OV = undefined;
-      this.data.receiveMsg = [];
-      this.sendData = null;
-    },
+    if (this.data.session) this.data.session.disconnect();
+    this.data.session = undefined;
+    this.data.mainStreamManager = undefined;
+    this.data.publisher = undefined;
+    this.data.subscribers = [];
+    this.data.OV = undefined;
+    this.data.receiveMsg = [];
+    this.sendData = null;
+  },
 
 }
 </script>
