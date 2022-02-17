@@ -2,7 +2,7 @@
 
 ## DTOD 소개 및 시연 영상
 
-시나리오가 궁금하면 [여기](/uploads/d7553987c7bfdcc59dc277adbd5263bc/시나리오.md)에서 확인할 수 있습니다.
+시나리오가 궁금하면 [여기](https://lab.ssafy.com/s06-webmobile1-sub2/S06P12B210/-/blob/develop/%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)에서 확인할 수 있습니다.
 
 ## 🌟Overbiew
 
