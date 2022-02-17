@@ -77,8 +77,8 @@
 
           <div
             id="msgBox"
-            v-for="msg in ourMsg"
-            :key="msg.time"
+            v-for="(msg, idx) in ourMsg"
+            :key="idx"
           >
             <h6>{{ msg.name }}</h6>
             <h6 class="m-0">{{ msg.data }}</h6>
