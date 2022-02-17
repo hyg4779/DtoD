@@ -9,9 +9,22 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 개발자 열풍이 불고 있는 지금 여러분은 어떻게 공부하시나요? 코로나가 걱정되시나요? 거리두기때문에 스터디를 하기 어려우신가요?
 이런 문제를 해결하기 위해 **DTOD**가 왔습니다. 다양한 사람들과 스터디를 시작해보세요!!
 
-## 프로젝트 기간 - 2022.01.10 ~ 2022.02.18
 
-## 카테고리
+
+## 👨‍💻팀 소개
+
+|  Member  |                     안정석                     |                     이동철                     |                    허범                    |            홍석준             |
+| :------: | :--------------------------------------------: | :--------------------------------------------: | :----------------------------------------: | :---------------------------: |
+| Profile  | ![정석](README.assets/정석-16451187994082.png) | ![동철](README.assets/동철-16451188032123.png) | ![범](README.assets/범-16451188073494.png) | ![석준](README_사진/석준.png) |
+| Position |                BE & Swagger API                |                  FE & UI / UX                  |              BE & ERD, Infra               |         FE & UI / UX          |
+
+
+
+## 📌프로젝트 기간 - 2022.01.10 ~ 2022.02.18
+
+
+
+## 📌카테고리
 
 | Application                          | Domain                                | Language                         | Framework                            |
 | ------------------------------------ | ------------------------------------- | -------------------------------- | ------------------------------------ |
@@ -23,13 +36,9 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 | :black_square_button: Desktop App    | :black_square_button: Game            | :white_check_mark: Java          | :white_check_mark: Spring/Springboot |
 |                                      |                                       | :black_square_button: Kotlin     |                                      |
 
-## DTOD 서비스 화면
 
----
 
-## 👓프로젝트 소개👓
-
-### 주요기능
+### 📌주요기능
 
 ---
 
@@ -39,7 +48,7 @@ DtoD 웹/모바일(웹 기술) 프로젝트
   - 입실, 퇴실 시간을 기록해 출석률 관리
   - 게시판에서 코드 에디를 제공해 편한 코드 리뷰 및 질문 가능
 
-### 개발 환경
+### 🌍개발 환경
 
 ---
 
@@ -52,6 +61,7 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 - JAVA 8 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
 - MySQL <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
 - AWS EC2 <img src="https://img.shields.io/badge/AWS EC2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/>
+- JSON Web Token <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=flat-square&logo=JSON Web Tokens&logoColor=white"/>
 
 **Frontend**
 
@@ -59,8 +69,9 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 - Vue <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=vue.js&logoColor=black"/>
 - Bootstrap <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=Bootstrap&logoColor=white"/>
 - Vuetify <img src="https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=white"/>
+- Firebase <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=black"/>
 
-**Web RTC**
+**Web RTC** <img src="https://img.shields.io/badge/WebRTC-FFCA28?style=flat-square&logo=WebRTC&logoColor=black"/>
 
 - OpenVidu 2.20.1
 
@@ -141,10 +152,32 @@ Discord에서는 개발에 참고할 링크, 코드들을 모아서 정리했으
 
 
 
-## 팀 소개
+## 💻DTOD 서비스 화면
 
-|  Member  |                     안정석                     |                     이동철                     |                    허범                    |            홍석준             |
-| :------: | :--------------------------------------------: | :--------------------------------------------: | :----------------------------------------: | :---------------------------: |
-| Profile  | ![정석](README.assets/정석-16451187994082.png) | ![동철](README.assets/동철-16451188032123.png) | ![범](README.assets/범-16451188073494.png) | ![석준](README_사진/석준.png) |
-| Position |                BE & Swagger API                |                  FE & UI / UX                  |              BE & ERD, Infra               |         FE & UI / UX          |
+1. 메인페이지에서 추천 스터디 10개 제공
 
+
+
+> 메인 화면에서 현재 게시된 모집중 스터디들을 보여줌으로써 사용자가 사이트의 목적을 한 눈에 확인
+
+
+
+2. WebRTC를 통한 실시간 의사소통 협업
+
+
+
+> 실시간 소통을 통한 스터디원 간 스크럼 및 화상회의 서비스 제공
+
+3. 입실, 퇴실 시간을 통한 학업일수 체크
+
+
+
+> 사용자의 출결을 확인하며 스스로를 돌아보며 성취감을 고취
+
+4. 게시판 코드 에디터 기능으로 stackoverflow와 같은 코드 질문답변 게시판
+
+
+
+> 일반적으로 코드 질문 사이트는 영문으로 되어 우리나라 개발공부를 하는 학생들에게 다소 어려움이 있음.
+>
+> DTOD 질문 게시판으로 서로  어려움 없이 소통하며 공부를 할 수 있음 
