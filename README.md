@@ -45,20 +45,20 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 
 **Backend**
 
-- IntelliJ
-- Spring Boot 2.6.2
-- Spring Boot JPA
-- Spring Security
-- JAVA 8
-- MySQL
-- AWS EC2
+- IntelliJ <img src="https://img.shields.io/badge/IntelliJ-000000?style=flat-square&logo=IntelliJIDEA&logoColor=white"/>
+- Spring Boot 2.6.2 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/>
+- Spring Boot JPA 
+- Spring Security <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/>
+- JAVA 8 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/>
+- MySQL <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
+- AWS EC2 <img src="https://img.shields.io/badge/AWS EC2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/>
 
 **Frontend**
 
-- Visual Studio Code
-- Vue
-- Bootstrap
-- Vuetify
+- Visual Studio Code <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
+- Vue <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=vue.js&logoColor=black"/>
+- Bootstrap <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=Bootstrap&logoColor=white"/>
+- Vuetify <img src="https://img.shields.io/badge/Vuetify-1867C0?style=flat-square&logo=vuetify&logoColor=white"/>
 
 **Web RTC**
 
@@ -66,20 +66,22 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 
 **CI/CD**
 
-- AWS EC2
-- Docker
-- Nginx
+- AWS EC2 <img src="https://img.shields.io/badge/AWS EC2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/>
+- Docker <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=black"/>
+- Nginx <img src="https://img.shields.io/badge/nginx-009639?style=flat-square&logo=nginx&logoColor=black"/>
 
 **협업 툴**
 
-- Git
-- Jira
-- Notion
-- Mattermost
-- Webex
-- Discord
+- Git <img src="https://img.shields.io/badge/git-F05032?style=flat-square&logo=Git&logoColor=white"/>
+- Jira <img src="https://img.shields.io/badge/jira-0052CC?style=flat-square&logo=Jirasoftware&logoColor=white"/>
+- Notion <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/>
+- Mattermost <img src="https://img.shields.io/badge/Mattermost-0058CC?style=flat-square&logo=Mattermost&logoColor=white"/>
+- Webex 
+- Discord <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/>
 
-### Git Flow 브랜치 전략
+
+
+### Git Flow 브랜치 전략 <img src="https://img.shields.io/badge/git-F05032?style=flat-square&logo=Git&logoColor=white"/>
 
 ---
 
@@ -99,7 +101,9 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 
   2. 매주 금요일에 develop 브랜치를 master 브랜치로 병합하여 배포를 진행한다.
 
-### Jira
+
+
+### Jira  <img src="https://img.shields.io/badge/jira-0052CC?style=flat-square&logo=Jirasoftware&logoColor=white"/>
 
 ---
 
@@ -109,7 +113,9 @@ DtoD 웹/모바일(웹 기술) 프로젝트
 - Stroy : 세부 기능들을 작성하여 Epic을 지정하였습니다.
 - Task : 구현과 별개로 해야 할 목록들을 Task를 이용하여 정리하였습니다.
 
-### Notion & Discord
+
+
+### Notion<img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/> & Discord <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/>
 
 ---
 
@@ -117,17 +123,23 @@ Notion에서 모두가 봐야할 공지, 팀장미팅 내용, 프로젝트 관�
 
 Discord에서는 개발에 참고할 링크, 코드들을 모아서 정리했으며 정규시간 이외 시간에는 항상 Discord에 모여서 개발을 진행했습니다.
 
+
+
 ### Scrum
 
 ---
 
 매일 종례 후 디스코드에 모여서 오늘 했던 일, 하면서 있었던 이슈, 내일 할 일 목록을 공유하는 시간을 가졌습니다. Scrum을 통해 팀원들의 현재 상황을 공유하여 프로젝트 진행 상황을 꾸준히 모니터링 할 수 있었습니다.
 
+
+
 ### ER Diagram
 
 ---
 
 ![공통플젝ERD](/uploads/0ea21a62eb22d49ef027ff61c7cf03b8/공통플젝ERD.png)
+
+
 
 ## 팀 소개
 
