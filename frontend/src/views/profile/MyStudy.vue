@@ -50,9 +50,7 @@
                 @click.native="updateMainVideoStreamManager(publisher)"
               />
               <button @click="videoToggle">Toggle</button>
-              <button @click="publisher.publishVideo(true)">VideoOn</button>
 
-              <button @click="publisher.publishVideo(false)">VideoOff</button>
 
             </b-col>
             <b-col>
