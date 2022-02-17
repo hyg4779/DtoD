@@ -116,23 +116,24 @@ export default {
       // console.log(res)
       this.leave = res.data
       console.log(this.leave)
-    }).catch((err)=>{
-      console.error(err)
-    })
-
-    axios({
+      axios({
       url: api. GET_ATTENDANCE,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token
       },
-    }).then((res)=>{
-      // console.log(res)
-      this.attend = res.data
-      console.log(this.attend)
+      }).then((res)=>{
+        // console.log(res)
+        this.attend = res.data
+        console.log(this.attend)
+      }).catch((err)=>{
+        console.error(err)
+      })
     }).catch((err)=>{
       console.error(err)
     })
+
+
 
     axios({
       url: api. USER_INFO_GET,
