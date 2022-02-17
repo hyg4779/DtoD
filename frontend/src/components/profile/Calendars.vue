@@ -158,7 +158,7 @@ export default {
 
       for (let i = 0; i < this.attendInfo.length; i++) {
 
-        const name1 = '출석 완료';
+        const name1 = '입실 완료';
         const start_time1 = new Date(this.attendInfo[i]);
         const end_time1 = new Date(this.attendInfo[i]);
 
