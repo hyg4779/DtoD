@@ -25,7 +25,7 @@
         >
           <ItemDetail 
             :item = this.item
-            @open-video="$emit('open-video', item)"
+            @open-video="$emit('open-video')"
             @close-modal="closeModal"
           />
         </b-modal>
@@ -75,6 +75,10 @@ export default {
     },
   },
   methods: {
+    openVideo(){
+      this.$emit('open-video')
+      this.closeModal()
+    },
     getItemDetail() {
       this.$refs['detail'].show()
     },

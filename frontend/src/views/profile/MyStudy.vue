@@ -20,7 +20,7 @@
         </div>
         <div class="allitems">
           <Items
-          @open-video="joinSession(payload)"
+          @open-video="joinSession()"
           :items="this.joineditems"
           />
         </div>
@@ -30,13 +30,13 @@
     <div v-else id="Video">
       <header>
         <div>
-          스터디 룸
+          {{ videoInfo.roomTitle }}
         </div>
 
         <button @click="leaveSession" id="leaveBtn">퇴실</button>
       </header>
 		
-      <body>
+      <section>
         <!-- <div id="main-video" class="col-md-6">
           <UserVideo
             :stream-manager="mainStreamManager"
@@ -50,13 +50,14 @@
                 @click.native="updateMainVideoStreamManager(publisher)"
               />
               <p class="d-flex m-0">
-                <button class="mx-2" @click="videoToggle">{{ videoStatus }}</button>
-                <button class="mx-2" @click="audioToggle">{{ audioStatus }}</button>
+                <button class="mx-2" @click="videoToggle">{{ myVideoStatus }}</button>
+                <button class="mx-2" @click="audioToggle">{{ myAudioStatus }}</button>
               </p>
 
             </b-col>
             <b-col
               col-6
+              id="videoBox"
               v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"
             >
@@ -64,6 +65,14 @@
                 :stream-manager="sub"
                 @click.native="updateMainVideoStreamManager(sub)"
               />
+              <p class="d-flex m-0">
+                <button class="mx-2">
+                  {{ subVideoStatus }}
+                </button>
+                <button class="mx-2">
+                  {{ subAudioStatus }}
+                </button>
+              </p>
             </b-col>
 
             <!-- <div class="w-100"></div>
@@ -75,11 +84,8 @@
               <div id="box"></div>
             </b-col> -->
           </b-row>
-        </b-container>
-
-          
-          
-      </body>
+        </b-container>          
+      </section>
 
   </div>
   </div>
@@ -93,7 +99,7 @@ import UserVideo from '../../components/Video/UserVideo.vue';
 
 import { api } from '../../../api.js'
 import axios from 'axios'
-
+import{ mapState } from 'vuex'
 import { OpenVidu } from 'openvidu-browser';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -120,27 +126,62 @@ export default {
 			publisher: undefined,
 			subscribers: [],
 
-			mySessionId: 'SessionA',
 
-      openedVideo: null,
+      subsVideo: false,
+      subsAudio: false,
+
     }
   },
   computed:{
-    videoStatus(){
-      let screen = this.publisher.stream.videoActive
-      if(screen){
+    myVideoStatus(){
+      let video = this.publisher.stream.videoActive
+      if(video){
         return '🖥'
       }return '🖥❌'
     },
-    audioStatus(){
-      let screen = this.publisher.stream.audioActive
-      if(screen){
+    myAudioStatus(){
+      let audio = this.publisher.stream.audioActive
+      if(audio){
         return '🔊'
       }return '🔈❌'
-    }
+    },
+    subVideoStatus(){
+      if(this.subsVideo){
+        return '🖥'
+      }return '🖥❌'
+    },
+    subAudioStatus(){
+      if(this.subsAudio){
+        return '🔊'
+      }return '🔈❌'
+    },
+    ...mapState([
+      'videoInfo'
+      /*
+        roomContent1: 전화번호
+        roomContent2: 소개
+        roomId: 고유id
+        roomImg: 
+        roomIngdate: 
+        roomIngday: 
+        roomPerson: 모집인원
+        roomPwd: 
+        roomTechstack: 
+        roomTime: 
+        roomTitle: 
+        user: Object
+        authorities:authorities: Array(1)
+        0:
+        authorityName: "ROLE_USER"
+        userEmail: "sok8079@naver.com"
+        userImg: "https://firebasestorage.googleapis.com/v0/b/dtod-image-upload.appspot.com/o/dongchul.png?alt=media&token=2a620f7a-ce1f-4a81-8875-eb6f86eb27f8"
+        userJobs: "프론트엔드 엔지니어"
+        userName: "관리자이동철"
+        userTechstack: "javascript,react,django,vue,pyt
+      */
+      ])
   },
   methods: {
-
     // subscriber.subscribeToAudio(audioEnabled); true to unmute the audio track, false to mute it
     // subscriber.subscribeToVideo(videoEnabled); true to enable the video, false to disable it
 
@@ -149,27 +190,26 @@ export default {
       const video = this.publisher.stream.videoActive
       if(video){
         this.publisher.publishVideo(false)
-        console.log('video '+this.publisher.stream.videoActive)
+        console.log('video ' + video)
       }else{
         this.publisher.publishVideo(true)
-        console.log('video '+this.publisher.stream.videoActive)
+        console.log('video ' + video)
         }
     },
     // 사용자 오디오 on/off
     audioToggle(){
+      console.log(this.subscribers)
+
       const audio = this.publisher.stream.audioActive
       if(audio){
         this.publisher.publishAudio(false)
-        console.log('audio '+this.publisher.stream.audioActive)
+        console.log('audio ' + audio)
       }else{
         this.publisher.publishAudio(true)
-        console.log('audio '+this.publisher.stream.audioActive)
+        console.log('audio ' + audio)
         }
     },
-		joinSession (payload) {
-      // emit으로 받은 스터디룸 정보 받아옴
-      this.openedVideo = payload
-      
+		joinSession () {      
       // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
 
@@ -201,7 +241,8 @@ export default {
 
       // getToken: 서버에서 수행할 작업을 시뮬레이션 한 것.
       // token은 백엔드에서 받아와야 한다
-			this.getToken(this.mySessionId).then(token => {
+      const roomToken = this.videoInfo.roomId.toString()
+			this.getToken(roomToken).then(token => {
 				this.session.connect(token, { clientData: this.username })
 					.then(() => {
 
@@ -210,12 +251,12 @@ export default {
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // 오디오 / 마이크 없을 때: undefined
 							videoSource: undefined, // 캠. 캠 없을 때: undefined
-							publishAudio: true,  	// 시작시 오디오 true/false 여부 
-							publishVideo: true,  	// 시작시 캠 true/false 여부
+							publishAudio: false,  	// 시작시 오디오 true/false 여부 
+							publishVideo: false,  	// 시작시 캠 true/false 여부
 							resolution: '640x360',  // 비디오 해상도
 							frameRate: 30,			// 초당프레임
 							insertMode: 'APPEND',	// 캠 영상이 video태그에 삽입되는 방법
-							mirror: true       	// 거울모드 true/false 여부
+							mirror: false       	// 거울모드 true/false 여부
 						});
 
 						this.mainStreamManager = publisher;
@@ -248,6 +289,8 @@ export default {
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
+      this.subsAudio = stream.audioActive
+      this.subVideo = stream.videoActive
 		},
 
 			/*
@@ -361,7 +404,8 @@ export default {
       alert('로그인을 해주세요')
       this.$router.push({ name: 'Home' })
     }
-  }
+  },
+
 }
 </script>
 
@@ -388,6 +432,7 @@ header {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+  align-items: center;
   background-color: #24292F;
   text-align: center;
   width: 13vw;
@@ -400,7 +445,7 @@ header div{
 	width: 10vw;
 	color: rgb(50, 50, 50);
   padding: .5rem 1rem .5rem 1rem;
-	margin: 1rem;
+	margin: 1.5rem 0 0 0;
 	background-color: rgb(250, 250, 250);
   border-radius: 1rem;
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
@@ -412,18 +457,18 @@ header div{
 	width: 10vw;
 	color: #eeeeee;
   padding: .5rem 1rem .5rem 1rem;
-	margin: 1rem;
+	margin: 0 0 1.5rem 0;
 	background-color: rgb(50, 50, 50);
   border-radius: 1rem;
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);
 }
 
-body {
+section {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: space-between;
-  margin: 7vh 13vw 7vh 3vw;
+  margin: auto;
 }
 
 #box{
