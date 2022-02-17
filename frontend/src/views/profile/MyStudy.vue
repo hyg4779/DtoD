@@ -67,12 +67,32 @@
           </b-row>
         </b-container>          
       </section>
+
       <footer>
-        <input
-          type="text"
-          v-model="sendData"
-          @keypress.enter="send"
-        >
+        <div>
+          채팅
+        </div>
+
+        <article>
+
+          <div
+            id="msgBox"
+            v-for="msg in ourMsg"
+            :key="msg.time"
+          >
+            <h6>{{ msg.name }}</h6>
+            <h6 class="m-0">{{ msg.data }}</h6>
+          </div>
+        </article>
+        <div id="sub">
+          <input
+            type="text"
+            v-model="sendData"
+            @keypress.enter="send"
+            class="m-0 p-1"
+          >
+          <button>전송</button>
+        </div>
       </footer>
   </div>
   </div>
@@ -114,6 +134,7 @@ export default {
 			subscribers: [],
 
       sendData: null,   // 보내는 메세지
+      receiveMsg: [],   // 수신한 메세지
     }
   },
   computed:{
@@ -141,10 +162,20 @@ export default {
         userName: "관리자이동철"
         userTechstack: "javascript,react,django,vue,pyt
       */
-      ])
+      ]),
+      ourMsg(){
+        const result = [...this.receiveMsg].reverse()
+        if(result.length <= 8) {
+          return result
+        }else{
+          return result.slice(0,8)
+        }
+      }
   },
   methods: {
-    send() {
+    send(event) {
+        console.log(event.target.value)
+        
         this.session.signal({
             data: this.sendData,
             to: [],
@@ -152,6 +183,7 @@ export default {
         }).catch((error) => {
             console.error(error);
         });
+        this.sendData = null
       },
     
     joinSession () {      
@@ -202,6 +234,11 @@ export default {
         console.log(event.data); // Message
         console.log(event.from); // Connection object of the sender
         console.log(event.type); // The type of message ("my-chat")
+        const { clientData } = JSON.parse(event.from.data)
+        this.receiveMsg.push({
+          name: clientData,
+          data: event.data,
+          time: event.from.creationTime})
       });
 
 
@@ -250,45 +287,38 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
+      this.receiveMsg = [];
+      this.sendData = null;
 
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
 
-		updateMainVideoStreamManager (stream) {
-      this.subsAudio = stream.audioActive
-      this.subVideo = stream.videoActive
-			if (this.mainStreamManager === stream){
-        return
-      }else{
-        this.subVideo = stream.videoActive
-      }
-		},
 
 		getToken (mySessionId) {
-			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
+      return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
 
 		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
 		createSession (sessionId) {
-			return new Promise((resolve, reject) => {
-				axios
+      return new Promise((resolve, reject) => {
+        axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
-						customSessionId: sessionId,
+            customSessionId: sessionId,
 					}), {
-						auth: {
-							username: 'OPENVIDUAPP',
+            auth: {
+              username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
 						},
 					})
 					.then(response => response.data)
 					.then(data => resolve(data.id))
 					.catch(error => {
-						if (error.response.status === 409) {
-							resolve(sessionId);
+            if (error.response.status === 409) {
+              resolve(sessionId);
 						} else {
-							console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
+              console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
 							if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
-								location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
+                location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
 							}
 							reject(error.response);
 						}
@@ -299,10 +329,10 @@ export default {
 		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
 		createToken (sessionId) {
 			return new Promise((resolve, reject) => {
-				axios
+        axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
-						auth: {
-							username: 'OPENVIDUAPP',
+            auth: {
+              username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
 						},
 					})
@@ -311,6 +341,15 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+    updateMainVideoStreamManager (stream) {
+      this.subsAudio = stream.audioActive
+      this.subVideo = stream.videoActive
+      if (this.mainStreamManager === stream){
+        return
+      }else{
+        this.subVideo = stream.videoActive
+      }
+    },
 	},
   created() {
     if (localStorage.getItem('jwt')) {
@@ -364,6 +403,17 @@ export default {
     }
   },
 
+  destroyed(){
+      if (this.data.session) this.data.session.disconnect();
+      this.data.session = undefined;
+      this.data.mainStreamManager = undefined;
+      this.data.publisher = undefined;
+      this.data.subscribers = [];
+      this.data.OV = undefined;
+      this.data.receiveMsg = [];
+      this.sendData = null;
+    },
+
 }
 </script>
 
@@ -392,6 +442,7 @@ header {
 	justify-content: space-between;
   align-items: center;
   background-color: #24292F;
+  box-shadow: 0.1rem 0 0.1rem rgb(0, 0, 0);
   text-align: center;
   width: 13vw;
   min-height: calc(100vh - 7.498vh);
@@ -438,12 +489,76 @@ section {
 footer{
   display : flex;
 	flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
   background-color: rgba(36, 41, 47, 0.8);
+  box-shadow: -0.1rem 0 0.1rem rgb(0, 0, 0);
   width: 18vw;
   min-height: calc(100vh - 7.498vh);
 }
 
+footer > div:nth-child(1){
+	font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+	width: 10vw;
+	color: rgb(50, 50, 50);
+  padding: .5rem 1rem .5rem 1rem;
+	margin: 0 0 0 0;
+	background-color: rgb(250, 250, 250);
+  border-radius: 1rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
+}
+
+footer article{
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  height: 77vh;
+  width: 18vw
+}
+
+#msgBox{
+  font-size: .5rem;
+  background-color: #eeeeee;
+  border-radius: 1vw;
+  box-shadow: 0.1vw 0.1vh 0.1vw rgb(0, 0, 0);
+  padding: .5vw;
+  margin: .5vh 0 .5vh 0 ;
+  width: 16vw;
+}
+
+#msgBox h6:nth-child(1){
+  font-weight: bold;
+}
+
 footer input{
   background-color: #eeeeee;
+  font-size: 1.6vh;
+  text-align: start;
+	width: 11vw;
+  height: 5vh;
+	color: rgb(50, 50, 50);
+	background-color: rgb(250, 250, 250);
+  border-radius: 1rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
+}
+
+#sub{
+  display: flex;
+  justify-content: center;
+}
+
+#sub  button{
+  font-size: 1vw;
+  font-weight: bold;
+  text-align: center;
+	width: 3vw;
+	color: rgb(50, 50, 50);
+	margin: 0 0 0 0.3vw;
+	background-color: rgb(250, 250, 250);
+  border-radius: 1vw;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
 }
 </style>
