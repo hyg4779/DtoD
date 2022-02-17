@@ -64,7 +64,7 @@
         </li>
       </ul>
       <footer>
-        <button id="applyBtn" @click="$emit('open-video')">입장</button>
+        <button id="applyBtn" @click="openVideo">입장</button>
         <button id="cancelBtn" @click="$emit('close-modal')">닫기</button>
       </footer>
     </div>
@@ -101,6 +101,11 @@ export default {
       // this.$router.push({name:'Video', params:{sessionId: this.item.roomId}})
       return content.split('\n').join('<br>'); 
     },
+    openVideo(){
+      const payload = this.item
+      this.$store.dispatch('selectVideo', payload)
+      this.$emit('open-video')
+    }
 
   },
   created() {

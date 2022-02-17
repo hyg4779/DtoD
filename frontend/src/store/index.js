@@ -39,15 +39,7 @@ export default new Vuex.Store({
     },
 
     // 현재 입장하는 스터디룸 정보
-    videoInfomation:{
-      OV: null,
-      session: null,
-      mainStreamManager: null,
-      publisher: null,
-      subscribers: null,
-      mySessionId: null,
-      myUserName: null,
-    }
+    videoInfo:{}
   },
   mutations: {
     userCreate(state, payload){
@@ -81,8 +73,8 @@ export default new Vuex.Store({
     },
     
     // 현재 입장한 스터디룸의 비디오 정보 입력
-    videoInfo(state, payload){
-      state.videoInfomation = payload
+    selectVideo(state, payload){
+      state.videoInfo = payload
     }
   },
   actions: {
@@ -129,8 +121,8 @@ export default new Vuex.Store({
     },
 
     // 현재 입장한 스터디룸 정보
-    videoInfo({commit}, payload){
-      commit('videoInfo', payload)
+    selectVideo({commit}, payload){
+      commit('selectVideo', payload)
     }
 
   },
