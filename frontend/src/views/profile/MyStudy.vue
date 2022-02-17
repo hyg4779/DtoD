@@ -99,7 +99,6 @@
   </div>
   </div>
 </template>
-
 <script>
 // import { dummy } from "../../../generated.js";
 import MyItems from '../../components/profile/madebyme/MyItems.vue'
@@ -178,57 +177,23 @@ export default {
         }
       }
   },
+
   methods: {
-    // 화면공유
-    share(){
-      this.screenOV = new OpenVidu();
-      this.screenSession = this.screenOV.initSession();
-      this.getToken().then((token) => {
-          this.screenSession.connect(token).then(() => {
-              this.screenPublisher = this.screenOV.initPublisher("html-element-id", { videoSource: "screen" });
-
-              this.screenPublisher.once('accessAllowed', () => {
-                  this.screenPublisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-                      console.log('User pressed the "Stop sharing" button');
-                  });
-                  this.screenSession.publish(this.screenPublisher);
-
-              });
-
-              this.screenPublisher.once('accessDenied', () => {
-                  console.warn('ScreenShare: Access Denied');
-              });
-
-          }).catch((error => {
-              console.warn('There was an error connecting to the session:', error.code, error.message);
-
-          }));
-      });
-    },
-
-    // 화면공유 중지
-    stopShare(){
-      this.screenOV = new OpenVidu();
-      this.screenPublisher = this.screenOV.initPublisherAsync({
-          videoSource: "screen"
-      }).then(publisher => {
-          publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-              console.log('User pressed the "Stop sharing" button');
-          });
-      });
-    },
-    // 채팅 보내기
-    send() {
-      this.session.signal({
-          data: this.sendData,
-          to: [],
-          type: "my-chat",
-      }).catch((error) => {
-          console.error(error);
-      });
-      this.sendData = null
-    },
+    // 메세지 보내기
+    send(event) {
+        console.log(event.target.value)
+        
+        this.session.signal({
+            data: this.sendData,
+            to: [],
+            type: "my-chat",
+        }).catch((error) => {
+            console.error(error);
+        });
+        this.sendData = null
+      },
     
+    // 화상회의 만들기
     joinSession () {      
       // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
@@ -321,12 +286,27 @@ export default {
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
 
-    // sessoion 토큰 가져오기
+    // 세션종료 메서드
+		leaveSession () {
+			if (this.session) this.session.disconnect();
+
+			this.session = undefined;
+			this.mainStreamManager = undefined;
+			this.publisher = undefined;
+			this.subscribers = [];
+			this.OV = undefined;
+      this.receiveMsg = [];
+      this.sendData = null;
+
+			window.removeEventListener('beforeunload', this.leaveSession);
+		},
+
+    // 세션 토큰 가져오기
 		getToken (mySessionId) {
       return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
 
-    // 세션 만들김
+    // 세션 만들기
 		createSession (sessionId) {
       return new Promise((resolve, reject) => {
         axios
@@ -354,9 +334,9 @@ export default {
 			});
 		},
 
-    // 만든 세션으로 토큰 만들기
-    createToken (sessionId) {
-      return new Promise((resolve, reject) => {
+    // 만든 세션의 토큰 만들기
+		createToken (sessionId) {
+			return new Promise((resolve, reject) => {
         axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
             auth: {
@@ -370,23 +350,7 @@ export default {
 			});
 		},
 
-    // 세션 떠나기(초기화)
-    leaveSession () {
-      // 세션종료 메서드
-      if (this.session) this.session.disconnect();
-
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      this.receiveMsg = [];
-      this.sendData = null;
-
-      window.removeEventListener('beforeunload', this.leaveSession);
-    },
-
-    // 클릭시 메인 스트림으로 이동: 현재 pjt에서 안 쓰는 기능
+    // 클릭한 스트림 메인 스트림으로 변경
     updateMainVideoStreamManager (stream) {
       if (this.mainStreamManager === stream){
         return}
