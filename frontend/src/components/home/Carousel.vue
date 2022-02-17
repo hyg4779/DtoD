@@ -28,7 +28,7 @@
             동료와 같이 코드 리뷰를 해보세요!
           </div>
         </v-row>
-        <img src="../../assets/carousel1.png">
+        <img src="../../assets/seokjun_desk.jpg">
         </v-sheet>
       </v-carousel-item>
       <v-carousel-item>
