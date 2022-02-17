@@ -517,7 +517,7 @@ form div .daytitle {
 form .daycheckbox {
   margin: 0 0 2vh 0;
   display: grid;
-  grid-template-columns: 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw;
+  grid-template-columns: 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw;
   font-family: 'Epilogue', sans-serif;
 }
 
