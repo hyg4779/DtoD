@@ -46,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(
                 		"/error",
-                		"/webjars/**"
+                		"/webjars/**",
+                		"/favicon.ico"
                 );
     }
  
