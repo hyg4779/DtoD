@@ -44,17 +44,14 @@
         </div> -->
         <b-container class="bv-example-row">
           <b-row>
+
             <b-col id="videoBox" col-6>
               <UserVideo
                 :stream-manager="publisher"
                 @click.native="updateMainVideoStreamManager(publisher)"
               />
-              <p class="d-flex m-0">
-                <button class="mx-2" @click="videoToggle">{{ myVideoStatus }}</button>
-                <button class="mx-2" @click="audioToggle">{{ myAudioStatus }}</button>
-              </p>
-
             </b-col>
+
             <b-col
               col-6
               id="videoBox"
@@ -65,24 +62,8 @@
                 :stream-manager="sub"
                 @click.native="updateMainVideoStreamManager(sub)"
               />
-              <p class="d-flex m-0">
-                <button class="mx-2">
-                  {{ subVideoStatus }}
-                </button>
-                <button class="mx-2">
-                  {{ subAudioStatus }}
-                </button>
-              </p>
             </b-col>
 
-            <!-- <div class="w-100"></div>
-            
-            <b-col>
-              <div id="box"></div>
-            </b-col>
-            <b-col>
-              <div id="box"></div>
-            </b-col> -->
           </b-row>
         </b-container>          
       </section>
@@ -133,28 +114,6 @@ export default {
     }
   },
   computed:{
-    myVideoStatus(){
-      let video = this.publisher.stream.videoActive
-      if(video){
-        return '🖥'
-      }return '🖥❌'
-    },
-    myAudioStatus(){
-      let audio = this.publisher.stream.audioActive
-      if(audio){
-        return '🔊'
-      }return '🔈❌'
-    },
-    subVideoStatus(){
-      if(this.subsVideo){
-        return '🖥'
-      }return '🖥❌'
-    },
-    subAudioStatus(){
-      if(this.subsAudio){
-        return '🔊'
-      }return '🔈❌'
-    },
     ...mapState([
       'videoInfo'
       /*
@@ -184,31 +143,6 @@ export default {
   methods: {
     // subscriber.subscribeToAudio(audioEnabled); true to unmute the audio track, false to mute it
     // subscriber.subscribeToVideo(videoEnabled); true to enable the video, false to disable it
-
-    // 사용자 비디오 on/off
-    videoToggle(){
-      const video = this.publisher.stream.videoActive
-      if(video){
-        this.publisher.publishVideo(false)
-        console.log('video ' + video)
-      }else{
-        this.publisher.publishVideo(true)
-        console.log('video ' + video)
-        }
-    },
-    // 사용자 오디오 on/off
-    audioToggle(){
-      console.log(this.subscribers)
-
-      const audio = this.publisher.stream.audioActive
-      if(audio){
-        this.publisher.publishAudio(false)
-        console.log('audio ' + audio)
-      }else{
-        this.publisher.publishAudio(true)
-        console.log('audio ' + audio)
-        }
-    },
 		joinSession () {      
       // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
@@ -287,10 +221,13 @@ export default {
 		},
 
 		updateMainVideoStreamManager (stream) {
-			if (this.mainStreamManager === stream) return;
-			this.mainStreamManager = stream;
       this.subsAudio = stream.audioActive
       this.subVideo = stream.videoActive
+			if (this.mainStreamManager === stream){
+        return
+      }else{
+        this.subVideo = stream.videoActive
+      }
 		},
 
 			/*
@@ -469,13 +406,6 @@ section {
 	flex-wrap: wrap;
 	justify-content: space-between;
   margin: auto;
-}
-
-#box{
-  width: 24rem;
-  height: 16rem;
-  margin: 1rem;
-  border: 1px solid #24292F;
 }
 
 #videoBox{

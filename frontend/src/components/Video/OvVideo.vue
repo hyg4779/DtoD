@@ -20,8 +20,8 @@ export default {
 </script>
 <style scoped>
 	#video{
-		border-radius: 1em;
-		width: 25em;
-		margin: 1em;
+		border-radius: 1rem;
+		width: 28rem;
+		margin: 1rem;
 	}
 </style>
