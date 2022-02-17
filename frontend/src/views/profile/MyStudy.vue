@@ -44,36 +44,40 @@
         </div> -->
         <b-container class="bv-example-row">
           <b-row>
-            <b-col>
+            <b-col id="videoBox" col-6>
               <UserVideo
                 :stream-manager="publisher"
                 @click.native="updateMainVideoStreamManager(publisher)"
               />
-              <button @click="videoToggle">Toggle</button>
-
+              <p class="d-flex m-0">
+                <button class="mx-2" @click="videoToggle">{{ videoStatus }}</button>
+                <button class="mx-2" @click="audioToggle">{{ audioStatus }}</button>
+              </p>
 
             </b-col>
-            <b-col>
-              <div id="box"></div>
+            <b-col
+              col-6
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+            >
+              <UserVideo
+                :stream-manager="sub"
+                @click.native="updateMainVideoStreamManager(sub)"
+              />
             </b-col>
 
-            <div class="w-100"></div>
+            <!-- <div class="w-100"></div>
             
             <b-col>
               <div id="box"></div>
             </b-col>
             <b-col>
               <div id="box"></div>
-            </b-col>
+            </b-col> -->
           </b-row>
         </b-container>
 
-          <UserVideo
-            v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-            :stream-manager="sub"
-            @click.native="updateMainVideoStreamManager(sub)"
-          />
+          
           
       </body>
 
@@ -121,20 +125,46 @@ export default {
       openedVideo: null,
     }
   },
+  computed:{
+    videoStatus(){
+      let screen = this.publisher.stream.videoActive
+      if(screen){
+        return '🖥'
+      }return '🖥❌'
+    },
+    audioStatus(){
+      let screen = this.publisher.stream.audioActive
+      if(screen){
+        return '🔊'
+      }return '🔈❌'
+    }
+  },
   methods: {
-    // publisher.publishAudio(audioEnabled); true to unmute the audio track, false to mute it
-    // publisher.publishVideo(videoEnabled); true to enable the video track, false to disable it
 
     // subscriber.subscribeToAudio(audioEnabled); true to unmute the audio track, false to mute it
     // subscriber.subscribeToVideo(videoEnabled); true to enable the video, false to disable it
 
+    // 사용자 비디오 on/off
     videoToggle(){
-      // this.publisher.publishVideo(true)
-      console.log(this.publisher.stream.videoActive)
-      const screen = this.publisher.stream.videoActive
-      if(screen){
-        return this.publisher.publishVideo(false)
-      }return this.publisher.publishVideo(true)
+      const video = this.publisher.stream.videoActive
+      if(video){
+        this.publisher.publishVideo(false)
+        console.log('video '+this.publisher.stream.videoActive)
+      }else{
+        this.publisher.publishVideo(true)
+        console.log('video '+this.publisher.stream.videoActive)
+        }
+    },
+    // 사용자 오디오 on/off
+    audioToggle(){
+      const audio = this.publisher.stream.audioActive
+      if(audio){
+        this.publisher.publishAudio(false)
+        console.log('audio '+this.publisher.stream.audioActive)
+      }else{
+        this.publisher.publishAudio(true)
+        console.log('audio '+this.publisher.stream.audioActive)
+        }
     },
 		joinSession (payload) {
       // emit으로 받은 스터디룸 정보 받아옴
@@ -401,5 +431,11 @@ body {
   height: 16rem;
   margin: 1rem;
   border: 1px solid #24292F;
+}
+
+#videoBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

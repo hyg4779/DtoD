@@ -4,7 +4,9 @@
 	id="videoBox"
 >
 	<OvVideo :stream-manager="streamManager"/>
-	<div><p>{{ clientData }}</p></div>
+	<div>
+		<p class="m-0">{{ clientData }}</p>
+	</div>
 </div>
 </template>
 
