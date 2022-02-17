@@ -33,7 +33,11 @@
           {{ videoInfo.roomTitle }}
         </div>
 
-        <button @click="leaveSession" id="leaveBtn">퇴실</button>
+        <div>
+          <button @click="share" id="shareBtn">화면공유</button>
+          <button @click="stopShare" id="stopBtn">공유취소</button>
+          <button @click="leaveSession" id="leaveBtn">퇴실</button>
+        </div>
       </header>
 		
       <section>
@@ -72,9 +76,7 @@
         <div>
           채팅
         </div>
-
         <article>
-
           <div
             id="msgBox"
             v-for="(msg, idx) in ourMsg"
@@ -135,6 +137,10 @@ export default {
 
       sendData: null,   // 보내는 메세지
       receiveMsg: [],   // 수신한 메세지
+
+      screenOV: null,  // 화면공유 객체
+      screenSession: null,
+      screenPublisher: null  // 공유된 화면 publisher
     }
   },
   computed:{
@@ -173,18 +179,55 @@ export default {
       }
   },
   methods: {
-    send(event) {
-        console.log(event.target.value)
-        
-        this.session.signal({
-            data: this.sendData,
-            to: [],
-            type: "my-chat",
-        }).catch((error) => {
-            console.error(error);
-        });
-        this.sendData = null
-      },
+    // 화면공유
+    share(){
+      this.screenOV = new OpenVidu();
+      this.screenSession = this.screenOV.initSession();
+      this.getToken().then((token) => {
+          this.screenSession.connect(token).then(() => {
+              this.screenPublisher = this.screenOV.initPublisher("html-element-id", { videoSource: "screen" });
+
+              this.screenPublisher.once('accessAllowed', () => {
+                  this.screenPublisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+                      console.log('User pressed the "Stop sharing" button');
+                  });
+                  this.screenSession.publish(this.screenPublisher);
+
+              });
+
+              this.screenPublisher.once('accessDenied', () => {
+                  console.warn('ScreenShare: Access Denied');
+              });
+
+          }).catch((error => {
+              console.warn('There was an error connecting to the session:', error.code, error.message);
+
+          }));
+      });
+    },
+
+    // 화면공유 중지
+    stopShare(){
+      this.screenOV = new OpenVidu();
+      this.screenPublisher = this.screenOV.initPublisherAsync({
+          videoSource: "screen"
+      }).then(publisher => {
+          publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+              console.log('User pressed the "Stop sharing" button');
+          });
+      });
+    },
+    // 채팅 보내기
+    send() {
+      this.session.signal({
+          data: this.sendData,
+          to: [],
+          type: "my-chat",
+      }).catch((error) => {
+          console.error(error);
+      });
+      this.sendData = null
+    },
     
     joinSession () {      
       // OpenVidu 객체 생성 ---
@@ -278,27 +321,12 @@ export default {
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
 
-		leaveSession () {
-			// 세션종료 메서드
-			if (this.session) this.session.disconnect();
-
-			this.session = undefined;
-			this.mainStreamManager = undefined;
-			this.publisher = undefined;
-			this.subscribers = [];
-			this.OV = undefined;
-      this.receiveMsg = [];
-      this.sendData = null;
-
-			window.removeEventListener('beforeunload', this.leaveSession);
-		},
-
-
+    // sessoion 토큰 가져오기
 		getToken (mySessionId) {
       return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
+    // 세션 만들김
 		createSession (sessionId) {
       return new Promise((resolve, reject) => {
         axios
@@ -326,9 +354,9 @@ export default {
 			});
 		},
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
-		createToken (sessionId) {
-			return new Promise((resolve, reject) => {
+    // 만든 세션으로 토큰 만들기
+    createToken (sessionId) {
+      return new Promise((resolve, reject) => {
         axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
             auth: {
@@ -341,14 +369,27 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+
+    // 세션 떠나기(초기화)
+    leaveSession () {
+      // 세션종료 메서드
+      if (this.session) this.session.disconnect();
+
+      this.session = undefined;
+      this.mainStreamManager = undefined;
+      this.publisher = undefined;
+      this.subscribers = [];
+      this.OV = undefined;
+      this.receiveMsg = [];
+      this.sendData = null;
+
+      window.removeEventListener('beforeunload', this.leaveSession);
+    },
+
+    // 클릭시 메인 스트림으로 이동: 현재 pjt에서 안 쓰는 기능
     updateMainVideoStreamManager (stream) {
-      this.subsAudio = stream.audioActive
-      this.subVideo = stream.videoActive
       if (this.mainStreamManager === stream){
-        return
-      }else{
-        this.subVideo = stream.videoActive
-      }
+        return}
     },
 	},
   created() {
@@ -448,7 +489,7 @@ header {
   min-height: calc(100vh - 7.498vh);
 }
 
-header div{
+header div:nth-child(1){
 	font-size: 1rem;
   font-weight: bold;
 	width: 10vw;
@@ -460,16 +501,27 @@ header div{
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
 }
 
-#leaveBtn{
+header div button{
 	font-size: 1.5rem;
   font-weight: bold;
 	width: 10vw;
 	color: #eeeeee;
   padding: .5rem 1rem .5rem 1rem;
 	margin: 0 0 1.5rem 0;
-	background-color: rgb(50, 50, 50);
   border-radius: 1rem;
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);
+}
+
+#leaveBtn{
+	background-color: rgb(50, 50, 50);
+}
+
+#shareBtn{
+  background-color: rgb(70, 70, 200);
+}
+
+#stopBtn{
+  background-color: rgb(200, 70, 70);
 }
 
 section {
