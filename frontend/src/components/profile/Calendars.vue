@@ -161,6 +161,10 @@ export default {
         const name1 = '입실 완료';
         const start_time1 = new Date(this.attendInfo[i]);
         const end_time1 = new Date(this.attendInfo[i]);
+        // console.log(start_time1)
+        // console.log(end_time1)
+        start_time1.setHours(start_time1.getHours()+9)
+        end_time1.setHours(end_time1.getHours()+9)
 
         events.push({
           name: name1,
@@ -176,6 +180,10 @@ export default {
         const name2 = '퇴실 완료 ';
         const start_time2 = new Date(this.leaveInfo[i]);
         const end_time2 = new Date(this.leaveInfo[i]);
+        // console.log(start_time2)
+        // console.log(end_time2)
+        start_time2.setHours(start_time2.getHours()+9)
+        end_time2.setHours(end_time2.getHours()+9)
 
         events.push({
           name: name2,
@@ -196,6 +204,7 @@ export default {
     // console.log(this.attend)
     this.attendInfo = this.attend
     console.log(this.attendInfo)
+    // console.log(Date(this.attendInfo) + 9)
     // console.log(this.leave)
     this.leaveInfo = this.leave
     console.log(this.leaveInfo)
