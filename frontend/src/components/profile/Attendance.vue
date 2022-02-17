@@ -58,7 +58,7 @@ export default {
       }).then((res)=>{
         console.log(res)
         axios({
-          url: api. GET_ATTENDANCE,
+          url: api.GET_ATTENDANCE,
           method: 'GET',
           headers: {
             Authorization: 'Bearer ' + token
@@ -76,7 +76,7 @@ export default {
     submitLeave() {
       const token = localStorage.getItem('jwt')
       axios({
-        url: api. CREATE_LEAVE,
+        url: api.CREATE_LEAVE,
         method: 'POST',
         data: {
           checkoutDate: ''
@@ -113,7 +113,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
     }).then((res)=>{
-      // console.log(res)
+      console.log(res)
       this.leave = res.data
       console.log(this.leave)
       axios({
@@ -123,7 +123,7 @@ export default {
         Authorization: 'Bearer ' + token
       },
       }).then((res)=>{
-        // console.log(res)
+        console.log(res)
         this.attend = res.data
         console.log(this.attend)
       }).catch((err)=>{
@@ -215,7 +215,8 @@ export default {
 
 .attend-leave .leave:hover {
   color: white;
-  background-color: #24292F;
+  background-color: #24274A;
+  border: 1px solid #24274A;
   transition: .2s;
 }
 
