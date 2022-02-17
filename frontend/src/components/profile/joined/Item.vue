@@ -25,7 +25,7 @@
         >
           <ItemDetail 
             :item = this.item
-            @open-video="$emit('open-video')"
+            @open-video="$emit('open-video', item)"
             @close-modal="closeModal"
           />
         </b-modal>

@@ -1,7 +1,7 @@
 <template>
   <div class="mystudy">
-    <br>
     <div v-if="!session">
+    <br>
       <div class="madebyme" v-if="this.madeitems">
         <div class="title">
           내가 만든 스터디
@@ -20,7 +20,7 @@
         </div>
         <div class="allitems">
           <Items
-          @open-video="joinSession()"
+          @open-video="joinSession(payload)"
           :items="this.joineditems"
           />
         </div>
@@ -30,29 +30,53 @@
     <div v-else id="Video">
       <header>
         <div>
-          스터디 룸: {{ $route.params.sessionId }}
+          스터디 룸
         </div>
 
         <button @click="leaveSession" id="leaveBtn">퇴실</button>
       </header>
 		
-      <body id="session-header">
+      <body>
         <!-- <div id="main-video" class="col-md-6">
           <UserVideo
             :stream-manager="mainStreamManager"
           />
         </div> -->
+        <b-container class="bv-example-row">
+          <b-row>
+            <b-col>
+              <UserVideo
+                :stream-manager="publisher"
+                @click.native="updateMainVideoStreamManager(publisher)"
+              />
+              <button @click="videoToggle">Toggle</button>
+              <button @click="publisher.publishVideo(true)">VideoOn</button>
 
-          <UserVideo
-            :stream-manager="publisher"
-            @click.native="updateMainVideoStreamManager(publisher)"
-          />
+              <button @click="publisher.publishVideo(false)">VideoOff</button>
+
+            </b-col>
+            <b-col>
+              <div id="box"></div>
+            </b-col>
+
+            <div class="w-100"></div>
+            
+            <b-col>
+              <div id="box"></div>
+            </b-col>
+            <b-col>
+              <div id="box"></div>
+            </b-col>
+          </b-row>
+        </b-container>
+
           <UserVideo
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
             :stream-manager="sub"
             @click.native="updateMainVideoStreamManager(sub)"
           />
+          
       </body>
 
   </div>
@@ -69,6 +93,7 @@ import { api } from '../../../api.js'
 import axios from 'axios'
 
 import { OpenVidu } from 'openvidu-browser';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://i6b210.p.ssafy.io:5443";
@@ -94,27 +119,44 @@ export default {
 			subscribers: [],
 
 			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
-		
+
+      openedVideo: null,
     }
   },
   methods: {
-		joinSession () {
-    // OpenVidu 객체 생성 ---
+    // publisher.publishAudio(audioEnabled); true to unmute the audio track, false to mute it
+    // publisher.publishVideo(videoEnabled); true to enable the video track, false to disable it
+
+    // subscriber.subscribeToAudio(audioEnabled); true to unmute the audio track, false to mute it
+    // subscriber.subscribeToVideo(videoEnabled); true to enable the video, false to disable it
+
+    videoToggle(){
+      // this.publisher.publishVideo(true)
+      console.log(this.publisher.stream.videoActive)
+      const screen = this.publisher.stream.videoActive
+      if(screen){
+        return this.publisher.publishVideo(false)
+      }return this.publisher.publishVideo(true)
+    },
+		joinSession (payload) {
+      // emit으로 받은 스터디룸 정보 받아옴
+      this.openedVideo = payload
+      
+      // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
 
-    // 세션 초기화
+      // 세션 초기화
 			this.session = this.OV.initSession();
 
-    // 세션 이벤트가 발생할 때 수행할 작업 지정
+      // 세션 이벤트가 발생할 때 수행할 작업 지정
 
-    // 수신된 새 스트림마다 subscribers에 추가
+      // 수신된 새 스트림마다 subscribers에 추가
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
 				this.subscribers.push(subscriber);
 			});
 
-    // 스트림이 없어지면
+      // 스트림이 없어지면
 			this.session.on('streamDestroyed', ({ stream }) => {
 				const index = this.subscribers.indexOf(stream.streamManager, 0);
 				if (index >= 0) {
@@ -122,20 +164,20 @@ export default {
 				}
 			});
 
-    // 비동기 오류가 나면
+      // 비동기 오류가 나면
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
 			});
 
-    // 유효한 사용자 토큰을 사용하여 세션에 연결
+      // 유효한 사용자 토큰을 사용하여 세션에 연결
 
-    // getToken: 서버에서 수행할 작업을 시뮬레이션 한 것.
-    // token은 백엔드에서 받아와야 한다
+      // getToken: 서버에서 수행할 작업을 시뮬레이션 한 것.
+      // token은 백엔드에서 받아와야 한다
 			this.getToken(this.mySessionId).then(token => {
-				this.session.connect(token, { clientData: this.myUserName })
+				this.session.connect(token, { clientData: this.username })
 					.then(() => {
 
-          // 원하는 속성을 가진 고유한 카메라 스트림 가져오기
+            // 원하는 속성을 가진 고유한 카메라 스트림 가져오기
 
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // 오디오 / 마이크 없을 때: undefined
@@ -145,14 +187,13 @@ export default {
 							resolution: '640x360',  // 비디오 해상도
 							frameRate: 30,			// 초당프레임
 							insertMode: 'APPEND',	// 캠 영상이 video태그에 삽입되는 방법
-							mirror: false       	// 거울모드 true/false 여부
+							mirror: true       	// 거울모드 true/false 여부
 						});
 
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
 
-          // 스트림 게시
-
+            // 스트림 게시
 						this.session.publish(this.publisher);
 					})
 					.catch(error => {
@@ -192,6 +233,7 @@ export default {
 			* 2) OpenVidu Server에 연결 만들기(POST /openvidu/api/sessions/<세션_ID>/연결)
 			* 3) '연결'토큰은 Session.connect() 메서드에서 소비되어야 합니다.
 			*/
+
 
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
@@ -353,5 +395,13 @@ body {
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: space-between;
+  margin: 7vh 13vw 7vh 3vw;
+}
+
+#box{
+  width: 24rem;
+  height: 16rem;
+  margin: 1rem;
+  border: 1px solid #24292F;
 }
 </style>

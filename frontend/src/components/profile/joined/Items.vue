@@ -7,7 +7,7 @@
         <Item
           :key="idx"
           :item="item"
-          @open-video="$emit('open-video')"
+          @open-video="$emit('open-video', payload)"
         />
       </swiper-slide>
       <div 
