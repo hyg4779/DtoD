@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="attend-leave">
-      <button class="attend" @click="submitAttend">출석</button>
+      <button class="attend" @click="submitAttend">입실</button>
       <button class="leave" @click="submitLeave">퇴실</button>
     </div>
     <div class="calendar">
