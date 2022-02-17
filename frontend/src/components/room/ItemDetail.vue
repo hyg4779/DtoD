@@ -133,7 +133,7 @@ export default {
     },
   },
   created() {
-    console.log(this.item)
+    // console.log(this.item)
 
     this.itemid = this.item.roomId
     this.itempassword = this.item.roomPwd

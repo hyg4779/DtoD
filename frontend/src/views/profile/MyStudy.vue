@@ -324,26 +324,26 @@ export default {
       }).then(res=>{
         // console.log(res)
         this.username = res.data.userName
+        axios({
+          url: api.GET_STUDY_ROOM,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          // console.log(res)
+          for (let i=0; i < res.data.length; i++){
+            if( this.username === res.data[i].user.userName) {
+              this.madeitems.push(res.data[i])
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
       }).catch(error => {
         console.log(error)
       })
 
-      axios({
-        url: api.GET_STUDY_ROOM,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        // console.log(res)
-        for (let i=0; i < res.data.length; i++){
-          if( this.username === res.data[i].user.userName) {
-            this.madeitems.push(res.data[i])
-          }
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
 
       axios({
         url: api.GET_MY_ROOM,
