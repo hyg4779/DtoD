@@ -33,7 +33,11 @@
           {{ videoInfo.roomTitle }}
         </div>
 
-        <button @click="leaveSession" id="leaveBtn">퇴실</button>
+        <div>
+          <button @click="share" id="shareBtn">화면공유</button>
+          <button @click="stopShare" id="stopBtn">공유취소</button>
+          <button @click="leaveSession" id="leaveBtn">퇴실</button>
+        </div>
       </header>
 		
       <section>
@@ -72,9 +76,7 @@
         <div>
           채팅
         </div>
-
         <article>
-
           <div
             id="msgBox"
             v-for="(msg, idx) in ourMsg"
@@ -134,6 +136,10 @@ export default {
 
       sendData: null,   // 보내는 메세지
       receiveMsg: [],   // 수신한 메세지
+
+      screenOV: null,  // 화면공유 객체
+      screenSession: null,
+      screenPublisher: null  // 공유된 화면 publisher
     }
   },
   computed:{
@@ -346,13 +352,8 @@ export default {
 
     // 클릭한 스트림 메인 스트림으로 변경
     updateMainVideoStreamManager (stream) {
-      this.subsAudio = stream.audioActive
-      this.subVideo = stream.videoActive
       if (this.mainStreamManager === stream){
-        return
-      }else{
-        this.subVideo = stream.videoActive
-      }
+        return}
     },
 	},
   created() {
@@ -452,7 +453,7 @@ header {
   min-height: calc(100vh - 7.498vh);
 }
 
-header div{
+header div:nth-child(1){
 	font-size: 1rem;
   font-weight: bold;
 	width: 10vw;
@@ -464,16 +465,27 @@ header div{
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);	
 }
 
-#leaveBtn{
+header div button{
 	font-size: 1.5rem;
   font-weight: bold;
 	width: 10vw;
 	color: #eeeeee;
   padding: .5rem 1rem .5rem 1rem;
 	margin: 0 0 1.5rem 0;
-	background-color: rgb(50, 50, 50);
   border-radius: 1rem;
   box-shadow: 0.2rem 0.2rem 0.2rem rgb(0, 0, 0);
+}
+
+#leaveBtn{
+	background-color: rgb(50, 50, 50);
+}
+
+#shareBtn{
+  background-color: rgb(70, 70, 200);
+}
+
+#stopBtn{
+  background-color: rgb(200, 70, 70);
 }
 
 section {

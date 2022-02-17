@@ -82,16 +82,17 @@ export default {
 };
 </script>
 <style scoped>
-	#videoBox{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		font-weight: bolder;
-	}
+#videoBox{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-weight: bolder;
+}
 
-	article{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+article{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 </style>
