@@ -97,7 +97,6 @@
   </div>
   </div>
 </template>
-
 <script>
 // import { dummy } from "../../../generated.js";
 import MyItems from '../../components/profile/madebyme/MyItems.vue'
@@ -172,7 +171,9 @@ export default {
         }
       }
   },
+
   methods: {
+    // 메세지 보내기
     send(event) {
         console.log(event.target.value)
         
@@ -186,6 +187,7 @@ export default {
         this.sendData = null
       },
     
+    // 화상회의 만들기
     joinSession () {      
       // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
@@ -278,8 +280,8 @@ export default {
 			window.addEventListener('beforeunload', this.leaveSession)
 		},
 
+    // 세션종료 메서드
 		leaveSession () {
-			// 세션종료 메서드
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
@@ -293,12 +295,12 @@ export default {
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
 
-
+    // 세션 토큰 가져오기
 		getToken (mySessionId) {
       return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
+    // 세션 만들기
 		createSession (sessionId) {
       return new Promise((resolve, reject) => {
         axios
@@ -326,7 +328,7 @@ export default {
 			});
 		},
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
+    // 만든 세션의 토큰 만들기
 		createToken (sessionId) {
 			return new Promise((resolve, reject) => {
         axios
@@ -341,6 +343,8 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+
+    // 클릭한 스트림 메인 스트림으로 변경
     updateMainVideoStreamManager (stream) {
       this.subsAudio = stream.audioActive
       this.subVideo = stream.videoActive
