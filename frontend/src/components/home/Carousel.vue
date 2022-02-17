@@ -50,7 +50,7 @@
             열정으로 가득찬 스터디를 진행하세요!
           </div>
         </v-row>
-        <img src="../../assets/carousel1.png">
+        <img src="../../assets/seongyu_desk.jpg">
         </v-sheet>
       </v-carousel-item>
       <v-carousel-item>
@@ -72,7 +72,7 @@
             그리고 열정으로 가득찬 스터디원을 만나세요!
           </div>
         </v-row>
-        <img src="../../assets/carousel1.png">
+        <img src="../../assets/beom_desk.jpg">
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
