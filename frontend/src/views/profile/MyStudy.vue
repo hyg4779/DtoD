@@ -91,7 +91,7 @@
             @keypress.enter="send"
             class="m-0 p-1"
           >
-          <button>전송</button>
+          <button @click="send">전송</button>
         </div>
       </footer>
   </div>
