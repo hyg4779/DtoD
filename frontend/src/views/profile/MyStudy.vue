@@ -67,7 +67,13 @@
           </b-row>
         </b-container>          
       </section>
-
+      <footer>
+        <input
+          type="text"
+          v-model="sendData"
+          @keypress.enter="send"
+        >
+      </footer>
   </div>
   </div>
 </template>
@@ -107,10 +113,7 @@ export default {
 			publisher: undefined,
 			subscribers: [],
 
-
-      subsVideo: false,
-      subsAudio: false,
-
+      sendData: null,   // 보내는 메세지
     }
   },
   computed:{
@@ -141,9 +144,17 @@ export default {
       ])
   },
   methods: {
-    // subscriber.subscribeToAudio(audioEnabled); true to unmute the audio track, false to mute it
-    // subscriber.subscribeToVideo(videoEnabled); true to enable the video, false to disable it
-		joinSession () {      
+    send() {
+        this.session.signal({
+            data: this.sendData,
+            to: [],
+            type: "my-chat",
+        }).catch((error) => {
+            console.error(error);
+        });
+      },
+    
+    joinSession () {      
       // OpenVidu 객체 생성 ---
 			this.OV = new OpenVidu();
 
@@ -170,6 +181,29 @@ export default {
 			this.session.on('exception', ({ exception }) => {
 				console.warn(exception);
 			});
+
+
+
+      // 채팅 보내기
+      this.session.signal({
+        data: this.sendData,  // 보낼 메세지
+        to: [],               // 대상 (default: everyone) 
+        type: 'my-chat'      // The type of message (optional)
+      })
+      .then(() => {
+          console.log('Message successfully sent');
+      })
+      .catch(error => {
+          console.error(error);
+      });
+
+      // 채팅 수신하기
+      this.session.on('signal:my-chat', (event) => {
+        console.log(event.data); // Message
+        console.log(event.from); // Connection object of the sender
+        console.log(event.type); // The type of message ("my-chat")
+      });
+
 
       // 유효한 사용자 토큰을 사용하여 세션에 연결
 
@@ -229,19 +263,6 @@ export default {
         this.subVideo = stream.videoActive
       }
 		},
-
-			/*
-			* --------------------------
-			* SERVER-SIDE RESPONSIBILITY
-			* --------------------------
-			* 이러한 메서드는 OpenVidu Server에서 필수 사용자 토큰을 검색합니다.
-			* 이 동작은 프로덕션의 서버 측에 있어야 합니다(사용).
-			* API REST, openvidu-java-client 또는 openvidu-node-client):
-			* 1) OpenVidu Server에서 세션 초기화(POST /openvidu/api/sessions)
-			* 2) OpenVidu Server에 연결 만들기(POST /openvidu/api/sessions/<세션_ID>/연결)
-			* 3) '연결'토큰은 Session.connect() 메서드에서 소비되어야 합니다.
-			*/
-
 
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
@@ -412,5 +433,17 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+footer{
+  display : flex;
+	flex-direction: column;
+  background-color: rgba(36, 41, 47, 0.8);
+  width: 18vw;
+  min-height: calc(100vh - 7.498vh);
+}
+
+footer input{
+  background-color: #eeeeee;
 }
 </style>
