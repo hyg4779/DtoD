@@ -56,11 +56,18 @@ export default {
           Authorization: 'Bearer ' + token
         },
       }).then((res)=>{
-      // console.log(res)
+      console.log(res)
         for (let i=0; i < res.data.length; i ++) {
           // console.log(res.data[i].cboardType)
           if (res.data[i].cboardType === "자유") {
-            this.freeitems.push(res.data[i])
+            if (res.data[i].user.userName ===this.userName) {
+              this.freeitems.push(res.data[i])
+            }
+          }
+          if (res.data[i].cboardType === '질문') {
+            if (res.data[i].user.userName ===this.userName) {
+              this.questionitems.push(res.data[i])
+            }
           }
         }
       }).catch((err)=>{
@@ -71,24 +78,22 @@ export default {
       console.error(err)
     })
 
-    axios({
-      url: api.GET_FREE_BOARD,
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-    }).then((res)=>{
-      // console.log(res)
-      for (let i=0; i < res.data.length; i ++) {
-        // console.log(res.data[i].cboardType)
-        if (res.data[i].cboardType === '질문') {
-          this.questionitems.push(res.data[i])
-        }
-      }
-      // console.log(this.items)
-    }).catch((err)=>{
-      console.error(err)
-    })
+    // axios({
+    //   url: api.GET_FREE_BOARD,
+    //   method: 'GET',
+    //   headers: {
+    //     Authorization: 'Bearer ' + token
+    //   },
+    // }).then((res)=>{
+    //   // console.log(res)
+    //   for (let i=0; i < res.data.length; i ++) {
+    //     // console.log(res.data[i].cboardType)
+
+    //   }
+    //   // console.log(this.items)
+    // }).catch((err)=>{
+    //   console.error(err)
+    // })
   }
 }
 </script>

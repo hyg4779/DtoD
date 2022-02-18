@@ -75,7 +75,18 @@ export default {
       const minutes = ('0' + today.getMinutes()).slice(-2);
       const seconds = ('0' + today.getSeconds()).slice(-2);
       const timeString = hours + ':' + minutes  + ':' + seconds;
-      const tmp = this.comment.ccommentTime.slice(11,19)
+      console.log(this.comment.ccommentTime)
+      const seoul = new Date(this.comment.ccommentTime)
+      function formatDate(date) {
+        return date.getFullYear() + '-' + 
+          (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + 
+          date.getDate() + 'T' + 
+          (date.getHours() + 9) + ':' + 
+          date.getMinutes();
+      }
+      console.log(formatDate(seoul))
+      const tmp = formatDate(seoul).slice(11,19)
+      // const tmp = this.comment.ccommentTime.slice(11,19)
       // console.log(years - Number(this.comment.ccommentTime.slice(0,4)))
       // console.log(months - Number(this.comment.ccommentTime.slice(5,7)))
       // console.log(Number(timeString.slice(0,2)) - Number(tmp.slice(0,2)))

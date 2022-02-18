@@ -123,8 +123,8 @@ export default {
     return {
       username:'',
 
-      madeitems: [],
-      joineditems: [],
+      madeitems: null,
+      joineditems: null,
 
       OV: undefined,
 			session: undefined,
@@ -377,25 +377,27 @@ export default {
             }
           }
         }).catch(err=>{
+          console.error(err)
+        })
+    
+        axios({
+          url: api.GET_MY_ROOM,
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+        }).then((res)=>{
+          // console.log(res)
+          for (let i=0; i < res.data.length; i++){ 
+            this.joineditems = res.data[i]
+          }
+        }).catch(err=>{
           console.log(err)
         })
       }).catch(error => {
         console.log(error)
       })
 
-
-      axios({
-        url: api.GET_MY_ROOM,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token
-        },
-      }).then((res)=>{
-        // console.log(res)
-        this.joineditems = res.data
-      }).catch(err=>{
-        console.error(err)
-      })
     } else {
       alert('로그인을 해주세요')
       this.$router.push({ name: 'Home' })
