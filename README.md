@@ -148,7 +148,7 @@ Discord에서는 개발에 참고할 링크, 코드들을 모아서 정리했으
 
 ---
 
-![공통플젝ERD](/uploads/0ea21a62eb22d49ef027ff61c7cf03b8/공통플젝ERD.png)
+![공통플젝ERD](README.assets/공통플젝ERD.png)
 
 
 
